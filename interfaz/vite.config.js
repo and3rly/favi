@@ -3,8 +3,19 @@ import path from "path";
 import Vue from "@vitejs/plugin-vue";
 import ViteImages from "vite-plugin-vue-images";
 
-// https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 8080,
+    open: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
   plugins: [
     Vue(),
     ViteImages({

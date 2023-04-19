@@ -1,5 +1,11 @@
 const routes = [
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/login/login.vue'),
+    meta: {titulo: "Iniciar sesión"}
+  },
+  {
     path: "/",
     name: "Layout",
     redirect: "/home",

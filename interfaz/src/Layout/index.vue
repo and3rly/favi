@@ -24,7 +24,7 @@
       ></div>
     </Transition>
     <!-- mobile sidebar -->
-    <Settings />
+    <!-- Settings /-->
 
     <div
       class="content-wrapper transition-all duration-150"
@@ -51,11 +51,11 @@
       </div>
     </div>
     <!-- end page content -->
-    <FooterMenu v-if="window.width < 768" />
-    <Footer
+    <!--FooterMenu v-if="window.width < 768" /-->
+    <!--Footer
       :class="window.width > 1280 ? switchHeaderClass() : ''"
       v-if="window.width > 768"
-    />
+    /-->
   </main>
 </template>
 <script>
@@ -72,11 +72,9 @@ export default {
   mixins: [window],
   components: {
     Header,
-    Footer,
     Sidebar,
     Settings,
     Breadcrumbs,
-    FooterMenu,
     MobileSidebar,
   },
   methods: {

@@ -19,10 +19,11 @@ import router from "./router";
 import VCalendar from "v-calendar";
 import {createPinia} from 'pinia'
 import "v-calendar/dist/style.css";
+import axiosClient from "@/plugins/axios.js"
+import { useToast } from "vue-toastification";
 
 const pinia = createPinia()
 
-// vue use
 const app = createApp(App)
     .use(pinia)
     .use(VueSweetalert2)
@@ -39,66 +40,7 @@ const app = createApp(App)
     .use(VCalendar)
 
 app.config.globalProperties.$store = {};
+app.config.globalProperties.$http = axiosClient
+app.config.globalProperties.$toast = useToast();
+
 app.mount("#app");
-
-import {useThemeSettingsStore} from "@/store/themeSettings";
-const themeSettingsStore = useThemeSettingsStore()
-if (localStorage.users === undefined) {
-    let users = [
-        {
-            name: "dashcode",
-            email: "dashcode@gmail.com",
-            password: "dashcode",
-        },
-    ];
-    localStorage.setItem("users", JSON.stringify(users));
-}
-
-// check localStorage theme for dark light bordered
-if (localStorage.theme === "dark") {
-    document.body.classList.add("dark");
-    themeSettingsStore.theme = "dark";
-    themeSettingsStore.isDark = true;
-} else {
-    document.body.classList.add("light");
-    themeSettingsStore.theme = "light";
-    themeSettingsStore.isDark = false;
-}
-if (localStorage.semiDark === "true") {
-    document.body.classList.add("semi-dark");
-    themeSettingsStore.semidark = true;
-    themeSettingsStore.semiDarkTheme = "semi-dark";
-} else {
-    document.body.classList.add("semi-light");
-    themeSettingsStore.semidark = false;
-    themeSettingsStore.semiDarkTheme = "semi-light";
-}
-// check loacl storege for menuLayout
-if (localStorage.menuLayout === "horizontal") {
-    themeSettingsStore.menuLayout = "horizontal";
-} else {
-    themeSettingsStore.menuLayout = "vertical";
-}
-
-// check skin  for localstorage
-if (localStorage.skin === "bordered") {
-    themeSettingsStore.skin = "bordered";
-    document.body.classList.add("skin--bordered");
-} else {
-    themeSettingsStore.skin = "default";
-    document.body.classList.add("skin--default");
-}
-// check direction for localstorage
-if (localStorage.direction === "true") {
-    themeSettingsStore.direction = true;
-    document.documentElement.setAttribute("dir", "rtl");
-} else {
-    themeSettingsStore.direction = false;
-    document.documentElement.setAttribute("dir", "ltr");
-}
-
-// Check if the monochrome mode is set or not
-if (localStorage.getItem('monochrome') !== null) {
-    themeSettingsStore.monochrome = true;
-    document.getElementsByTagName( 'html' )[0].classList.add('grayscale');
-}

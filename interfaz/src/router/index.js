@@ -14,6 +14,7 @@ const router = createRouter({
     }
   },
 });
+
 router.beforeEach((to, from, next) => {
   const titleText = to.name;
   const words = titleText.split(" ");
@@ -22,7 +23,7 @@ router.beforeEach((to, from, next) => {
     words[i] = words[i][0].toUpperCase() + words[i].substr(1);
   }
 
-  document.title = "Dashcode  - " + words;
+  document.title = "Favi  - " + words;
 
   next();
 });
