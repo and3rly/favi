@@ -17,7 +17,7 @@
           class="inner-content h-full flex flex-col bg-white dark:bg-slate-800"
         >
           <div class="auth-box h-full flex flex-col justify-center">
-            <div class="text-center 2xl:mb-10 mb-4">
+            <div class="text-center 2xl:mb-5 mb-4">
               <h4 class="font-medium">Iniciar Sesión</h4>
               <div class="text-slate-500 text-base">
                 POS - Facturación de Ventas e Inventario

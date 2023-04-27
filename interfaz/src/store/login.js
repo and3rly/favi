@@ -9,28 +9,28 @@ export const useLoginStore = defineStore('login', {
 	}),
 	persist: true,
 	actions: {
-		async login(data) {
+		login(data) {
+			return new Promise((resolve, reject) => {
+				axiosClient.defaults.headers.common['usuario'] = data.usuario;
+				axiosClient.defaults.headers.common['clave']   = data.clave;
 
-			axiosClient.defaults.headers.common['usuario'] = data.usuario;
-			axiosClient.defaults.headers.common['clave']   = data.clave;
+				axiosClient.post("/api/index.php/sesion/login", data)
+				.then(res => {
 
-			await axiosClient.post("/api/index.php/sesion/login", data)
-			.then(res => {
+					if (res.data.exito) {
+						this.usuario = res.data.usuario
+						this.token = res.data.token
 
-				if (res.data.exito) {
-					this.usuario = res.data.usuario
-					this.token = res.data.token
+						localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
+						localStorage.setItem('token', res.data.token);
+					}
+					
+					resolve(res.data);
 
-					localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
-					localStorage.setItem('token', res.data.token);
-				}
-
-				this.mensaje = res.data.mensaje
-				
-			}).catch(e => {
-				console.log(e);
-			});
-			
+				}).catch(e => {
+					reject(e);
+				});
+			})	
 		},
 		async logout() {
 			await axiosClient.post("/api/index.php/sesion/logout")

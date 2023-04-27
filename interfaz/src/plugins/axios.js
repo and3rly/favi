@@ -1,23 +1,38 @@
 import axios from "axios";
-//import store from "../store";
 import router from "../router/index.js";
 
 const axiosClient = axios.create()
 
 axiosClient.interceptors.request.use(config => {
-    //config.headers.Authorization = `Bearer ${store.state.user.token}`
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    } else {
+        console.log("Token vacío")
+    }
+    
     return config;
 })
 
 axiosClient.interceptors.response.use(response => {
     return response;
 }, error => {
-    console.log(error)
-    //if (error.response.status === 401) {
-        /*store.commit('setToken', null)
-        router.push({name: 'login'})*/
-   /* }
-    throw error;*/
+    if (error.response.status === 401) {
+        localStorage.removeItem('token')
+        router.push({name: 'Login'})
+    } else {
+        return new Promise((resolve,reject) => {
+            if (error.response.status === 500) {
+                reject('Estamos teniendo inconvenientes con el servidor, inténtalo más tarde.');
+            } else if (error.response.status === 404) {
+                reject('No se encontró el servicio solicitado, inténtalo más tarde.');
+            } else {
+                reject(error);
+            }
+        });
+    }
+    throw error;
 })
 
 export default axiosClient;

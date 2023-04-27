@@ -1,5 +1,10 @@
 <template>
-  <form @submit.prevent="test" class="space-y-4">
+  <form @submit.prevent="login" class="space-y-4">
+
+    <div v-if="mensaje !== null" class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <span class="font-medium">{{mensaje}}</span>
+    </div>
+
     <Textinput
       type="text"
       placeholder="Usuario"
@@ -36,22 +41,21 @@ import { useLoginStore } from "@/store/login";
 export default {
   data() {
     return {
-      checkbox: false,
+      mensaje: null,
       form: {}
     };
   },
   methods: {
-    test() {
+    login() {
       const storeLogin = useLoginStore();
 
       storeLogin.login(this.form)
       .then(res => {
         if (storeLogin.isLoggedIn) {
-          this.$store.login = storeLogin
           this.$router.push({name: "Inicio"});
-          this.$toast.success(storeLogin.mensaje , { timeout: 2000 });
+          this.$toast.success(res.mensaje , { timeout: 2000 });
         } else {
-          alert(storeLogin.mensaje)
+          this.mensaje = res.mensaje
         }
       })
     }

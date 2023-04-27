@@ -18,6 +18,7 @@ class Sesion extends CI_Controller {
 
 	public function login()
 	{
+	
 		$data = ['exito' => 0];
 
 		if ($this->input->method() === 'post') {
@@ -55,6 +56,8 @@ class Sesion extends CI_Controller {
 		}
 
 		$this->output->set_output(json_encode($data));
+		
+		//$this->output->set_status_header('500');
 	}
 
 	public function logout()
