@@ -21,11 +21,10 @@ import {createPinia} from 'pinia'
 import "v-calendar/dist/style.css";
 import axiosClient from "@/plugins/axios.js"
 import { useToast } from "vue-toastification";
-
-const pinia = createPinia()
+import {useThemeSettingsStore} from "@/store/themeSettings";
 
 const app = createApp(App)
-    .use(pinia)
+    .use(createPinia())
     .use(VueSweetalert2)
     .use(Toast, {
         toastClassName: "dashcode-toast",
@@ -42,5 +41,52 @@ const app = createApp(App)
 app.config.globalProperties.$store = {};
 app.config.globalProperties.$http = axiosClient
 app.config.globalProperties.$toast = useToast();
-
 app.mount("#app");
+
+const themeSettingsStore = useThemeSettingsStore()
+
+if (localStorage.theme === "dark") {
+    document.body.classList.add("dark");
+    themeSettingsStore.theme = "dark";
+    themeSettingsStore.isDark = true;
+} else {
+    document.body.classList.add("light");
+    themeSettingsStore.theme = "light";
+    themeSettingsStore.isDark = false;
+}
+if (localStorage.semiDark === "true") {
+    document.body.classList.add("semi-dark");
+    themeSettingsStore.semidark = true;
+    themeSettingsStore.semiDarkTheme = "semi-dark";
+} else {
+    document.body.classList.add("semi-light");
+    themeSettingsStore.semidark = false;
+    themeSettingsStore.semiDarkTheme = "semi-light";
+}
+
+if (localStorage.menuLayout === "horizontal") {
+    themeSettingsStore.menuLayout = "horizontal";
+} else {
+    themeSettingsStore.menuLayout = "vertical";
+}
+
+if (localStorage.skin === "bordered") {
+    themeSettingsStore.skin = "bordered";
+    document.body.classList.add("skin--bordered");
+} else {
+    themeSettingsStore.skin = "default";
+    document.body.classList.add("skin--default");
+}
+
+if (localStorage.direction === "true") {
+    themeSettingsStore.direction = true;
+    document.documentElement.setAttribute("dir", "rtl");
+} else {
+    themeSettingsStore.direction = false;
+    document.documentElement.setAttribute("dir", "ltr");
+}
+
+if (localStorage.getItem('monochrome') !== null) {
+    themeSettingsStore.monochrome = true;
+    document.getElementsByTagName( 'html' )[0].classList.add('grayscale');
+}

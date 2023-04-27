@@ -44,21 +44,21 @@
           <MobileLogo v-else />
           <handle-mobile-menu v-if="window.width < 1280" />
         </div>
-        <Mainnav
+        <!--Mainnav
           v-if="
             this.$store.themeSettingsStore.menuLayout === 'horizontal' && window.width > 1280
           "
-        />
+        /-->
         <div
           class="nav-tools flex items-center lg:space-x-6 space-x-3 rtl:space-x-reverse"
         >
-          <LanguageVue />
+          <!--LanguageVue /-->
           <SwitchDark />
-          <MonochromeMode />
-          <Message v-if="window.width > 768" />
-          <Notification v-if="window.width > 768" />
-          <Profile v-if="window.width > 768" />
+          <!--MonochromeMode /-->
+          <!--Message v-if="window.width > 768" /-->
+          <!--Notification v-if="window.width > 768" /-->
           <handle-mobile-menu v-if="window.width < 768" />
+          <Profile/>
         </div>
       </div>
     </div>
@@ -83,13 +83,13 @@ export default {
   mixins: [window],
   components: {
     Profile,
-    Notification,
-    Message,
+    //Notification,
+    //Message,
     SwitchDark,
-    MonochromeMode,
-    Mainnav,
+    //MonochromeMode,
+    //Mainnav,
     Icon,
-    LanguageVue,
+    //LanguageVue,
     SearchModal,
     Logo,
     MobileLogo,

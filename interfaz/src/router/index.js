@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import { useLoginStore } from "@/store/login";
 import routes from "./route";
 
 const router = createRouter({
@@ -16,16 +16,22 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const titleText = to.name;
-  const words = titleText.split(" ");
-  const wordslength = words.length;
-  for (let i = 0; i < wordslength; i++) {
-    words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+  
+  const storeLogin = useLoginStore();
+
+  if (to.meta.titulo) {
+    document.title = "Favi  - " + to.meta.titulo;
+  } else {
+    document.title = "Favi";
   }
 
-  document.title = "Favi  - " + words;
-
-  next();
+  if (to.name !== 'Login' && !storeLogin.isLoggedIn) {
+    next({name:'Login'});
+  } else if (to.name == 'Login' && storeLogin.isLoggedIn) {
+      next({name:'Inicio'});
+  }else {
+    next();
+  }
 });
 
 router.afterEach(() => {

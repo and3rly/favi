@@ -22,8 +22,9 @@
         ></span>
       </div>
     </div>
+
     <template #menus>
-      <MenuItem v-slot="{ active }" v-for="(item, i) in ProfileMenu" :key="i">
+      <MenuItem v-slot="{ active }">
         <div
           type="button"
           :class="`${
@@ -32,17 +33,18 @@
               : 'text-slate-600 dark:text-slate-300'
           } `"
           class="inline-flex items-center space-x-2 rtl:space-x-reverse w-full px-4 py-2 first:rounded-t last:rounded-b font-normal cursor-pointer"
-          @click="item.link()"
+          @click="logout"
         >
           <div class="flex-none text-lg">
-            <Icon :icon="item.icon" />
+            <Icon icon="heroicons-outline:login"/>
           </div>
           <div class="flex-1 text-sm">
-            {{ item.label }}
+            Cerrar sesión
           </div>
         </div>
       </MenuItem>
     </template>
+    
   </Dropdown>
 </template>
 <script>
@@ -50,6 +52,8 @@ import { MenuItem } from "@headlessui/vue";
 import Dropdown from "@/components/Dropdown";
 import Icon from "@/components/Icon";
 import profileImg from "@/assets/images/all-img/user.png"
+import { useLoginStore } from "@/store/login";
+
 export default {
   components: {
     Icon,
@@ -59,67 +63,19 @@ export default {
   data() {
     return {
       profileImg,
-      ProfileMenu: [
-        {
-          label: "Profile",
-          icon: "heroicons-outline:user",
-          link: () => {
-            this.$router.push("profile");
-          },
-        },
-        {
-          label: "Chat",
-          icon: "heroicons-outline:chat",
-          link: () => {
-            this.$router.push("chat");
-          },
-        },
-        {
-          label: "Email",
-          icon: "heroicons-outline:mail",
-          link: () => {
-            this.$router.push("email");
-          },
-        },
-        {
-          label: "Todo",
-          icon: "heroicons-outline:clipboard-check",
-          link: () => {
-            this.$router.push("todo");
-          },
-        },
-        {
-          label: "Settings",
-          icon: "heroicons-outline:cog",
-          link: () => {
-            this.$router.push("settings");
-          },
-        },
-        {
-          label: "Price",
-          icon: "heroicons-outline:credit-card",
-          link: () => {
-            this.$router.push("pricing");
-          },
-        },
-        {
-          label: "Faq",
-          icon: "heroicons-outline:information-circle",
-          link: () => {
-            this.$router.push("faq");
-          },
-        },
-        {
-          label: "Logout",
-          icon: "heroicons-outline:login",
-          link: () => {
-            this.$router.push("/");
-            localStorage.removeItem("activeUser");
-          },
-        },
-      ],
     };
   },
+  methods: {
+    logout() {
+      const setLogin = useLoginStore();
+
+      setLogin.logout().then((res) => {
+        if (!setLogin.isLoggedIn) {
+          this.$router.push({name: 'Login'})
+        }
+      })
+    },
+  }
 };
 </script>
 <style lang=""></style>

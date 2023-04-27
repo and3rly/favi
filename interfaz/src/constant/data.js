@@ -11,7 +11,7 @@ export const menuItems = [
   {
     title: "Dashboard",
     icon: "heroicons-outline:home",
-    link: "home",
+    link: "inicio",
   },
 ];
 // menuseetins

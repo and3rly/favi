@@ -9,7 +9,7 @@ export default defineConfig({
     open: true,
     proxy: {
       "/api": {
-        target: "http://localhost",
+        target: "http://localhost/favi/",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),
@@ -17,10 +17,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    Vue(),
-    ViteImages({
-      dirs: ["src/assets/images"],
-    }),
+    Vue()
   ],
   resolve: {
     extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue", ".css"],

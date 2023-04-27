@@ -51,16 +51,12 @@ if (!function_exists('var_session'))
 		$apellido = explode(" ", $data->apellido);
 
 		$sesion = [
-
+			"id" => $data->id,
+			"nombre" => $nombre[0],
+			"apellido" => $apellido[0],
+			"correo" => $data->correo
 		];
 
-		if (verPropiedad($data, 'ciclo_id')) {
-			$sesion['ciclo_id'] = $data->ciclo_id;
-		}
-
-		if (verPropiedad($data, 'valida_ciclo')) {
-			$sesion['valida_ciclo'] = $data->valida_ciclo;
-		}
 
 		return $sesion;
 	}
