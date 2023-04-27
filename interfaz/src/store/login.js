@@ -1,13 +1,17 @@
 import {defineStore} from 'pinia'
 import axiosClient from "@/plugins/axios.js" 
 
-export const useLoginStore = defineStore('login', {
+export const useLoginStore = defineStore({
+	id: 'login',
 	state:() => ({
 		token: localStorage.getItem('token'),
-		usuario: JSON.parse(localStorage.getItem('usuario')),
-		mensaje:""
+		usuario: JSON.parse(localStorage.getItem('usuario'))
 	}),
-	persist: true,
+	share: {
+    enable: true,
+    initialize: true,
+  },
+  persist: true,
 	actions: {
 		login(data) {
 			return new Promise((resolve, reject) => {

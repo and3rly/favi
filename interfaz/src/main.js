@@ -22,9 +22,23 @@ import "v-calendar/dist/style.css";
 import axiosClient from "@/plugins/axios.js"
 import { useToast } from "vue-toastification";
 import {useThemeSettingsStore} from "@/store/themeSettings";
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import { PiniaSharedState } from 'pinia-shared-state';
+import { watch } from 'vue'
+
+
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+pinia.use(
+  PiniaSharedState({
+    enable: true,
+    initialize: false,
+    type: 'localstorage',
+  }),
+);
 
 const app = createApp(App)
-    .use(createPinia())
+    .use(pinia)
     .use(VueSweetalert2)
     .use(Toast, {
         toastClassName: "dashcode-toast",
@@ -41,6 +55,7 @@ const app = createApp(App)
 app.config.globalProperties.$store = {};
 app.config.globalProperties.$http = axiosClient
 app.config.globalProperties.$toast = useToast();
+
 app.mount("#app");
 
 const themeSettingsStore = useThemeSettingsStore()

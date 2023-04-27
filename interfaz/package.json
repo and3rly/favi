@@ -32,6 +32,8 @@
     "gsap": "^3.11.3",
     "leaflet": "^1.9.2",
     "pinia": "^2.0.28",
+    "pinia-plugin-persistedstate": "^3.1.0",
+    "pinia-shared-state": "^0.3.0",
     "postcss": "^8",
     "simplebar": "^5.3.8",
     "simplebar-vue3": "^0.2.0",
