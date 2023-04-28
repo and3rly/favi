@@ -22,9 +22,8 @@ import "v-calendar/dist/style.css";
 import axiosClient from "@/plugins/axios.js"
 import { useToast } from "vue-toastification";
 import {useThemeSettingsStore} from "@/store/themeSettings";
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import { PiniaSharedState } from 'pinia-shared-state';
-import { watch } from 'vue'
 
 
 const pinia = createPinia()
