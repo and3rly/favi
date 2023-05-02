@@ -6,7 +6,7 @@
     >
       <Icon icon="heroicons-outline:search" /><span
         class="xl:inline-block hidden"
-        >Search...</span
+        >Buscar...</span
       >
     </button>
   </div>
@@ -55,7 +55,7 @@
                   </div>
                   <ComboboxInput
                     class="bg-transparent outline-none focus:outline-none border-none w-full flex-1 dark:placeholder:text-slate-300 dark:text-slate-200"
-                    placeholder="Search..."
+                    placeholder="Buscar..."
                     @change="query = $event.target.value"
                   />
                 </div>

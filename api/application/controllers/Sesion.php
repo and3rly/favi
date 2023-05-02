@@ -74,14 +74,13 @@ class Sesion extends CI_Controller {
 	public function validar_token()
 	{
 		$datos = json_decode(file_get_contents('php://input'));
-		$data  = ['acceso' => 0];
+		$data  = ['valido' => 0];
 
-		$tk = new Token();
+		$JWT = new Token();
 
-		if ($tk->token_activo($datos->token)) {
-			$data['acceso'] = 1;
-			$data['mensaje'] = "Hola, bienvenido a Kupper";
-
+		if ($JWT->token_activo($datos->token)) {
+			$data['valido'] = 1;
+			$data['mensaje'] = "Token válido";
 		} else {
 			http_response_code(401);
 			$data['mensaje'] = 'Acceso denegado.';

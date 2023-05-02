@@ -51,7 +51,7 @@
 import { MenuItem } from "@headlessui/vue";
 import Dropdown from "@/components/Dropdown";
 import Icon from "@/components/Icon";
-import profileImg from "@/assets/images/all-img/user.png"
+import profileImg from "@/assets/images/usuario.png"
 import { useLoginStore } from "@/store/login";
 
 export default {

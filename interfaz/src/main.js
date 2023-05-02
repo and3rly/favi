@@ -7,14 +7,14 @@ import "vue-toastification/dist/index.css";
 import "./assets/scss/auth.scss";
 import "./assets/scss/tailwind.scss";
 import "v-calendar/dist/style.css";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.js";
+//import "bootstrap/dist/css/bootstrap.css";
+//import "bootstrap/dist/js/bootstrap.js";
 
 import { useToast } from "vue-toastification";
 import { useThemeSettingsStore } from "@/store/themeSettings";
 import { PiniaSharedState } from 'pinia-shared-state';
 import { createPinia } from 'pinia'
-import {createApp} from "vue";
+import { createApp } from "vue";
 
 import VueFlatPickr from "vue-flatpickr-component";
 import VueGoodTablePlugin from "vue-good-table-next";
@@ -57,6 +57,7 @@ const app = createApp(App)
 app.config.globalProperties.$store = {};
 app.config.globalProperties.$http = axiosClient
 app.config.globalProperties.$toast = useToast();
+app.config.globalProperties.$urlBase = 'index.php';
 
 app.mount("#app");
 

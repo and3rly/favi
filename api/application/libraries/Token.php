@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class Token
 {
 	private $secret_key = 'favi';
-    private $encrypt = ['HS256'];
+    private $encrypt = 'HS256';
 
     public function __construct()
     {
@@ -14,20 +15,20 @@ class Token
 
 	public function set_token($data=[])
 	{
-        $jwt = array(
+        $config = array(
             'iat'  => time(),
             'exp'  => time() + 7200,
             'data' => $data
         );
 
-        return JWT::encode($jwt, $this->secret_key, 'HS256');
+        return JWT::encode($config, $this->secret_key, $this->encrypt);
 	}
 
 	public function token_activo($token)
 	{
 		if (is_string($token) && !empty($token)) {
 			try {
-                $decoded = JWT::decode($token, $this->secret_key, $this->encrypt);
+                $decoded = JWT::decode($token, new Key($this->secret_key, $this->encrypt));
                 return true;
             } catch (Exception $e) {
                 return false;
@@ -40,7 +41,6 @@ class Token
 	public function get_data_token($token)
     {
         $tmp = JWT::decode($token,$this->secret_key,$this->encrypt);
-
         return $tmp->data;
     }
 

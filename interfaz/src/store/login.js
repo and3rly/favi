@@ -1,17 +1,14 @@
 import {defineStore} from 'pinia'
 import axiosClient from "@/plugins/axios.js" 
 
-export const useLoginStore = defineStore({
-	id: 'login',
+export const useLoginStore = defineStore('login', {
 	state:() => ({
 		token: localStorage.getItem('token'),
 		usuario: JSON.parse(localStorage.getItem('usuario'))
 	}),
-	share: {
-    enable: true,
-    initialize: true,
-  },
-  persist: true,
+	persist: {
+		key: 'session'
+	},
 	actions: {
 		login(data) {
 			return new Promise((resolve, reject) => {
@@ -24,9 +21,6 @@ export const useLoginStore = defineStore({
 					if (res.data.exito) {
 						this.usuario = res.data.usuario
 						this.token = res.data.token
-
-						localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
-						localStorage.setItem('token', res.data.token);
 					}
 					
 					resolve(res.data);
@@ -43,13 +37,31 @@ export const useLoginStore = defineStore({
 					this.token = null;
 					this.usuario = null;
 
-					localStorage.removeItem('usuario');
-					localStorage.removeItem('token');
-
 					delete axiosClient.defaults.headers.common['Authorization']
 				}
 			});
-	},
+		},
+		async validaToken () {
+			const storeLogin = useLoginStore();
+
+			if (this.token) {
+				await axiosClient.post('/api/index.php/sesion/validar_token', {token: this.token})
+				.then(res => {
+
+					if (res.data.valido) {
+						axiosClient.defaults.headers.common['Authorization'] = this.token;
+					}
+
+				}).catch(e => {
+					if (e.response.data) {
+						if (e.response.status == 401) {
+							storeLogin.logout()
+							delete axiosClient.defaults.headers.common['Authorization'];
+						}
+					}
+				});
+			}
+		}
 	},
 	getters: {
 		isLoggedIn: state => !!state.token

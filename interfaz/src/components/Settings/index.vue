@@ -10,9 +10,8 @@
         class="text-slate-50 text-lg animate-spin"
       />
       <span class="hidden md:inline-block ltr:ml-2 rtl:mr-2"
-        >Settings</span
-      ></span
-    >
+        >Settings</span>
+    </span>
     <Transition name="lefttranslate">
       <div
         v-show="this.$store.themeSettingsStore.isOpenSettings"
