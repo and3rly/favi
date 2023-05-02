@@ -13,12 +13,12 @@ const routes = [
       {
         path: "/inicio",
         name: "Inicio",
-        component: () => import("@/views/index.vue"),
+        component: () => import("@/views/Principal.vue"),
         meta: {titulo: "Inicio"}
       },{
         path: "inicio",
         name: "Inicio",
-        component: () => import("@/views/index.vue"),
+        component: () => import("@/views/Principal.vue"),
         meta: {titulo: "Inicio"}
       },
     ],
