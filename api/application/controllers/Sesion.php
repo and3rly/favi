@@ -5,9 +5,11 @@ class Sesion extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['Usuario_model']);
-		$this->load->library('token');
+		$this->load->model(['Usuario_model', 
+							'mnt/Empresa_model', 
+							'mnt/Sucursal_model']);
 
+		$this->load->library('token');
 		$this->output->set_content_type('application/json');
 	}
 
@@ -33,18 +35,35 @@ class Sesion extends CI_Controller {
 				if ($us->login($headers)) {	
 
 					$us->id = $us->getPK();
-					$usuario = var_session($us);
-				
-					$JWT = new Token();
-					$data['token'] = $JWT->set_token($usuario);
 
+					$uSucursal = $this->catalogo->get_usuario_sucursal(['usuario_id' => $us->id, 'uno' => true]);
 
-					$this->session->set_userdata(["usuario" => $usuario]);
+					if ($uSucursal) {
 
-					$data["usuario"] = $usuario;
-					$data["mensaje"] = "Bienvenido {$us->nombre} a Favi.";
-					$data["exito"]   = 1;
+						$sucursal = new Sucursal_model($uSucursal->sucursal_id);
+						$sucursal_id = $sucursal->getPK();
 
+						$empresa = new Empresa_model($sucursal_id);
+
+						$us->empresa_id = $empresa->getPK();
+						$us->empresa = $empresa->nombre;
+						$us->sucursal_id = $sucursal_id;
+						$us->sucursal = $sucursal->nombre;
+
+						$usuario = var_session($us);
+
+						$JWT = new Token();
+						$data['token'] = $JWT->set_token($usuario);
+
+						$this->session->set_userdata(["usuario" => $usuario]);
+
+						$data["usuario"] = $usuario;
+						$data["mensaje"] = "Bienvenido {$us->nombre} a Favi.";
+						$data["exito"]   = 1;
+
+					} else {
+						$data['mensaje'] = 'El usuario no está asignado a ninguna sucursal';
+					}
 				} else {
 					$data["mensaje"] = "Usuario o clave incorrecta, intente de nuevo.";
 				}
@@ -78,7 +97,7 @@ class Sesion extends CI_Controller {
 
 		$JWT = new Token();
 
-		if ($JWT->token_activo($datos->token)) {
+		if ($JWT->token_valido($datos->token)) {
 			$data['valido'] = 1;
 			$data['mensaje'] = "Token válido";
 		} else {

@@ -4,12 +4,15 @@ class Usuario_model extends General_model {
 
 	public $nombre;
 	public $apellido;
+	public $usuario;
 	public $clave;
-	public $correo = null;
 	public $telefono = null;
+	public $correo = null;
+	public $foto = null;
+	public $vence_clave = null;
+	public $fecha_clave_vence = null;
+	public $fecha_anulado = null;
 	public $activo = 1;
-	public $tipo_usuario_id;
-	public $empresa_id;
 
 	public function __construct($id="")
 	{
@@ -21,8 +24,11 @@ class Usuario_model extends General_model {
 
 	public function login($args=[])
 	{
+		$clave = $args['clave'];
+
 		$tmp = $this->db
-		->where('correo', $args['usuario'])
+		->where('usuario', $args['usuario'])
+		->where('clave', "md5('{$clave}')", false)
 		->where('activo', 1)
 		->get('usuario');
 

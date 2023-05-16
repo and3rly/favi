@@ -8,11 +8,6 @@ class Token
 	private $secret_key = 'favi';
     private $encrypt = 'HS256';
 
-    public function __construct()
-    {
-        $this->ci =& get_instance();
-    }
-
 	public function set_token($data=[])
 	{
         $config = array(
@@ -24,7 +19,7 @@ class Token
         return JWT::encode($config, $this->secret_key, $this->encrypt);
 	}
 
-	public function token_activo($token)
+	public function token_valido($token)
 	{
 		if (is_string($token) && !empty($token)) {
 			try {

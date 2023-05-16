@@ -1,15 +1,5 @@
 <template>
-  <router-view />
+	<div>
+		<router-view></router-view>
+	</div>
 </template>
-
-<script>
-import { useThemeSettingsStore } from "@/store/themeSettings";
-
-export default {
-  mounted() {
-    this.$store.themeSettingsStore = useThemeSettingsStore()
-  }
-}
-</script>
-
-<style></style>

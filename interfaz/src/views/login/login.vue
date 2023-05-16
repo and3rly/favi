@@ -1,46 +1,102 @@
 <template>
-  <div class="loginwrapper">
-    <div class="lg-inner-column">
-      <div class="left-column relative z-[1]">
-        <div
-          class="absolute left-0 2xl:bottom-[-160px] bottom-[-130px] h-full w-full z-[-1]"
-        >
-          <img
-            src="@/assets/images/auth/ils1.svg"
-            alt=""
-            class="h-full w-full object-contain"
-          />
-        </div>
-      </div>
-      <div class="right-column relative">
-        <div
-          class="inner-content h-full flex flex-col bg-white dark:bg-slate-800"
-        >
-          <div class="auth-box h-full flex flex-col justify-center">
-            <div class="text-center 2xl:mb-5 mb-4">
-              <h4 class="font-medium">Iniciar Sesión</h4>
-              <div class="text-slate-500 text-base">
-                POS - Facturación de Ventas e Inventario
-              </div>
-            </div>
-            <LoginForm/>
-          </div>
-          <div class="auth-footer text-center">
-            Copyright 2023, Favi todos los derechos reservados.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-<script>
-import LoginForm from "../login/LoginForm";
+	<div class="container d-flex justify-content-center align-items-center min-vh-100">
+		<div class="row border rounded-3 p-2 bg-white shadow box-area">
+			<div 
+				class="col-md-6 rounded-3 d-flex justify-content-center align-items-center flex-column left-box" 
+				style="background: #B3E5FC;"
+			>
+				<div class="featured-image mb-3">
+					<img 
+						src="@/assets/images/logo.png" 
+						class="img-fluid" 
+						style="width: 250px;"
+					>
+				</div>
+			</div>
+			<div class="col-md-6 right-box">
+				<div class="row align-items-center">
 
-export default {
-  name:"Login",
-  components: {
-    LoginForm
-  }
-};
+					<div class="header-text mb-3">
+						<h4 class="text-center mb-1">Iniciar Sesión</h4>
+						<p class="text-center">POS - Facturación de Ventas e Inventario</p>
+					</div>
+
+          <form @submit.prevent="login">
+            <div v-if="mensaje" class="alert alert-danger d-flex align-items-center py-2" role="alert">
+            <i class="fa-solid fa-circle-exclamation me-1"></i> {{mensaje}} 
+          </div>
+  					<div class="input-group mb-3">
+  						<input 
+  							type="text" 
+  							class="form-control form-control-md" 
+  							placeholder="Ingrese usuario"
+                v-model="form.usuario"
+  						>
+  					</div>
+  					<div class="input-group mb-3">
+  						<input 
+  							type="password" 
+  							class="form-control form-control-md" 
+  							placeholder="Ingrese contraseña"
+                v-model="form.clave"
+  						>
+  					</div>
+
+  					<div class="input-group mb-5 d-flex justify-content-between">
+  						<div class="form-check">
+  							<input 
+  								type="checkbox"
+  								class="form-check-input"
+  								id="formCheck"
+  							>
+  							<label 
+  								for="formCheck" 
+  								class="form-check-label mb-2"
+  							>
+  								<small>Mostar constraseña</small>
+  							</label>
+  						</div>
+  					</div>
+
+  					<div class="input-group mb-2">
+  						<button type="submit" class="btn btn-primary w-100">Iniciar</button>
+  					</div>
+  					<div class="text-center pb-0">
+  						<small><a href="#">¿Olvidaste tu contraseña?</a></small>
+  					</div>
+          </form>
+				</div>
+			</div> 
+		</div>
+	</div>
+</template>
+
+<script>
+	import '@/assets/css/login.css'; 
+  import { useLoginStore } from "@/stores/app-login";
+
+	export default {
+		name: 'Login',
+    data() {
+      return {
+        mensaje: null,
+        form: {}
+      };
+    },
+    methods: {
+      login() {
+        const storeLogin = useLoginStore();
+
+        storeLogin.login(this.form)
+        .then(res => {
+          if (storeLogin.isLoggedIn) {
+            this.$router.push({name: "Inicio"});
+            //this.$toast.success(res.mensaje , { timeout: 2000 });
+          } else {
+            this.mensaje = res.mensaje
+          }
+        })
+      }
+    }
+	}
 </script>
-<style lang="scss"></style>
