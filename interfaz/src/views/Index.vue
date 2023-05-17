@@ -36,7 +36,7 @@ const storeLogin = useLoginStore();
 storeLogin.validaToken()
 
 if (!storeLogin.isLoggedIn) {
-  this.$router.push({ name: 'Login' });
+  router.push({ name: 'Login' });
 }
 
 </script>

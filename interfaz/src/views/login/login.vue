@@ -3,7 +3,7 @@
 		<div class="row border rounded-3 p-2 bg-white shadow box-area">
 			<div 
 				class="col-md-6 rounded-3 d-flex justify-content-center align-items-center flex-column left-box" 
-				style="background: #B3E5FC;"
+				style="background: #ffff;"
 			>
 				<div class="featured-image mb-3">
 					<img 
@@ -16,8 +16,8 @@
 			<div class="col-md-6 right-box">
 				<div class="row align-items-center">
 
-					<div class="header-text mb-3">
-						<h4 class="text-center mb-1">Iniciar Sesión</h4>
+					<div class="header-text mb-4">
+						<h4 class="text-center mb-2">Iniciar Sesión</h4>
 						<p class="text-center">POS - Facturación de Ventas e Inventario</p>
 					</div>
 

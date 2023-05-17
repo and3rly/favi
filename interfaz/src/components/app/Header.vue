@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useAppOptionStore } from '@/stores/app-option';
-import { RouterLink } from 'vue-router';
+//import { RouterLink } from 'vue-router';
+import { useLoginStore } from "@/stores/app-login";
+import router from '@/router';
 
 const appOption = useAppOptionStore();
+const loginStore = useLoginStore();
 const notificationData = [];
 
 function toggleAppSidebarMinify() {
@@ -18,7 +21,15 @@ function toggleAppHeaderSearch(event) {
 }
 function checkForm(event) {
 	event.preventDefault();
-	this.$router.push({ path: '/extra/search' })
+	router.push({ path: '/extra/search' })
+}
+
+function logout() {	
+  loginStore.logout().then((res) => {
+    if (!loginStore.isLoggedIn) {
+      router.push({name: 'Login'})
+    }
+  })
 }
 
 </script>
@@ -43,20 +54,20 @@ function checkForm(event) {
 			</div>
 			
 			<a href="#" class="brand-logo">
-				<img src="/assets/img/logo.png" alt="" height="20" />
+				<img src="@/assets/images/logo.png" alt=""/>
 			</a>
 		</div>
 		<!-- END brand -->
 		
 		<!-- BEGIN menu -->
-		<div class="menu">
-			<form class="menu-search" name="header_search_form" v-on:submit="checkForm">
+		<div class="menu justify-content-end">
+			<!--form class="menu-search" name="header_search_form" v-on:submit="checkForm">
 				<div class="menu-search-icon"><i class="fa fa-search"></i></div>
 				<div class="menu-search-input">
 					<input type="text" class="form-control" placeholder="Search menu...">
 				</div>
-			</form>
-			<div class="menu-item dropdown">
+			</form-->
+			<!--div class="menu-item dropdown">
 				<a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
 					<div class="menu-icon"><i class="fa fa-bell nav-icon"></i></div>
 					<div class="menu-label">{{ notificationData.length }}</div>
@@ -87,7 +98,7 @@ function checkForm(event) {
 						<a href="#" class="text-body-emphasis text-opacity-50 text-decoration-none">See all</a>
 					</div>
 				</div>
-			</div>
+			</div-->
 			<div class="menu-item dropdown">
 				<a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
 					<div class="menu-img online">
@@ -95,15 +106,15 @@ function checkForm(event) {
 							<i class="fa fa-user fa-2x mb-n3"></i>
 						</div>
 					</div>
-					<div class="menu-text">{{this.$pinia.state.value.login.usuario.nombre;}}</div>
+					<div class="menu-text" v-if="loginStore.usuario">{{loginStore.usuario.nombre}} {{loginStore.usuario.apellido}}</div>
 				</a>
 				<div class="dropdown-menu dropdown-menu-end me-lg-3">
-					<RouterLink to="/profile" class="dropdown-item d-flex align-items-center">Edit Profile <i class="fa fa-user-circle fa-fw ms-auto text-gray-400 fs-16px"></i></RouterLink>
+					<!--RouterLink to="/profile" class="dropdown-item d-flex align-items-center">Edit Profile <i class="fa fa-user-circle fa-fw ms-auto text-gray-400 fs-16px"></i></RouterLink>
 					<RouterLink to="/email/inbox" class="dropdown-item d-flex align-items-center">Inbox <i class="fa fa-envelope fa-fw ms-auto text-gray-400 fs-16px"></i></RouterLink>
 					<RouterLink to="/calendar" class="dropdown-item d-flex align-items-center">Calendar <i class="fa fa-calendar-alt fa-fw ms-auto text-gray-400 fs-16px"></i></RouterLink>
 					<RouterLink to="/settings" class="dropdown-item d-flex align-items-center">Setting <i class="fa fa-wrench fa-fw ms-auto text-gray-400 fs-16px"></i></RouterLink>
-					<div class="dropdown-divider"></div>
-					<RouterLink to="/page/login" class="dropdown-item d-flex align-items-center">Log Out <i class="fa fa-toggle-off fa-fw ms-auto text-gray-400 fs-16px"></i></RouterLink>
+					<div class="dropdown-divider"></div-->
+					<div class="dropdown-item d-flex align-items-center" @click="logout">Cerrar Sesión <i class="fa fa-toggle-off fa-fw ms-auto text-gray-400 fs-16px"></i></div>
 				</div>
 			</div>
 		</div>

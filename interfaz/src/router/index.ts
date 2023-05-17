@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useLoginStore } from "@/stores/app-login";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,12 +42,22 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 
+  const loginStore = useLoginStore();
+
   if (to.meta.titulo) {
     document.title = "Favi  - " + to.meta.titulo;
   } else {
     document.title = "Favi";
   }
+
+  if (to.name !== 'Login' && !loginStore.isLoggedIn) {
+    next({name:'Login'});
+  } else if (to.name == 'Login' && loginStore.isLoggedIn) {
+      next({name:'Inicio'});
+  } else {
     next();
+  }
+
 });
 
 export default router;
