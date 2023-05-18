@@ -6,7 +6,7 @@ export const useAppSidebarMenuStore = defineStore({
     return [{
 			text: 'Navigation',
 			is_header: true
-		},,{
+		},{
       'url': '/',
       'icon': 'fa fa-home',
       'text': 'Home'

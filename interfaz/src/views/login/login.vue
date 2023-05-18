@@ -72,7 +72,7 @@
 </template>
 
 <script>
-	import '@/assets/css/login.css'; 
+	//import '@/assets/css/login.css'; 
   import { useLoginStore } from "@/stores/app-login";
 
 	export default {
