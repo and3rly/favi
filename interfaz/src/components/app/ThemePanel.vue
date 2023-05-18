@@ -128,10 +128,11 @@ onMounted(() => {
 			<hr class="mb-0" />
 			<div class="row mt-10px pt-3px">
 				<div class="col-9 control-label text-body fw-bold">
-					<div>Dark Mode <span class="badge bg-theme text-theme-color ms-1 position-relative py-4px px-6px" style="top: -1px">NEW</span></div>
+					<div>Modo oscuro<span class="badge bg-theme text-theme-color ms-1 position-relative py-4px px-6px" style="top: -1px">Nuevo</span></div>
 					<div class="lh-14 fs-13px">
 						<small class="text-body opacity-50">
-							Adjust the appearance to reduce glare and give your eyes a break.
+							Ajuste la apariencia para reducir el brillo y darle descanso a sus ojos.
+							<!-- Adjust the appearance to reduce glare and give your eyes a break !-->
 						</small>
 					</div>
 				</div>

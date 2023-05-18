@@ -23,7 +23,7 @@ date_default_timezone_set('America/Guatemala');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/favi';
+$config['base_url'] = 'http://localhost/favi';
 
 /*
 |--------------------------------------------------------------------------
@@ -384,10 +384,10 @@ $config['encryption_key'] = '';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
+$config['sess_cookie_name'] = 'favi_session';
 $config['sess_samesite'] = 'Lax';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
+$config['sess_save_path'] = APPPATH.'sesion_log';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;

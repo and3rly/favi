@@ -11,20 +11,9 @@ const router = createRouter({
       meta: {titulo: 'Iniciar Sesión'}
     },
     {
-      path: '',
-      name: 'Start',
-      redirect: '/inicio'
-    },
-    {
       path:'/',
-      component: () => import('@/views/Index.vue'),
+      component: () => import('@/views/Principal.vue'),
       children: [
-          { 
-            path: '/',
-            name: 'Inicio',
-            component: () => import('@/views/Inicio.vue'),
-            meta: {titulo: 'Inicio'}
-          },
           { 
             path: '/inicio',
             name: 'Inicio',
