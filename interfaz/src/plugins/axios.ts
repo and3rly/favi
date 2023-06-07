@@ -1,14 +1,14 @@
 import axios from "axios";
 import router from "../router/index.ts";
+import { useLoginStore } from "@/stores/app-login";
 
 const axiosClient = axios.create()
 
 axiosClient.interceptors.request.use(config => {
-    const token = localStorage.getItem('token');
+    const token = useLoginStore()
 
-    if (token) {
-        console.log(token)
-        config.headers.Authorization = `Bearer ${token}`
+    if (token.token) {
+        config.headers.Authorization = `Bearer ${token.token}`
     } else {
         console.log("Token vacío")
     }

@@ -21,6 +21,30 @@ class Usuario extends CI_Controller {
 		]));
 	}
 
+	public function guardar($id='')
+	{
+		$data = ['exito' => 0];
+
+		if ($this->input->method() === 'post') {
+
+			$us = new Usuario_model($id);
+
+			if (elemento($_FILES, 'foto') && 
+				elemento($_FILES['foto'], 'tmp_name')) {
+
+				echo "<pre>";
+				print_r ($_FILES);
+				echo "</pre>";
+				
+				$foto = subirArchivo([
+					'tmp_name' => $_FILES['imagen']['tmp_name'],
+					'type'     => $_FILES['imagen']['type'],
+					'name'     => $_FILES['imagen']['name'],
+					'carpeta'  => 'foto_perfil'
+				]);
+			}
+		}
+	}
 }
 
 /* End of file Usuario.php */

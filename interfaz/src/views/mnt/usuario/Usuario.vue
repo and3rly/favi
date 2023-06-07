@@ -38,7 +38,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<UsuarioForm v-if="nuevo" @cerrar="cerrarModal"/>
+					<UsuarioForm v-if="verForm" @cerrar="cerrarModal"/>
 				</div>
 			</div>
 		</div>
@@ -54,18 +54,18 @@
 		name: 'Usuario',
 		data:() => ({
 			modal: null,
-			nuevo: false
+			verForm: false
 		}),
 		mounted() {
 			this.modal = new Modal(document.getElementById('modalNuevoUsuario'));
 		},
 		methods: {
 			abrirModal() {
-				this.nuevo = true
+				this.verForm = true
 				this.modal.show()
 			},
 			cerrarModal() {
-				this.nuevo = false
+				this.verForm = false
 				this.modal.hide()
 			}
 		},
