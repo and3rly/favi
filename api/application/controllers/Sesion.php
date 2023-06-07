@@ -75,8 +75,6 @@ class Sesion extends CI_Controller {
 		}
 
 		$this->output->set_output(json_encode($data));
-		
-		//$this->output->set_status_header('500');
 	}
 
 	public function logout()

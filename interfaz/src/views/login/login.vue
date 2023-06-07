@@ -29,7 +29,7 @@
   						<input 
   							type="text" 
   							class="form-control form-control-md" 
-  							placeholder="Ingrese usuario"
+  							placeholder="Usuario"
                 v-model="form.usuario"
   						>
   					</div>
@@ -37,7 +37,7 @@
   						<input 
   							type="password" 
   							class="form-control form-control-md" 
-  							placeholder="Ingrese contraseña"
+  							placeholder="Contraseña"
                 v-model="form.clave"
   						>
   					</div>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-	//import '@/assets/css/login.css'; 
+	import '@/assets/css/login.css'; 
   import { useLoginStore } from "@/stores/app-login";
 
 	export default {

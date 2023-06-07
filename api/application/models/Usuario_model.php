@@ -41,6 +41,21 @@ class Usuario_model extends General_model {
 
 	}
 
+	public function buscar($args=[])
+	{
+		$tmp = $this->db
+					->select("a.*,
+							c.nombre as rol,
+							e.nombre as nsucursal")
+					->join("rol_usuario b","b.usuario_id = a.id", "left")
+					->join("rol c","c.id = b.rol_id", "left")
+					->join("usuario_sucursal d", "d.usuario_id = a.id", "left")
+					->join("sucursal e","e.id = d.sucursal_id", "left")
+					->get("$this->_tabla a");
+
+		return verConsulta($tmp, $args);
+	}
+
 }
 
 /* End of file Usuario_model.php */

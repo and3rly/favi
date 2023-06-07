@@ -56,6 +56,8 @@ app.use(router);
 app.use(Vue3ProgressPlugin);
 app.use(PerfectScrollbar);
 
-app.config.globalProperties.emitter = emitter;
+app.config.globalProperties.emitter = emitter
 app.config.globalProperties.$http = axiosClient
+app.config.globalProperties.$baseUrl = '/api/index.php'
+
 app.mount('#app');

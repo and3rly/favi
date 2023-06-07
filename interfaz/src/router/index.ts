@@ -23,7 +23,7 @@ const router = createRouter({
           { 
             path: '/usuario',
             name: 'Usuario',
-            component: () => import('@/views/mnt/Usuario.vue'),
+            component: () => import('@/views/mnt/usuario/Usuario.vue'),
             meta: {titulo: 'Usuario'}
           },
         ]
