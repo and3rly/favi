@@ -31,17 +31,17 @@ class Usuario extends CI_Controller {
 
 			if (elemento($_FILES, 'foto') && 
 				elemento($_FILES['foto'], 'tmp_name')) {
-
-				echo "<pre>";
-				print_r ($_FILES);
-				echo "</pre>";
 				
 				$foto = subirArchivo([
-					'tmp_name' => $_FILES['imagen']['tmp_name'],
-					'type'     => $_FILES['imagen']['type'],
-					'name'     => $_FILES['imagen']['name'],
-					'carpeta'  => 'foto_perfil'
+					'tmp_name' => $_FILES['foto']['tmp_name'],
+					'type'     => $_FILES['foto']['type'],
+					'name'     => $_FILES['foto']['name'],
+					'carpeta'  => 'perfil'
 				]);
+
+			echo "<pre>";
+			print_r ($foto);
+			echo "</pre>";
 			}
 		}
 	}

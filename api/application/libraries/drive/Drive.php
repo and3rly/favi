@@ -3,60 +3,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Drive
 {
-	public $service;
-	protected $carpeta    = '1zQYmnX0-Wx4vBdltqE6ClVtouX9xSJsa';
-    protected $subcarpeta = 'varios';
+    public $servicio;
+    protected $carpeta    = '1XDvFr87YkK91tOic--135tTqz9lerSRA';
+    protected $subcarpeta = 'favi';
     protected $correo     = 'afernandoteleguario@gmail.com';
 
-	public function __construct()
-	{
-        $this->service = new Google_Service_Drive($this->getCliente());
-	}
+    public function __construct()
+    {
+        $this->servicio = new Google_Service_Drive($this->getCliente());
+    }
+
+    private function getCliente()
+    {
+        $client = new Google\Client();
+        $client->setApplicationName('Favi');
+        $client->addScope(Google\Service\Drive::DRIVE);
+        $client->setAuthConfig(APPPATH.'libraries/drive/favi_drive.json');
+        $client->setAccessType('online');
+
+        return $client;
+    }
 
     public function set_subcarpeta($nombre)
     {
         $this->subcarpeta = $nombre;
     }
 
-	private function getCliente()
-	{
-        $client = new Google_Client();
-        $client->setApplicationName('Favi');
-        $client->setScopes(Google_Service_Drive::DRIVE);
-        $client->setAuthConfig(APPPATH.'libraries/drive/test_drive.json');
-        $client->setAccessType('online');
-        $client->setSubject($this->correo);
-        
-
-        echo "<pre>";
-        print_r ($client);
-        echo "</pre>";
-        return $client;
-    }
-
     public function getArchivo($id, $args=[])
     {
-        return $this->service->files->get($id, $args);
+        return $this->servicio->files->get($id, $args);
     }
 
     public function mostrarArchivo($id)
     {
-        return $this->service->files->get($id, ['action' => 'open']);
+        return $this->servicio->files->get($id, ['action' => 'open']);
     }
 
     public function setPermiso($args=array())
-    {
-        $this->service->getClient()->setUseBatch(true);
+    {   
+        $this->servicio->getClient()->setUseBatch(true);
 
         try {
-            $batch = $this->service->createBatch();
+            $batch = $this->servicio->createBatch();
 
             $userPermission = new Google_Service_Drive_Permission(array(
                 'type' => $args['type'],
                 'role' => $args['role']
             ));
             
-            $request = $this->service->permissions->create(
+            $request = $this->servicio->permissions->create(
                 $args['fileId'], 
                 $userPermission, 
                 array('fields' => 'id')
@@ -65,18 +60,18 @@ class Drive
             $batch->add($request, 'anyone');
             $batch->execute();
         } finally {
-            $this->service->getClient()->setUseBatch(false);
+            $this->servicio->getClient()->setUseBatch(false);
         }
     }
-	
+    
     public function subirArchivo($args = [])
-    {
+    {  
         $file = new Google_Service_Drive_DriveFile([
             'name'    => $args['name'],
             'parents' => array($this->getCarpeta($this->subcarpeta))
         ]);
         
-        $tmp = $this->service->files->create($file, [
+        $tmp = $this->servicio->files->create($file, [
             'data'       => $args['tmp_name'],
             'mimeType'   => $args['type'],
             'uploadType' => 'multipart',
@@ -95,15 +90,15 @@ class Drive
     public function setCarpeta($nombre)
     {
         $fileMetadata = new Google_Service_Drive_DriveFile([
-	    	'name' => $nombre,
-	    	'parents' => array($this->carpeta),
-	    	'mimeType' => 'application/vnd.google-apps.folder'
-		]);
+            'name' => $nombre,
+            'parents' => array($this->carpeta),
+            'mimeType' => 'application/vnd.google-apps.folder'
+        ]);
 
-		$file = $this->service->files
-		->create($fileMetadata,['fields' => 'id']);
+        $file = $this->servicio->files
+        ->create($fileMetadata,['fields' => 'id']);
 
-		return $file->id;
+        return $file->id;
     }
 
     public function getCarpeta($carpeta)
@@ -111,7 +106,7 @@ class Drive
         $pageToken = null;
         
         do {
-            $response = $this->service->files->listFiles([
+            $response = $this->servicio->files->listFiles([
                 'q'         => "name='{$carpeta}'",
                 'spaces'    => 'drive',
                 'pageToken' => $pageToken,
