@@ -43,7 +43,7 @@
 				</li>
 
 				<li 
-					v-if="cat.usuario_rol && cat.usuario_rol.length == 2"
+					v-if="cat.usuario_rol && cat.usuario_rol.length > 0"
 					v-for="(i,idx) in cat.usuario_rol" 
 					:key="idx"
 					class="list-group-item d-flex justify-content-between align-items-start">
@@ -60,6 +60,7 @@
 					</div>				
 				</li>
 				<li
+					v-else
 					class="list-group-item text-center" 
 				>		
 					<span class="text-body-secondary">No se tienen roles asignados.</span>
@@ -95,7 +96,7 @@
 			this.args.usuario_rol = { usuario_id: this.user.id}
 			this.getCatalogo(['usuario_rol'])
 
-			this.controlador = 'mnt/usuario_sucursal'
+			this.controlador = 'mnt/rol_usuario'
 		},
 		methods: {
 			guardar(o) {
@@ -103,7 +104,7 @@
 					let datos =  {usuario_id: this.user.id, rol_id: o.id}
 
 					this.$http
-					.post(`${this.$baseUrl}/mnt/rol_usuario/asignar_rol/${this.pk}`, datos)
+					.post(`${this.$baseUrl}/${this.controlador}/asignar_rol/${this.pk}`, datos)
 					.then(res => {
 						this.btnGuardar = false
 
