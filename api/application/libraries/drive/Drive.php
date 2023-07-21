@@ -5,8 +5,7 @@ class Drive
 {
     public $servicio;
     protected $carpeta    = '1XDvFr87YkK91tOic--135tTqz9lerSRA';
-    protected $subcarpeta = 'favi';
-    protected $correo     = 'afernandoteleguario@gmail.com';
+    protected $subcarpeta = 'otros';
 
     public function __construct()
     {

@@ -35,6 +35,7 @@
 		methods: {
 			setFoto() {
 				if (this.imagen) {
+					this.urlFoto = 'https://drive.google.com/uc?export=view&id='+this.imagen
 				} else {
 					this.urlFoto = 'src/assets/images/usuario.png'
 				}

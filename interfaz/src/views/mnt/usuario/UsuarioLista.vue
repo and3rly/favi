@@ -21,10 +21,16 @@
 						<tr v-if="!cargando" v-for="(i, idx) in lista">
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
 							<td class="text-center">
-								<img src="@/assets/images/usuario.png" width="35">
+								<Imagen
+									:imagen="i.foto"
+									:estilo="'width: 42px; height: 42px;'"
+									:clase="'rounded-circle'"
+								/>
 							</td>
 							<td>
-								<a href="javascript:;">{{ i.nombre }} {{ i.apellido }}</a>
+								<a href="javascript:;" @click="editar(idx, i)">
+									{{ i.nombre }} {{ i.apellido }}
+								</a>
 							</td>
 							<td class="text-center">{{ i.usuario }}</td>
 							<td class="text-center">{{ i.telefono}}</td>
@@ -61,8 +67,16 @@
 								    	href="javascript:;" 
 								    	class="dropdown-item"
 								    >
-								    	<i class="fas fa-edit me-2"> </i>Editar
+								    	<i class="fas fa-project-diagram me-2"></i>Asignar sucursales
 								    </a>
+
+								    <a 
+								    	href="javascript:;" 
+								    	class="dropdown-item"
+								    >
+								    	<i class="fas fa-user-plus me-2"></i>Asignar rol
+								    </a>
+
 								    <a
 								    	href="javascript:;" 
 								    	class="dropdown-item"
@@ -95,15 +109,33 @@
 
 <script>
 	import General from '@/mixins/General.js'
+	import Imagen from '@/components/general/Imagen.vue'
 
 	export default {
 		name: 'UsuarioLista',
 		mixins: [General],
+		props: {
+			reg: {
+				type: Object,
+				required: false
+			}
+		},
 		data: () => ({
-			
+			idx: null
 		}),
 		created(){
 			this.controlador = 'usuario'
+			this.autoBuscar = true
+		},
+		methods: {
+			editar(idx, obj) {
+				this.idx = idx
+				let tmp = obj
+				this.$emit('abrirModal', idx, tmp)
+			}
+		},
+		components: {
+			Imagen
 		}
 	}
 </script>

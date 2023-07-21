@@ -2,7 +2,7 @@
 if (!function_exists('elemento'))
 {
 	function elemento($dato, $indice, $valor=false) 
-	{
+	{	
 		if (array_key_exists($indice, $dato) && 
 			!empty($dato[$indice])) {
 			

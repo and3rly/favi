@@ -8,10 +8,10 @@
 			<div class="col-sm-3 text-center">
 				<div class="mb-2">
 					<Imagen
-						:imagen="sdfg"
-						:archivo="foto"
+						:imagen="form.foto"
+						:archivo="archivo"
 						:clase="'rounded mx-auto d-block'"
-						:estilo="'width: 60%;'"
+						:estilo="'width: 50%;'"
 					/>							
 				</div>
 
@@ -32,11 +32,11 @@
 						@change="subirFoto"
 					>
 
-					<button
+					<!--button
 						class="btn btn-sm btn-secondary btn-block"
 					>
 						<i class="fa fa-trash"></i> Borrar foto
-					</button>
+					</button-->
 				</div>
 			</div>
 
@@ -80,6 +80,19 @@
 					>
 				</div>
 
+				<label for="clave" class="col-form-label fw-bold">
+					Clave: <span class="text-danger">*</span>
+				</label>
+				<div class="col-sm-12">
+					<input 
+						type="text" 
+						class="form-control" 
+						id="clave"
+						placeholder="Se generará automáticamente"									
+						:disabled="true"
+					>
+				</div>
+
 				<label for="telefono" class="col-form-label fw-bold">
 					Teléfono:
 				</label>
@@ -108,9 +121,7 @@
 			</div>
 		</div>
 
-		<UsuarioSucursal v-if="pk > 0"/>
-
-		<div class="text-end mt-4">
+		<div class="text-end mt-5">
 			<button 
 				type="button" 
 				class="btn btn-secondary me-2"
@@ -122,28 +133,53 @@
 			<button 
 				type="submit" 
 				class="btn btn-success"
-			>
-				<i class="fas fa-save me-1"></i>Guardar
+				:disabled="btnGuardar"
+			>	
+					<span 
+						v-if="btnGuardar"
+						class="spinner-border spinner-border-sm me-1" 
+						role="status" 
+						aria-hidden="true"
+					></span>
+					<i v-else class="fas fa-save me-1"></i>
+
+					<span v-if="btnGuardar">Guardando...</span>
+					<span v-else>Guardar</span>
 			</button>
 		</div>
+
 	</form>
 </template>
 
 <script>
-	import UsuarioSucursal from '@/views/mnt/usuario/UsuarioSucursal.vue'
 	import General from '@/mixins/General.js'
 	import Imagen from '@/components/general/Imagen.vue'
 
 	export default {
 		name: 'UsuarioForm',
 		mixins: [General],
+		props: {
+			usuario: {
+				type: Object,
+				required: false
+			}
+		},	
 		data: () => ({
 			form: {},
 			btnGuardar: false,
+			foto: null,
 			urlFoto: null,
-			foto: null
+			archivo: null
 		}),
 		created() {
+			
+			this.limpiarForm()
+
+			if (this.usuario) {
+				this.pk = this.usuario.id
+				this.form = this.usuario
+			}
+
 			this.controlador = 'usuario'
 		},
 		methods: {
@@ -156,19 +192,25 @@
 						datos.append(i, this.form[i]);
 				}
 
-				if (this.foto) {
-					datos.append('foto', this.foto)
+				if (this.archivo) {
+					datos.append('foto', this.archivo)
 				}
 
 				this.$http
-				.post(`${this.$baseUrl}/${this.controlador}/guardar`, datos)
+				.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk}`, datos)
 				.then(res => {
 					this.btnGuardar = false
 
 					if (res.data.exito) {
-						this.pk = 1
-					}
+						this.archivo = null
 
+						if (res.data.linea) {
+							this.form = res.data.linea
+							this.pk = this.form.id
+							this.$emit('actualizar', res.data.linea)
+						}
+						
+					}
 				}).catch(e => {
 					this.btnGuardar = false
 					console.log(e)
@@ -176,19 +218,22 @@
 			},
 			subirFoto(file) {
 				if (file.target.files[0]) {
-					this.foto = file.target.files[0]
+					this.archivo = file.target.files[0]
 
-					this.urlFoto = URL.createObjectURL(this.foto);
+					this.urlFoto = URL.createObjectURL(this.archivo);
 				}
 			},
 			limpiarFoto() {
-				console.log('entro aca')
-				this.foto = null
+				this.archivo = null
+			},
+			limpiarForm() {
+				this.pk = ''
+				this.form = {}
+				this.archivo = null
 			}
 		},
 		components: {
-			Imagen,
-			UsuarioSucursal
+			Imagen
 		}
 	}
 </script>

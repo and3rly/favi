@@ -9,6 +9,7 @@ class Usuario_model extends General_model {
 	public $telefono = null;
 	public $correo = null;
 	public $foto = null;
+	public $foto_enlace = null;
 	public $vence_clave = null;
 	public $fecha_clave_vence = null;
 	public $fecha_anulado = null;
@@ -43,6 +44,11 @@ class Usuario_model extends General_model {
 
 	public function buscar($args=[])
 	{
+
+		if (elemento($args, 'id')) {
+			$this->db->where("a.id", $args['id']);
+		}
+
 		$tmp = $this->db
 					->select("a.*,
 							c.nombre as rol,
@@ -51,11 +57,11 @@ class Usuario_model extends General_model {
 					->join("rol c","c.id = b.rol_id", "left")
 					->join("usuario_sucursal d", "d.usuario_id = a.id", "left")
 					->join("sucursal e","e.id = d.sucursal_id", "left")
-					->get("$this->_tabla a");
+					->where("b.activo", 1)
+					->get("usuario a");
 
 		return verConsulta($tmp, $args);
 	}
-
 }
 
 /* End of file Usuario_model.php */

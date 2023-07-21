@@ -20,6 +20,16 @@ class Sucursal_model extends General_model {
 		}
 	}
 
+	public function buscar($args=[])
+	{
+		$tmp = $this->db
+					->select("a.*, b.nombre as nempresa")
+					->join("empresa b","b.id = a.empresa_id")
+					->get("$this->_tabla a");
+
+		return verConsulta($tmp, $args);
+	}
+
 }
 
 /* End of file Sucursal_model.php */

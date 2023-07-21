@@ -10,7 +10,9 @@
 		</div>
 	</div>
 
-	<UsuarioLista/>
+	<UsuarioLista 
+		@abrirModal="editar"
+	/>
 
 	<div 
 		class="modal fade" id="modalNuevoUsuario"
@@ -20,14 +22,14 @@
 		aria-labelledby="staticBackdropLabel" 
 		aria-hidden="true">
 
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						Nuevo usuario
+						Usuario<span v-if="usuario != null">: {{usuario.nombre}} {{usuario.apellido}}</span>
 					</h1>
 					<button 
 						type="button" 
@@ -38,7 +40,106 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<UsuarioForm v-if="verForm" @cerrar="cerrarModal"/>
+
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button 
+								class="nav-link active" 
+								id="home-tab" 
+								data-bs-toggle="tab" 
+								data-bs-target="#home-tab-pane" 
+								type="button"
+								role="tab" 
+								aria-controls="home-tab-pane" 
+								aria-selected="true"
+							>
+								Formulario
+							</button>
+						</li>
+
+						<template v-if="usuario != null">
+							<li class="nav-item" role="presentation">
+								<button 
+									@click="actual = 2"
+									class="nav-link"
+									id="profile-tab" 
+									data-bs-toggle="tab" 
+									data-bs-target="#profile-tab-pane" 
+									type="button"
+									role="tab" 
+									aria-controls="profile-tab-pane" 
+									aria-selected="false"
+								>
+									Rol
+								</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button 
+									@click="actual = 3"
+									class="nav-link" 
+									id="contact-tab" 
+									data-bs-toggle="tab" 
+									data-bs-target="#contact-tab-pane" 
+									type="button" 
+									role="tab" 
+									aria-controls="contact-tab-pane" 
+									aria-selected="false"
+								>
+									Sucursal
+								</button>
+							</li>
+						</template>
+					</ul>
+
+					<div class="tab-content" id="myTabContent">
+						<div 
+							class="tab-pane fade show active" 
+							id="home-tab-pane" 
+							role="tabpanel" 
+							aria-labelledby="home-tab" 
+							tabindex="0"
+						>
+							<UsuarioForm 
+								class="mt-3"
+								v-if="verForm" 
+								@cerrar="cerrarModal" 
+								@actualizar="actualizar"
+								:usuario="usuario" 
+							/>
+						</div>
+						
+						<template v-if="usuario != null">
+							<div 
+								class="tab-pane fade" 
+								id="profile-tab-pane" 
+								role="tabpanel" 
+								aria-labelledby="profile-tab" 
+								tabindex="0"
+							>	
+								<UsuarioRol
+									v-if="actual == 2"
+									:rol="cat.rol"
+									:user="usuario" 
+								/>
+							</div>
+
+							<div 
+								class="tab-pane fade" 
+								id="contact-tab-pane" 
+								role="tabpanel" 
+								aria-labelledby="contact-tab" 
+								tabindex="0"
+							>
+								<UsuarioSucursal
+									v-if="actual == 3"
+									:sucursal="cat.sucursal"
+									:usuario="usuario" 
+								/>
+							</div>
+						</template>
+					</div>
+
+					
 				</div>
 			</div>
 		</div>
@@ -48,30 +149,57 @@
 <script>
 	import UsuarioLista from '@/views/mnt/usuario/UsuarioLista.vue'
 	import UsuarioForm from '@/views/mnt/usuario/UsuarioForm.vue'
+	import UsuarioSucursal	from '@/views/mnt/usuario/UsuarioSucursal.vue' 
+	import UsuarioRol	from '@/views/mnt/usuario/UsuarioRol.vue' 
+	import Catalogo from '@/mixins/Catalogo.js'
 	import { Modal } from 'bootstrap'
+	import { Tab } from 'bootstrap'
 
 	export default {
 		name: 'Usuario',
+		mixins: [Catalogo],
 		data:() => ({
 			modal: null,
-			verForm: false
+			usuario: null,
+			reg: null,
+			idx: null,
+			verForm: false,
+			actual: 1
 		}),
 		mounted() {
 			this.modal = new Modal(document.getElementById('modalNuevoUsuario'));
 		},
+		created() {
+			this.getCatalogo(['rol', 'sucursal'])
+		},
 		methods: {
+			editar(idx, obj) {
+				this.idx = idx
+				this.usuario = obj
+				this.abrirModal()
+			},
 			abrirModal() {
 				this.verForm = true
 				this.modal.show()
-			},
+
+  				let item = document.querySelector('#myTab li:first-child button')
+  				let tab = new Tab(item);
+   				tab.show();
+  			},
 			cerrarModal() {
 				this.verForm = false
+				this.usuario = null
 				this.modal.hide()
+			},
+			actualizar(reg) {
+				this.usuario = reg
 			}
 		},
 		components: {
 			UsuarioLista,
-			UsuarioForm
+			UsuarioForm,
+			UsuarioSucursal,
+			UsuarioRol
 		}
 	}
 </script>

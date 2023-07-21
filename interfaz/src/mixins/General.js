@@ -1,16 +1,20 @@
 export default {
 	name: 'General',
 	data: () => ({
-		pk: null,
-		fk: null,
+		pk: '',
+		fk: '',
 		cargando: false,
+		autoBuscar: false,
 		controlador: '',
 		form: {},
 		filtro: {},
-		lista: []
+		lista: [],
+		cat: []
 	}),
 	mounted() {
-		this.buscar()
+		if (this.autoBuscar) {
+			this.buscar()
+		}
 	},
 	methods: {
 		guardar() {

@@ -26,24 +26,49 @@ class Usuario extends CI_Controller {
 		$data = ['exito' => 0];
 
 		if ($this->input->method() === 'post') {
+			$datos = (object) $_POST;
 
-			$us = new Usuario_model($id);
+			if (verPropiedad($datos, 'nombre') && 
+				verPropiedad($datos, 'apellido')) {
 
-			if (elemento($_FILES, 'foto') && 
-				elemento($_FILES['foto'], 'tmp_name')) {
-				
-				$foto = subirArchivo([
-					'tmp_name' => $_FILES['foto']['tmp_name'],
-					'type'     => $_FILES['foto']['type'],
-					'name'     => $_FILES['foto']['name'],
-					'carpeta'  => 'perfil'
-				]);
+				$us = new Usuario_model($id);
 
-			echo "<pre>";
-			print_r ($foto);
-			echo "</pre>";
+				if (empty($id)) {
+					$datos->usuario = $_POST['correo'];
+					$datos->clave = md5('123');
+				}
+
+				if (elemento($_FILES, 'foto') && 
+					 elemento($_FILES['foto'], 'tmp_name')) {
+					
+					$foto = subirArchivo([
+						'tmp_name' => $_FILES['foto']['tmp_name'],
+						'type'     => $_FILES['foto']['type'],
+						'name'     => $_FILES['foto']['name'],
+						'carpeta'  => 'perfil'
+					]);
+
+					if ($foto) {
+						$datos->foto = $foto->key;
+						$datos->foto_enlace = $foto->link;
+					} 
+				}
+
+				if ($us->guardar($datos)) {
+
+					$data['exito'] = 1;
+					$texto = empty($id) ? 'creado':'actualizado';
+					$data['mensaje'] = "Usuario {$texto} con éxito.";
+					$data['linea'] = $this->Usuario_model->buscar(["id" => $us->getPK(),'uno' => true]);
+
+				} else {
+					$data['mensaje'] = $us->getMensaje();
+				}
 			}
+			
 		}
+
+		$this->output->set_output(json_encode($data));
 	}
 }
 

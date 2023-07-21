@@ -1,5 +1,5 @@
 <template>
-	<div class="row mt-3">
+	<div class="row mt-3 mb-3">		
 		<div class="col-sm-12">
 			<div class="alert alert-info p-2 mb-1 fw-bold m-0 rounded">
 				<i class="fas fa-plus me-2"></i>Agregar sucursales
@@ -7,7 +7,7 @@
 		</div>
 		
 		<div class="col-sm-6">
-			<ul class="list-group mt-3">
+			<ul class="list-group mt-2">
 				<li 
 					class="list-group-item active fw-bold" 
 					aria-current="true"
@@ -29,7 +29,7 @@
 			</ul>
 		</div>
 		<div class="col-sm-6">
-			<ul class="list-group mt-3">
+			<ul class="list-group mt-2">
 				<li 
 					class="list-group-item active fw-bold" 
 					aria-current="true"
@@ -56,9 +56,31 @@
 </template>
 
 <script>
-	export default {
-		data: () => ({
+	import General from '@/mixins/General.js'
 
-		})
+	export default {
+		name: 'Usuario-Sucursal',
+		mixins: [General],
+		props: {
+			usuario: {
+				type: Object,
+				required: false
+			},
+			sucursal: {
+				type: Array,
+				required: false
+			}
+		},
+		data: () => ({
+			cat: {}
+		}),
+		created() {
+			this.cat.sucursal = this.sucursal
+			this.controlador = 'mnt/usuario_sucursal'
+		},
+		methods: {
+			
+		}
+		
 	}
 </script>
