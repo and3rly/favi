@@ -50,14 +50,13 @@ class Usuario_model extends General_model {
 		}
 
 		$tmp = $this->db
-					->select("a.*,
-							c.nombre as rol,
-							e.nombre as nsucursal")
-					->join("rol_usuario b","b.usuario_id = a.id", "left")
-					->join("rol c","c.id = b.rol_id", "left")
-					->join("usuario_sucursal d", "d.usuario_id = a.id", "left")
-					->join("sucursal e","e.id = d.sucursal_id", "left")
-					->where("b.activo", 1)
+					->select("a.*")
+					//->join("rol_usuario b","b.usuario_id = a.id", "left")
+					//->join("rol c","c.id = b.rol_id", "left")
+					//->join("usuario_sucursal d", "d.usuario_id = a.id", "left")
+					//->join("sucursal e","e.id = d.sucursal_id", "left")
+					//->where("b.activo", 1)
+					->where("a.activo", 1)
 					->get("usuario a");
 
 		return verConsulta($tmp, $args);

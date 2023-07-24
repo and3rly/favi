@@ -2,7 +2,7 @@
 	<div class="row mt-3 mb-3">
 		<div class="col-sm-12">
 			<div class="alert alert-info p-2 mb-1 fw-bold m-0 rounded">
-				<i class="fas fa-plus me-2"></i>Asignar rol
+				<i class="fas fa-plus me-2"></i>Asignar roles
 			</div>
 		</div>
 		
@@ -16,6 +16,7 @@
 				</li>
 
 				<li 
+					v-if="disponibles.length > 0"
 					v-for="(i,idx) in disponibles" 
 					:key="idx" 
 					class="list-group-item d-flex justify-content-between align-items-start"
@@ -30,7 +31,12 @@
 						<i class="fas fa-arrow-right" style="color: ;"></i>
 					</a>
 				</li>
-
+				<li
+					v-else
+					class="list-group-item text-center" 
+				>		
+					<span class="text-body-secondary">No hay disponibles.</span>
+				</li>
 			</ul>
 		</div>
 		<div class="col-sm-6">
@@ -160,7 +166,6 @@
 				}
 				return []
 			}
-		}
-		
+		}	
 	}
 </script>

@@ -70,6 +70,23 @@ class Usuario extends CI_Controller {
 
 		$this->output->set_output(json_encode($data));
 	}
+
+	public function anular_usuario($id)
+	{
+		$data = ['exito' => 0];
+		$datos = ['activo' => 0];
+
+		$usuario = new Usuario_model($id);
+
+		if ($usuario->guardar($datos)) {
+			$data['exito'] = 1;
+			$data['mensaje'] = "Usuario anulado con éxito.";
+		} else {
+			$data['mensaje'] = $usuario->getMensaje();
+		}
+
+		$this->output->set_output(json_encode($data));
+	}
 }
 
 /* End of file Usuario.php */

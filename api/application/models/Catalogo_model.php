@@ -8,15 +8,30 @@ class Catalogo_model extends General_model {
 		
 	}
 
-	public function get_usuario_sucursal($args=[])
-	{
+	public function ver_usuario_sucursal($args=[])
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('a.id', $args['id']);
+		}
+
 		if (elemento($args, 'usuario_id')) {
-			$this->db->where('usuario_id', $args['usuario_id']);
+			$this->db->where('a.usuario_id', $args['usuario_id']);
+		}
+
+		if (elemento($args, 'sucursal_id')) {
+			$this->db->where('a.sucursal_id', $args['sucursal_id']);
+		}
+
+		if (isset($args['activo'])) {
+			$this->db->where('a.activo', $args['activo']);
+		} else {
+			$this->db->where('a.activo', 1);
 		}
 
 		$tmp = $this->db
-					->where('activo', 1)
-					->get('usuario_sucursal');
+					->select("a.*, b.nombre as nsucursal, b.empresa_id")
+					->join("sucursal b","b.id = a.sucursal_id")
+					->get('usuario_sucursal a');
 
 		return verConsulta($tmp, $args);
 	}

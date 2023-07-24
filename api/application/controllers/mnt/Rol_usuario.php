@@ -62,7 +62,7 @@ class Rol_usuario extends CI_Controller {
 			$data['exito'] = 1;
 			$data['mensaje'] = "Se ha removido corretamente el rol.";
 		} else {
-			$data['mensaje'] = $garea->getMensaje();
+			$data['mensaje'] = $rol->getMensaje();
 		}
 
 		$this->output->set_output(json_encode($data));

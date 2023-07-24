@@ -53,7 +53,7 @@
 								aria-controls="home-tab-pane" 
 								aria-selected="true"
 							>
-								Formulario
+								<i class="fas fa-list-ul me-1"></i> Formulario
 							</button>
 						</li>
 
@@ -64,13 +64,13 @@
 									class="nav-link"
 									id="profile-tab" 
 									data-bs-toggle="tab" 
-									data-bs-target="#profile-tab-pane" 
+									data-bs-target="#profile" 
 									type="button"
 									role="tab" 
 									aria-controls="profile-tab-pane" 
 									aria-selected="false"
 								>
-									Rol
+									<i class="fas fa-male me-1"></i> Roles
 								</button>
 							</li>
 							<li class="nav-item" role="presentation">
@@ -85,7 +85,7 @@
 									aria-controls="contact-tab-pane" 
 									aria-selected="false"
 								>
-									Sucursal
+									<i class="fas fa-sitemap me-1"></i> Sucursales
 								</button>
 							</li>
 						</template>
@@ -111,7 +111,7 @@
 						<template v-if="usuario != null">
 							<div 
 								class="tab-pane fade" 
-								id="profile-tab-pane" 
+								id="profile" 
 								role="tabpanel" 
 								aria-labelledby="profile-tab" 
 								tabindex="0"
@@ -133,7 +133,7 @@
 								<UsuarioSucursal
 									v-if="actual == 3"
 									:sucursal="cat.sucursal"
-									:usuario="usuario" 
+									:user="usuario" 
 								/>
 							</div>
 						</template>
@@ -186,6 +186,17 @@
   				let tab = new Tab(item);
    				tab.show();
   			},
+  			/*verRoles(obj) {
+  				this.usuario = obj
+  				this.verForm = true
+				this.modal.show()
+
+  				//const item = document.querySelector('#myTab button[data-bs-target="#profile-tab"]')
+
+  				//console.log(item)
+  				//let tab = new Tab(item);
+   				//tab.show();
+  			},*/
 			cerrarModal() {
 				this.verForm = false
 				this.usuario = null

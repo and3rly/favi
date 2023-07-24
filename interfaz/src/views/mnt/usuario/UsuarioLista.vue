@@ -11,8 +11,8 @@
 							<th scope="col" class="text-center">Usuario</th>
 							<th scope="col" class="text-center">Teléfono</th>
 							<th scope="col" class="text-center">Correo</th>
-							<th scope="col" class="text-center">Sucursal</th>		
-							<th scope="col" class="text-center">Rol</th>
+							<!--th scope="col" class="text-center">Sucursal</th-->		
+							<!--th scope="col" class="text-center">Rol</th-->
 							<th scope="col" class="text-center">Estado</th>
 							<th scope="col" class="text-center" width="70">Acción</th>
 						</tr>
@@ -35,8 +35,8 @@
 							<td class="text-center">{{ i.usuario }}</td>
 							<td class="text-center">{{ i.telefono}}</td>
 							<td class="text-center">{{ i.correo }}</td>
-							<td class="text-center">{{ i.nsucursal }}</td>
-							<td class="text-center">{{ i.rol }}</td>
+							<!--td class="text-center">{{ i.nsucursal }}</td-->
+							<!--td class="text-center">{{ i.rol }}</td-->
 							<td class="text-center">
 								<span 
 									v-if="i.activo == 1"
@@ -63,7 +63,7 @@
 										<i class="fas fa-ellipsis-v"></i>
 									</a>
 								  <div class="dropdown-menu dropdown-menu-end">
-								    <a 
+								    <!--a 
 								    	href="javascript:;" 
 								    	class="dropdown-item"
 								    >
@@ -73,13 +73,15 @@
 								    <a 
 								    	href="javascript:;" 
 								    	class="dropdown-item"
+								    	@click="verRoles(i)"
 								    >
 								    	<i class="fas fa-user-plus me-2"></i>Asignar rol
-								    </a>
+								    </a-->
 
 								    <a
 								    	href="javascript:;" 
 								    	class="dropdown-item"
+								    	@click="anular_usuario(i, idx)"
 								    >
 								    	<i class=" fas fa-trash-alt me-2"></i>Anular
 								    </a>
@@ -132,6 +134,28 @@
 				this.idx = idx
 				let tmp = obj
 				this.$emit('abrirModal', idx, tmp)
+			}, 
+			verRoles(obj) {
+				this.$emit('abrirRoles', obj)
+			},
+			anular_usuario(obj, idx) {
+				if (confirm("¿Está seguro?")) {
+					this.pk = obj.id
+
+					this.$http
+					.post(`${this.$baseUrl}/usuario/anular_usuario/${this.pk}`)
+					.then(res => {
+						this.btnGuardar = false
+
+						if (res.data.exito) {	
+							this.lista.splice(idx, 1)
+						}
+
+					}).catch(e => {
+						this.btnGuardar = false
+						console.log(e)
+					})
+				}
 			}
 		},
 		components: {

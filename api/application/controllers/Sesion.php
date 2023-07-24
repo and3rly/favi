@@ -36,18 +36,17 @@ class Sesion extends CI_Controller {
 
 					$us->id = $us->getPK();
 
-					$uSucursal = $this->catalogo->get_usuario_sucursal(['usuario_id' => $us->id, 'uno' => true]);
+					$uSucursal = $this->catalogo->ver_usuario_sucursal(['usuario_id' => $us->id, 'uno' => true]);
 
 					if ($uSucursal) {
 
 						$sucursal = new Sucursal_model($uSucursal->sucursal_id);
-						$sucursal_id = $sucursal->getPK();
-
-						$empresa = new Empresa_model($sucursal_id);
+						$empresa_id = $sucursal->empresa_id;
+						$empresa = new Empresa_model($empresa_id);
 
 						$us->empresa_id = $empresa->getPK();
 						$us->empresa = $empresa->nombre;
-						$us->sucursal_id = $sucursal_id;
+						$us->sucursal_id = $uSucursal->sucursal_id;
 						$us->sucursal = $sucursal->nombre;
 
 						$usuario = var_session($us);
