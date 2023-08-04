@@ -173,11 +173,11 @@
 		}),
 		created() {
 			
-			this.limpiarForm()
+			this.setForm()
 
 			if (this.usuario) {
-				this.pk = this.usuario.id
-				this.form = this.usuario
+				this.pk = this.usuario.id			
+				this.setDatosForm(this.usuario);
 			}
 
 			this.controlador = 'usuario'
@@ -205,9 +205,8 @@
 						this.archivo = null
 
 						if (res.data.linea) {
-							this.form = res.data.linea
-							this.pk = this.form.id
-							this.$emit('actualizar', res.data.linea)
+							this.$emit('actualizar', res.data.linea, this.pk)
+							this.$emit('cerrar')
 						}
 						
 					}
@@ -226,9 +225,18 @@
 			limpiarFoto() {
 				this.archivo = null
 			},
-			limpiarForm() {
+			setForm() {
 				this.pk = ''
-				this.form = {}
+				this.form = {
+					nombre: '',
+					apellido: '',
+					usuario: '',
+					telefono: '',
+					correo: '',
+					foto: '',
+					foto_enlace: '', 
+					activo: 1
+				}
 				this.archivo = null
 			}
 		},

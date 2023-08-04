@@ -16,6 +16,11 @@ export const useAppSidebarMenuStore = defineStore({
       'url': '/usuario',
       'icon': 'fa fa-user',
       'text': 'Usuario'
+    },
+    {
+      'url': '/sucursal',
+      'icon': 'fas fa-sitemap',
+      'text': 'Sucursal'
     }
 	]}
 });

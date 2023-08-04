@@ -21,13 +21,32 @@ class Sucursal_model extends General_model {
 	}
 
 	public function buscar($args=[])
-	{
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('a.id', $args['id']);
+		}
+		
 		$tmp = $this->db
 					->select("a.*, b.nombre as nempresa")
 					->join("empresa b","b.id = a.empresa_id")
+					->where("a.activo", 1)
 					->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);
+	}
+
+	public function existe_sucursal($args=[])
+	{	
+		if ($this->getPK() != '') {
+			$this->db->where("id <> ", $this->getPk());
+		}
+
+		$tmp = $this->db
+					->where("nombre", $args['nombre'])
+					->where("empresa_id", $args['empresa_id'])
+					->get("$this->_tabla");
+
+		return $tmp->num_rows() == 0;
 	}
 
 }

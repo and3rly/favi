@@ -28,7 +28,11 @@
 								/>
 							</td>
 							<td>
-								<a href="javascript:;" @click="editar(idx, i)">
+								<a 
+									href="javascript:;" 
+									class="text-decoration-none" 
+									@click="editar(i, idx)"
+								>
 									{{ i.nombre }} {{ i.apellido }}
 								</a>
 							</td>
@@ -120,7 +124,11 @@
 			reg: {
 				type: Object,
 				required: false
-			}
+			},
+			tmpLinea: {
+				type: Object,
+				required: false
+			},
 		},
 		data: () => ({
 			idx: null
@@ -130,10 +138,8 @@
 			this.autoBuscar = true
 		},
 		methods: {
-			editar(idx, obj) {
-				this.idx = idx
-				let tmp = obj
-				this.$emit('abrirModal', idx, tmp)
+			editar(obj, idx) {
+				this.$emit('abrirModal', obj, idx)
 			}, 
 			verRoles(obj) {
 				this.$emit('abrirRoles', obj)
@@ -160,6 +166,13 @@
 		},
 		components: {
 			Imagen
+		},
+		watch: {
+			'tmpLinea'(o) {
+				if (o) {
+					this.setRegLista(o)
+				}
+			}
 		}
 	}
 </script>

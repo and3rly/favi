@@ -12,6 +12,7 @@
 
 	<UsuarioLista 
 		@abrirModal="editar"
+		:tmpLinea="tmpReg"
 	/>
 
 	<div 
@@ -29,7 +30,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						Usuario<span v-if="usuario != null">: {{usuario.nombre}} {{usuario.apellido}}</span>
+						Usuario<span v-if="reg != null">: {{reg.nombre}} {{reg.apellido}}</span>
 					</h1>
 					<button 
 						type="button" 
@@ -53,11 +54,11 @@
 								aria-controls="home-tab-pane" 
 								aria-selected="true"
 							>
-								<i class="fas fa-list-ul me-1"></i> Formulario
+								<i class="fas fa-list-ul me-1"></i> Datos Generales
 							</button>
 						</li>
 
-						<template v-if="usuario != null">
+						<template v-if="reg != null">
 							<li class="nav-item" role="presentation">
 								<button 
 									@click="actual = 2"
@@ -104,11 +105,11 @@
 								v-if="verForm" 
 								@cerrar="cerrarModal" 
 								@actualizar="actualizar"
-								:usuario="usuario" 
+								:usuario="reg" 
 							/>
 						</div>
 						
-						<template v-if="usuario != null">
+						<template v-if="reg != null">
 							<div 
 								class="tab-pane fade" 
 								id="profile" 
@@ -119,7 +120,7 @@
 								<UsuarioRol
 									v-if="actual == 2"
 									:rol="cat.rol"
-									:user="usuario" 
+									:user="reg" 
 								/>
 							</div>
 
@@ -133,7 +134,7 @@
 								<UsuarioSucursal
 									v-if="actual == 3"
 									:sucursal="cat.sucursal"
-									:user="usuario" 
+									:user="reg" 
 								/>
 							</div>
 						</template>
@@ -173,9 +174,9 @@
 			this.getCatalogo(['rol', 'sucursal'])
 		},
 		methods: {
-			editar(idx, obj) {
+			editar(o, idx) {
+				this.reg = o
 				this.idx = idx
-				this.usuario = obj
 				this.abrirModal()
 			},
 			abrirModal() {
@@ -186,24 +187,17 @@
   				let tab = new Tab(item);
    				tab.show();
   			},
-  			/*verRoles(obj) {
-  				this.usuario = obj
-  				this.verForm = true
-				this.modal.show()
-
-  				//const item = document.querySelector('#myTab button[data-bs-target="#profile-tab"]')
-
-  				//console.log(item)
-  				//let tab = new Tab(item);
-   				//tab.show();
-  			},*/
 			cerrarModal() {
 				this.verForm = false
 				this.usuario = null
 				this.modal.hide()
 			},
-			actualizar(reg) {
-				this.usuario = reg
+			actualizar(o, pk) {
+				this.tmpReg = {
+					linea: o,
+					pk: pk,
+					idx: this.idx
+				}
 			}
 		},
 		components: {

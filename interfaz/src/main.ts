@@ -29,8 +29,15 @@ import CardImgOverlay from '@/components/bootstrap/CardImgOverlay.vue';
 import CardExpandToggler from '@/components/bootstrap/CardExpandToggler.vue';
 
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import { Modal } from 'bootstrap'
+
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+import { useToast } from "vue-toastification";
 
 const emitter = mitt();
+const toast = useToast();
 const app = createApp(App);
 
 const pinia = createPinia()
@@ -50,6 +57,17 @@ app.component('CardFooter', CardFooter);
 app.component('CardGroup', CardGroup);
 app.component('CardImgOverlay', CardImgOverlay);
 app.component('CardExpandToggler', CardExpandToggler);
+app.use(Toast, {
+  transition: "Vue-Toastification__fade",
+  filterBeforeCreate: (toast, toasts) => {
+    if (toasts.filter(
+      t => t.type === toast.type
+    ).length !== 0) {
+      return false;
+    }
+    return toast;
+  }
+})
 
 app.use(pinia);
 app.use(router);
@@ -58,6 +76,8 @@ app.use(PerfectScrollbar);
 
 app.config.globalProperties.emitter = emitter
 app.config.globalProperties.$http = axiosClient
+app.config.globalProperties.$modal = Modal
+app.config.globalProperties.$toast = toast
 app.config.globalProperties.$baseUrl = '/api/index.php'
 
 app.mount('#app');
