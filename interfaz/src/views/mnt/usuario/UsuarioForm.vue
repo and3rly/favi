@@ -165,7 +165,6 @@
 			}
 		},	
 		data: () => ({
-			form: {},
 			btnGuardar: false,
 			foto: null,
 			urlFoto: null,

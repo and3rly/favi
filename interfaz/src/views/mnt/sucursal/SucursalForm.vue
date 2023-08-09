@@ -124,10 +124,8 @@
 				</div>
 		    </div>
 		</div>
-
 		
-
-		<div class="text-end mt-4 mb-2">
+		<div class="text-end mt-1 mb-1">
 			<button 
 				type="button" 
 				class="btn btn-secondary me-2"
