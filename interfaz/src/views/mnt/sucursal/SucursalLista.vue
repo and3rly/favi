@@ -14,7 +14,7 @@
 							<th scope="col">Correo</th>
 							<th scope="col" class="text-center">Empresa</th>
 							<!--th scope="col" class="text-center">Fecha Agr</th-->
-							<th class="text-center">Acciones</th>
+							<!--th class="text-center">Acciones</th-->
 						</tr>
 					</thead>
 					<tbody>
@@ -47,7 +47,7 @@
 							<td class="text-center">
 								{{ i.nempresa }}
 							</td>
-							<td class="text-center">
+							<!--td class="text-center">
 								<div class="dropdown position-static">
 									<a 
 										href="javascript:;"
@@ -65,7 +65,7 @@
 								    </a>
 								  </div>
 								</div>
-							</td>
+							</td-->
 						</tr>
 					</tbody>
 					<tfoot>
