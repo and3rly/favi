@@ -32,6 +32,12 @@ const router = createRouter({
             component: () => import('@/views/mnt/sucursal/Sucursal.vue'),
             meta: {titulo: 'Sucursal'}
           },
+          { 
+            path: '/unidad_medida',
+            name: 'UnidadMedida',
+            component: () => import('@/views/producto/um/Um.vue'),
+            meta: {titulo: 'Unidad medida'}
+          },
         ]
     },
 		{ 
