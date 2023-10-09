@@ -16,7 +16,6 @@ class Tipo_producto extends CI_Controller {
 
 	public function buscar() 
 	{
-
 		$data = [
 			'lista' => $this->Tipo_producto_model->buscar($_GET)
 		];

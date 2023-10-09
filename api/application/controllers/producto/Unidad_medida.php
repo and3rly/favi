@@ -14,8 +14,8 @@ class Unidad_medida extends CI_Controller {
 		$this->output->set_status_header('404');
 	}
 
-	public function buscar() {
-
+	public function buscar() 
+	{
 		$data = [
 			'lista' => $this->Unidad_medida_model->buscar($_GET)
 		];

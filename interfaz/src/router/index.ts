@@ -44,6 +44,12 @@ const router = createRouter({
             component: () => import('@/views/producto/tipo/Tipo.vue'),
             meta: {titulo: 'Tipo producto'}
           },
+          { 
+            path: '/marca',
+            name: 'MarcaProducto',
+            component: () => import('@/views/producto/marca/Marca.vue'),
+            meta: {titulo: 'Marca producto'}
+          },
         ]
     },
 		{ 
