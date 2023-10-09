@@ -57,6 +57,10 @@
 			filtrada: {
 				type: Array,
 				required: false
+			},
+			cargando: {
+				type: Boolean, 
+				required: false
 			}
 		},
 		data: () => ({

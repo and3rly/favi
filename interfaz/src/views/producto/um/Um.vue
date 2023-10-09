@@ -13,6 +13,7 @@
 
 	<UmLista
 		@editar="editarReg"
+		:cargando="cargando"
 		:filtrada="lista"
 	/>
 
