@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Familia_producto_model extends General_model {
+class Familia_model extends General_model {
 
 	public $nombre;
 	public $activo = 1;
@@ -15,5 +15,5 @@ class Familia_producto_model extends General_model {
 
 }
 
-/* End of file Familia_producto_model.php */
+/* End of file Familia_model.php */
 /* Location: ./application/models/Familia_producto_model.php */
