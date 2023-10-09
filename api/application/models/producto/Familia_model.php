@@ -15,5 +15,5 @@ class Familia_model extends General_model {
 
 }
 
-/* End of file Familia_model.php */
+/* End of file Familia_producto_model.php */
 /* Location: ./application/models/Familia_producto_model.php */

@@ -37,7 +37,7 @@ class Sucursal_model extends General_model {
 
 	public function existe_sucursal($args=[])
 	{	
-		if ($this->getPK() != '') {
+		if ($this->getPK()) {
 			$this->db->where("id <> ", $this->getPk());
 		}
 
