@@ -13,6 +13,33 @@ class Tipo_producto_model extends General_model {
 		}
 	}
 
+	public function buscar($args=[])
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('id', $args['id']);
+		}
+
+		$tmp = $this->db
+					->get("$this->_tabla");
+					
+		return verConsulta($tmp, $args);
+	}
+
+	public function existe_tipo($args=[]) {
+		if ($this->getPK()) {
+			$this->db->where("id <>", $this->getPK());
+		}
+
+		$tmp = $this->db
+					->where("nombre", $args->nombre)
+					->get("$this->_tabla");
+
+		if ($tmp->num_rows() > 0) {
+			return true;
+		}
+
+		return false;
+	}
 }
 
 /* End of file Tipo_producto_model.php */

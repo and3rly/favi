@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex align-items-center mb-4">
 		<h1 class="page-header mb-0">
-			<i class="fas fa-balance-scale fa-sm me-2 ms-1"></i>Unidad medida
+			<i class="fas fa-list fa-sm me-2 ms-1"></i>Tipo de producto
 		</h1>
 
 		<div class="ms-auto">
@@ -11,14 +11,14 @@
 		</div>
 	</div>
 
-	<UmLista
+	<TipoLista
 		@editar="editarReg"
 		:cargando="cargando"
 		:filtrada="lista"
 	/>
 
 	<div 
-		class="modal fade" id="modalUm"
+		class="modal fade" id="modalTipoProd"
 		data-bs-backdrop="static" 
 		data-bs-keyboard="false" 
 		tabindex="-1" 
@@ -32,7 +32,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						<i class="fas fa-balance-scale fa-sm me-2 ms-1"></i>Unidad de Medida <span v-if="reg != null"> - {{reg.nombre}}</span>
+						<i class="fas fa-list fa-sm me-2 ms-1"></i>Tipo de producto <span v-if="reg != null"> - {{reg.nombre}}</span>
 					</h1>
 					<button 
 						type="button" 
@@ -43,9 +43,9 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<UmForm
+					<TipoForm
 						v-if="verForm"
-						:um="reg"
+						:tipo="reg"
 						@actualizar="actualizaLista"
 						@cerrar="cerrarModal"
 					/>
@@ -57,11 +57,11 @@
 
 <script>
 	import General from '@/mixins/General.js'
-	import UmLista from '@/views/producto/um/UmLista.vue'
-	import UmForm from '@/views/producto/um/UmForm.vue'
+	import TipoLista from '@/views/producto/tipo/TipoLista.vue'
+	import TipoForm from '@/views/producto/tipo/TipoForm.vue'
 
 	export default {
-		name: 'UM',
+		name: 'TipoProducto',
 		mixins: [General],
 		data:() => ({
 			reg: null,
@@ -70,10 +70,10 @@
 			verForm: false
 		}),
 		mounted() {
-			this.modal = new this.$modal(document.getElementById('modalUm'));
+			this.modal = new this.$modal(document.getElementById('modalTipoProd'));
 		},
 		created()  {
-			this.controlador = 'producto/unidad_medida'
+			this.controlador = 'producto/tipo_producto'
 			this.autoBuscar = true
 		},
 		methods: {
@@ -104,8 +104,8 @@
 			}
 		},
 		components: {
-			UmLista,
-			UmForm
+			TipoLista,
+			TipoForm
 		}
 	}
 </script>

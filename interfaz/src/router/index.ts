@@ -38,6 +38,12 @@ const router = createRouter({
             component: () => import('@/views/producto/um/Um.vue'),
             meta: {titulo: 'Unidad medida'}
           },
+          { 
+            path: '/tipo_producto',
+            name: 'TipoPoducto',
+            component: () => import('@/views/producto/tipo/Tipo.vue'),
+            meta: {titulo: 'Tipo producto'}
+          },
         ]
     },
 		{ 
