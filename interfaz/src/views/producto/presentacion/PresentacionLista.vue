@@ -6,7 +6,7 @@
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="40">#</th>
-							<th scope="col" class="text-center">Código</th>
+							<th scope="col" class="text-center" width="150">Código</th>
 							<th scope="col">Nombre</th>
 							<th scope="col" class="text-center">Factor</th>
 							<th class="text-center">Activo</th>

@@ -36,7 +36,7 @@ class Presentacion_model extends General_model {
 		}
 
 		$tmp = $this->db
-					->where("codigo", $args->nombre)
+					->where("codigo", $args->codigo)
 					->where("factor", $args->factor)
 					->get("$this->_tabla");
 
