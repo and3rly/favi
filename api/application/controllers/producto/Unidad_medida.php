@@ -20,7 +20,8 @@ class Unidad_medida extends CI_Controller {
 			'lista' => $this->Unidad_medida_model->buscar($_GET)
 		];
 
-		$this->output->set_output(json_encode($data)); }
+		$this->output->set_output(json_encode($data)); 
+	}
 
 	public function guardar($id="") {
 		$data = ["exito" => 0];
