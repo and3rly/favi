@@ -12,7 +12,7 @@
 				<input 
 					type="text" 
 					class="form-control"
-					placeholder="Nombre de la familia producto" 
+					placeholder="Nombre del estado producto" 
 					v-model="form.nombre"
 					required
 				>
@@ -33,6 +33,36 @@
 						checked 
 					>
 					<label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+				</div>
+		    </div>
+		    <div class="col-sm-2 mt-2">
+		    	<div class="form-check form-switch">
+					<input 
+						class="form-check-input" 
+						type="checkbox" 
+						role="switch" 
+						id="chkUtilizable" 
+						:true-value="1" 
+						:false-value="0"
+						v-model="form.utilizable"
+						checked 
+					>
+					<label class="form-check-label" for="chkUtilizable">Utilizable</label>
+				</div>
+		    </div>
+		    <div class="col-sm-2 mt-2">
+		    	<div class="form-check form-switch">
+					<input 
+						class="form-check-input" 
+						type="checkbox" 
+						role="switch" 
+						id="chkDanado" 
+						:true-value="1" 
+						:false-value="0"
+						v-model="form.danado"
+						checked 
+					>
+					<label class="form-check-label" for="chkDanado">Dañado</label>
 				</div>
 		    </div>
 		</div>
@@ -70,10 +100,10 @@
 	import General from '@/mixins/General.js'
 
 	export default {
-		name:"FamiliaForm",
+		name:"EstadoForm",
 		mixins: [General],
 		props: {
-			familia: {
+			estado: {
 				type: Object,
 				required: false
 			}
@@ -81,19 +111,21 @@
 		data: () => ({
 		}),
 		created() {
-			this.controlador = 'producto/familia'
+			this.controlador = 'producto/estado'
 			this.autoBuscar = false
 			this.setForm()
 
-			if (this.familia) {
-				this.pk = this.familia.id
-				this.setDatosForm(this.familia);
+			if (this.estado) {
+				this.pk = this.estado.id
+				this.setDatosForm(this.estado);
 			}
 		},
 		methods: {
 			setForm() {
 				this.form = {
 					nombre: '',
+					utilizable: 1,
+					danado: 0,
 					activo: 1
 				}
 			}

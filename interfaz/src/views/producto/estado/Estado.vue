@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex align-items-center mb-4">
 		<h1 class="page-header mb-0">
-			<i class="fas fa-list-alt fa-sm me-2 ms-1"></i>Familia producto
+			<i class="fas fa-list-alt fa-sm me-2 ms-1"></i>Estado producto
 		</h1>
 
 		<div class="ms-auto">
@@ -11,14 +11,14 @@
 		</div>
 	</div>
 
-	<FamiliaLista
+	<EstadoLista
 		@editar="editarReg"
 		:cargando="cargando"
 		:filtrada="lista"
 	/>
 
 	<div 
-		class="modal fade" id="modalFamilia"
+		class="modal fade" id="modalEstado"
 		data-bs-backdrop="static" 
 		data-bs-keyboard="false" 
 		tabindex="-1" 
@@ -32,7 +32,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						<i class="fas fa-list-alt fa-sm me-2 ms-1"></i>Familia <span v-if="reg != null"> - {{reg.nombre}}</span>
+						<i class="fas fa-list-alt fa-sm me-2 ms-1"></i>Estado <span v-if="reg != null"> - {{reg.nombre}}</span>
 					</h1>
 					<button 
 						type="button" 
@@ -43,9 +43,9 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<FamiliaForm
+					<EstadoForm
 						v-if="verForm"
-						:familia="reg"
+						:estado="reg"
 						@actualizar="actualizaLista"
 						@cerrar="cerrarModal"
 					/>
@@ -57,11 +57,11 @@
 
 <script>
 	import General from '@/mixins/General.js'
-	import FamiliaLista from '@/views/producto/familia/FamiliaLista.vue'
-	import FamiliaForm from '@/views/producto/familia/FamiliaForm.vue'
+	import EstadoLista from '@/views/producto/estado/EstadoLista.vue'
+	import EstadoForm from '@/views/producto/estado/EstadoForm.vue'
 
 	export default {
-		name: 'FamiliaProducto',
+		name: 'EstadoProducto',
 		mixins: [General],
 		data:() => ({
 			reg: null,
@@ -70,10 +70,10 @@
 			verForm: false
 		}),
 		mounted() {
-			this.modal = new this.$modal(document.getElementById('modalFamilia'));
+			this.modal = new this.$modal(document.getElementById('modalEstado'));
 		},
 		created()  {
-			this.controlador = 'producto/familia'
+			this.controlador = 'producto/estado'
 			this.autoBuscar = true
 		},
 		methods: {
@@ -104,8 +104,8 @@
 			}
 		},
 		components: {
-			FamiliaLista,
-			FamiliaForm
+			EstadoLista,
+			EstadoForm
 		}
 	}
 </script>
