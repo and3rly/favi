@@ -1,12 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Clasificacion extends CI_Controller {
+class Familia extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->output->set_content_type('application/json');
-		$this->load->model(['producto/Clasificacion_model']);
+		$this->load->model(['producto/Familia_model']);
 	}
 
 	public function index()
@@ -17,7 +17,7 @@ class Clasificacion extends CI_Controller {
 	public function buscar() 
 	{
 		$data = [
-			'lista' => $this->Clasificacion_model->buscar($_GET)
+			'lista' => $this->Familia_model->buscar($_GET)
 		];
 
 		$this->output->set_output(json_encode($data)); 
@@ -31,18 +31,18 @@ class Clasificacion extends CI_Controller {
 			$datos = json_decode(file_get_contents('php://input'));
 
 			if (verPropiedad($datos, "nombre")) {
-				$clas = new Clasificacion_model($id);
+				$fam = new Familia_model($id);
 
-				if ($clas->existe_clas($datos)) {
-					$data['mensaje'] = "Ya existe la clasificación que esta intentado guardar.";
+				if ($fam->existe_fam($datos)) {
+					$data['mensaje'] = "Ya existe la familia que intenta guardar.";
 				} else {
-					if ($clas->guardar($datos)) {
+					if ($fam->guardar($datos)) {
 						$data['exito'] = 1;
 						$data['mensaje'] = empty($id) ? "Registro guardado con éxito.":"Registro actualizado.";
 
-						$data['linea'] = $clas->buscar(['id' => $clas->getPK(), 'uno' => true]);
+						$data['linea'] = $fam->buscar(['id' => $fam->getPK(), 'uno' => true]);
 					} else {
-						$data['mensaje'] = $clas->getMensaje();
+						$data['mensaje'] = $fam->getMensaje();
 					}
 				}
 			} else {
@@ -56,5 +56,5 @@ class Clasificacion extends CI_Controller {
 	}
 }
 
-/* End of file Clasificacion.php */
-/* Location: ./application/controllers/Clasificacion.php */
+/* End of file Familia.php */
+/* Location: ./application/controllers/Familia.php */

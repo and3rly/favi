@@ -62,6 +62,12 @@ const router = createRouter({
             component: () => import('@/views/producto/clasificacion/Clasificacion.vue'),
             meta: {titulo: 'Clasificación'}
           },
+          { 
+            path: '/familia',
+            name: 'FamiliaProd',
+            component: () => import('@/views/producto/familia/Familia.vue'),
+            meta: {titulo: 'Familia'}
+          },
         ]
     },
 		{ 

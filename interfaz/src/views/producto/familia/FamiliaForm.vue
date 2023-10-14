@@ -12,7 +12,7 @@
 				<input 
 					type="text" 
 					class="form-control"
-					placeholder="Nombre de la clasificación producto" 
+					placeholder="Nombre de la familia producto" 
 					v-model="form.nombre"
 					required
 				>
@@ -70,7 +70,7 @@
 	import General from '@/mixins/General.js'
 
 	export default {
-		name:"ClasificacionForm",
+		name:"FamiliaForm",
 		mixins: [General],
 		props: {
 			clasificacion: {
@@ -81,7 +81,7 @@
 		data: () => ({
 		}),
 		created() {
-			this.controlador = 'producto/clasificacion'
+			this.controlador = 'producto/familia'
 			this.autoBuscar = false
 			this.setForm()
 

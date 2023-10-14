@@ -29,7 +29,7 @@ class Clasificacion_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
-	public function existe_marca($args=[]) {
+	public function existe_clas($args=[]) {
 		if ($this->getPK()) {
 			$this->db->where("id <>", $this->getPK());
 		}
