@@ -74,6 +74,12 @@ const router = createRouter({
             component: () => import('@/views/producto/estado/Estado.vue'),
             meta: {titulo: 'Estado'}
           },
+          { 
+            path: '/producto',
+            name: 'Producto',
+            component: () => import('@/views/producto/producto/Producto.vue'),
+            meta: {titulo: 'Producto'}
+          },
         ]
     },
 		{ 

@@ -91,6 +91,69 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
+	public function ver_um($args=[])
+	{	
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('unidad_medida');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_marca($args=[])
+	{	
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('marca_producto');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_clasificacion($args=[])
+	{	
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('clasificacion_producto');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_estado($args=[])
+	{	
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('estado_producto');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_tipo($args=[])
+	{	
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('tipo_producto');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_familia($args=[])
+	{	
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('familia_producto');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_presentacion($args=[])
+	{	
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('presentacion_producto');
+
+		return verConsulta($tmp, $args);
+	}
+
 }
 
 /* End of file Catalogo_model.php */

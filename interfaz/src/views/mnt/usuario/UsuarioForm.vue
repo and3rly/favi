@@ -188,7 +188,7 @@
 				let datos = new FormData()
 
 				for (let i in this.form) {
-						datos.append(i, this.form[i]);
+					datos.append(i, this.form[i]);
 				}
 
 				if (this.archivo) {

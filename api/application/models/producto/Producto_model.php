@@ -13,16 +13,17 @@ class Producto_model extends General_model {
 	public $largo;
 	public $altura;
 	public $anchura;
+	public $precio;
 	public $control_vence = 0;
 	public $existencia_maxima;
 	public $existencia_minima;
 	public $activo = 1;
 	public $unidad_medida_id;
-	public $marca_id;
-	public $clasificacion_id;
-	public $estado_id;
+	public $marca_producto_id;
+	public $clasificacion_producto_id;
+	public $estado_producto_id;
 	public $tipo_producto_id;
-	public $presentacion_id;
+	public $presentacion_producto_id;
 	public $familia_producto_id;
 	public $usuario_agr;
 
@@ -33,6 +34,53 @@ class Producto_model extends General_model {
 			$this->cargar($id);
 		}
 		
+	}
+
+	public function buscar($args=[])
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('a.id', $args['id']);
+		}
+
+		$tmp = $this->db
+					->select("a.*,
+						b.nombre as um,
+						c.nombre as nmarca,
+						d.nombre as nclasificacion,
+						e.nombre as nestado,
+						f.nombre as ntipo,
+						g.codigo as pcodigo,
+						g.nombre as npresentacion,
+						g.factor,
+						h.nombre as nfamilia")
+					->join("unidad_medida b","b.id = a.unidad_medida_id")
+					->join("marca_producto c","c.id = a.marca_producto_id")
+					->join("clasificacion_producto d","d.id = a.clasificacion_producto_id")
+					->join("estado_producto e","e.id = a.estado_producto_id")
+					->join("tipo_producto f","f.id = a.tipo_producto_id")
+					->join("presentacion_producto g","g.id = a.presentacion_producto_id")
+					->join("familia_producto h","h.id = a.familia_producto_id")
+					->get("$this->_tabla a");
+					
+		return verConsulta($tmp, $args);
+	}
+
+	public function existe($args=[]) {
+		if ($this->getPK()) {
+			$this->db->where("id <>", $this->getPK());
+		}
+
+		$tmp = $this->db
+					->where("nombre", $args->nombre)
+					->where("codigo", $args->codigo)
+					->where("barra", $args->barra)
+					->get("$this->_tabla");
+
+		if ($tmp->num_rows() > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

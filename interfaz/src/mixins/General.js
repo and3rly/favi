@@ -3,15 +3,17 @@ export default {
 	data: () => ({
 		pk: '',
 		fk: '',
+		controlador: '',
 		cargando: false,
 		autoBuscar: false,
 		btnGuardar: false,
 		tmpReg: null,
-		controlador: '',
+		modal: null,
 		form: {},
 		filtro: {},
 		lista: [],
-		cat: []
+		cat: [],
+		fdata: new FormData()
 	}),
 	mounted() {
 		if (this.autoBuscar) {
@@ -19,11 +21,17 @@ export default {
 		}
 	},
 	methods: {
-		guardar() {
+		guardar(archivo = false) {
 			this.btnGuardar = true
 
+			if (archivo) {			
+				for (let i in this.form) {
+					this.fdata.append(i, this.form[i]);
+				}
+			}
+
 			this.$http
-			.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk}`, this.form)
+			.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk}`, this[archivo ? 'fdata': 'form'])
 			.then(res => {
 				this.btnGuardar = false
 
