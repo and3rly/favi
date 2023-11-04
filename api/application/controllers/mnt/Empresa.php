@@ -24,7 +24,7 @@ class Empresa extends CI_Controller {
 	}
 
 	public function guardar($id=""){
-		$data=["exito"=> 0];
+		$data = ["exito"=> 0];
 	}
 
 }
