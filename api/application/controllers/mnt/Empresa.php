@@ -16,15 +16,15 @@ class Empresa extends CI_Controller {
 
 	public function buscar(){
 
-		$data =['lista'=> $this->Empresa_model->buscar($_GET)];
-		this->output->set_output(json_encode($data));
+		$data = [
+			'lista'=> $this->Empresa_model->buscar($_GET)
+		];
+
+		$this->output->set_output(json_encode($data));
 	}
 
 	public function guardar($id=""){
 		$data=["exito"=> 0];
-
-
-
 	}
 
 }

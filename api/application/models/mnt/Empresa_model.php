@@ -25,14 +25,13 @@ class Empresa_model extends General_model {
 		if (elemento($args,'id')) {
 			$this->db->where('a.id',$args['id']);
 		}
-		$tmp =$this->db->select("Emp.*")
-		get->("this->_tabla Emp");
+
+		$tmp = $this->db->get("$this->_tabla");
+
 		return verConsulta($tmp, $args);
 	}
 
-
-
-		public function existe($args=[]) {
+	public function existe($args=[]) {
 		if ($this->getPK()) {
 			$this->db->where("id <>", $this->getPK());
 		}
