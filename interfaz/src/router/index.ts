@@ -80,6 +80,12 @@ const router = createRouter({
             component: () => import('@/views/producto/producto/Producto.vue'),
             meta: {titulo: 'Producto'}
           },
+          { 
+            path: '/bodega',
+            name: 'Bodega',
+            component: () => import('@/views/bodega/bodega/Bodega.vue'),
+            meta: {titulo: 'Bodega'}
+          },
         ]
     },
 		{ 

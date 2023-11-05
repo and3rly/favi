@@ -16,12 +16,49 @@ class Bodega extends CI_Controller {
 
 	public function buscar()
 	{
-		// code...
+		$data = [
+			'lista' => $this->Bodega_model->buscar($_GET)
+		];
+
+		$this->output->set_output(json_encode($data)); 
 	}
 
-	public function guardar($id='')
+	public function guardar($id="") 
 	{
-		// code...
+		$data = ["exito" => 0];
+
+		if ($this->input->method() === "post") {
+			$datos = json_decode(file_get_contents('php://input'));
+			
+			if (verPropiedad($datos, "codigo") &&
+				verPropiedad($datos, "nombre")) {
+
+				$bodega = new Bodega_model($id);
+
+				if ($bodega->existe($datos)) {
+					$data['mensaje'] = "Ya existe la bodega que intenta guardar.";
+				} else {
+					if ($bodega->guardar($datos)) {
+						$data['exito'] = 1;
+						$data['mensaje'] = empty($id) ? "Registro guardado con éxito.":"Registro actualizado.";
+
+						$data['linea'] = $bodega->buscar([
+							'id' => $bodega->getPK(), 
+							'uno' => true
+						]);
+
+					} else {
+						$data['mensaje'] = $bodega->getMensaje();
+					}
+				}
+			} else {
+				$data['mensaje'] = "Complete todos los campos marcados con *.";
+			}
+		} else {
+			$data['menasje'] = "Error en el envio de datos";
+		}
+
+		$this->output->set_output(json_encode($data));
 	}
 }
 
