@@ -73,15 +73,6 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
-	public function ver_empresa($args=[])
-	{
-		$tmp = $this->db
-					->where('activo', 1)
-					->get('empresa');
-
-		return verConsulta($tmp, $args);
-	}
-
 	public function ver_rol($args=[])
 	{	
 		$tmp = $this->db
@@ -152,6 +143,12 @@ class Catalogo_model extends General_model {
 					->get('presentacion_producto');
 
 		return verConsulta($tmp, $args);
+	}
+
+	public function ver_empresa() {
+		$this->load->model('mnt/Empresa_model');
+
+		return $this->Empresa_model->buscar();
 	}
 
 }

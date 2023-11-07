@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="guardar">
+	<form @submit.prevent="guardar(false)">
 		<div class="alert alert-info fw-bold py-2 mb-4" role="alert">
 			<i class="fas fa-lightbulb me-2"></i>Todos los campos marcados con <span class="text-danger">*</span> son obligatorios.
 		</div>
