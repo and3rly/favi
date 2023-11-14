@@ -13,7 +13,7 @@
 							<th class="text-center" scope="col" width="150">Nit</th>
 							<th class="text-center" scope="col">Dirección</th>
 							<th class="text-center" scope="col">Teléfono</th>
-							<th class="text-center" scope="col">correo Electrónico</th>
+							<th class="text-center" scope="col">Correo</th>
 							<th class="text-center">Activo</th>
 						</tr>
 					</thead>
