@@ -10,6 +10,7 @@ class Empresa_model extends General_model {
 	public $telefono = null;
 	public $correo = null;
 	public $logo = null;
+	public $logo_enlance = null;
 	public $activo = 1;
 
 	public function __construct($id="")
@@ -38,6 +39,9 @@ class Empresa_model extends General_model {
 
 		$tmp = $this->db
 					->where("nit", $args->nit)
+					->where("nombre", $args->empresa)
+					->where("razon_social", $args->razon_social)
+					->where("representante", $args->nit)
 					->get("$this->_tabla");
 
 		if ($tmp->num_rows() > 0) {

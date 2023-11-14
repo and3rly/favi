@@ -30,8 +30,7 @@ class Producto extends CI_Controller {
 		if ($this->input->method() === "post") {
 			$datos = (object) $_POST;
 
-			if (verPropiedad($datos, "nombre") && 
-				verPropiedad($datos, "precio")) {
+			if (verPropiedad($datos, "nombre") && verPropiedad($datos, "precio")) {
 
 				$producto = new Producto_model($id);
 
