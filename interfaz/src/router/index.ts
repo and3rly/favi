@@ -86,6 +86,12 @@ const router = createRouter({
             component: () => import('@/views/bodega/bodega/Bodega.vue'),
             meta: {titulo: 'Bodega'}
           },
+          { 
+            path: '/empresa',
+            name: 'Empresa',
+            component: () => import('@/views/mnt/empresa/Empresa.vue'),
+            meta: {titulo: 'Empresa'}
+          },
         ]
     },
 		{ 
