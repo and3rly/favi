@@ -97,7 +97,6 @@
 			sucursales: []
 		}),
 		created() {
-
 			this.sucursales = this.sucursal
 			this.args.usuario_sucursal = {
 				usuario_id: this.user.id

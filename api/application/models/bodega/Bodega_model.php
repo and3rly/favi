@@ -48,9 +48,10 @@ class Bodega_model extends General_model {
 		}
 
 		$tmp = $this->db
-					->select("a.*, b.nombre as nempresa")
-					->join("empresa b","b.id = a.empresa_id")
-					->get("$this->_tabla a");
+		->select("a.*, 
+				b.nombre as nombre_empresa")
+		->join("empresa b","b.id = a.empresa_id")
+		->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);
 	}
