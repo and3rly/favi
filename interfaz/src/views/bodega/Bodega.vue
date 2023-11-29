@@ -146,14 +146,19 @@
 </template>
 
 <script>
+	import FormBodega from '@/views/bodega/FormBodega.vue'
+	
 	export default {
-		name:"Base",
+		name:"Bodega",
 		props: {
 			bodega: {
 				type: Object,
 				required: false,
 				default: null
 			}
+		},
+		components: {
+			FormBodega
 		}
 	}
 </script>

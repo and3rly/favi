@@ -79,7 +79,14 @@
 							>
 								<td class="text-center">{{ idx + 1 }}</td>
 								<td class="text-center">{{ i.codigo }}</td>
-								<td>{{ i.nombre }}</td>
+								<td>
+									<a 
+										href="javascript:;"
+										@click="verBodega(i)"
+									>
+										{{ i.nombre }}
+									</a>
+								</td>
 								<td>{{ i.direccion }}</td>
 								<td>{{ i.telefono }}</td>
 								<td>{{ i.correo }}</td>
@@ -100,7 +107,7 @@
 		</Card>
 	</template>
 
-	<Base 
+	<Bodega 
 		v-if="actual == 2"
 		:bodega="bodega"
 		@regresar="actual = 1"
@@ -109,7 +116,7 @@
 </template>
 
 <script>
-	import Base from '@/views/bodega/Base.vue'
+	import Bodega from '@/views/bodega/Bodega.vue'
 
 	export default {
 		name: 'Cuerpo',
@@ -145,7 +152,7 @@
 			}
 		},
 		components: {
-			Base
+			Bodega
 		}
 	}
 </script>
