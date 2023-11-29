@@ -6,17 +6,23 @@
 		<nav 
 			class="navbar navbar-expand-lg navbar-light"
 		>
+		<a href="" class="navbar-brand"></a>
+
 			<button 
 				class="navbar-toggler" 
 				type="button" 
 				data-bs-toggle="collapse" 
 				data-bs-target="#navbarLight"
+				aria-controls="navbarLight" 
+		    aria-expanded="false" 
+		    aria-label="Toggle navigation"
 			>
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarLight">
-				<form class="row row-cols-lg-auto g-1 align-items-center me-auto">
+
+				<form class="row row-cols-lg-auto g-1 align-items-center me-auto my-2">
 					<div class="col-12">
 						<input 
 							type="search" 

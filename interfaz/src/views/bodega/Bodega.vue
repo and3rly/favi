@@ -1,10 +1,10 @@
 <template>
-	<ul class="breadcrumb">
+	<ul class="breadcrumb mb-0">
 		<li class="breadcrumb-item"><a href="#">Bodega</a></li>
 		<li class="breadcrumb-item active">Configuración</li>
 	</ul>
 	<nav 
-			class="navbar navbar-expand-lg navbar-light border rounded p-2"
+			class="navbar navbar-expand-lg navbar-light"
 		>
 			<button 
 				class="navbar-toggler" 
@@ -16,15 +16,17 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarLight">
-				<button 
-					class="btn btn-secondary me-2"
-					@click="$emit('regresar')"
-				>
-					<i class="fas fa-arrow-left"></i>
-				</button>
-				<a class="navbar-brand fw-bold" href="#">
-					<span> {{ bodega != null ? 'Bodega ' + bodega.nombre : 'Nueva bodega'}} </span>
-				</a>
+				<div class="mt-2">
+					<button 
+						class="btn btn-secondary me-2"
+						@click="$emit('regresar')"
+					>
+						<i class="fas fa-arrow-left"></i>
+					</button>
+					<a class="navbar-brand fw-bold" href="#">
+						<span> {{ bodega != null ? 'Bodega ' + bodega.nombre : 'Nueva bodega'}}</span>
+					</a>
+				</div>
 			</div>
 		</nav>
 
@@ -102,7 +104,9 @@
 						aria-labelledby="nav-bodega-tab" 
 						tabindex="0"
 					>
-						bodega
+						<FormBodega
+							class="mt-3"
+						/>
 					</div>
 					<div 
 						class="tab-pane fade" 
@@ -147,7 +151,7 @@
 
 <script>
 	import FormBodega from '@/views/bodega/FormBodega.vue'
-	
+
 	export default {
 		name:"Bodega",
 		props: {
