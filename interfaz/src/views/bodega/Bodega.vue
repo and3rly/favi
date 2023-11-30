@@ -106,6 +106,8 @@
 					>
 						<FormBodega
 							class="mt-3"
+							:cat="cat"
+							@actualizar="actualizaBodega"
 						/>
 					</div>
 					<div 
@@ -160,6 +162,30 @@
 				required: false,
 				default: null
 			}
+		},
+		data:() => ({
+			cat: []
+		}),
+		created() {
+			this.getDatos()
+		},
+		methods: {
+			getDatos() {
+				this.inicio = true
+
+	      this.$http
+				.get(`${this.$baseUrl}/bodega/bodega/get_datos`)
+				.then(res => {
+					this.inicio = false
+					this.cat = res.data.cat
+				}).catch(e => {
+					this.inicio = false
+					console.log(e)
+				})
+			},
+			actualizaBodega(obj) {
+	      this.$emit("actualizar", obj)
+	    },
 		},
 		components: {
 			FormBodega

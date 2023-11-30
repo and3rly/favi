@@ -13,6 +13,7 @@
 					required
 				>	
 					<option value="">Seleccione empresa...</option>
+					<option v-for="(i, idx) in cat.empresas" :value="i.id">{{ i.nombre }}</option>
 				</select>
 			</div>
 
@@ -160,8 +161,19 @@
 	export default {
 		name: "FormBodega",
 		mixins: [Helper],
+		props: {
+			cat: {
+				type: Array,
+				required: false
+			}
+		},
 		data:() => ({
 
-		})
+		}),
+		created() {
+			this.autoBuscar = false
+			this._emit = true
+			this.controlador = 'bodega/bodega'
+		}
 	}
 </script>

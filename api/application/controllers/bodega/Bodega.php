@@ -14,6 +14,16 @@ class Bodega extends CI_Controller {
 		$this->output->set_status_header('404');
 	}
 
+	public function get_datos() 
+	{
+		$data = [
+			'cat'=> [
+				'empresas' => $this->catalogo->ver_empresa()
+			]
+		];
+		$this->output->set_output(json_encode($data)); 
+	}
+
 	public function buscar()
 	{
 		$data = [

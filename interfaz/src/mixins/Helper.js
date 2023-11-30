@@ -5,7 +5,7 @@ export default {
 		fk: '',
 		controlador: '',
 		cargando: false,
-		autoBuscar: false,
+		autoBuscar: true,
 		btnGuardar: false,
 		formEspecial: false,
 		_emit: false,

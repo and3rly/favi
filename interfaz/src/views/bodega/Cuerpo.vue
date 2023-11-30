@@ -116,6 +116,7 @@
 	<Bodega 
 		v-if="actual == 2"
 		:bodega="bodega"
+		@actualizar="actualizaBodega"
 		@regresar="actual = 1"
 	/>
 
@@ -155,6 +156,16 @@
 			verBodega(obj) {
 				this.bodega = obj
 				this.actual = 2
+			},
+			actualizaBodega(obj) {
+				if (this.bodega === null) {
+					this.lista.push(obj)
+					this.bodega = obj
+				} else {
+					for (let i in this.bodega) {
+						this.bodega[i] = obj[i]
+					}
+				}
 			}
 		},
 		components: {
