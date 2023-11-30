@@ -83,7 +83,7 @@ const router = createRouter({
           { 
             path: '/bodega',
             name: 'Bodega',
-            component: () => import('@/views/bodega/cuerpo.vue'),
+            component: () => import('@/views/bodega/bodega/Bodega.vue'),
             meta: {titulo: 'Bodega'}
           },
           { 
@@ -92,7 +92,19 @@ const router = createRouter({
             component: () => import('@/views/mnt/empresa/Empresa.vue'),
             meta: {titulo: 'Empresa'}
           },
+          { 
+            path: '/rol',
+            name: 'Rol',
+            component: () => import('@/views/mnt/rol/Rol.vue'),
+            meta: {titulo: 'Rol'}
+          },
         ]
+    },
+    { 
+      path: '/menu',
+      name: 'Menu',
+      component: () => import('@/components/app/Sidebar.vue'),
+      meta: {titulo: 'Menu'}
     },
 		{ 
       path: '/:pathMatch(.*)*', 

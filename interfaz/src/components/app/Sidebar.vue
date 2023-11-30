@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// import '@fortawesome/fontawesome-free';
 import { useAppSidebarMenuStore } from '@/stores/app-sidebar-menu';
 import { useAppOptionStore } from '@/stores/app-option';
 import { onMounted } from 'vue';
@@ -11,6 +12,7 @@ const appSidebarMenu = useAppSidebarMenuStore();
 const appOption = useAppOptionStore();
 var appSidebarFloatSubmenuTimeout = '';
 var appSidebarFloatSubmenuDom = '';
+
 
 function appSidebarMobileToggled() {
 	appOption.appSidebarMobileToggled = !appOption.appSidebarMobileToggled;
@@ -237,12 +239,15 @@ onMounted(() => {
 <template>
 	<div id="sidebar" class="app-sidebar">
 		<perfect-scrollbar class="app-sidebar-content">
+			<!-- <a>{{ appSidebarMenu }}</a> -->
 			<div class="menu">
-				<template v-for="menu in appSidebarMenu">
+				<template v-for="menu in appSidebarMenu.menuItems">
 					<div class="menu-header" v-if="menu.is_header">{{ menu.text }}</div>
-					<div class="menu-divider" v-else-if="menu.is_divider"></div>
 					<template v-else>
 						<sidebar-nav v-if="menu.text" v-bind:menu="menu"></sidebar-nav>
+						<!-- <template v-if="menu.childs && menu.childs.length > 0">
+							<sidebar-nav class="menu-header" v-for="childMenu in menu.childs" :key="childMenu.id" v-bind:menu="childMenu"></sidebar-nav>
+						</template> -->
 					</template>
 				</template>
 				<div class="p-3 px-4 mt-auto hide-on-minified">

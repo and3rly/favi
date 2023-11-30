@@ -64,6 +64,22 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
+	public function ver_menu_rol($args=[])
+	{
+		if (elemento($args, 'rol_id')) {
+			$this->db->where('m.rol_id', $args['rol_id']);
+		}
+
+		$tmp = $this->db
+					->select("a.*")
+					->join("menu_rol m", "a.id = m.menu_id")
+					->join("rol b", "b.id = m.rol_id")
+					->where('a.activo', 1)
+					->get('menu a');
+
+		return verConsulta($tmp, $args);
+	}
+
 	public function ver_sucursal($args=[])
 	{
 		$tmp = $this->db
@@ -151,6 +167,13 @@ class Catalogo_model extends General_model {
 		return $this->Empresa_model->buscar();
 	}
 
+	public function ver_menu($args=[]) {
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('menu');
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Catalogo_model.php */
