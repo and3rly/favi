@@ -16,29 +16,35 @@ class Menu_rol extends CI_Controller {
 
 	public function asignar_menu($id='')
 	{
-		$data = ['exito' => 0];
+		$data = ['extio' => 0];
 
 		if ($this->input->method() === 'post') {
 			$datos = json_decode(file_get_contents('php://input'));
 			
 			$existe_menu = $this->catalogo->ver_menu_rol([
-				'rol_id'     => $datos->rol_id, 
-				'activo'     => 0
+				'id'     => $datos->id,
+				'activo'     => 0,
+				'uno'    => true
 			]);
 
 			if ($existe_menu) {
 				$id = $existe_menu->id;
 				$datos->activo = 1;
+				$datos->rol_id = $existe_menu->rol_id;
+				$datos->menu_id = $existe_menu->menu_id;
 			}
 
-			if (verPropiedad($datos, 'rol_id')) {
+			if (verPropiedad($datos, 'id')) {
 				
 				$menu_rol = new Menu_rol_model($id);
 
 				if ($menu_rol->guardar($datos)) {
 					$data['exito'] = 1;
 					$data['mensaje'] = "Menu asignado con éxito";
-					$data['reg'] = $this->catalogo->ver_menu_rol(['id'=> $menu_rol->getPK(), 'uno' => true]);
+					$data['reg'] = $this->catalogo->ver_rol_menu([
+						'rol_id'     => $datos->rol_id,
+						'menu_id'     => $datos->menu_id
+					]);
 				} else {
 					$data['mensaje'] = $menu_rol->getMensaje();
 				}

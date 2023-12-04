@@ -49,8 +49,8 @@
 				</li>
 
 				<li 
-					v-if="cat.menu_rol && cat.menu_rol.length > 0"
-					v-for="(i,idx) in cat.menu_rol" 
+					v-if="cat.rol_menu && cat.rol_menu.length > 0"
+					v-for="(i,idx) in cat.rol_menu" 
 					:key="idx"
 					class="list-group-item d-flex justify-content-between align-items-start">
 					<a
@@ -85,11 +85,11 @@
 		name: 'RolMenu',
 		mixins: [General, Catalogo],
 		props: {
-			user: {
+			rol: {
 				type: Object,
 				required: false
-			}, 
-			rol: {
+			},
+			menu: {
 				type: Array,
 				required: false
 			}
@@ -98,9 +98,9 @@
 			menus: []
 		}),
 		created() {
-			this.menus = this.menu
-			this.args.menu_rol = { rol_id: this.rol.id }
-			this.getCatalogo(['menu_rol'])
+			this.args.rol_menu = { rol_id: this.rol.id }
+			this.args.rol_menu_all = { rol_id: this.rol.id }
+			this.getCatalogo(['rol_menu','rol_menu_all'])
 
 			this.controlador = 'mnt/menu_rol'
 		},
@@ -108,15 +108,15 @@
 			guardar(o) {
 
 				if (confirm("¿Está seguro?")) {
-					let datos =  {rol_id: this.rol.id}
-
+					let datos =  {id: o.menu_rol_id}
+					
 					this.$http
 					.post(`${this.$baseUrl}/${this.controlador}/asignar_menu/${this.pk}`, datos)
 					.then(res => {
 						this.btnGuardar = false
 
-						if (res.data.exito) {	
-							this.cat.menu_rol.push(res.data.reg)					
+						if (res.data.exito) {
+							this.cat.rol_menu.push(res.data.reg[0])	
 						}
 
 					}).catch(e => {
@@ -127,14 +127,14 @@
 			},
 			anular_menu_rol(o, idx) {
 				if (confirm("¿Está seguro?")) {
-					this.pk = o.id
+					this.pk = o.menu_rol_id
 					this.$http
 					.post(`${this.$baseUrl}/${this.controlador}/anular_menu_rol/${this.pk}`)
 					.then(res => {
 						this.btnGuardar = false
 
 						if (res.data.exito) {	
-							this.cat.menu_rol.splice(idx, 1)		
+							this.cat.rol_menu.splice(idx, 1)		
 							this.pk = ''	
 						}
 
@@ -149,22 +149,24 @@
 			agregadas() {
 				let datos = []
 
-				if (this.cat.usuario_rol) {
-					this.cat.usuario_rol.forEach(e => {
-						datos.push(e.rol_id)
+				if (this.cat.rol_menu) {
+					this.cat.rol_menu.forEach(e => {
+						datos.push(e.id)
 					})
 				}
 
 				return datos
 			},
 			disponibles() {
-				if (this.menus) {
+
+				if (this.cat.rol_menu_all) {
 					if (this.agregadas) {
-						return this.menus.filter(e => 
+						return this.cat.rol_menu_all.filter(e => 
 							this.agregadas.indexOf(e.id) < 0
 						)
 					}
 				}
+				
 				return []
 			}
 		}	

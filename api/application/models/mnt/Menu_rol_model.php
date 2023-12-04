@@ -2,6 +2,8 @@
 
 class Menu_rol_model extends General_model {
     
+	public $menu_id;
+	public $rol_id;
 	public $activo = 1;
 
 	public function __construct($id='')

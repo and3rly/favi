@@ -27,7 +27,7 @@ class Rol_usuario extends CI_Controller {
 				'activo'     => 0, 
 				'uno'        => true
 			]);
-
+			
 			if ($existe_rol) {
 				$id = $existe_rol->id;
 				$datos->activo = 1;

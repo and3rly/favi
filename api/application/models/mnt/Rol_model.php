@@ -2,7 +2,8 @@
 
 class Rol_model extends General_model {
 
-	public $variable;
+	public $nombre;
+	public $activo = 1;
 
 	public function __construct($id="")
 	{

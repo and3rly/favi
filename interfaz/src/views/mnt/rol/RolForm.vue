@@ -76,7 +76,7 @@
 				this.setDatosForm(this.rol);
 			}
 
-			this.controlador = 'rol'
+			this.controlador = 'mnt/rol'
 		},
 		methods: {
 			guardar() {

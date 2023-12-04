@@ -117,7 +117,7 @@
 					this.pk = obj.id
 
 					this.$http
-					.post(`${this.$baseUrl}/rol/anular_rol/${this.pk}`)
+					.post(`${this.$baseUrl}/${this.controlador}/anular_rol/${this.pk}`)
 					.then(res => {
 						this.btnGuardar = false
 

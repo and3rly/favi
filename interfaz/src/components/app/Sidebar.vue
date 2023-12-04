@@ -250,11 +250,11 @@ onMounted(() => {
 						</template> -->
 					</template>
 				</template>
-				<div class="p-3 px-4 mt-auto hide-on-minified">
+				<!-- <div class="p-3 px-4 mt-auto hide-on-minified">
 					<a href="https://seantheme.com/vue-studio/documentation/index.html" target="_blank" class="btn d-block btn-secondary fw-600 rounded-pill">
 						<i class="fa fa-code-branch me-1 ms-n1 opacity-5"></i> Documentation
 					</a>
-				</div>
+				</div> -->
 			</div>
 		</perfect-scrollbar>
 		<button class="app-sidebar-mobile-backdrop" v-on:click="appSidebarMobileToggled"></button>

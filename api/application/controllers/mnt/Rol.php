@@ -47,8 +47,7 @@ class Rol extends CI_Controller {
 
 		if ($this->input->method() === 'post') {
 			
-			$datos = json_decode(file_get_contents('php://input'));
-
+			$datos = (object) $_POST;
 
 			if (verPropiedad($datos, 'nombre')) {
 
