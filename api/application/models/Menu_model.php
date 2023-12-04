@@ -27,7 +27,7 @@ class Menu_model extends General_model {
             $items = [
                 "id" => $fila->id,
                 "url" => "/".$fila->nombre,
-                "icon" => "fa fa-home",
+                "icon" => !empty($fila->icono) ? $fila->icono : 'fa fa-home',
                 "text" => $fila->titulo,
                 "level" => $fila->nivel,
                 "father" => $fila->padre
