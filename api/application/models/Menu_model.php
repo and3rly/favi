@@ -26,7 +26,7 @@ class Menu_model extends General_model {
 		foreach ($result as $fila) {
             $items = [
                 "id" => $fila->id,
-                "url" => "/".$fila->nombre,
+                "url" => $fila->ruta,
                 "icon" => !empty($fila->icono) ? $fila->icono : 'fa fa-home',
                 "text" => $fila->titulo,
                 "level" => $fila->nivel,
