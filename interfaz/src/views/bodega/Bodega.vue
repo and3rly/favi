@@ -106,7 +106,9 @@
 					>
 						<FormBodega
 							class="mt-3"
+							v-if="vista == 1"
 							:cat="cat"
+							:bodega="bodega"
 							@actualizar="actualizaBodega"
 						/>
 					</div>
@@ -164,7 +166,8 @@
 			}
 		},
 		data:() => ({
-			cat: []
+			cat: [],
+			vista: 1
 		}),
 		created() {
 			this.getDatos()

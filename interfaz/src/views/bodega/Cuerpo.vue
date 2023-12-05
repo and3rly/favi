@@ -6,7 +6,7 @@
 		<nav 
 			class="navbar navbar-expand-lg navbar-light"
 		>
-		<a href="" class="navbar-brand"></a>
+		<a href="" class="navbar-brand m-0"></a>
 
 			<button 
 				class="navbar-toggler" 

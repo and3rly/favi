@@ -129,14 +129,6 @@
 		</div>
 		<div class="text-end mt-1 mb-1">
 			<button 
-				type="button" 
-				class="btn btn-secondary me-2"
-				@click="$emit('cerrar')"
-			>
-				<i class="fas fa-times me-1"></i>Cerrar
-			</button>
-
-			<button 
 				type="submit" 
 				class="btn btn-primary"
 				:disabled="btnGuardar"
@@ -165,6 +157,10 @@
 			cat: {
 				type: Array,
 				required: false
+			},
+			bodega: {
+				type: Object,
+				required: false
 			}
 		},
 		data:() => ({
@@ -174,6 +170,28 @@
 			this.autoBuscar = false
 			this._emit = true
 			this.controlador = 'bodega/bodega'
+			this.setForm()
+
+			if (this.bodega) {
+				this.pk = this.bodega.id
+				this.setDatosForm(this.bodega)
+			}
+		},
+		methods: {
+			setForm() {
+				this.form = {
+					empresa_id: '',
+					codigo: '',
+					nombre: '',
+					direccion: '',
+					telefono: '',
+					encargado: '',
+					correo: '',
+					largo: 0,
+					ancho: 0,
+					alto: 0
+				}
+			}
 		}
 	}
 </script>

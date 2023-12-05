@@ -83,7 +83,7 @@ const router = createRouter({
           { 
             path: '/bodega',
             name: 'Bodega',
-            component: () => import('@/views/bodega/bodega/Bodega.vue'),
+            component: () => import('@/views/bodega/cuerpo.vue'),
             meta: {titulo: 'Bodega'}
           },
           { 
