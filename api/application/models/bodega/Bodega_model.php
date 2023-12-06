@@ -41,7 +41,7 @@ class Bodega_model extends General_model {
 		return false;
 	}
 
-	public function buscar($args=[])
+	public function _buscar($args=[])
 	{
 		if (elemento($args, 'id')) {
 			$this->db->where("a.id", $args['id']);

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Area_model extends General_model {
+class Tramo_model extends General_model {
 
 	public $codigo;
 	public $descripcion;
@@ -9,11 +9,13 @@ class Area_model extends General_model {
 	public $alto = 0;
 	public $activo = 1;
 	public $bodega_id;
+	public $bodega_area_id;
+	public $bodega_sector_id;
 
 	public function __construct($id="")
 	{
 		parent::__construct();
-		$this->setTabla("bodega_area");
+		$this->setTabla("bodega_tramo");
 		$this->setLlave("id");
 
 		if (!empty($id)) {
@@ -31,10 +33,21 @@ class Area_model extends General_model {
 			$this->db->where("a.bodega_id", $args['bodega_id']);
 		}
 
+		if (elemento($args, 'bodega_area_id')) {
+			$this->db->where("a.bodega_area_id", $args['bodega_area_id']);
+		}
+
 		$tmp = $this->db
-					->select("a.*, b.nombre as nombre_bodega")
-					->join("bodega b","b.id = a.bodega_id")
-					->get("$this->_tabla a");
+		->select("a.*, 
+				b.nombre as nombre_bodega,
+				c.codigo as codigo_area,
+				c.descripcion as nombre_area,
+				d.codigo as codigo_sector,
+				d.descripcion as nombre_sector")
+		->join("bodega b","b.id = a.bodega_id")
+		->join("bodega_area c","c.id = a.bodega_area_id")
+		->join("bodega_sector d","d.id = a.bodega_sector_id")
+		->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);
 	}

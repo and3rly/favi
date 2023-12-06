@@ -5,7 +5,12 @@ class Bodega extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('bodega/Bodega_model');
+		$this->load->model([
+			'bodega/Bodega_model', 
+			'bodega/Area_model', 
+			'bodega/Sector_model',
+			'bodega/Tramo_model'
+		]);
 		$this->output->set_content_type('application/json');
 	}
 
@@ -17,8 +22,11 @@ class Bodega extends CI_Controller {
 	public function get_datos() 
 	{
 		$data = [
-			'cat'=> [
-				'empresas' => $this->catalogo->ver_empresa()
+			'cat' => [
+				'empresas' => $this->catalogo->ver_empresa(),
+				'areas'    => $this->Area_model->_buscar($_GET),
+				'sectores' => $this->Sector_model->_buscar($_GET),
+				'tramos'   => $this->Tramo_model->_buscar($_GET)
 			]
 		];
 		$this->output->set_output(json_encode($data)); 
@@ -27,7 +35,7 @@ class Bodega extends CI_Controller {
 	public function buscar()
 	{
 		$data = [
-			'lista' => $this->Bodega_model->buscar($_GET)
+			'lista' => $this->Bodega_model->_buscar($_GET)
 		];
 
 		$this->output->set_output(json_encode($data)); 
@@ -52,8 +60,8 @@ class Bodega extends CI_Controller {
 						$data['exito'] = 1;
 						$data['mensaje'] = empty($id) ? "Registro guardado con éxito.":"Registro actualizado.";
 
-						$data['linea'] = $bodega->buscar([
-							'id' => $bodega->getPK(), 
+						$data['linea'] = $bodega->_buscar([
+							'id'  => $bodega->getPK(), 
 							'uno' => true
 						]);
 

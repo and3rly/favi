@@ -4,15 +4,19 @@ export default {
 		pk: '',
 		fk: '',
 		controlador: '',
+		_key: 'id',
 		cargando: false,
 		autoBuscar: true,
 		btnGuardar: false,
 		formEspecial: false,
+		_updLista: false,
+		inicio: false,
 		_emit: false,
 		tmpReg: null,
 		modal: null,
 		form: {},
-		filtro: {},
+		fbase: {},
+		fbuscar: {},
 		lista: [],
 		cat: []
 	}),
@@ -20,6 +24,8 @@ export default {
 		if (this.autoBuscar) {
 			this.buscar()
 		}
+
+		this.form = {...this.form, ...this.fbase}
 	},
 	methods: {
 		guardar() {
@@ -39,19 +45,23 @@ export default {
 				this.btnGuardar = false
 
 				let res = result.data
-
+				console.log(res)
 				if (res.exito) {
 					this.$toast.success(res.mensaje)
 
+					if (this.pk == "") {
+						this.limpiar()
+					}
+
 					if (this._emit) {
+						if (this._updLista) {
+							this.actLista(res.linea)
+						}
+
 						this.$emit('actualizar', res.linea)
 					} else {
 						if (res.linea) {
-							if (this.pk === "") {
-								this.lista.push(res.linea)
-							} else {
-								//Actualiza elemento de lista
-							}
+							this.actLista(res.linea);
 						}
 					}
 				} else {
@@ -63,33 +73,46 @@ export default {
 			})
 		},
 		buscar() {
-			this.cargando = true
+			this.inicio = true
+			
 			this.$http
-			.get(`${this.$baseUrl}/${this.controlador}/buscar`, {params: this.filtro})
+			.get(`${this.$baseUrl}/${this.controlador}/buscar`, {params: this.fbuscar})
 			.then(res => {
-				this.cargando = false
+				this.inicio = false
 				if (res.data.lista) {
 					this.lista = res.data.lista
 				}
 			}).catch(e => {
-				this.cargando = false
+				this.inicio = false
 				console.log(e)
 			})
 		},
-		notificar(tipo, mensaje) {
-			switch (tipo) {
-				case 0:
-					this.$toast.error(mensaje)
-					break;
-				case 1:
-					this.$toast.success(mensaje)
-					break;
+		actLista(obj) {
+			if (this.pk === "") {
+				this.lista.push(obj)
+			} else {
+				let tmp = this.lista.filter(e => {										
+					return e[this._key] == this.pk
+				})[0];
+
+				let idx = this.lista.indexOf(tmp)
+
+				for (let i in obj) {
+					this.lista[idx][i] = obj[i]
+				}
 			}
 		},
-		setDatosForm(reg) {
-			for (let i in this.form) {
-				this.form[i] = reg[i]
+		setDatosForm(obj) {
+			this.pk = obj[this._key]
+
+			for (let i in obj) {
+				this.form[i] = obj[i]
 			}
+		},
+		limpiar() {
+			this.pk = ""
+			this.form = {}
+			this.form = {...this.form, ...this.fbase}
 		},
 		setRegLista(o) {
 			if (o.pk === '') {
