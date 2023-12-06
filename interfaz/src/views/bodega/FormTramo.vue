@@ -203,6 +203,7 @@
 			this._emit = true
 			this._updLista = true
 
+			this.fbuscar.bodega_id = this.bodega.id
 			this.fbase.bodega_area_id = null
 			this.fbase.bodega_sector_id = null
 			this.fbase.bodega_id = this.bodega.id

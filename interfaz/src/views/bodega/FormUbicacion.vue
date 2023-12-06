@@ -168,13 +168,13 @@
 								class="form-check-input" 
 								type="checkbox" 
 								role="switch" 
-								id="chkControlVence" 
+								id="chkActivo" 
 								:true-value="1" 
 								:false-value="0"
-								v-model="form.control_vence"
+								v-model="form.activo"
 								checked 
 							>
-							<label class="form-check-label" for="chkControlVence">Activo</label>
+							<label class="form-check-label" for="chkActivo">Activo</label>
 						</div>
 					</div>
 
@@ -184,13 +184,13 @@
 								class="form-check-input" 
 								type="checkbox" 
 								role="switch" 
-								id="flexSwitchCheckChecked" 
+								id="chkDanada" 
 								:true-value="1" 
 								:false-value="0"
-								v-model="form.activo"
+								v-model="form.danada"
 								checked 
 							>
-							<label class="form-check-label" for="flexSwitchCheckChecked">Dañada</label>
+							<label class="form-check-label" for="chkDanada">Dañada</label>
 						</div>
 					</div>
 
@@ -200,13 +200,13 @@
 								class="form-check-input" 
 								type="checkbox" 
 								role="switch" 
-								id="chkControlVence" 
+								id="chkBloqueada" 
 								:true-value="1" 
 								:false-value="0"
-								v-model="form.control_vence"
+								v-model="form.bloqueada"
 								checked 
 							>
-							<label class="form-check-label" for="chkControlVence">Bloqueada</label>
+							<label class="form-check-label" for="chkBloqueada">Bloqueada</label>
 						</div>
 					</div>
 
@@ -216,13 +216,13 @@
 								class="form-check-input" 
 								type="checkbox" 
 								role="switch" 
-								id="chkControlVence" 
+								id="chkVirtual" 
 								:true-value="1" 
 								:false-value="0"
-								v-model="form.control_vence"
+								v-model="form.virtual"
 								checked 
 							>
-							<label class="form-check-label" for="chkControlVence">Virtual</label>
+							<label class="form-check-label" for="chkVirtual">Virtual</label>
 						</div>
 					</div>
 				</div>
@@ -247,10 +247,15 @@
 			this.autoBuscar = false
 			this.controlador = 'bodega/ubicacion'
 
-			this.fbase.rotacion_id = null
-			this.fbase.bodega_area_id = null
-			this.fbase.bodega_sector_id = null
-			this.fbase.bodega_tramo_id = null
+			this.fbase = {
+				rotacion_id: null,
+				bodega_area_id: null,
+				bodega_sector_id: null,
+				bodega_tramo_id: null,
+				danada: 0,
+				bloqueada: 0,
+				virtual: 0
+			}
 		}
 	}
 </script>
