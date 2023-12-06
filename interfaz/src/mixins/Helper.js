@@ -45,7 +45,7 @@ export default {
 				this.btnGuardar = false
 
 				let res = result.data
-				console.log(res)
+				
 				if (res.exito) {
 					this.$toast.success(res.mensaje)
 
