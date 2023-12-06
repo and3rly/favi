@@ -171,10 +171,8 @@
 			vista: 1
 		}),
 		created() {
-			if (this.bodega != null) {
-				this.fbuscar.bodega_id = this.bodega.id
-				this.getDatos()
-			}
+			this.fbuscar.bodega_id = this.bodega != null ? this.bodega.id : -1
+			this.getDatos()
 		},
 		methods: {
 			getDatos() {
