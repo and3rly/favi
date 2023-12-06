@@ -26,7 +26,8 @@ class Bodega extends CI_Controller {
 				'empresas' => $this->catalogo->ver_empresa(),
 				'areas'    => $this->Area_model->_buscar($_GET),
 				'sectores' => $this->Sector_model->_buscar($_GET),
-				'tramos'   => $this->Tramo_model->_buscar($_GET)
+				'tramos'   => $this->Tramo_model->_buscar($_GET),
+				'rotacion' => $this->catalogo->ver_rotacion(),
 			]
 		];
 		$this->output->set_output(json_encode($data)); 

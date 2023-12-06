@@ -214,6 +214,15 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function ver_rotacion($args=[]) 
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('rotacion');
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Catalogo_model.php */

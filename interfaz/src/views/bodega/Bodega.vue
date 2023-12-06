@@ -171,15 +171,14 @@
 			vista: 1
 		}),
 		created() {
-			this.getDatos()
+			if (this.bodega != null) {
+				this.fbuscar.bodega_id = this.bodega.id
+				this.getDatos()
+			}
 		},
 		methods: {
 			getDatos() {
 				this.inicio = true
-
-				if (this.bodega != null) {
-					this.fbuscar.bodega_id = this.bodega.id
-				}
 
 				this.$http
 				.get(`${this.$baseUrl}/bodega/bodega/get_datos`, { params: this.fbuscar })
@@ -191,6 +190,7 @@
 					this.cat.areas = res.areas ? res.areas : []
 					this.cat.sectores = res.sectores ? res.sectores : []
 					this.cat.tramos = res.tramos ? res.tramos : []
+					this.cat.rotacion = res.rotacion ? res.rotacion : []
 
 				}).catch(e => {
 					this.inicio = false
@@ -199,6 +199,7 @@
 			},
 			actualizaBodega(obj) {
 				this.$emit("actualizar", obj)
+				this.fbuscar.bodega_id = obj.id
 				this.getDatos()
 			},
 			actualizaCat(obj) {
