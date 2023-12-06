@@ -48,7 +48,7 @@
 
 			<div class="col-sm-4">
 				<label for="inputSLargo" class="fw-bold mb-1">
-					Largo:
+					Largo (mts):
 				</label>
 				<input
 					id="inputSLargo" 
@@ -60,7 +60,7 @@
 
 			<div class="col-sm-4">
 				<label for="inputSAncho" class="fw-bold mb-1">
-					Ancho:
+					Ancho (mts):
 				</label>
 				<input
 					id="inputSAncho" 
@@ -72,7 +72,7 @@
 
 			<div class="col-sm-4">
 				<label for="inputSAlto" class="fw-bold mb-1">
-					Alto:
+					Alto (mts):
 				</label>
 				<input
 					id="inputSAlto" 
@@ -85,6 +85,7 @@
 
 		<div class="text-end mt-3 mb-1">
 			<button 
+				v-if="pk != ''"
 				type="button" 
 				class="btn btn-secondary me-1"
 				:disabled="btnGuardar"

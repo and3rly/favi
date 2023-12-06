@@ -228,7 +228,99 @@
 				</div>
 			</div>
 		</div>
+		<div class="text-end mt-3 mb-1">
+			<button 
+				v-if="pk != ''"
+				type="button" 
+				class="btn btn-secondary me-1"
+				:disabled="btnGuardar"
+				@click="limpiar"
+			>	
+				Cancelar / Nuevo
+			</button>
+
+			<button 
+				type="submit" 
+				class="btn btn-primary"
+				:disabled="btnGuardar"
+			>	
+					<span 
+						v-if="btnGuardar"
+						class="spinner-border spinner-border-sm me-1" 
+						role="status" 
+						aria-hidden="true"
+					></span>
+					<i v-else class="fas fa-save me-1"></i>
+
+					<span v-if="btnGuardar">Guardando...</span>
+					<span v-else>Guardar</span>
+			</button>
+		</div>
 	</form>
+
+	<div class="table-responsive mt-4 rounded shadow-sm">
+		<table class="table table-sm table-hover">
+			<thead class="bg-light">
+				<th class="text-center">#</th>
+				<th>Código</th>
+				<th>Descripción</th>
+				<th>Área</th>
+				<th>Sector</th>
+				<th>Tramo</th>
+				<th class="text-center">Nivel</th>
+				<th class="text-center">Largo</th>
+				<th class="text-center">Ancho</th>
+				<th class="text-center">Alto</th>
+				<th class="text-center">Dañado</th>
+				<th class="text-center">Bloqueada</th>
+				<th class="text-center">Virtual</th>
+				<th class="text-center">Activo</th>
+			</thead>
+			<tbody>
+				<tr v-if="inicio === true">
+					<td colspan="100" class="text-center">
+			      <div class="spinner-border mt-3" role="status">
+			        <span class="sr-only">Loading...</span>
+			      </div>
+			      <p>Cargando registros...</p>
+					</td>
+				</tr>
+				<tr
+					v-else
+					v-for="(i, idx) in lista" 
+					style="cursor: pointer;" 
+					@click="setDatosForm(i)"
+				>
+					<td class="text-center">{{ idx + 1 }}</td>
+					<td>{{ i.codigo }}</td>
+					<td>{{ i.descripcion }}</td>
+					<td>{{ i.codigo_area }} - {{ i.nombre_area }}</td>
+					<td>{{ i.codigo_sector }} - {{ i.nombre_sector }}</td>
+					<td>{{ i.codigo_tramo }} - {{ i.nombre_tramo }}</td>
+					<td class="text-center">{{ i.nivel }}</td>
+					<td class="text-center">{{ i.largo }}</td>
+					<td class="text-center">{{ i.ancho }}</td>
+					<td class="text-center">{{ i.alto }}</td>
+					<td class="text-center">
+						<i v-if="i.danado == true" class="fas fa-check text-success"></i>
+						<i v-else class="fas fa-times text-danger"></i>
+					</td>
+					<td class="text-center">
+						<i v-if="i.bloqueada == true" class="fas fa-check text-success"></i>
+						<i v-else class="fas fa-times text-danger"></i>
+					</td>
+					<td class="text-center">
+						<i v-if="i.virtual == true" class="fas fa-check text-success"></i>
+						<i v-else class="fas fa-times text-danger"></i>
+					</td>
+					<td class="text-center">
+						<i v-if="i.activa == true" class="fas fa-check text-success"></i>
+						<i v-else class="fas fa-times text-danger"></i>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <script>
@@ -238,23 +330,28 @@
 		name:"FormUbicBodega",
 		mixins: [Helper],
 		props: {
+			bodega: {
+				type: Object,
+				required: false
+			},
 			cat: {
 				type: Array,
 				required: false
 			}
 		},
 		created() {
-			this.autoBuscar = false
 			this.controlador = 'bodega/ubicacion'
 
 			this.fbase = {
 				rotacion_id: null,
+				bodega_id: this.bodega.id,
 				bodega_area_id: null,
 				bodega_sector_id: null,
 				bodega_tramo_id: null,
 				danada: 0,
 				bloqueada: 0,
-				virtual: 0
+				virtual: 0,
+				activa: 1
 			}
 		}
 	}
