@@ -31,130 +31,125 @@
 		</nav>
 
 		<Card class="mt-2">
-			<CardBody>
-				<nav>
-					<div class="nav nav-tabs" id="nav-tab" role="tablist">
-						<button 
-							class="nav-link active" 
-							id="nav-bodega-tab" 
-							data-bs-toggle="tab" 
-							data-bs-target="#nav-bodega" 
-							type="button" 
-							role="tab" 
-							aria-controls="nav-bodega" 
-							aria-selected="true"
-						>
-							Bodega
-						</button>
-						<button 
+			<ul class="nav nav-tabs nav-tabs-v2 ps-4 pe-4">
+				<li class="nav-item me-3">
+					<a 
+						href="#tab-bodega" 
+						class="nav-link active" 
+						data-bs-toggle="tab"
+						@click="vista = 1"
+					>
+						<i class="fas fa-store me-1"></i>Bodega
+					</a>
+				</li>
+				<template v-if="bodega != null">
+					<li class="nav-item me-3">
+						<a 
+							href="#tab-area" 
 							class="nav-link" 
-							id="nav-area-tab" 
-							data-bs-toggle="tab" 
-							data-bs-target="#nav-area" 
-							type="button" 
-							role="tab" 
-							aria-controls="nav-area" 
-							aria-selected="false"
+							data-bs-toggle="tab"
+							@click="vista = 2"
 						>
-							Área
-						</button>
-						<button 
+							<i class="fas fa-chart-area me-1"></i>Área
+						</a>
+					</li>
+					<li class="nav-item me-3">
+						<a 
+							href="#tab-sector" 
 							class="nav-link" 
-							id="nav-sector-tab" 
-							data-bs-toggle="tab" 
-							data-bs-target="#nav-sector" 
-							type="button" 
-							role="tab" 
-							aria-controls="nav-sector" 
-							aria-selected="false"
+							data-bs-toggle="tab"
+							@click="vista = 3"
 						>
-							Sector
-						</button>
-						<button 
+							<i class="fas fa-vector-square me-1"></i>Sector
+						</a>
+					</li>
+					<li class="nav-item me-3">
+						<a 
+							href="#tab-tramo" 
 							class="nav-link" 
-							id="nav-tramo-tab" 
-							data-bs-toggle="tab" 
-							data-bs-target="#nav-tramo" 
-							type="button" 
-							role="tab" 
-							aria-controls="nav-tramo" 
-							aria-selected="false" 
+							data-bs-toggle="tab"
+							@click="vista = 4"
 						>
-							Tramo
-						</button>
-						<button 
+							<i class="fas fa-road me-1"></i>Tramo
+						</a>
+					</li>
+					<li class="nav-item me-3">
+						<a 
+							href="#tab-ubicacion" 
 							class="nav-link" 
-							id="nav-ubicacion-tab" 
-							data-bs-toggle="tab" 
-							data-bs-target="#nav-ubicacion" 
-							type="button" 
-							role="tab" 
-							aria-controls="nav-ubicacion" 
-							aria-selected="false" 
+							data-bs-toggle="tab"
+							@click="vista = 5"
 						>
-							Ubicación
-						</button>
-					</div>
-				</nav>
-				<div class="tab-content" id="nav-tabContent">
-					<div 
-						class="tab-pane fade show active" 
-						id="nav-bodega" 
-						role="tabpanel" 
-						aria-labelledby="nav-bodega-tab" 
-						tabindex="0"
-					>
-						<FormBodega
-							class="mt-3"
-							v-if="vista == 1"
-							:cat="cat"
-							:bodega="bodega"
-							@actualizar="actualizaBodega"
-						/>
-					</div>
-					<div 
-						class="tab-pane fade" 
-						id="nav-area" 
-						role="tabpanel" 
-						aria-labelledby="nav-area-tab" 
-						tabindex="0"
-					>
-						area
-					</div>
-					<div 
-						class="tab-pane fade" 
-						id="nav-sector" 
-						role="tabpanel" 
-						aria-labelledby="nav-sector-tab" 
-						tabindex="0"
-					>
-						sector
-					</div>
-					<div 
-						class="tab-pane fade" 
-						id="nav-tramo" 
-						role="tabpanel" 
-						aria-labelledby="nav-tramo-tab" 
-						tabindex="0"
-					>
-						tramo
-					</div>
-					<div 
-						class="tab-pane fade" 
-						id="nav-ubicacion" 
-						role="tabpanel" 
-						aria-labelledby="nav-ubicacion-tab" 
-						tabindex="0"
-					>
-						ubicacion
-					</div>
+							<i class="fas fa-location-dot me-1"></i>Ubicación
+						</a>
+					</li>
+				</template>
+			</ul>
+			<div class="tab-content p-3">
+				<div 
+					class="tab-pane fade show active" 
+					id="tab-bodega"
+				>
+					<FormBodega
+						v-if="vista == 1"
+						:cat="cat"
+						:bodega="bodega"
+						@actualizar="actualizaBodega"
+					/>
 				</div>
-			</CardBody>
+				<div 
+					class="tab-pane fade"
+					id="tab-area"
+				>
+					<FormArea
+						v-if="vista == 2"
+						:bodega="bodega"
+						@actualizar="actualizaCat"
+					/>
+				</div>
+				<div 
+					class="tab-pane fade"
+					id="tab-sector"
+				>
+					<FormSector
+						v-if="vista == 3"
+						:bodega="bodega"
+						:cat="cat"
+						@actualizar="actualizaCat"
+					/>
+				</div>
+				<div 
+					class="tab-pane fade"
+					id="tab-tramo"
+				>
+					<FormTramo
+						v-if="vista == 4"
+						:bodega="bodega"
+						:cat="cat"
+						@actualizar="actualizaCat"
+					/>
+				</div>
+				<div 
+					class="tab-pane fade"
+					id="tab-ubicacion"
+				>
+					<FormUbicacion
+						v-if="vista == 5"
+						:bodega="bodega"
+						:cat="cat"
+						@actualizar="actualizaCat"
+					/>
+				</div>
+			</div>
 		</Card>
 </template>
 
 <script>
 	import FormBodega from '@/views/bodega/FormBodega.vue'
+	import FormArea from '@/views/bodega/FormArea.vue'
+	import FormSector from '@/views/bodega/FormSector.vue'
+	import FormTramo from '@/views/bodega/FormTramo.vue'
+	import FormUbicacion from '@/views/bodega/FormUbicacion.vue'
 
 	export default {
 		name:"Bodega",
@@ -166,7 +161,13 @@
 			}
 		},
 		data:() => ({
-			cat: [],
+			cat: {
+				empresas: [],
+				areas: [],
+				sectores: [],
+				tramos: []
+			},
+			fbuscar: {},
 			vista: 1
 		}),
 		created() {
@@ -176,22 +177,62 @@
 			getDatos() {
 				this.inicio = true
 
-	      this.$http
-				.get(`${this.$baseUrl}/bodega/bodega/get_datos`)
-				.then(res => {
+				if (this.bodega != null) {
+					this.fbuscar.bodega_id = this.bodega.id
+				}
+
+				this.$http
+				.get(`${this.$baseUrl}/bodega/bodega/get_datos`, { params: this.fbuscar })
+				.then(result => {
 					this.inicio = false
-					this.cat = res.data.cat
+
+					let res = result.data.cat
+					this.cat.empresas = res.empresas
+					this.cat.areas = res.areas ? res.areas : []
+					this.cat.sectores = res.sectores ? res.sectores : []
+					this.cat.tramos = res.tramos ? res.tramos : []
+
 				}).catch(e => {
 					this.inicio = false
 					console.log(e)
 				})
 			},
 			actualizaBodega(obj) {
-	      this.$emit("actualizar", obj)
-	    },
+				this.$emit("actualizar", obj)
+				this.getDatos()
+			},
+			actualizaCat(obj) {
+				if (this.vista == 2) {
+					this.setCatalogo('areas', obj)
+
+				} else if (this.vista == 3) {
+					this.setCatalogo('sectores', obj)
+
+				} else if (this.vista == 4) {
+					this.setCatalogo('tramos', obj)
+				}
+			},
+			setCatalogo(catalogo, obj) {
+				let tmp = this.cat[catalogo].filter(e => {										
+					return e.id == obj.id
+				})[0];
+
+				if (tmp) {
+					let idx = this.cat[catalogo].indexOf(tmp)
+					for (let i in obj) {
+						this.cat[catalogo][idx][i] = obj[i]
+					}					
+				} else {
+					this.cat[catalogo].push(obj)
+				}
+			}
 		},
 		components: {
-			FormBodega
+			FormBodega,
+			FormArea,
+			FormSector,
+			FormTramo,
+			FormUbicacion
 		}
 	}
 </script>

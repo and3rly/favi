@@ -160,7 +160,8 @@
 			},
 			bodega: {
 				type: Object,
-				required: false
+				required: false,
+				default: null
 			}
 		},
 		data:() => ({
@@ -171,8 +172,8 @@
 			this._emit = true
 			this.controlador = 'bodega/bodega'
 			this.setForm()
-
-			if (this.bodega) {
+			
+			if (this.bodega != null) {
 				this.pk = this.bodega.id
 				this.setDatosForm(this.bodega)
 			}
@@ -192,6 +193,11 @@
 					alto: 0
 				}
 			}
+		},
+		watch: {
+			bodega(valor) {
+      	this.setDatosForm(valor)
+   		},
 		}
 	}
 </script>

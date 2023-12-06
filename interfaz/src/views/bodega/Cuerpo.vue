@@ -115,7 +115,7 @@
 
 	<Bodega 
 		v-if="actual == 2"
-		:bodega="bodega"
+		:bodega="reg"
 		@actualizar="actualizaBodega"
 		@regresar="actual = 1"
 	/>
@@ -132,7 +132,7 @@
 			lista: [],
 			bform: {},
 			actual: 1,
-			bodega: null
+			reg: null
 		}),
 		created() {
 			this.buscar()
@@ -154,16 +154,17 @@
 				})
 			},
 			verBodega(obj) {
-				this.bodega = obj
+				this.reg = obj
 				this.actual = 2
 			},
 			actualizaBodega(obj) {
-				if (this.bodega === null) {
+				console.log(obj)
+				if (this.reg === null) {
 					this.lista.push(obj)
-					this.bodega = obj
+					this.reg = obj
 				} else {
-					for (let i in this.bodega) {
-						this.bodega[i] = obj[i]
+					for (let i in this.reg) {
+						this.reg[i] = obj[i]
 					}
 				}
 			}
