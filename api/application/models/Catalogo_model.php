@@ -36,6 +36,36 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
+
+	public function ver_proveedor_bodega($args=[])
+	{	
+		if (elemento($args, 'proveedor_id')) {
+			$this->db->where('pr.id', $args['proveedor_id']);
+		}
+
+		if (isset($args['activo'])) {
+			$this->db->where('a.activo', $args['activo']);
+		} else {
+			$this->db->where('prb.activo', 1);
+		}
+
+		$tmp = $this->db
+					/*->select("a.*, b.nombre as nbodega, b.empresa_id")
+					->join("bodega b","b.id = a.bodega_id")
+					->get('proveedor_bodega a');
+*/
+
+->select("pr.id,pr.nombre,bd.nombre as bodega,bd.id as IdBodega ,bd.empresa_id")
+->join("proveedor_bodega prb","prb.proveedor_id = pr.id")
+->join("bodega bd","bd.id= prb.bodega_id")
+->get('proveedor pr');
+
+		return verConsulta($tmp, $args);
+	}
+
+
+
+
 	public function ver_usuario_rol($args=[])
 	{	
 		if (elemento($args, 'usuario_id')) {
@@ -214,6 +244,52 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+  	public function ver_motivo_anulacion_pedido($args=[])
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('motivo_anulacion_pedido');
+
+		return verConsulta($tmp, $args);
+	}
+	public function ver_motivo_devolucion($args=[])
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('motivo_devolucion');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_pedido_tipo($args=[])
+	{
+		$tmp = $this->db
+					->where('nombre', $args['nombre'])
+					->get('pedido_tipo');
+		return verConsulta($tmp, $args);
+	}
+	public function ver_cliente_tipo() {
+		$this->load->model('mnt/Cliente_tipo_model');
+
+		return $this->Cliente_tipo_model->buscar();
+	}
+		public function ver_bodega($args=[]) {
+		$tmp = $this->db
+		->where('activo', 1)
+		->get('bodega');
+
+return verConsulta($tmp, $args);
+	}
+
+
+	public function ver_cliente($args=[]) {
+		$tmp = $this->db
+		->where('activo', 1)
+		->get('cliente');
+
+return verConsulta($tmp, $args);
+	}
+
 
 	public function ver_rotacion($args=[]) 
 	{
