@@ -98,6 +98,49 @@ const router = createRouter({
             component: () => import('@/views/mnt/rol/Rol.vue'),
             meta: {titulo: 'Rol'}
           },
+          { 
+            path: '/proveedor',
+            name: 'Proveedor',
+            component: () => import('@/views/mnt/proveedor/Proveedor.vue'),
+            meta: {titulo: 'Proveedor'}
+          },
+           
+          { 
+            path: '/ruta',
+            name: 'Ruta',
+            component: () => import('@/views/mnt/ruta/Ruta.vue'),
+            meta: {titulo: 'Ruta'}
+          },
+          { 
+            path: '/anulacion_pedido',
+            name: 'Anulacion de pedido',
+            component: () => import('@/views/mnt/motivo_anulacion_pedido/Motivo_anulacion_pedido.vue'),
+            meta: {titulo: 'anulacion pedido'}
+          },
+          { 
+            path: '/motivo_devolucion',
+            name: 'Motivo de devolucion',
+            component: () => import('@/views/mnt/motivo_devolucion/Motivo_devolucion.vue'),
+            meta: {titulo: 'motivo de devolucion'}
+          },
+          { 
+            path: '/pedido_tipo',
+            name: 'Tipo de Pedido',
+            component: () => import('@/views/mnt/pedido_tipo/Pedido_tipo.vue'),
+            meta: {titulo: 'tipo de Pedido'}
+          },
+          { 
+            path: '/cliente_tipo',
+            name: 'Tipo de Cliente',
+            component: () => import('@/views/mnt/Cliente/cliente_tipo/Cliente_tipo.vue'),
+            meta: {titulo: 'tipo de Cliente'}
+          },
+          { 
+            path: '/cliente',
+            name: 'Cliente',
+            component: () => import('@/views/mnt/Cliente/Cliente.vue'),
+            meta: {titulo: 'Cliente'}
+          },
         ]
     },
     { 
