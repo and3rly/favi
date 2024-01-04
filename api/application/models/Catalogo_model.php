@@ -38,7 +38,7 @@ class Catalogo_model extends General_model {
 
 
 	public function ver_proveedor_bodega($args=[])
-	{	
+	{
 		if (elemento($args, 'proveedor_id')) {
 			$this->db->where('pr.id', $args['proveedor_id']);
 		}
@@ -53,12 +53,11 @@ class Catalogo_model extends General_model {
 					/*->select("a.*, b.nombre as nbodega, b.empresa_id")
 					->join("bodega b","b.id = a.bodega_id")
 					->get('proveedor_bodega a');
-*/
-
-->select("pr.id,pr.nombre,bd.nombre as bodega,bd.id as IdBodega ,bd.empresa_id")
-->join("proveedor_bodega prb","prb.proveedor_id = pr.id")
-->join("bodega bd","bd.id= prb.bodega_id")
-->get('proveedor pr');
+					*/
+					->select("pr.id,pr.nombre,bd.nombre as bodega,bd.id as IdBodega ,bd.empresa_id")
+					->join("proveedor_bodega prb","prb.proveedor_id = pr.id")
+					->join("bodega bd","bd.id= prb.bodega_id")
+					->get('proveedor pr');
 
 		return verConsulta($tmp, $args);
 	}
@@ -273,13 +272,6 @@ class Catalogo_model extends General_model {
 
 		return $this->Cliente_tipo_model->buscar();
 	}
-		public function ver_bodega($args=[]) {
-		$tmp = $this->db
-		->where('activo', 1)
-		->get('bodega');
-
-return verConsulta($tmp, $args);
-	}
 
 
 	public function ver_cliente($args=[]) {
@@ -287,7 +279,7 @@ return verConsulta($tmp, $args);
 		->where('activo', 1)
 		->get('cliente');
 
-return verConsulta($tmp, $args);
+		return verConsulta($tmp, $args);
 	}
 
 
@@ -296,6 +288,77 @@ return verConsulta($tmp, $args);
 		$tmp = $this->db
 					->where('activo', 1)
 					->get('rotacion');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_proveedor_bodega_orden($args=[])
+	{
+		$tmp = $this->db
+					->select('pb.*, p.nombre as nombre_proveedor, b.nombre as nombre_bodega')
+					->join('proveedor p', 'p.id = pb.proveedor_id')
+					->join('bodega b', 'b.id = pb.bodega_id')
+					->where('pb.activo', 1)
+					->get('proveedor_bodega pb');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_producto_bodega_orden($args=[])
+	{
+		$tmp = $this->db
+					->select('pb.*, p.nombre as nombre_producto, b.nombre as nombre_bodega')
+					->join('producto p', 'p.id = pb.producto_id')
+					->join('bodega b', 'b.id = pb.bodega_id')
+					// ->where('pb.activo', 1)
+					->get('producto_bodega pb');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_bodega($args=[]) 
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('bodega');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_orden_compra_tipo($args=[]) 
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('orden_compra_tipo');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_orden_compra_estado($args=[]) 
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('orden_compra_estado');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_orden_compra_det($args=[]) 
+	{
+		
+		if (elemento($args, 'orden_compra_enc_id')) {
+			$this->db->where('ocd.orden_compra_enc_id', $args['orden_compra_enc_id']);
+		}
+
+		$tmp = $this->db
+					->select('ocd.*, p.codigo as codigo_producto_j, p.nombre as nombre_producto_j, pp.codigo as codigo_presentacion_j, pp.nombre nombre_presentacion_j, um.nombre as nombre_unidad_medida_j, md.nombre as nombre_motivo_dev')
+					->join('producto_bodega pb', 'pb.id = ocd.producto_bodega_id')
+					->join('producto p', 'p.id = pb.producto_id')
+					->join('presentacion_producto pp', 'pp.id = ocd.presentacion_producto_id ')
+					->join('unidad_medida um', 'um.id = ocd.unidad_medida_id')
+					->join('motivo_devolucion md', 'md.id = ocd.motivo_devolucion_id')
+					->where('ocd.activo', 1)
+					->get('orden_compra_det ocd');
 
 		return verConsulta($tmp, $args);
 	}
