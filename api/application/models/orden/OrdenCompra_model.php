@@ -4,7 +4,6 @@ class OrdenCompra_model extends General_model {
 
 	public $no_documento;
 	public $procedencia;
-	public $fecha_creacion;
 	public $referencia;
 	public $observacion;
 	public $activo;

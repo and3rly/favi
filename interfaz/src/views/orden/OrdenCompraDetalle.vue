@@ -105,7 +105,7 @@
                         v-if="verForm"
                         :ordenCompra="ordenCompra"
                         :ordenCompraDet="reg"
-                        @actualizar="actualizaLista"
+                        @actualizar="actualizaListaDet"
                         @cerrar="cerrarModal"
                     />
 					
@@ -166,7 +166,7 @@
 				this.reg = o
 				this.abrirModal()
 			},
-			actualizaLista(o, pk) {
+			actualizaListaDet(o, pk) {
 				this.tmpReg = {
 					linea: o,
 					pk: pk,

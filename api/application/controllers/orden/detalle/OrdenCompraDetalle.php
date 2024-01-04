@@ -30,10 +30,6 @@ class OrdenCompraDetalle extends CI_Controller {
 		if ($this->input->method() === "post") {
 			$datos = (object) $_POST;
 
-            // print_r($datos);
-
-			// if (verPropiedad($datos, "no_linea")) {
-
 				$ordenCompraDetalle = new OrdenCompraDetalle_model($id);
 
 				if ($ordenCompraDetalle->existe($datos)) {
@@ -48,9 +44,7 @@ class OrdenCompraDetalle extends CI_Controller {
 						$data['mensaje'] = $ordenCompraDetalle->getMensaje();
 					}
 				}
-			// } else {
-			// 	$data['mensaje'] = "Complete todos los campos marcados con * Test.";
-			// }
+				
 		} else {
 			$data['mensaje'] = "Error en el envio de datos";
 		}

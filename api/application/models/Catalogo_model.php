@@ -307,7 +307,7 @@ class Catalogo_model extends General_model {
 	public function ver_producto_bodega_orden($args=[])
 	{
 		$tmp = $this->db
-					->select('pb.*, p.nombre as nombre_producto, b.nombre as nombre_bodega')
+					->select('pb.*, p.codigo as codigo_producto, p.nombre as nombre_producto, b.nombre as nombre_bodega')
 					->join('producto p', 'p.id = pb.producto_id')
 					->join('bodega b', 'b.id = pb.bodega_id')
 					// ->where('pb.activo', 1)

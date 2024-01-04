@@ -204,7 +204,6 @@
 				this.form = {
 					no_documento: '',
 					procedencia: '',
-					fecha_creacion: '',
 					referencia: '',
 					observacion: '',
 					proveedor_bodega_id: '',

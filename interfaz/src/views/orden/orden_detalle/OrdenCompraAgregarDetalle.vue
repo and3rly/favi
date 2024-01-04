@@ -10,7 +10,7 @@
 					No. Línea: <span class="text-danger">*</span>
 				</label>
 				<input 
-					type="text" 
+					type="number" 
 					class="form-control"
 					placeholder="Número de línea" 
 					v-model="form.no_linea"
@@ -26,10 +26,11 @@
 					id="selectPBD" 
 					class="form-select"
 					v-model="form.producto_bodega_id"
+					@change="onChangeProduct($event)"
 					required
 				>	
 					<option value="">Seleccione Producto...</option>
-					<option v-for="(i, idx) in cat.producto_bodega_orden" :value="i.id">{{ i.nombre_producto }} | {{ i.nombre_bodega }} </option>
+					<option v-for="(i, idx) in cat.producto_bodega_orden" :value="i.id">{{ i.codigo_producto }} - {{ i.nombre_producto }} | {{ i.nombre_bodega }} </option>
 				</select>
 			</div>
 
@@ -42,7 +43,7 @@
 					id="selectPPD" 
 					class="form-select"
 					v-model="form.presentacion_producto_id"
-					onchange="onChangeProduct"
+					@change="onChangePresentation($event)"
 					required
 				>	
 					<option value="">Seleccione Presentación...</option>
@@ -59,6 +60,7 @@
 					id="selectUMD" 
 					class="form-select"
 					v-model="form.unidad_medida_id"
+					@change="onChangeUM($event)"
 					required
 				>	
 					<option value="">Seleccione Unidad de Medida...</option>
@@ -75,6 +77,7 @@
 					class="form-control"
 					placeholder="Código del producto" 
 					v-model="form.codigo_producto"
+					disabled
 				>
 			</div>
 
@@ -88,6 +91,7 @@
 					placeholder="Nombre del Producto" 
 					v-model="form.nombre_producto"
 					required
+					disabled
 				>
 			</div>
 
@@ -101,6 +105,7 @@
 					placeholder="Nombre de la Presentación del Producto" 
 					v-model="form.nombre_presentacion"
 					required
+					disabled
 				>
 			</div>
 
@@ -114,6 +119,7 @@
 					placeholder="Nombre de la Unidad de Medida" 
 					v-model="form.nombre_unidad_medida"
 					required
+					disabled
 				>
 			</div>
 
@@ -310,8 +316,27 @@
 					activo: 1
 				}
 			},
-			onChangeProduct(){
-				console.log("Lega");
+			onChangeProduct(event){
+				const newVal = event.target.value;
+
+				let item = this.cat.producto_bodega_orden.filter(e => e.id === newVal);
+				
+				this.form.codigo_producto = item[0].codigo_producto;
+				this.form.nombre_producto = item[0].nombre_producto;
+			},
+			onChangePresentation(event){
+				const newVal = event.target.value;
+
+				let item = this.cat.presentacion.filter(e => e.id === newVal);
+				
+				this.form.nombre_presentacion = item[0].nombre;
+			},
+			onChangeUM(event){
+				const newVal = event.target.value;
+
+				let item = this.cat.um.filter(e => e.id === newVal);
+				
+				this.form.nombre_unidad_medida = item[0].nombre;
 			}
 		}
 	}
