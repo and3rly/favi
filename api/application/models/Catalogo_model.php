@@ -362,6 +362,59 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function ver_estado_rec($args=[]) 
+	{
+		$tmp = $this->db
+		->where("activo", 1)
+		->get("estado_recepcion");
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_tipo_transaccion($args=[]) 
+	{
+		$tmp = $this->db
+		->where("activo", 1)
+		->get("tipo_transaccion");
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_vehiculos($args=[]) 
+	{
+		$tmp = $this->db
+		->where("activo", 1)
+		->get("vehiculos");
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_pilotos($args=[]) 
+	{
+		$tmp = $this->db
+		->where("activo", 1)
+		->get("pilotos");
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_productos_bodega($args=[]) 
+	{
+		$tmp = $this->db
+		->select("a.*, a.id as producto_bodega, 
+			b.*,
+			c.nombre as nombre_bodega,
+			d.nombre as nombre_um,
+			e.nombre as nombre_estado")
+		->join("producto b","b.id = a.producto_id")
+		->join("bodega c","c.id = a.bodega_id")
+		->join("unidad_medida d","d.id = b.unidad_medida_id")
+		->join("estado_producto e","e.id = b.estado_producto_id")
+		->get("producto_bodega a");
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Catalogo_model.php */

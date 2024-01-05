@@ -187,7 +187,7 @@
 								id="chkDanada" 
 								:true-value="1" 
 								:false-value="0"
-								v-model="form.danada"
+								v-model="form.danado"
 								checked 
 							>
 							<label class="form-check-label" for="chkDanada">Dañada</label>
@@ -341,7 +341,8 @@
 		},
 		created() {
 			this.controlador = 'bodega/ubicacion'
-
+			this.fbuscar.bodega_id = this.bodega.id
+			
 			this.fbase = {
 				rotacion_id: null,
 				bodega_id: this.bodega.id,

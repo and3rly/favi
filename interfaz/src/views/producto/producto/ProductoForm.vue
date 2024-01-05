@@ -95,7 +95,7 @@
 				</select>
 			</div>
 
-			<div class="col-sm-6">
+			<!--div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
 					Presentación:
 				</label>
@@ -109,7 +109,7 @@
 					<option value="">Seleccione presentación...</option>
 					<option v-for="(i, idx) in cat.presentacion" :value="i.id">{{ i.nombre }} - {{ i.factor }}</option>
 				</select>
-			</div>
+			</div-->
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">

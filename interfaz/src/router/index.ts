@@ -146,8 +146,13 @@ const router = createRouter({
             name: 'Orden Compra',
             component: () => import('@/views/orden/OrdenCompra.vue'),
             meta: {titulo: 'Orden Compra'}
+          },
+          {
+            path: '/recepcion',
+            name: 'Recpción',
+            component: () => import('@/views/recepcion/Cuerpo.vue'),
+            meta: {titulo: 'Recpción'}
           }
-          
         ]
     },
     { 

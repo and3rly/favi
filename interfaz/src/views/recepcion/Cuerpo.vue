@@ -1,7 +1,7 @@
 <template>
 	<template v-if="actual == 1">
 		<h1 class="page-header fw-bold mb-1">
-			Bodega
+			Recepción
 		</h1>
 		<nav 
 			class="navbar navbar-expand-lg navbar-light"
@@ -41,8 +41,8 @@
 					</div>
 				</form>	
 				<button 
+					@click="verRecepcion(null)"
 					class="btn btn-theme"
-					@click="verBodega(null)"
 				>
 					<i class="fas fa-circle-plus me-2"></i>Nuevo
 				</button>	
@@ -63,16 +63,17 @@
 						<thead>
 							<tr>
 								<th class="text-center">#</th>
-								<th class="text-center">Código</th>
-								<th>Nombre</th>
-								<th>Dirección</th>
-								<th>Teléfono</th>
-								<th>Correo</th>
-								<th>Encargado</th>
-								<th>Empresa</th>
-								<th class="text-center">Largo</th>
-								<th class="text-center">Ancho</th>
-								<th class="text-center">Alto</th>
+								<th class="text-center">Observación</th>
+								<th>Marchamo</th>
+								<th>Guía</th>
+								<th>Fecha recepción</th>
+								<th>Hora inicio</th>
+								<th>Hora fin</th>
+								<th>Bodega</th>
+								<th>Transacción</th>
+								<th class="text-center">Estado</th>
+								<th class="text-center">Ingresa a stock</th>
+								<th class="text-center">Anulada</th>
 								<th class="text-center">Activo</th>
 							</tr>
 						</thead>
@@ -80,31 +81,9 @@
 							<tr 
 								v-for="(i, idx) in lista" 
 								:key="idx"
-								@click="verBodega(i)"
 								style="cursor: pointer;"
 							>
-								<td class="text-center">{{ idx + 1 }}</td>
-								<td class="text-center">{{ i.codigo }}</td>
-								<td>
-									<a 
-										href="javascript:;"
-										@click="verBodega(i)"
-									>
-										{{ i.nombre }}
-									</a>
-								</td>
-								<td>{{ i.direccion }}</td>
-								<td>{{ i.telefono }}</td>
-								<td>{{ i.correo }}</td>
-								<td>{{ i.encargado }}</td>
-								<td>{{ i.nombre_empresa }}</td>
-								<td class="text-center">{{ i.largo }}</td>
-								<td class="text-center">{{ i.ancho }}</td>
-								<td class="text-center">{{ i.alto }}</td>
-								<td class="text-center">
-									<i v-if="i.activo == 1" class="fas fa-check text-success"></i>
-									<i v-else  class="fas fa-times text-danger"></i>
-								</td>
+								
 							</tr>
 						</tbody>
 					</table>
@@ -113,26 +92,21 @@
 		</Card>
 	</template>
 
-	<Bodega 
-		v-if="actual == 2"
-		:bodega="reg"
-		@actualizar="actualizaBodega"
-		@regresar="actual = 1"
+	<Form 
+		v-if = "actual == 2"
+		@regresar = "actual = 1"
 	/>
-
 </template>
 
 <script>
-	import Bodega from '@/views/bodega/Bodega.vue'
+	import Form from '@/views/recepcion/Form.vue'
 
 	export default {
-		name: 'Cuerpo',
-		data:() => ({
-			inicio: false,
+		data:() =>({
 			lista: [],
-			bform: {},
+			reg: {},
 			actual: 1,
-			reg: null
+			inicio: false
 		}),
 		created() {
 			this.buscar()
@@ -142,7 +116,7 @@
 				this.inicio = true
 
 				this.$http
-				.get(`${this.$baseUrl}/bodega/bodega/buscar`, {params: this.bform})
+				.get(`${this.$baseUrl}/recepcion/principal/buscar`, {params: this.bform})
 				.then(res => {
 					this.inicio = false
 					if (res.data.lista) {
@@ -153,23 +127,13 @@
 					console.log(e)
 				})
 			},
-			verBodega(obj) {
+			verRecepcion(obj) {
 				this.reg = obj
 				this.actual = 2
-			},
-			actualizaBodega(obj) {
-				if (this.reg === null) {
-					this.lista.push(obj)
-					this.reg = obj
-				} else {
-					for (let i in this.reg) {
-						this.reg[i] = obj[i]
-					}
-				}
 			}
 		},
 		components: {
-			Bodega
+			Form
 		}
 	}
 </script>

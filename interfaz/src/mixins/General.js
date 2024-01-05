@@ -38,9 +38,7 @@ export default {
 				console.log(res.data);
 				if (res.data.exito) {
 					this.archivo = null
-					console.log("llega1");
 					if (res.data.linea) {
-						console.log("llega2");
 						console.log(this.pk);
 						this.$emit('actualizar', res.data.linea, this.pk)
 						this.$emit('cerrar')

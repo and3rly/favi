@@ -23,7 +23,6 @@ class Producto_model extends General_model {
 	public $clasificacion_producto_id;
 	public $estado_producto_id;
 	public $tipo_producto_id;
-	public $presentacion_producto_id;
 	public $familia_producto_id;
 	public $usuario_agr;
 
@@ -49,16 +48,12 @@ class Producto_model extends General_model {
 						d.nombre as nclasificacion,
 						e.nombre as nestado,
 						f.nombre as ntipo,
-						g.codigo as pcodigo,
-						g.nombre as npresentacion,
-						g.factor,
 						h.nombre as nfamilia")
 					->join("unidad_medida b","b.id = a.unidad_medida_id")
 					->join("marca_producto c","c.id = a.marca_producto_id")
 					->join("clasificacion_producto d","d.id = a.clasificacion_producto_id")
 					->join("estado_producto e","e.id = a.estado_producto_id")
 					->join("tipo_producto f","f.id = a.tipo_producto_id")
-					->join("presentacion_producto g","g.id = a.presentacion_producto_id")
 					->join("familia_producto h","h.id = a.familia_producto_id")
 					->get("$this->_tabla a");
 					
