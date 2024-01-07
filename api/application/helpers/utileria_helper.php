@@ -245,4 +245,15 @@ if (!function_exists('verLetra')) {
 	}
 }
 
+if (!function_exists('Hoy')) {
+	function Hoy($hora = false)
+	{
+		if ($hora === true) {
+			return date('Y-m-d H:i:s');
+		}
+
+		return date('Y-m-d');
+	}
+}
+
 ?>

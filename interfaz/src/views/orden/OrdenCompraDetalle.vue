@@ -120,6 +120,7 @@
 	import General from '@/mixins/General.js'
 	import Catalogo from '@/mixins/Catalogo.js'
 	import OrdenCompraAgregarDetalle from '@/views/orden/orden_detalle/OrdenCompraAgregarDetalle.vue'
+	import { Tab } from 'bootstrap'
 
 	export default {
 		name: 'OrdenCompraDetalle',
@@ -154,6 +155,10 @@
 			abrirModal() {
 				this.verForm = true
 				this.modal.show()
+
+				let item = document.querySelector('#myTab li:first-child button')
+				let tab = new Tab(item);
+				tab.show();
 			},
 			cerrarModal() {
 				this.verForm = false

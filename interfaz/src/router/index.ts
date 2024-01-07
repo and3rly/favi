@@ -149,15 +149,21 @@ const router = createRouter({
           },
           {
             path: '/recepcion',
-            name: 'Recpción',
+            name: 'Recepción',
             component: () => import('@/views/recepcion/Cuerpo.vue'),
             meta: {titulo: 'Recpción'}
+          },
+          {
+            path: '/menu',
+            name: 'Menu',
+            component: () => import('@/views/mnt/menu/Menu.vue'),
+            meta: {titulo: 'Menu'}
           }
         ]
     },
     { 
-      path: '/menu',
-      name: 'Menu',
+      path: '/menubar',
+      name: 'Menubar',
       component: () => import('@/components/app/Sidebar.vue'),
       meta: {titulo: 'Menu'}
     },

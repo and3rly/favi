@@ -98,9 +98,9 @@
 			menus: []
 		}),
 		created() {
+			this.menus = this.menu;
 			this.args.rol_menu = { rol_id: this.rol.id }
-			this.args.rol_menu_all = { rol_id: this.rol.id }
-			this.getCatalogo(['rol_menu','rol_menu_all'])
+			this.getCatalogo(['rol_menu'])
 
 			this.controlador = 'mnt/menu_rol'
 		},
@@ -108,7 +108,7 @@
 			guardar(o) {
 
 				if (confirm("¿Está seguro?")) {
-					let datos =  {id: o.menu_rol_id}
+					let datos =  {menu_id: o.id, rol_id: this.rol.id}
 					
 					this.$http
 					.post(`${this.$baseUrl}/${this.controlador}/asignar_menu/${this.pk}`, datos)
@@ -159,9 +159,9 @@
 			},
 			disponibles() {
 
-				if (this.cat.rol_menu_all) {
+				if (this.menus) {
 					if (this.agregadas) {
-						return this.cat.rol_menu_all.filter(e => 
+						return this.menus.filter(e => 
 							this.agregadas.indexOf(e.id) < 0
 						)
 					}

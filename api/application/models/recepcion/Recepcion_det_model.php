@@ -32,8 +32,23 @@ class Recepcion_det_model extends General_model {
 
 		if (!empty($id)) {
 			$this->cargar($id);
+		}	
+	}
+
+	public function _buscar($args='')
+	{	
+		if (elemento($args, 'recepcion_enc_id')) {
+			$this->db->where("a.recepcion_enc_id", $args['recepcion_enc_id']);
 		}
-		
+
+		$tmp = $this->db
+		->select("a.*, c.id as id_producto, c.control_vence")
+		->join("producto_bodega b","b.id = a.producto_bodega_id")
+		->join("producto c","c.id = b.producto_id")
+		->order_by("a.no_linea")
+		->get("$this->_tabla a");
+
+		return verConsulta($tmp, $args);
 	}
 
 }

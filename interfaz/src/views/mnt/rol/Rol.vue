@@ -160,6 +160,7 @@
 			cerrarModal() {
 				this.verForm = false
 				this.usuario = null
+				this.reg = null
 				this.modal.hide()
 			},
 			actualizar(o, pk) {
