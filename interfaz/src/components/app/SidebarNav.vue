@@ -50,7 +50,7 @@ function handleMenuClick() {
 			</div>
 		<!-- </router-link> -->
 		<div class="menu-submenu" v-show="isExpanded">
-			<router-link v-bind:to="menu.url" custom v-slot="{ navigate, href, isActive }">
+			<router-link v-if="menu.url" v-bind:to="menu.url" custom v-slot="{ navigate, href, isActive }">
 				<div class="menu-item" v-bind:class="{ 'active': isActive }">
 					<a v-bind:href="href" @click="navigate" class="menu-link">
 						<span class="menu-icon" v-if="menu.icon">

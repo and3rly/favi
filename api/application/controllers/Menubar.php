@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Menu extends CI_Controller {
+class Menubar extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['Menu_model']);
+		$this->load->model(['Menubar_model']);
 		$this->output->set_content_type('application/json');
 	}
 
@@ -17,7 +17,7 @@ class Menu extends CI_Controller {
 	public function buscar()
 	{
 		$this->output->set_output(json_encode([
-			'lista' => $this->Menu_model->buscar()
+			'lista' => $this->Menubar_model->buscar()
 		]));
 	}
 }

@@ -99,6 +99,14 @@ class Catalogo_model extends General_model {
 			$this->db->where('mr.id', $args['id']);
 		}
 
+		if (elemento($args, 'menu_id')) {
+			$this->db->where('mr.menu_id', $args['menu_id']);
+		}
+
+		if (elemento($args, 'rol_id')) {
+			$this->db->where('mr.rol_id', $args['rol_id']);
+		}
+
 		if (elemento($args, 'activo')) {
 			$this->db->where('mr.activo', $args['activo']);
 		}
@@ -125,25 +133,6 @@ class Catalogo_model extends General_model {
 					->join("menu_rol m", "a.id = m.menu_id")
 					->join("rol b", "b.id = m.rol_id")
 					->where('m.activo', 1)
-					->get('menu a');
-
-		return verConsulta($tmp, $args);
-	}
-
-	public function ver_rol_menu_all($args=[])
-	{
-		if (elemento($args, 'rol_id')) {
-			$this->db->where('m.rol_id', $args['rol_id']);
-		}
-		
-		if (elemento($args, 'menu_id')) {
-			$this->db->where('a.id', $args['menu_id']);
-		}
-
-		$tmp = $this->db
-					->select("a.*, m.id as menu_rol_id")
-					->join("menu_rol m", "a.id = m.menu_id")
-					->join("rol b", "b.id = m.rol_id")
 					->get('menu a');
 
 		return verConsulta($tmp, $args);

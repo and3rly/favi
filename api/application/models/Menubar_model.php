@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Menu_model extends General_model {
+class Menubar_model extends General_model {
 
 	public function buscar($args = [])
 	{
@@ -40,5 +40,5 @@ class Menu_model extends General_model {
 	}
 }
 
-/* End of file Menu_model.php */
-/* Location: ./application/models/Menu_model.php */
+/* End of file Menubar_model.php */
+/* Location: ./application/models/Menubar_model.php */
