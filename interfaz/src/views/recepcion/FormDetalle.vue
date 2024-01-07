@@ -1,4 +1,8 @@
 <template>
+	<ul class="breadcrumb mb-0">
+		<li class="breadcrumb-item"><a href="#">Recepción</a></li>
+		<li class="breadcrumb-item active">Detalle</li>
+	</ul>
 	<nav class="navbar navbar-expand-lg bg-light">
 		<button 
 				class="btn btn-secondary me-2"
@@ -8,7 +12,7 @@
 		</button>
 
 		<a class="navbar-brand fw-bold m-0" href="#">
-			<span> {{ recepcion != null ? 'Recepción - ' + recepcion.observacion : 'Nueva recepción'}}</span>
+			<i class="fas fa-list-check me-2"></i> Detalle - Recepción #{{recepcion.id}}
 		</a>
 
 		<button 
@@ -31,21 +35,39 @@
 			</div>
 
 			<div class="mt-1">
-				<button class="btn btn-success me-1">
+				<button 
+					class="btn btn-success me-1"
+					:disabled="btnGuardar"
+				>
 					<i class="fas fa-print me-1"></i>Imprimir
 				</button>
-				<button
-				class="btn btn-primary"
-				@click="guardar"
-			>	
-				<i class="fas fa-save me-1"></i>	Guardar
-			</button>
+				<button 
+					type="button" 
+					class="btn btn-primary"
+					@click="guardar"
+					:disabled="btnGuardar"
+				>	
+						<span 
+							v-if="btnGuardar"
+							class="spinner-border spinner-border-sm me-1" 
+							role="status" 
+							aria-hidden="true"
+						></span>
+						<i v-else class="fas fa-save me-1"></i>
+
+						<span v-if="btnGuardar">Guardando...</span>
+						<span v-else>Guardar</span>
+				</button>
 			</div>
 		</div>
 	</nav>
 
 	<ul class="list-group mt-2">
 		<li class="list-group-item p-2">
+			<div class="alert alert-info">
+				<b>Bodega: </b> {{recepcion.nombre_bodega}} 
+			</div>
+
 			<form @submit.prevent="agregarProducto">
 				<div class="d-flex">
 					<div class="flex me-1">
@@ -76,8 +98,14 @@
 			</form>
 		</li>
 		<li class="list-group-item p-0">
-			<div class="table-responsive mt-3">
-				<table class="table table-sm table-hover table-striped">
+			<div v-if="inicio === true" class="text-center mt-3">
+	      <div class="spinner-border" role="status">
+	        <span class="sr-only">Loading...</span>
+	      </div>
+	      <p>Cargando detalle...</p>
+	    </div>
+			<div class="table-responsive mt-3" v-else>
+				<table class="table table-sm table-striped">
 					<thead>
 						<tr>
 							<th class="text-center" width="50">#</th>
@@ -91,13 +119,13 @@
 							<th class="text-center">UM</th>
 							<th>Estado</th>
 							<th>Presentación</th>
-							<th></th>
+							<th width="50"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr 
 							v-for="(i, idx) in form.detalle"
-							style="cursor: pointer;" 
+							style="cursor: pointer;"
 						>
 							<th class="text-center">{{ idx + 1 }}</th>
 							<td class="text-center">{{ i.codigo_producto }}</td>
@@ -109,8 +137,9 @@
 									v-model="i.cantidad_recibida"
 								/>
 							</td>
-							<td class="text-center">
+							<td :style="{backgroundColor: i.control_vence == 1 ? 'red'}">
 								<input type="date" class="form-control text-center" v-model="i.fecha_vence">
+								<small class="text-danger" v-if="i.control_vence == 1">Ingrese fecha vence</small>
 							</td>
 							<td class="text-center">
 								<input type="text" class="form-control text-center" v-model="i.lote">
@@ -179,6 +208,13 @@
 							</td>
 						</tr>
 					</tbody>
+					<tfoot v-if="!inicio && this.form.detalle.length == 0">
+						<tr>
+							<td class="text-center p-4 fw-bold" colspan="100">
+								<i class="fas fa-info-circle me-1"></i>	Sin detalle
+							</td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</li>
@@ -200,6 +236,8 @@
 			}
 		},
 		data: () => ({
+			btnGuardar: false,
+			inicio: false,
 			codigo: null, 
 			cantidad: 1,
 			form: {
@@ -264,39 +302,49 @@
 					})[0]
 					
 					if (tmp) {
-						this.producto = {
-							id_producto: tmp.id_producto,
-							codigo_producto: tmp.codigo,
-							nombre_producto: tmp.nombre,
-							nombre_presentacion: null,
-							nombre_unidad_medida: null,
-							nombre_producto_estado: null,
-							cantidad_recibida: this.cantidad,
-							presentacion_producto_id: '',
-							unidad_medida_id: tmp.unidad_medida_id,
-							estado_producto_id: tmp.estado_producto_id,
-							lote: '',
-							fecha_vence: null,
-							peso: 0,
-							peso_minimo: 0,
-							peso_maximo: 0,
-							costo: 0,
-							costo_oc: 0,
-							producto_bodega_id: tmp.producto_bodega,
-							control_vence: tmp.control_vence,
-							recepcion_enc_id: this.recepcion.id
-						}
-						
-						this.form.detalle.push(this.producto)
-						this.codigo = null
-						this.cantidad = 1
-
+						this.setProducto(tmp)
 					} else {
 						this.$toast.error("No se encontró el producto.")
 					}
 				} else {
 					this.$toast.info("Ingrese código ó barra del producto")
 				}
+			},
+			setProducto(obj) {
+				let auxProd = this.form.detalle.filter(e => {
+					return e.id_producto == obj.id_producto
+				})[0]
+
+				if (auxProd) {
+					auxProd.cantidad_recibida = parseFloat(auxProd.cantidad_recibida) + parseFloat(this.cantidad)
+				} else {
+					this.producto = {
+						id_producto: obj.id_producto,
+						codigo_producto: obj.codigo,
+						nombre_producto: obj.nombre,
+						nombre_presentacion: null,
+						nombre_unidad_medida: null,
+						nombre_producto_estado: null,
+						cantidad_recibida: this.cantidad,
+						presentacion_producto_id: '',
+						unidad_medida_id: obj.unidad_medida_id,
+						estado_producto_id: obj.estado_producto_id,
+						lote: '',
+						fecha_vence: null,
+						peso: 0,
+						peso_minimo: 0,
+						peso_maximo: 0,
+						costo: 0,
+						costo_oc: 0,
+						producto_bodega_id: obj.producto_bodega,
+						control_vence: obj.control_vence,
+						recepcion_enc_id: this.recepcion.id
+					}
+
+					this.form.detalle.push(this.producto)
+				}	
+				this.codigo = null
+				this.cantidad = 1
 			},
 			verPresentaciones(obj) {
 				console.log(obj)

@@ -42,7 +42,7 @@ class Recepcion_det_model extends General_model {
 		}
 
 		$tmp = $this->db
-		->select("a.*, c.id as id_producto")
+		->select("a.*, c.id as id_producto, c.control_vence")
 		->join("producto_bodega b","b.id = a.producto_bodega_id")
 		->join("producto c","c.id = b.producto_id")
 		->order_by("a.no_linea")

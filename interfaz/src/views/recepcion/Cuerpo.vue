@@ -35,7 +35,7 @@
 						</select>
 					</div>
 					<button
-						class="btn btn-theme"
+						class="btn btn-primary"
 					>
 						<i class="fas fa-search"></i>
 					</button>
