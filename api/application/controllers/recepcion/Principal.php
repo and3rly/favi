@@ -95,40 +95,6 @@ class Principal extends CI_Controller {
 
 		$this->output->set_output(json_encode($data));
 	}
-
-	public function guardar_detalle()
-	{
-		$data = ["exito" => 0];
-
-		if ($this->input->method() === "post") {
-			$datos = json_decode(file_get_contents('php://input'));
-			$guardados = 0;
-
-			if (verPropiedad($datos, 'detalle')) {
-				foreach ($datos->detalle as $value) {
-					$det = new Recepcion_det_model();
-
-					if ($det->guardar($value)) {
-						$guardado++;
-					}
-				}
-
-				if ($guardados > 0) {
-					$data['exito'] = 1;
-					$data['mensaje'] = "Detalle guardado con éxito.";
-				} else {
-					$data['mensaje'] = "No se logró guardar el detalle de la recepción.";
-				}
-
-			} else {
-				$data['mensaje'] = "Debe agregar detalle a la recepción.";
-			}
-		} else {
-			$data['menasje'] = "Error en el envio de datos";
-		}
-
-		$this->output->set_output(json_encode($data));
-	}
 }
 
 /* End of file Principal.php */

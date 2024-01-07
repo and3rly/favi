@@ -160,7 +160,7 @@
 								>
 									<option value="">Seleccione presentación...</option>
 									<option 
-										v-for="(l, idx) in verPresentaciones(i)" 
+										v-for="(l, idx) in cat.presentacion.filter(e => {return e.producto_id == i.id_producto})" 
 										:value="l.id"
 									>
 										{{ l.codigo }} - {{ l.factor}}
@@ -205,11 +205,29 @@
 			form: {
 				detalle: []
 			},
-			controlador: 'recepcion/principal'
+			bform: {},
+			controlador: 'recepcion/detalle'
 		}),
 		created() {
+			this.bform.recepcion_enc_id = this.recepcion.id
+			this.buscar()
 		},
 		methods: {
+			buscar() {
+				this.inicio = true
+
+				this.$http
+				.get(`${this.$baseUrl}/${this.controlador}/buscar`, {params: this.bform})
+				.then(res => {
+					this.inicio = false
+					if (res.data.lista) {
+						this.form.detalle = res.data.lista
+					}
+				}).catch(e => {
+					this.inicio = false
+					console.log(e)
+				})
+			},
 			guardar() {
 				if (confirm("¿Está seguro de guardar el detalle?")) {
 
@@ -222,14 +240,12 @@
 					this.btnGuardar = true
 					console.log(this.fom)
 					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/guardar_detalle`, this.form)
+					.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.recepcion.id}`, this.form)
 					.then(res => {
 						this.btnGuardar = false
 						if (res.data.exito) {
+							this.form.detalle = res.data.lista
 
-							if (res.data.linea) {
-
-							}
 							this.$toast.success(res.data.mensaje)
 						} else {
 							this.$toast.error(res.data.mensaje)
@@ -283,6 +299,7 @@
 				}
 			},
 			verPresentaciones(obj) {
+				console.log(obj)
 				let tmp = this.cat.presentacion.filter(e => {
 					return e.producto_id == obj.id_producto
 				})
@@ -310,9 +327,6 @@
 			}
 		},
 		watch: {
-			'form.detalle'() {
-				console.log("hola")
-			}
 		}
 	}
 </script>
