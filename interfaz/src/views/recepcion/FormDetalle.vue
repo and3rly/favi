@@ -137,7 +137,7 @@
 									v-model="i.cantidad_recibida"
 								/>
 							</td>
-							<td :style="{backgroundColor: i.control_vence == 1 ? 'red'}">
+							<td>
 								<input type="date" class="form-control text-center" v-model="i.fecha_vence">
 								<small class="text-danger" v-if="i.control_vence == 1">Ingrese fecha vence</small>
 							</td>
