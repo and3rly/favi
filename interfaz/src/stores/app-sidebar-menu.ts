@@ -19,7 +19,7 @@ export const useAppSidebarMenuStore = defineStore({
   actions: {
     async fetchMenu() {
       try {
-        const res = await axios.get(`http://localhost:8080/api/index.php/menu/buscar`);
+        const res = await axios.get(`http://localhost:8080/api/index.php/menubar/buscar`);
         if (res.data.lista) {
           const jsonArray = JSON.parse(res.data.lista);
 
@@ -35,6 +35,8 @@ export const useAppSidebarMenuStore = defineStore({
               'childs': []
             }
           ));
+          
+          transformedObject.sort((a, b) => a.father - b.father);
           
           transformedObject.forEach((item, index) => {
             if (item.father > 0) {

@@ -127,6 +127,7 @@
 	import OrdenCompraLista from '@/views/orden/OrdenCompraLista.vue'
 	import OrdenCompraForm from '@/views/orden/OrdenCompraForm.vue'
 	import OrdenCompraDetalle from '@/views/orden/OrdenCompraDetalle.vue'
+	import { Tab } from 'bootstrap'
 
 	export default {
 		name: "OrdenCompra",
@@ -149,6 +150,10 @@
 			abrirModal() {
 				this.verForm = true
 				this.modal.show()
+
+				let item = document.querySelector('#myTab li:first-child button')
+				let tab = new Tab(item);
+				tab.show();
 			},
 			cerrarModal() {
 				this.verForm = false
