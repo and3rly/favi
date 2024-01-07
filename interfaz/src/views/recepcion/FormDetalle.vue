@@ -1,0 +1,318 @@
+<template>
+	<nav class="navbar navbar-expand-lg bg-light">
+		<button 
+				class="btn btn-secondary me-2"
+				@click="$emit('regresar')"
+		>
+			<i class="fas fa-arrow-left"></i>
+		</button>
+
+		<a class="navbar-brand fw-bold m-0" href="#">
+			<span> {{ recepcion != null ? 'Recepción - ' + recepcion.observacion : 'Nueva recepción'}}</span>
+		</a>
+
+		<button 
+			class="navbar-toggler" 
+			type="button" 
+			data-bs-toggle="collapse" 
+			data-bs-target="#navbarTogglerDemo03" 
+			aria-controls="navbarTogglerDemo03" 
+			aria-expanded="false" 
+			aria-label="Toggle navigation"
+		>
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div 
+			class="collapse navbar-collapse" 
+			id="navbarTogglerDemo03"
+		>
+			<div class="navbar-nav me-auto">
+			</div>
+
+			<div class="mt-1">
+				<button class="btn btn-success me-1">
+					<i class="fas fa-print me-1"></i>Imprimir
+				</button>
+				<button
+				class="btn btn-primary"
+				@click="guardar"
+			>	
+				<i class="fas fa-save me-1"></i>	Guardar
+			</button>
+			</div>
+		</div>
+	</nav>
+
+	<ul class="list-group mt-2">
+		<li class="list-group-item p-2">
+			<form @submit.prevent="agregarProducto">
+				<div class="d-flex">
+					<div class="flex me-1">
+						<input 
+							type="text" 
+							class="form-control text-center"
+							placeholder="Cantidad" 
+							v-model="cantidad"
+						>
+					</div>
+					<div class="flex-grow-1 me-1">
+						<input 
+							type="text" 
+							class="form-control"
+							placeholder="Buscar producto por código o barra" 
+							v-model="codigo"
+						>
+					</div>
+					<div class="flex-shrink-1">
+						<button 
+							type="submit"
+							class="btn btn-lime text-white"
+						>
+							<i class="fas fa-plus"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</li>
+		<li class="list-group-item p-0">
+			<div class="table-responsive mt-3">
+				<table class="table table-sm table-hover table-striped">
+					<thead>
+						<tr>
+							<th class="text-center" width="50">#</th>
+							<th class="text-center">Código</th>
+							<th>Nombre</th>
+							<th class="text-center" width="100">Cantidad Rec.</th>
+							<th class="text-center" width="150">Fecha Vence</th>
+							<th class="text-center" width="150">Lote</th>
+							<th class="text-center" width="120">Costo</th>
+							<th class="text-center" width="120">Costo Oc</th>
+							<th class="text-center">UM</th>
+							<th>Estado</th>
+							<th>Presentación</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr 
+							v-for="(i, idx) in form.detalle"
+							style="cursor: pointer;" 
+						>
+							<th class="text-center">{{ idx + 1 }}</th>
+							<td class="text-center">{{ i.codigo_producto }}</td>
+							<td>{{ i.nombre_producto }}</td>
+							<td class="text-center">
+								<input 
+									type="number" 
+									class="form-control text-center" 
+									v-model="i.cantidad_recibida"
+								/>
+							</td>
+							<td class="text-center">
+								<input type="date" class="form-control text-center" v-model="i.fecha_vence">
+							</td>
+							<td class="text-center">
+								<input type="text" class="form-control text-center" v-model="i.lote">
+							</td>
+							<td class="text-center">
+								<input type="number" class="form-control text-center" v-model="i.costo">
+							</td>
+							<td class="text-center">
+								<input type="number" class="form-control text-center" v-model="i.costo_oc">
+							</td>
+							<td class="text-center">
+								<select 
+									name="selectUm" 
+									id="selectUm"
+									class="form-select"
+									v-model="i.unidad_medida_id"
+								>
+									<option 
+										v-for="(j, idx) in cat.um" 
+										:value="j.id"
+									>
+										{{ j.nombre }}
+									</option>
+								</select>
+							</td>
+							<td>
+								<select 
+									name="selectEstado" 
+									id="selectEstado" 
+									class="form-select"
+									v-model="i.estado_producto_id"
+								>
+									<option 
+										v-for="(k, idx) in cat.estado_prod" 
+										:value="k.id"
+									>
+										{{ k.nombre }}
+									</option>
+								</select>
+							</td>
+							<td>
+								<select 
+									name="selectPresentacion" 
+									id="selectPresentacion"
+									class="form-select"
+									v-model="i.presentacion_producto_id"
+								>
+									<option value="">Seleccione presentación...</option>
+									<option 
+										v-for="(l, idx) in verPresentaciones(i)" 
+										:value="l.id"
+									>
+										{{ l.codigo }} - {{ l.factor}}
+									</option>
+								</select>
+							</td>
+							<td class="text-center">
+								<a 
+									class="text-danger" 
+									href="javascript:;"
+									title="Eliminar" 
+									@click="quitarProducto(idx)"
+								>
+  								<span class="fas fa-trash"></span>
+  							</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</li>
+	</ul>
+</template>
+
+<script>
+	export default {
+		name: 'RecepcionDetalle',
+		props: {
+			recepcion: {
+				type: Object,
+				required: true,
+				default: null
+			},
+			cat: {
+				type: Array,
+				required: true
+			}
+		},
+		data: () => ({
+			codigo: null, 
+			cantidad: 1,
+			form: {
+				detalle: []
+			},
+			controlador: 'recepcion/principal'
+		}),
+		created() {
+		},
+		methods: {
+			guardar() {
+				if (confirm("¿Está seguro de guardar el detalle?")) {
+
+					for (let i in this.form.detalle) {
+						if (!this.form.detalle.hasOwnProperty('id')) {
+							this.form.detalle[i].no_linea = parseInt(i) + 1
+						}
+					}
+
+					this.btnGuardar = true
+					console.log(this.fom)
+					this.$http
+					.post(`${this.$baseUrl}/${this.controlador}/guardar_detalle`, this.form)
+					.then(res => {
+						this.btnGuardar = false
+						if (res.data.exito) {
+
+							if (res.data.linea) {
+
+							}
+							this.$toast.success(res.data.mensaje)
+						} else {
+							this.$toast.error(res.data.mensaje)
+						}
+
+					}).catch(e => {
+						this.btnGuardar = false
+						console.log(e)
+					})
+				}
+			},	
+			agregarProducto() {
+				if (this.codigo != null && this.codigo) {
+					let tmp = this.productos.filter(e => {
+						return e.codigo.toLowerCase() == this.codigo.toLowerCase() || e.barra.toLowerCase() == this.codigo.toLowerCase()
+					})[0]
+					
+					if (tmp) {
+						this.producto = {
+							id_producto: tmp.id_producto,
+							codigo_producto: tmp.codigo,
+							nombre_producto: tmp.nombre,
+							nombre_presentacion: null,
+							nombre_unidad_medida: null,
+							nombre_producto_estado: null,
+							cantidad_recibida: this.cantidad,
+							presentacion_producto_id: '',
+							unidad_medida_id: tmp.unidad_medida_id,
+							estado_producto_id: tmp.estado_producto_id,
+							lote: '',
+							fecha_vence: null,
+							peso: 0,
+							peso_minimo: 0,
+							peso_maximo: 0,
+							costo: 0,
+							costo_oc: 0,
+							producto_bodega_id: tmp.producto_bodega,
+							control_vence: tmp.control_vence,
+							recepcion_enc_id: this.recepcion.id
+						}
+						
+						this.form.detalle.push(this.producto)
+						this.codigo = null
+						this.cantidad = 1
+
+					} else {
+						this.$toast.error("No se encontró el producto.")
+					}
+				} else {
+					this.$toast.info("Ingrese código ó barra del producto")
+				}
+			},
+			verPresentaciones(obj) {
+				let tmp = this.cat.presentacion.filter(e => {
+					return e.producto_id == obj.id_producto
+				})
+
+				return tmp
+			},
+			quitarProducto(idx) {
+	      if (confirm('¿Está seguro de quitar el producto?')) {
+	        let tmp = this.form.detalle[idx]
+
+	        if (!tmp.hasOwnProperty('id')) {
+	          this.form.detalle.splice(idx, 1)
+	        } 
+	      }
+	    }
+		},
+		computed: {
+			productos() {
+				if (this.cat.productos) {
+						return this.cat.productos.filter(e => {
+							return e.bodega_id === this.recepcion.bodega_id
+						})
+				}
+				return []
+			}
+		},
+		watch: {
+			'form.detalle'() {
+				console.log("hola")
+			}
+		}
+	}
+</script>

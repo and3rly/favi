@@ -34,7 +34,31 @@ class Recepcion_model extends General_model {
 
 	public function _buscar($args=[])
 	{
-		// code...
+		if (elemento($args, "id")) {
+			$this->db->where("a.id", $args['id']);
+		}
+
+		$tmp = $this->db
+		->select("a.*, 
+			b.placa, 
+			b.marca, 
+			b.modelo, 
+			c.nombre as nombre_bodega, 
+			d.nombres as nombre_piloto, 
+			d.apellidos as apelldiso_piloto,
+			e.nombre as nombre_transaccion, 
+			f.nombre as nombre_estado,
+			f.color as nombre_color"
+		)
+		->join("vehiculos b", "b.id = a.vehiculos_id")
+		->join("bodega c","c.id = a.bodega_id")
+		->join("pilotos d","d.id = a.pilotos_id")
+		->join("tipo_transaccion e","e.id = a.tipo_transaccion_id")
+		->join("estado_recepcion f","f.id = a.estado_recepcion_id")
+		->order_by("a.id")
+		->get("$this->_tabla a");
+
+		return verConsulta($tmp, $args);
 	}
 }
 

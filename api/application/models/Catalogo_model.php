@@ -404,6 +404,7 @@ class Catalogo_model extends General_model {
 		$tmp = $this->db
 		->select("a.*, a.id as producto_bodega, 
 			b.*,
+			b.id as id_producto,
 			c.nombre as nombre_bodega,
 			d.nombre as nombre_um,
 			e.nombre as nombre_estado")
