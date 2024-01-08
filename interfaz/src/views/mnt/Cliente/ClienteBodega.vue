@@ -63,7 +63,7 @@
 						<i class="fas fa-arrow-left" style="color: red;"></i>
 					</a>
 
-					{{ i.bodega_nombre }}
+					{{ i.nombre_bodega }}
 				</li>
 				<li
 					v-else
