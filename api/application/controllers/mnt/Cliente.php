@@ -53,4 +53,24 @@
 			}
 				$this->output->set_output(json_encode($data));
 			}
+
+
+
+
+			public function anular_cliente($id)
+			{
+				$data = ['exito' => 0];
+				$datos = ['activo' => 0];
+		
+				$cliente = new Cliente_model($id);
+		
+				if ($cliente->guardar($datos)) {
+					$data['exito'] = 1;
+					$data['mensaje'] = "cliente anulado con éxito.";
+				} else {
+					$data['mensaje'] = $cliente->getMensaje();
+				}
+		
+				$this->output->set_output(json_encode($data));
+			}
 			}	

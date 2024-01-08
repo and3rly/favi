@@ -36,32 +36,33 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
-
 	public function ver_proveedor_bodega($args=[])
-	{
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('a.id', $args['id']);
+		}
+
 		if (elemento($args, 'proveedor_id')) {
-			$this->db->where('pr.id', $args['proveedor_id']);
+			$this->db->where('a.proveedor_id', $args['proveedor_id']);
+		}
+
+		if (elemento($args, 'bodega_id')) {
+			$this->db->where('a.bodega_id', $args['bodega_id']);
 		}
 
 		if (isset($args['activo'])) {
 			$this->db->where('a.activo', $args['activo']);
 		} else {
-			$this->db->where('prb.activo', 1);
+			$this->db->where('a.activo', 1);
 		}
 
 		$tmp = $this->db
-					/*->select("a.*, b.nombre as nbodega, b.empresa_id")
+					->select("a.*, b.nombre as bodega_nombre")
 					->join("bodega b","b.id = a.bodega_id")
 					->get('proveedor_bodega a');
-					*/
-					->select("pr.id,pr.nombre,bd.nombre as bodega,bd.id as IdBodega ,bd.empresa_id")
-					->join("proveedor_bodega prb","prb.proveedor_id = pr.id")
-					->join("bodega bd","bd.id= prb.bodega_id")
-					->get('proveedor pr');
 
 		return verConsulta($tmp, $args);
 	}
-
 
 
 
@@ -143,6 +144,17 @@ class Catalogo_model extends General_model {
 		$tmp = $this->db
 					->where('activo', 1)
 					->get('sucursal');
+
+		return verConsulta($tmp, $args);
+	}
+
+
+
+	public function ver_proveedor($args=[])
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('proveedor');
 
 		return verConsulta($tmp, $args);
 	}
@@ -270,6 +282,64 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+
+
+	public function ver_cliente_bodega($args=[])
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('cb.id', $args['id']);
+		}
+
+		if (elemento($args, 'cliente_id')) {
+			$this->db->where('cb.cliente_id', $args['cliente_id']);
+		}
+
+		if (elemento($args, 'bodega_id')) {
+			$this->db->where('cb.bodega_id', $args['bodega_id']);
+		}
+
+		if (isset($args['activo'])) {
+			$this->db->where('cb.activo', $args['activo']);
+		} else {
+			$this->db->where('cb.activo', 1);
+		}
+
+		$tmp = $this->db
+					->select("cb.*, b.nombre as nombre_bodega")
+					->join("bodega b","b.id = cb.bodega_id")
+					->get('cliente_bodega cb');
+
+		return verConsulta($tmp, $args);
+	}
+	public function ver_cliente_sucursal($args=[])
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('cs.id', $args['id']);
+		}
+
+		if (elemento($args, 'cliente_id')) {
+			$this->db->where('cs.cliente_id', $args['cliente_id']);
+		}
+
+		if (elemento($args, 'sucursal_id')) {
+			$this->db->where('cs.sucursal_id', $args['sucursal_id']);
+		}
+
+		if (isset($args['activo'])) {
+			$this->db->where('a.activo', $args['activo']);
+		} else {
+			$this->db->where('cs.activo', 1);
+		}
+
+		$tmp = $this->db
+					->select("cs.*, b.nombre as nombre_sucursal")
+					->join("sucursal b","b.id = cs.sucursal_id")
+					->get('cliente_sucursal cs');
+
+		return verConsulta($tmp, $args);
+	}
+
 
 
 	public function ver_rotacion($args=[]) 

@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex align-items-center mb-4">
 		<h1 class="page-header mb-0">
-			<i class="fas fa-building fa-sm me-2 ms-1"></i>Motivo de devolución
+			<i class="fas fa-building fa-sm me-2 ms-1"></i>Tipo de Cliente
 		</h1>
 
 		<div class="ms-auto">

@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex align-items-center mb-4">
 		<h1 class="page-header mb-0">
-			<i class="fas fa-road fa-sm me-2 ms-1"></i>Cliente
+			<i class="fas fa-person-walking-luggage fa-sm me-2 ms-1"></i>Cliente
 		</h1>
 
 		<div class="ms-auto">
@@ -12,14 +12,12 @@
 	</div>
 
 	<ClienteLista
-		@editar="editarReg"
-		:cargando="cargando"
-		:filtrada="lista"
+	@abrirModal="editar"
+		:tmpLinea="tmpReg"
 	/>
 
 	<div 
-		class="modal fade" 
-		id="mdlCliente"
+		class="modal fade" id="mdlCliente"
 		data-bs-backdrop="static" 
 		data-bs-keyboard="false" 
 		tabindex="-1" 
@@ -33,24 +31,55 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						<i class="fas fa-road  fa-sm me-2 ms-1"></i>Cliente 
-						<span v-if="reg != null"> - {{reg.nombre}}</span>
+					<i class="fas fa-person-walking-luggage fa-sm me-2 ms-1"></i>Cliente <span v-if="reg != null">{{reg.nombre_comercial}}</span>
 					</h1>
 					<button 
 						type="button" 
 						class="btn-close" 
-						aria-label="Close"
-						@click="cerrarModal" 
+						aria-label="Close" 
+						@click="cerrarModal"
 					>
 					</button>
 				</div>
 				<div class="modal-body">
-					<ClienteForm
-						v-if="verForm"
-						:cliente="reg"
-						@actualizar="actualizaLista"
-						@cerrar="cerrarModal"
-					/>
+
+					
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button 
+								class="nav-link active" 
+								id="home-tab" 
+								data-bs-toggle="tab" 
+								data-bs-target="#home-tab-pane" 
+								type="button"
+								role="tab" 
+								aria-controls="home-tab-pane" 
+								aria-selected="true"
+							>
+								<i class="fas fa-list-ul me-1"></i> Datos Generales
+							</button>
+						</li>
+					</ul>
+				
+					<div class="tab-content" id="myTabContent">
+						<div 
+							class="tab-pane fade show active" 
+							id="home-tab-pane" 
+							role="tabpanel" 
+							aria-labelledby="home-tab" 
+							tabindex="0"
+						>
+							<ClienteForm 
+								class="mt-3"
+								v-if="verForm" 
+								@cerrar="cerrarModal" 
+								@actualizar="actualizar"
+								:cliente="reg" 
+							/>
+						</div>
+						
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -59,57 +88,62 @@
 </template>
 
 <script>
-	import General from '@/mixins/General.js'
-    import ClienteLista from '@/views/mnt/cliente/ClienteLista.vue'
+	import ClienteLista from '@/views/mnt/cliente/ClienteLista.vue'
 	import ClienteForm from '@/views/mnt/cliente/ClienteForm.vue'
-
+	import ContactoForm from '@/views/mnt/cliente/ContactoForm.vue'
+	import ClienteBodega	from '@/views/mnt/cliente/ClienteBodega.vue' 
+	import ClienteSucursal	from '@/views/mnt/cliente/ClienteSucursal.vue' 
+		import Catalogo from '@/mixins/Catalogo.js'
+	import { Modal } from 'bootstrap'
+	import { Tab } from 'bootstrap'
 
 	export default {
-		name: "cliente",
-		mixins: [General], 
+		name: 'Cliente',
+		mixins: [Catalogo],
 		data:() => ({
-			reg: null,
 			modal: null,
+			usuario: null,
+			reg: null,
 			idx: null,
-			verForm: false
-		}),	
+			verForm: false,
+			actual: 1
+		}),		
 		mounted() {
-			this.modal = new this.$modal(document.getElementById('mdlCliente'));
-		},
-		created() {
-			this.controlador = 'mnt/Cliente'
-			this.autoBuscar = true
+			this.modal = new Modal(document.getElementById('mdlCliente'));
 		},
 		methods: {
+			editar(o, idx) {
+				this.reg = o
+				this.idx = idx
+				this.abrirModal()
+			},
 			abrirModal() {
 				this.verForm = true
 				this.modal.show()
-			},
+
+  				let item = document.querySelector('#myTab li:first-child button')
+  				let tab = new Tab(item);
+   				tab.show();
+  			},
 			cerrarModal() {
-				this.verForm = false
 				this.reg = null
-				this.idx = null
+				this.verForm = false
+				this.usuario = null
 				this.modal.hide()
 			},
-			editarReg(o, idx) {
-				this.reg = null
-				this.idx = idx
-				this.reg = o
-				this.abrirModal()
-			},
-			actualizaLista(o, pk) {
+			actualizar(o, pk) {
 				this.tmpReg = {
 					linea: o,
 					pk: pk,
 					idx: this.idx
 				}
-
-				this.setRegLista(this.tmpReg)
 			}
 		},
 		components: {
 			ClienteLista,
-			ClienteForm
-		}
+			ClienteForm,
+			ClienteBodega,
+			ContactoForm,
+		ClienteSucursal}
 	}
 </script>

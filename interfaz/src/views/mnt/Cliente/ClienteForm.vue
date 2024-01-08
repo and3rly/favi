@@ -31,7 +31,7 @@
 				<label for="" class="fw-bold mb-1">
 					NIT:
 				</label>
-				<input type="number" class="form-control" placeholder="numero de nit del Cliente" v-model="form.nit">
+				<input type="text" class="form-control" placeholder="numero de identificación tributaria" v-model="form.nit">
 			</div>
 
 			<div class="col-sm-6">

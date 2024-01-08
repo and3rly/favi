@@ -49,10 +49,10 @@
 					Asignadas
 				</li>
 				<li 
-				v-if="cat.proveedor_bodega && cat.proveedor_bodega.length > 0"
+				v-if="cat.cliente_bodega && cat.cliente_bodega.length > 0"
 					
 					class="list-group-item d-flex justify-content-between align-items-start" 
-					v-for="(i, idx) in cat.proveedor_bodega"
+					v-for="(i, idx) in cat.cliente_bodega"
 				>	
 					<a
 						href="javascript:;"
@@ -80,10 +80,10 @@
 	import Catalogo from '@/mixins/Catalogo.js'
 
 	export default {
-		name: 'Proveedor_bodega',
+		name: 'Cliente_bodega',
 		mixins: [Catalogo],
 		props: {
-			proveedor: {
+			cliente: {
 				type: Object,
 				required: false
 			}
@@ -94,22 +94,22 @@
 			pk: ''
 		}),
 		created() {
-			this.controlador = 'mnt/proveedor_bodega'
-			this.args.proveedor_bodega = {proveedor_id: this.proveedor.id}
-			this.getCatalogo(['proveedor', 'bodega', 'proveedor_bodega'])
+			this.controlador = 'mnt/cliente_bodega'
+			this.args.cliente_bodega = {cliente_id: this.cliente.id}
+			this.getCatalogo(['cliente', 'bodega', 'cliente_bodega'])
 		},
 		methods: {
 			guardar(o) {
 				if (confirm("¿Está seguro?")) {
-					let datos =  {proveedor_id: this.proveedor.id, bodega_id: o.id}
+					let datos =  {cliente_id: this.cliente.id, bodega_id: o.id}
 
 					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/asignar_proveedor_bodega/${this.pk}`, datos)
+					.post(`${this.$baseUrl}/${this.controlador}/asignar_cliente_bodega/${this.pk}`, datos)
 					.then(res => {
 						this.btnGuardar = false
 
 						if (res.data.exito) {	
-							this.cat.proveedor_bodega.push(res.data.reg)					
+							this.cat.cliente_bodega.push(res.data.reg)					
 						}
 
 					}).catch(e => {
@@ -123,12 +123,12 @@
 				if (confirm("¿Está seguro?")) {
 					this.pk = o.id
 					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/anular_proveedor_bodega/${this.pk}`)
+					.post(`${this.$baseUrl}/${this.controlador}/anular_cliente_bodega/${this.pk}`)
 					.then(res => {
 						this.btnGuardar = false
 
 						if (res.data.exito) {	
-							this.cat.proveedor_bodega.splice(idx, 1)		
+							this.cat.cliente_bodega.splice(idx, 1)		
 							this.pk = ''	
 						}
 
@@ -143,8 +143,8 @@
 			agregadas() {
 				let datos = []
 
-				if (this.cat.proveedor_bodega) {
-					this.cat.proveedor_bodega.forEach(e => {
+				if (this.cat.cliente_bodega) {
+					this.cat.cliente_bodega.forEach(e => {
 						datos.push(e.bodega_id)
 					})
 				}

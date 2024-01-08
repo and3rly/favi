@@ -31,7 +31,7 @@
 				<label for="" class="fw-bold mb-1">
 					NIT:
 				</label>
-				<input type="number" class="form-control" placeholder="numero de nit del proveedor" v-model="form.nit">
+				<input type="text" class="form-control" placeholder="numero de nit del proveedor" v-model="form.nit">
 			</div>
 
 			<div class="col-sm-6">
@@ -132,7 +132,7 @@
 		}),
 		
 		created() {
-			this.controlador = 'mnt/proveedor'
+			this.controlador = 'mnt/Proveedor'
 			this.getCatalogo(['empresa'])
 			this.setForm()
 		

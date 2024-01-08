@@ -2,7 +2,7 @@
 	<div class="card">
 		<div class="card-body p-4">
 			<div class="table-responsive-sm table-responsive-lg">
-				<table class="table table-sm table-hover mb-0" style="text-align: center;"  >
+				<table class="table table-sm table-hover mb-0" style="text-align: center;">
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="40">#</th>
@@ -13,7 +13,9 @@
 							<th  scope="col">Dirección</th>
 							<th scope="col">Correo</th>
 							<th scope="col">Tipo de Cliente</th> 
-							<th>Activo</th>
+							<th scope="col">Activo</th>
+							<th scope="col" class="text-center" width="70">Acción</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -25,6 +27,7 @@
 									class="text-decoration-none" 
 									@click="editar(i, idx)"
 								>
+									
 								{{i.codigo}} 
 								</a>
 							</td>
@@ -37,6 +40,48 @@
 							<td>
 								<i v-if="i.activo == 1" class="fa fa-check text-success"></i>
 								<i v-else class="fa fa-times text-danger"></i>
+							</td>
+							<td>
+								<div class="dropdown position-static">
+									<a 
+										href="javascript:;"
+										data-bs-toggle="dropdown"
+										aria-expanded="false" 
+									>
+										<i class="fas fa-ellipsis-v"></i>
+									</a>
+								  <div class="dropdown-menu dropdown-menu-end">
+								    <a
+								    	href="javascript:;" 
+								    	class="dropdown-item"
+										@click="verContacto(i)"
+								    >
+								    	<i class=" fas fa-user-plus"></i>Agregar contacto
+								    </a>
+									<a
+								    	href="javascript:;" 
+								    	class="dropdown-item"
+										@click="verDireccion(i)"
+								    >
+										<i class="fas fa-location-dot"></i>Agregar dirección
+								    </a>
+									<a
+								    	href="javascript:;" 
+								    	class="dropdown-item"
+										@click="verBodega(i)"
+								    >
+								    	<i class=" fas fa-store"></i>Agregar Bodega
+								    </a>
+									<a
+								    	href="javascript:;" 
+								    	class="dropdown-item"
+										@click="verSucursal(i)"
+								    >
+								    	<i class=" fas fa-store"></i>Agregar Sucursal
+								    </a>
+								    
+								</div>
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -56,11 +101,167 @@
 				</table>
 			</div>
 		</div>
+	</div>
+	<div 
+		class="modal fade" id="mdlClienteContacto"
+		data-bs-backdrop="static" 
+		data-bs-keyboard="false" 
+		tabindex="-1" 
+		aria-labelledby="staticBackdropLabel" 
+		aria-hidden="true">
+
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 
+						class="modal-title fs-5" 
+						id="staticBackdropLabel"
+					> 
+					<i class="fas fa-address-book"></i>Contacto 
+					</h1>
+					<button 
+						type="button" 
+						class="btn-close" 
+						aria-label="Close" 
+						@click="cmContacto"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ContactoForm
+						v-if="cliente != null"
+						:cliente="cliente"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div 
+		class="modal fade" id="mdlClienteDireccion"
+		data-bs-backdrop="static" 
+		data-bs-keyboard="false" 
+		tabindex="-1" 
+		aria-labelledby="staticBackdropLabel" 
+		aria-hidden="true">
+
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 
+						class="modal-title fs-5" 
+						id="staticBackdropLabel"
+					> 
+						Direccion de Cliente <i class="fas fa-route "></i>
+					</h1>
+					<button 
+						type="button" 
+						class="btn-close" 
+						aria-label="Close" 
+						@click="cmDireccion"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ClienteDireccionForm
+						v-if="cliente != null"
+						:cliente="cliente"
+					/>
+				</div>
+			</div>
+		</div>
 	</div>	
+
+	<div 
+		class="modal fade" id="mdlClienteBodega"
+		data-bs-backdrop="static" 
+		data-bs-keyboard="false" 
+		tabindex="-1" 
+		aria-labelledby="staticBackdropLabel" 
+		aria-hidden="true">
+
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 
+						class="modal-title fs-5" 
+						id="staticBackdropLabel"
+					> 
+						Bodegas  <i class="fas fa-store "></i>
+					</h1>
+					<button 
+						type="button" 
+						class="btn-close" 
+						aria-label="Close" 
+						@click="cmBodega"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ClienteBodega
+						v-if="cliente != null"
+						:cliente="cliente"
+					/>
+				</div>
+			</div>
+		</div>
+
+
+
+		
+	</div>
+
+
+
+	
+	<div 
+		class="modal fade" id="mdlClienteSucursal"
+		data-bs-backdrop="static" 
+		data-bs-keyboard="false" 
+		tabindex="-1" 
+		aria-labelledby="staticBackdropLabel" 
+		aria-hidden="true">
+
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 
+						class="modal-title fs-5" 
+						id="staticBackdropLabel"
+					> 
+						Sucursales  <i class="fas fa-boxes-stacked"></i>
+					</h1>
+					<button 
+						type="button" 
+						class="btn-close" 
+						aria-label="Close" 
+						@click="cmSucursal"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ClienteSucursal
+						v-if="cliente != null"
+						:cliente="cliente"
+					/>
+				</div>
+			</div>
+		</div>
+
+
+
+		
+	</div>
+
+
 </template>
 
 <script>
 	import General from '@/mixins/General.js'
+	import ContactoForm from '@/views/mnt/Cliente/ContactoForm.vue'
+	import ClienteDireccionForm from '@/views/mnt/Cliente/ClienteDireccionForm.vue'
+	import ClienteBodega from '@/views/mnt/Cliente/ClienteBodega.vue'
+	import ClienteSucursal from '@/views/mnt/Cliente/ClienteSucursal.vue'
+
 	export default {
 		name: 'ClienteLista',
 		mixins: [General],
@@ -75,8 +276,20 @@
 			},
 		},
 		data: () => ({
-			idx: null
+			idx: null,
+			modal: null,
+			modal2: null,
+			modal3: null,
+			modal4: null,
+			cliente: null
 		}),
+		mounted() {
+			this.modal = new this.$modal(document.getElementById('mdlClienteContacto'));
+			this.modal2 = new this.$modal(document.getElementById('mdlClienteDireccion'));
+			this.modal3 = new this.$modal(document.getElementById('mdlClienteBodega'));
+			this.modal4 = new this.$modal(document.getElementById('mdlClienteSucursal'));
+		
+		},
 		created(){
 			this.controlador = 'mnt/Cliente'
 			this.autoBuscar = true
@@ -84,6 +297,75 @@
 		methods: {
 			editar(obj, idx) {
 				this.$emit('abrirModal', obj, idx)
+			},
+			anular_cliente(obj, idx) {
+				if (confirm("¿Está seguro?")) {
+					this.pk = obj.id
+
+					this.$http
+					.post(`${this.$baseUrl}/mnt/cliente/anular_cliente/${this.pk}`)
+					.then(res => {
+						this.btnGuardar = false
+
+						if (res.data.exito) {	
+							this.lista.splice(idx, 1)
+						}
+
+					}).catch(e => {
+						this.btnGuardar = false
+						console.log(e)
+					})
+				}
+			},
+			verContacto(obj) {
+				this.cliente  = obj
+				this.modal.show()
+			},
+
+			verDireccion(obj) {
+				this.cliente  = obj
+				this.modal2.show()
+			},
+			verBodega(obj) {
+				this.cliente  = obj
+				this.modal3.show()
+			},
+			verSucursal(obj) {
+				this.cliente  = obj
+				this.modal4.show()
+			},
+
+			cmContacto() {
+				this.cliente = null
+				this.modal.hide()
+			},
+			cmDireccion() {
+				this.cliente = null
+				this.modal2.hide()
+			},
+			
+			cmBodega() {
+				this.cliente = null
+				this.modal3.hide()
+			},
+			
+			
+			cmSucursal() {
+				this.cliente = null
+				this.modal4.hide()
+			}
+		},
+		components: {
+			ContactoForm,
+			ClienteDireccionForm,
+			ClienteBodega,
+			ClienteSucursal
+		},
+		watch: {
+			'tmpLinea'(o) {
+				if (o) {
+					this.setRegLista(o)
+				}
 			}
 		}
 	}
