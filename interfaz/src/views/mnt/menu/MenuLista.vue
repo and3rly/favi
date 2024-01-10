@@ -27,7 +27,7 @@
 							<th scope="col" class="text-center">Ícono</th>
 							<th scope="col" class="text-center">Solicita Clave</th>
 							<th scope="col" class="text-center">Estado</th>
-							<th scope="col" class="text-center" width="70">Acción</th>
+							<th scope="col" class="text-center">Acción</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -84,25 +84,22 @@
 								</span>
 							</td>
 							<td class="text-center">
-								<div class="dropdown position-static">
-									<a 
-										href="javascript:;"
-										data-bs-toggle="dropdown"
-										aria-expanded="false" 
-									>
-										<i class="fas fa-ellipsis-h"></i>
-									</a>
-								  <div class="dropdown-menu dropdown-menu-end">
-
-								    <a
-								    	href="javascript:;" 
-								    	class="dropdown-item"
-								    	@click="anular_menu(i, idx)"
-								    >
-								    	<i class=" fas fa-trash-alt me-2"></i>Anular
-								    </a>
-								  </div>
-								</div>
+								<button 
+									type="button"
+									class="btn btn-sm btn-secondary me-1 ms-1" 
+									@click="editar(i, idx)"
+									title="Editar menú"
+								>
+									<i class="fas fa-edit"></i> 
+								</button>
+								<button 
+									type="button"
+									class="btn btn-sm btn-danger" 
+									@click="anular_menu(i, idx)"
+									title="Eliminar menú"
+								>
+									<i class="fas fa-trash"></i> 
+								</button>
 							</td>
 						</tr>
 					</tbody>
