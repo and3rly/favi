@@ -123,5 +123,27 @@ export default {
 				}
 			}
 		}
+	},
+	computed: {
+		filtrada() {
+    	return this.lista.filter(o => {
+    		if (this.termino === '') {
+      			return true;
+    		} else {
+      			let res = false
+      			let ter = this.termino.toLowerCase()
+
+      			for (let i in o) {
+        			if (typeof o[i] === 'string' && o[i].toLowerCase().includes(ter)) {
+          				res = true
+        			} else if (o[i] == ter) {
+          				res = true
+        			}
+      			}
+
+      			return res
+    		}
+  		})
+  	}
 	}
 }

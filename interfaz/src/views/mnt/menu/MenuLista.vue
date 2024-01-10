@@ -1,8 +1,22 @@
 <template>
-	<div class="card">
-		<div class="card-body p-4">
+	<Card>
+		<CardBody class="p-0">
+			<div class="input-group mt-3 mb-4 p-2 px-3">
+				<div class="input-group">
+					<input 
+						type="text" 
+						class="form-control ps-35px"
+						placeholder="Buscar..." 
+						v-model="termino"
+						style="border-radius: 4px;" 
+					/>
+					<div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0" style="z-index: 1020;">
+						<i class="fa fa-search opacity-5"></i>
+					</div>
+				</div>
+			</div>
 			<div class="table-responsive-sm table-responsive-lg">
-				<table class="table table-sm table-hover mb-0">
+				<table class="table table-sm table-striped mb-0">
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="30">#</th>
@@ -17,7 +31,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-if="!cargando" v-for="(i, idx) in lista">
+						<tr 
+							v-if="!cargando" 
+							v-for="(i, idx) in filtrada"
+							style="cursor: pointer;" 
+						>
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
 							<td>
 								<a 
@@ -32,38 +50,37 @@
 							<td> {{ i.nivel }} | {{ displayNulos(i.titulo_padre) }} </td>
 							<td> {{ i.ruta }} </td>
 							<td>
-                                <i :class="i.icono"></i>{{ i.icono }}
-                            </td>
+                 <i :class="i.icono+' me-2'"></i>{{ i.icono }}
+              </td>
 							<td class="text-center">
 								<span 
 									v-if="i.solicita_clave == 1"
-									class="badge text-bg-teal text-white px-2 pt-5px pb-5px"
-									style="min-width: 65px;"
+									class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
 								>
-									<i class="fa fa-check"></i> Si
+									<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Si
 								</span>
+
 								<span 
 									v-else
-									class="badge text-bg-danger px-2 pt-5px pb-5px"
-									style="min-width: 65px;"
+									class="badge bg-danger text-danger-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
 								>
-									<i class="fa fa-times"></i> No
+									<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> No
 								</span>
+
 							</td>
 							<td class="text-center">
 								<span 
 									v-if="i.activo == 1"
-									class="badge text-bg-teal text-white px-2 pt-5px pb-5px"
-									style="min-width: 65px;"
+									class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
 								>
-									<i class="fa fa-check"></i> Activo
+									<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Activo
 								</span>
+
 								<span 
 									v-else
-									class="badge text-bg-danger px-2 pt-5px pb-5px"
-									style="min-width: 65px;"
+									class="badge bg-danger text-danger-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
 								>
-									<i class="fa fa-times"></i> Inactivo
+									<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> Inactivo
 								</span>
 							</td>
 							<td class="text-center">
@@ -73,7 +90,7 @@
 										data-bs-toggle="dropdown"
 										aria-expanded="false" 
 									>
-										<i class="fas fa-ellipsis-v"></i>
+										<i class="fas fa-ellipsis-h"></i>
 									</a>
 								  <div class="dropdown-menu dropdown-menu-end">
 
@@ -104,8 +121,8 @@
 					</tfoot>
 				</table>
 			</div>
-		</div>
-	</div>	
+		</CardBody>
+	</Card>
 </template>
 
 <script>
@@ -146,7 +163,7 @@
 						this.btnGuardar = false
 
 						if (res.data.exito) {	
-							this.lista.splice(idx, 1)
+							this.filtrada.splice(idx, 1)
 						}
 
 					}).catch(e => {
@@ -155,9 +172,9 @@
 					})
 				}
 			},
-            displayNulos(varDisplay) {
-                return varDisplay || "No hay padre";
-            }
+      displayNulos(varDisplay) {
+        return varDisplay || "No hay padre";
+      }
 		},
 		components: {
 			Imagen

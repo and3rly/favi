@@ -137,12 +137,19 @@
 									v-model="i.cantidad_recibida"
 								/>
 							</td>
-							<td>
+							<td 
+								class="text-center no-wrap" 
+								:class="i.control_vence == 1 && (i.fecha_vence == null || !i.fecha_vence) ? 'bg-danger bg-opacity-20': ''"
+							>
 								<input type="date" class="form-control text-center" v-model="i.fecha_vence">
-								<small class="text-danger" v-if="i.control_vence == 1">Ingrese fecha vence</small>
 							</td>
 							<td class="text-center">
-								<input type="text" class="form-control text-center" v-model="i.lote">
+								<input 
+									type="text" 
+									class="form-control text-center" 
+									v-model="i.lote"
+									required 
+								>
 							</td>
 							<td class="text-center">
 								<input type="number" class="form-control text-center" v-model="i.costo">
@@ -180,7 +187,7 @@
 									</option>
 								</select>
 							</td>
-							<td>
+							<td :class="!i.presentacion_producto_id ? 'bg-danger bg-opacity-20': ''">
 								<select 
 									name="selectPresentacion" 
 									id="selectPresentacion"
@@ -197,14 +204,13 @@
 								</select>
 							</td>
 							<td class="text-center">
-								<a 
-									class="text-danger" 
-									href="javascript:;"
+								<button
+									class="btn btn-sm btn-danger" 
 									title="Eliminar" 
 									@click="quitarProducto(idx)"
 								>
   								<span class="fas fa-trash"></span>
-  							</a>
+  							</button>
 							</td>
 						</tr>
 					</tbody>

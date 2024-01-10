@@ -1,11 +1,11 @@
 <template>
 	<div class="d-flex align-items-center mb-4">
 		<h1 class="page-header mb-0">
-			<i class="fas fa-user fa-sm me-1 ms-1"></i>Menus
+			<i class="fas fa-list fa-sm me-2 ms-1"></i>Menú
 		</h1>
 		<div class="ms-auto">
-			<a href="#" class="btn btn-theme" @click="abrirModal">
-				<i class="fa fa-plus-circle fa-fw me-1"></i> Nuevo Menú
+			<a href="#" class="btn btn-theme fw-bold" @click="abrirModal">
+				<i class="fa fa-plus-circle fa-fw me-1"></i> Nuevo
 			</a>
 		</div>
 	</div>
@@ -30,7 +30,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						Menú<span v-if="reg != null">: {{reg.nombre}}</span>
+						<i class="fas fa-list me-1"></i> Menú <span v-if="reg != null">: {{reg.nombre}}</span>
 					</h1>
 					<button 
 						type="button" 

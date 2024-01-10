@@ -54,7 +54,7 @@ class Detalle extends CI_Controller {
 					$data['mensaje'] = "Detalle guardado con éxito.";
 					$data['lista'] = $det->_buscar(['recepcion_enc_id' => $rec]);
 				} else {
-					$data['mensaje'] = "No se logró guardar el detalle de la recepción.";
+					$data['mensaje'] = "Nada que actualizar.";
 				}
 
 			} else {

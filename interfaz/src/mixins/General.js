@@ -3,6 +3,7 @@ export default {
 	data: () => ({
 		pk: '',
 		fk: '',
+		termino: '',
 		controlador: '',
 		cargando: false,
 		autoBuscar: false,
@@ -84,12 +85,34 @@ export default {
 		},
 		setRegLista(o) {
 			if (o.pk === '') {
-				this.lista.push(o.linea)
+				this.filtrada.push(o.linea)
 			} else {
 				for (let i in o.linea) {
-					this.lista[o.idx][i] = o.linea[i]
+					this.filtrada[o.idx][i] = o.linea[i]
 				}
 			}
 		}
+	},
+	computed: {
+		filtrada() {
+    	return this.lista.filter(o => {
+    		if (this.termino === '') {
+      			return true;
+    		} else {
+      			let res = false
+      			let ter = this.termino.toLowerCase()
+
+      			for (let i in o) {
+        			if (typeof o[i] === 'string' && o[i].toLowerCase().includes(ter)) {
+          				res = true
+        			} else if (o[i] == ter) {
+          				res = true
+        			}
+      			}
+
+      			return res
+    		}
+  		})
+  	}
 	}
 }
