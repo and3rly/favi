@@ -117,7 +117,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-					<i class="fas fa-address-book"></i>Contacto 
+					<i class="fas fa-address-book"></i> Contacto 
 					</h1>
 					<button 
 						type="button" 

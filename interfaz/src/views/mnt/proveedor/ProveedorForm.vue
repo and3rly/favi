@@ -1,7 +1,7 @@
 <template>
 	<form @submit.prevent="guardar(true)">
 		<div class="alert alert-info fw-bold py-2 mb-4" role="alert">
-			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos
+			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos marcados con <span class="text-danger">*</span>
 		</div>
 
 		<div class="row g-2 mb-4">
@@ -14,7 +14,7 @@
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
-					Nombre:
+					Nombre: <span class="text-danger">*</span>
 				</label>
 				<input type="text" class="form-control" placeholder="Nombre del proveedor" v-model="form.nombre">
 			</div>
@@ -31,7 +31,7 @@
 				<label for="" class="fw-bold mb-1">
 					NIT:
 				</label>
-				<input type="text" class="form-control" placeholder="numero de nit del proveedor" v-model="form.nit">
+				<input type="text" class="form-control" placeholder="Numero de nit del proveedor" v-model="form.nit">
 			</div>
 
 			<div class="col-sm-6">
@@ -60,7 +60,7 @@
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
-					Nombre de empresa:
+					Nombre de empresa:  <span class="text-danger">*</span>
 				</label>
 				<select name="selectEmpresa"
 				 id="selectEmpresa"
@@ -83,7 +83,7 @@
 						:false-value="0" 
 						v-model="form.activo"
 						 checked>
-					<label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Activo  <span class="text-danger">*</span></label>
 				</div>
 			</div>
 

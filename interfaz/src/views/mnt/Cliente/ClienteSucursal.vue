@@ -62,7 +62,7 @@
 						<i class="fas fa-arrow-left" style="color: red;"></i>
 					</a>
 
-					{{ i.sucursal_nombre }}
+					{{ i.nombre_sucursal }}
 				</li>
 				<li
 					v-else

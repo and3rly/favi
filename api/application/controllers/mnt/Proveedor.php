@@ -29,7 +29,7 @@
 			$data =["exito"            =>0];
 			if ($this->input->method() =="post") {
 			$datos                     = (object) $_POST;
-			if (verPropiedad($datos,"nombre")&& verPropiedad($datos,"nit")&& verPropiedad($datos,"email")&& verPropiedad($datos,"contacto")) {
+			if (verPropiedad($datos,"nombre")&& verPropiedad($datos,"activo")&& verPropiedad($datos,"empresa_id")) {
 			$proveedor                 = new Proveedor_model($id);
 			if ($proveedor->existe($datos)) {
 			$data['mensaje']           ="los datos ya se encuentran almacenados.";}
