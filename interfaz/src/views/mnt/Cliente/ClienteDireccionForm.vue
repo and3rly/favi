@@ -6,7 +6,7 @@
 		</div>
             <div class="col-sm-12">
 				<label for="inputCdireccion" class="fw-bold mb-1">
-					Dirección: 
+					Dirección:  <span class="text-danger">*</span>
 				</label>
 				<input
 					id="inputCdireccion" 
