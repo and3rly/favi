@@ -1,20 +1,10 @@
 <template>
-	<div class="d-flex align-items-center mb-4">
-		<h1 class="page-header mb-0">
-			<i class="fas fa-cubes-stacked fa-sm me-2 ms-1"></i>Ordenes de compra
-		</h1>
-
-		<div class="ms-auto">
-			<a href="#" class="btn btn-theme" @click="abrirModal">
-				<i class="fa fa-plus-circle fa-fw me-2"></i> Nuevo
-			</a>
-		</div>
-	</div>
 
 	<OrdenCompraLista
 		@editar="editarReg"
 		:cargando="cargando"
 		:filtrada="lista"
+		@abrirModal="abrirModal"
 	/>
 
 	<div 
@@ -61,24 +51,6 @@
 								<i class="fas fa-list-ul me-1"></i> Datos Generales
 							</button>
 						</li>
-
-						<template v-if="reg != null">
-							<li class="nav-item" role="presentation">
-								<button 
-									@click="actual = 2"
-									class="nav-link"
-									id="profile-tab" 
-									data-bs-toggle="tab" 
-									data-bs-target="#profile" 
-									type="button"
-									role="tab" 
-									aria-controls="profile-tab-pane" 
-									aria-selected="false"
-								>
-									<i class="fas fa-male me-1"></i> Detalle
-								</button>
-							</li>
-						</template>
 					</ul>
 
 					<div class="tab-content" id="myTabContent">
@@ -97,21 +69,6 @@
                                 @cerrar="cerrarModal"
                             />
 						</div>
-						
-						<template v-if="reg != null">
-							<div 
-								class="tab-pane fade" 
-								id="profile" 
-								role="tabpanel" 
-								aria-labelledby="profile-tab" 
-								tabindex="0"
-							>	
-								<OrdenCompraDetalle
-									v-if="actual == 2"
-									:ordenCompra="reg"
-								/>
-							</div>
-						</template>
 					</div>
 
 					

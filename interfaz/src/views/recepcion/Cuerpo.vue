@@ -43,11 +43,11 @@
 			</CardHeader>
 			<CardBody class="p-0">
 				<div v-if="inicio === true" class="text-center">
-		      <div class="spinner-border" role="status">
-		        <span class="sr-only">Loading...</span>
-		      </div>
-		      <p>Cargando registros...</p>
-		    </div>
+					<div class="spinner-border" role="status">
+						<span class="sr-only">Loading...</span>
+					</div>
+					<p>Cargando registros...</p>
+				</div>
 
 				<div v-else class="table-responsive mt-3">
 					<table class="table table-sm table-hover table-striped">
