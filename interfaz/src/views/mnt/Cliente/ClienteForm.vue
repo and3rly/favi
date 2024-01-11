@@ -1,7 +1,8 @@
 <template>
 	<form @submit.prevent="guardar(true)">
 		<div class="alert alert-info fw-bold py-2 mb-4" role="alert">
-			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos
+			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos marcados con  <span class="text-danger">*</span>
+
 		</div>
 
 		<div class="row g-2 mb-4">
@@ -9,14 +10,14 @@
 				<label for="" class="fw-bold mb-1">
 					Código:
 				</label>
-				<input type="text" class="form-control" placeholder="Código del Cliente" v-model="form.codigo">
+				<input type="text" class="form-control" placeholder="Código del cliente" v-model="form.codigo">
 			</div>
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
-					Nombre:
+					Nombre: <span class="text-danger">*</span>
 				</label>
-				<input type="text" class="form-control" placeholder="Nombre del Cliente" v-model="form.nombre_comercial">
+				<input type="text" class="form-control" placeholder="Nombre del cliente" v-model="form.nombre_comercial">
 			</div>
 
 
@@ -24,21 +25,21 @@
 				<label for="" class="fw-bold mb-1">
 					Teléfono:
 				</label>
-				<input type="number" class="form-control" placeholder="Teléfono del Cliente" v-model="form.telefono">
+				<input type="number" class="form-control" placeholder="Teléfono del cliente" v-model="form.telefono">
 			</div>
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
-					NIT:
+					NIT: <span class="text-danger">*</span>
 				</label>
-				<input type="text" class="form-control" placeholder="numero de identificación tributaria" v-model="form.nit">
+				<input type="text" class="form-control" placeholder="Numero de identificación tributaria" v-model="form.nit">
 			</div>
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
 					Dirección:
 				</label>
-				<input type="text" class="form-control" placeholder="Dirección del Cliente" step="any"
+				<input type="text" class="form-control" placeholder="Dirección del cliente" step="any"
 					v-model="form.direccion">
 			</div>
 
@@ -46,14 +47,14 @@
 				<label for="" class="fw-bold mb-1">
 					Correo:
 				</label>
-				<input type="email" class="form-control" placeholder="Correo del Cliente" step="any" v-model="form.email">
+				<input type="email" class="form-control" placeholder="Correo del cliente" step="any" v-model="form.email">
 			</div>
 
 
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
-					Tipo de Cliente:
+					Tipo de Cliente: <span class="text-danger">*</span>
 				</label>
 				<select name="selecttipoCliente"
 				 id="selecttipoCliente"
@@ -76,7 +77,7 @@
 						:false-value="0" 
 						v-model="form.activo"
 						 checked>
-					<label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Activo <span class="text-danger">*</span></label>
 				</div>
 			</div>
 

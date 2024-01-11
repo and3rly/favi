@@ -1,6 +1,10 @@
 <template>
 	<form @submit.prevent="guardar">
 		<div class="row g-2 mb-4">
+			<div class="alert alert-info fw-bold py-1 mb-1" role="alert">
+			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos marcados con  <span class="text-danger">*</span>
+		</div>
+
 			<div class="col-sm-4">
 				<label for="inputCnombre" class="fw-bold mb-1">
 					Nombre: <span class="text-danger">*</span>
@@ -9,33 +13,33 @@
 					id="inputCnombre" 
 					type="text" 
 					class="form-control"
-					placeholder="nombre del contacto del cliente" 
+					placeholder="Nombre del contacto del cliente" 
 					v-model="form.nombre"
 				>
 			</div>
 
 			<div class="col-sm-4">
 				<label for="inputCtelefono" class="fw-bold mb-1">
-					Telefono: <span class="text-danger">*</span>
+					Teléfono: <span class="text-danger">*</span>
 				</label>
 				<input
 					id="inputCtelefono" 
 					type="number" 
 					class="form-control"
-					placeholder="telefono del contacto del cliente" 
+					placeholder="Teléfono del contacto del cliente" 
 					v-model="form.telefono"
 				>
 			</div>
 
 			<div class="col-sm-4">
 				<label for="inputCcorreo" class="fw-bold mb-1">
-					Correo:  <span class="text-danger">*</span>
+					Correo: 
 				</label>
 				<input
 					id="inputCcorreo" 
 					type="email" 
 					class="form-control"
-					placeholder="correo del contacto del cliente" 
+					placeholder="Correo del contacto del cliente" 
 					v-model="form.email"
 				>
 			</div>
@@ -52,7 +56,7 @@
 						v-model="form.activo"
 						checked 
 					>
-					<label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Activo <span class="text-danger">*</span></label>
 				</div>
 			</div>
 
@@ -94,8 +98,8 @@
 		<table class="table table-sm table-hover" style="text-align: center;">
 			<thead class="bg-light">
 				<th class="text-center">#</th>
-				<th>Nombre</th>
-				<th>Telefono</th>
+				<th>Nombre de contacto</th>
+				<th>Teléfono</th>
 				<th>Correo</th>
 				<th>Activo</th>
 			</thead>

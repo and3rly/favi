@@ -36,7 +36,7 @@
 							<td>{{ i.nit }}</td>
 							<td>{{ i.direccion }}</td>
 							<td>{{ i.email }}</td>
-							<td>{{ i.tipos_clientes}}</td>
+							<td>{{ i.ncliente}}</td>
 							<td>
 								<i v-if="i.activo == 1" class="fa fa-check text-success"></i>
 								<i v-else class="fa fa-times text-danger"></i>
@@ -117,7 +117,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-					<i class="fas fa-address-book"></i>Contacto 
+					<i class="fas fa-address-book"></i> Contacto 	
 					</h1>
 					<button 
 						type="button" 

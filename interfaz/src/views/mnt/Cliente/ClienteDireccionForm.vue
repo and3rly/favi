@@ -1,16 +1,18 @@
 <template>
 	<form @submit.prevent="guardar">
 		<div class="row g-2 mb-4">
-			
+			<div class="alert alert-info fw-bold py-1 mb-1" role="alert">
+			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos marcados con  <span class="text-danger">*</span>
+		</div>
             <div class="col-sm-12">
 				<label for="inputCdireccion" class="fw-bold mb-1">
-					Direccion: 
+					Dirección:  <span class="text-danger">*</span>
 				</label>
 				<input
 					id="inputCdireccion" 
 					type="text" 
 					class="form-control"
-					placeholder="Colocar direccion completa" 
+					placeholder="Colocar dirección completa" 
 					v-model="form.direccion"
 				>
 			</div>
@@ -49,7 +51,7 @@
 					id="inputCcasa" 
 					type="text" 
 					class="form-control"
-					placeholder="numero de casa si tuviera EJ: Nc.2" 
+					placeholder="Número de casa si tuviera EJ: Nc.2" 
 					v-model="form.no_casa"
 				>
 			</div>
@@ -63,7 +65,7 @@
 					id="inputCzona" 
 					type="text" 
 					class="form-control"
-					placeholder="zona de ubicacion Ej: z2" 
+					placeholder="Zona de ubicacion Ej: z2" 
 					v-model="form.zona"
 				>
 			</div>    
@@ -76,7 +78,7 @@
 					id="inputCLocal" 
 					type="text" 
 					class="form-control"
-                    placeholder="Numero de local dentro de un comercial" 
+                    placeholder="Número de local dentro de un comercial" 
 				
 					v-model="form.local"
 				>
@@ -133,7 +135,7 @@
 						v-model="form.activo"
 						checked 
 					>
-					<label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Activo  <span class="text-danger">*</span></label>
 				</div>
 			</div>
 
@@ -180,7 +182,7 @@
 				<th >Calle</th>
 				<th >No.Casa</th>
                 <th >Local</th>
-                <th >Direccion</th>
+                <th >Dirección</th>
 				<th >Activo</th>
 			</thead>
 			<tbody>

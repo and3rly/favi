@@ -29,7 +29,7 @@
 			$data =["exito"            =>0];
 			if ($this->input->method() =="post") {
 			$datos                     = (object) $_POST;
-			if (verPropiedad($datos,"nombre_comercial")&& verPropiedad($datos,"nit")&& verPropiedad($datos,"email")) {
+			if (verPropiedad($datos,"nombre_comercial")&& verPropiedad($datos,"nit")) {
 			$cliente                 = new Cliente_model($id);
 			if ($cliente->existe($datos)) {
 			$data['mensaje']           ="los datos ya se encuentran almacenados.";}
