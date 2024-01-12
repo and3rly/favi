@@ -245,10 +245,10 @@ onMounted(() => {
 		<perfect-scrollbar class="app-sidebar-content">
 			<div class="menu">
 				<template v-for="menu in appSidebarMenu.modulos">
-					<div class="menu-header" v-if="menu.is_header">{{ menu.text }}</div>
+					<div class="menu-header" v-if="menu.titulo == 1">{{ menu.nombre }}</div>
 					<div class="menu-divider" v-else-if="menu.is_divider"></div>
 					<template v-else>
-						<sidebar-nav v-if="menu.text" v-bind:menu="menu"></sidebar-nav>
+						<sidebar-nav v-if="menu.nombre" v-bind:menu="menu"></sidebar-nav>
 					</template>
 				</template>
 				<!--div class="p-3 px-4 mt-auto hide-on-minified">
