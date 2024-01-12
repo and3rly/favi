@@ -8,7 +8,7 @@ class Menu extends CI_Controller {
 		if (!empty($id)) {
 			$this->cargar($id);
 		}
-		$this->load->model(['mnt/Menu_model']);
+		$this->load->model(['mnt/Menu_model', 'mnt/Menu_modulo_model']);
 		$this->output->set_content_type('application/json');
 	}
 
@@ -19,8 +19,22 @@ class Menu extends CI_Controller {
 	
 	public function buscar()
 	{
-		$this->output->set_output(json_encode([
-			'lista' => $this->Menu_model->buscar($_GET)
+		$user = $this->session->userdata('usuario');
+		$modulos = $this->Menu_model->_buscar($_GET);
+
+		if ($modulos) {
+			foreach ($modulos as $key => $row) {
+				$datos = $this->Menu_modulo_model->_buscar([
+					'modulo'  => $row->id,
+				]);
+
+				$row->opciones = $datos ? $datos : false;
+			}
+		}
+
+		$this->output->set_content_type('application/json')
+		->set_output(json_encode([
+		 	'lista' => $modulos ? $modulos : []
 		]));
 	}
 	

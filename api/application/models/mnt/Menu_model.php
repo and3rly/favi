@@ -19,18 +19,11 @@ class Menu_model extends General_model {
 		}
 	}
 	
-	public function buscar($args=[])
-	{
-
-		if (elemento($args, 'id')) {
-			$this->db->where("m.id", $args['id']);
-		}
-
+	public function _buscar($args=[])
+	{	
 		$tmp = $this->db
-					->select("m.*, mn.titulo as titulo_padre, mn.nombre as nombre_padre")
-					->join("menu mn","m.padre = mn.id", "left")
-					->where("m.activo", 1)
-					->get("menu m");
+		->where("activo", 1)
+		->get("modulo");
 
 		return verConsulta($tmp, $args);
 	}

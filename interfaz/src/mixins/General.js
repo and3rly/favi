@@ -35,12 +35,9 @@ export default {
 			.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk}`, this[archivo ? 'fdata': 'form'])
 			.then(res => {
 				this.btnGuardar = false
-				console.log(res);
-				console.log(res.data);
 				if (res.data.exito) {
 					this.archivo = null
 					if (res.data.linea) {
-						console.log(this.pk);
 						this.$emit('actualizar', res.data.linea, this.pk)
 						this.$emit('cerrar')
 					}

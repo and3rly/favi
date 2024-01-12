@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import '@fortawesome/fontawesome-free';
 import { useAppSidebarMenuStore } from '@/stores/app-sidebar-menu';
 import { useAppOptionStore } from '@/stores/app-option';
 import { onMounted } from 'vue';
@@ -12,7 +11,6 @@ const appSidebarMenu = useAppSidebarMenuStore();
 const appOption = useAppOptionStore();
 var appSidebarFloatSubmenuTimeout = '';
 var appSidebarFloatSubmenuDom = '';
-
 
 function appSidebarMobileToggled() {
 	appOption.appSidebarMobileToggled = !appOption.appSidebarMobileToggled;
@@ -183,7 +181,7 @@ function handleGetHiddenMenuHeight(elm) {
 	return targetHeight;
 }
 
-onMounted(() => {
+function initMenu() {
 	var handleSidebarMenuToggle = function(menus, expandTime) {
 		menus.map(function(menu) {
 			menu.onclick = function(e) {
@@ -234,27 +232,30 @@ onMounted(() => {
 	
 	
 	handleSidebarMinifyFloatMenu();
+}
+
+onMounted(() => {
+	setTimeout(function() {
+		initMenu()
+	}, 1500)	
 });
 </script>
 <template>
 	<div id="sidebar" class="app-sidebar">
 		<perfect-scrollbar class="app-sidebar-content">
-			<!-- <a>{{ appSidebarMenu }}</a> -->
 			<div class="menu">
-				<template v-for="menu in appSidebarMenu.menuItems">
+				<template v-for="menu in appSidebarMenu.modulos">
 					<div class="menu-header" v-if="menu.is_header">{{ menu.text }}</div>
+					<div class="menu-divider" v-else-if="menu.is_divider"></div>
 					<template v-else>
 						<sidebar-nav v-if="menu.text" v-bind:menu="menu"></sidebar-nav>
-						<!-- <template v-if="menu.childs && menu.childs.length > 0">
-							<sidebar-nav class="menu-header" v-for="childMenu in menu.childs" :key="childMenu.id" v-bind:menu="childMenu"></sidebar-nav>
-						</template> -->
 					</template>
 				</template>
-				<!-- <div class="p-3 px-4 mt-auto hide-on-minified">
+				<!--div class="p-3 px-4 mt-auto hide-on-minified">
 					<a href="https://seantheme.com/vue-studio/documentation/index.html" target="_blank" class="btn d-block btn-secondary fw-600 rounded-pill">
 						<i class="fa fa-code-branch me-1 ms-n1 opacity-5"></i> Documentation
 					</a>
-				</div> -->
+				</div-->
 			</div>
 		</perfect-scrollbar>
 		<button class="app-sidebar-mobile-backdrop" v-on:click="appSidebarMobileToggled"></button>

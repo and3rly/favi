@@ -47,6 +47,8 @@ class Producto_model extends General_model {
 						c.nombre as nmarca,
 						d.nombre as nclasificacion,
 						e.nombre as nestado,
+						e.utilizable, 
+						e.danado,
 						f.nombre as ntipo,
 						h.nombre as nfamilia")
 					->join("unidad_medida b","b.id = a.unidad_medida_id")

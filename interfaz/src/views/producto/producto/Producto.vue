@@ -13,8 +13,7 @@
 
 	<ProductoLista
 		@editar="editarReg"
-		:cargando="cargando"
-		:filtrada="lista"
+		:tmpLinea="tmpReg"
 	/>
 
 	<div 

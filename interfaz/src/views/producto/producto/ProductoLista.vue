@@ -1,35 +1,54 @@
 <template>
-	<div class="card">
-		<div class="card-body p-4">
+	<Card>
+		<CardBody>
+			<div class="input-group mt-3 mb-4">
+				<div class="input-group">
+					<input 
+						type="text" 
+						class="form-control ps-35px"
+						placeholder="Buscar..." 
+						v-model="termino"
+						style="border-radius: 4px;" 
+					/>
+					<div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0" style="z-index: 1020;">
+						<i class="fa fa-search opacity-5"></i>
+					</div>
+				</div>
+			</div>
 			<div class="table-responsive" style="max-height: calc(100vh - 120px - 100px - 20px);">
 				<table class="table table-sm table-hover mb-0">
 					<thead>
 						<tr>
-							<th scope="col" class="text-center" width="40">#</th>
-							<th class="text-center" scope="col" width="100">Imagen</th>
+							<th scope="col" class="text-center" width="30">#</th>
+							<th class="text-center" scope="col" width="70">Imagen</th>
 							<th scope="col" width="100">Código</th>
 							<th scope="col" width="100">Barra</th>
 							<th scope="col" width="150">Nombre</th>
-							<th scope="col" width="150">Descripción</th>
-							<th class="text-center" scope="col">Existencia máxima</th>
-							<th class="text-center" scope="col">Existencia mínima</th>
+							<!--th scope="col" width="150">Descripción</th-->
+							<th class="text-cemter">Costo</th>
+							<th class="text-cemter">Precio</th>
+							<th class="text-center" scope="col">Existencia max.</th>
+							<th class="text-center" scope="col">Existencia min.</th>
 							<th class="text-center" scope="col">UM</th>
-							<th class="text-center" scope="col">Presentación</th>
 							<th scope="col">Marca</th>
 							<th scope="col">Estado</th>
 							<th scope="col">Clasificación</th>
 							<th scope="col">Tipo</th>
 							<th scope="col">Familia</th>
-							<th class="text-center">Activo</th>
+							<th class="text-center">Estado</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(i, idx) in filtrada">
+						<tr 
+							v-for="(i, idx) in filtrada"
+							style="cursor: pointer;" 
+						>
 							<td scope="row" class="text-center fw-bold">{{idx + 1}}</td>
 							<td class="text-center">
 								<Imagen
 									:imagen="i.imagen"
-									:estilo="'width: 42px; height: 42px;'"
+									:estilo="'width: 30px; height: 30px;'"
 									:clase="'rounded-circle'"
 								/>
 							</td>
@@ -43,20 +62,50 @@
 									{{i.nombre}} 
 								</a>
 							</td>
-							<td>{{ i.descripcion }}</td>
+							<!--td>{{ i.descripcion }}</td-->
+							<td class="text-center">{{ i.costo }}</td>
+							<td class="text-center">{{ i.precio }}</td>
 							<td class="text-center">{{ i.existencia_maxima }}</td>
 							<td class="text-center">{{ i.existencia_minima }}</td>
 							<td class="text-center">{{ i.um }}</td>
-							<td class="text-center">{{ i.npresentacion }} - {{i.factor}}</td>
 							<td>{{ i.nmarca }}</td>
-							<td>{{ i.nestado }}</td>
+							<td>
+								<span 
+									class="badge bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+									:class="i.utilizable == 0 || i.danado == 1 ? 'bg-danger text-danger-800 ': 'bg-success text-success-800'"
+								>
+									<i v-if="i.utilizable == 0 || i.danado == 1" class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> 
+									<i v-else class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i>{{ i.nestado }}
+								</span>
+							</td>
 							<td>{{ i.nclasificacion }}</td>
 							<td>{{ i.ntipo }}</td>
 							<td>{{ i.nfamilia }}</td>
 							<td class="text-center">
-								<i v-if="i.activo == 1" class="fa fa-check text-success"></i>
-                      			<i v-else class="fa fa-times text-danger" ></i>
+								<span 
+									v-if="i.activo == 1"
+									class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+								>
+									<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Activo
+								</span>
+
+								<span 
+									v-else
+									class="badge bg-danger text-danger-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+								>
+									<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> Inactivo
+								</span>
 							</td>		
+							<td class="text-center">
+								<button
+									type="button"
+									class="btn btn-sm btn-secondary"
+									title="Editar producto"
+									@click="$emit('editar', i, idx)"
+								>
+									<i class="fas fa-edit"></i>
+								</button>
+							</td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -74,9 +123,8 @@
 					</tfoot>
 				</table>
 			</div>
-		</div>
-	</div>
-	
+		</CardBody>
+	</Card>
 </template>
 
 <script>
@@ -87,20 +135,30 @@
 		name: 'ProductoLista',
 		mixins: [General],
 		props: {
-			filtrada: {
-				type: Array,
+			reg: {
+				type: Object,
 				required: false
 			},
-			cargando: {
-				type: Boolean, 
+			tmpLinea: {
+				type: Object,
 				required: false
-			}
+			},
 		},
 		data: () => ({
-
 		}),
+		created() {
+			this.controlador = 'producto/producto'
+			this.autoBuscar = true
+		},
 		components: {
 			Imagen
+		},
+		watch: {
+			'tmpLinea'(o) {
+				if (o) {
+					this.setRegLista(o)
+				}
+			}
 		}
 	}
 </script>
