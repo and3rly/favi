@@ -57,7 +57,3 @@ class Vehiculo extends CI_Controller {
 		$this->output->set_output(json_encode($data));
 	}
 }
-
-
-/* End of file Ruta.php */
-/* Location: ./application/controllers/Ruta.php */
