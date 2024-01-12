@@ -16,7 +16,7 @@ class Vehiculo_model extends General_model {
     public $fecha_agr;
     public $usuario_mod;
     public $fecha_mod;
-    public $activo=1;
+    public $activo;
 
 
 
@@ -34,7 +34,7 @@ class Vehiculo_model extends General_model {
 			$this->db->where('id',$args['id']);
 		}
 
-		$tmp = $this->db->get("$this->_tabla");
+		$tmp = $this->db->get("vehiculos");
 
 		return verConsulta($tmp, $args);
 	}
@@ -47,7 +47,8 @@ class Vehiculo_model extends General_model {
 		$tmp = $this->db
 					->where("placa", $args->placa)
 					->where("activo",1)
-					->get("$this->_tabla");
+					->get('vehiculos');
+
 
 		if ($tmp->num_rows() > 0) {
 			return true;

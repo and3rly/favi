@@ -1,266 +1,125 @@
 <template>
 	<form @submit.prevent="guardar">
-		<div class="mb-1 row">
-			<label
-				for="inputObservacion" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Observación: <span class="text-danger">*</span>
-			</label>
-			<div class="col-sm-9">
-				<input 
-					type="text" 
-					class="form-control" 
-					id="inputObservacion"
-					v-model="form.observacion"
-					required
-				/>
-			</div>
+		<div class="alert alert-info fw-bold py-2 mb-4" role="alert">
+			<i class="fas fa-lightbulb me-2"></i>Todos los campos marcados con <span class="text-danger">*</span> son obligatorios.
 		</div>
 
-		<div class="mb-1 row">
-			<label
-				for="selectEstado" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Estado: <span class="text-danger">*</span>
-			</label>
-			<div class="col-sm-9">
-				<select 
-					name="selectEstado" 
-					id="selectEstado"
-					class="form-select" 
-					v-model="form.estado_recepcion_id"
-					required
-				>
-					<option :value="null">------------------</option>
-					<option v-for="i in cat.estado" :value="i.id"> {{ i.nombre }} </option>
-				</select>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="selectTransaccion" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Transacción: <span class="text-danger">*</span>
-			</label>
-			<div class="col-sm-9">
-				<select 
-					name="selectTransaccion" 
-					id="selectTransaccion"
-					class="form-select" 
-					v-model="form.tipo_transaccion_id"
-					required
-				>
-					<option :value="null">------------------</option>
-					<option v-for="i in cat.transaccion" :value="i.id"> {{ i.nombre }} </option>
-				</select>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="selectBodega" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Bodega: <span class="text-danger">*</span>
-			</label>
-			<div class="col-sm-9">
-				<select 
-					name="selectBodega" 
-					id="selectBodega"
-					class="form-select" 
-					v-model="form.bodega_id"
-					required
-				>
-					<option :value="null">------------------</option>
-					<option v-for="(i, idx) in cat.bodega" :value="i.id"> {{ i.nombre }} </option>
-				</select>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="selectVehiculo" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Vehículo: <span class="text-danger">*</span>
-			</label>
-			<div class="col-sm-9">
-				<select 
-					name="selectVehiculo" 
-					id="selectVehiculo"
-					class="form-select" 
-					v-model="form.vehiculos_id"
-					required
-				>
-					<option :value="null">------------------</option>
-					<option v-for="i in cat.vehiculo" :value="i.id"> {{ i.placa }} - {{ i.marca }} {{ i.model }} </option>
-				</select>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="selectPiloto" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Piloto: <span class="text-danger">*</span>
-			</label>
-			<div class="col-sm-9">
-				<select 
-					name="selectPiloto" 
-					id="selectPiloto"
-					class="form-select" 
-					v-model="form.pilotos_id"
-					required
-				>
-					<option :value="null">------------------</option>
-					<option v-for="i in cat.piloto" :value="i.id"> {{ i.nombres }} {{ i.apellidos }} </option>
-				</select>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="inputNoGuia" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				No. Guía:
-			</label>
-			<div class="col-sm-9">
-				<input 
-					type="text" 
-					class="form-control" 
-					id="inputNoGuia"
-					v-model="form.no_guia"
-				/>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="inptuMarchamo" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				No. Marchamo:
-			</label>
-			<div class="col-sm-9">
-				<input 
-					type="text" 
-					class="form-control" 
-					id="inptuMarchamo"
-					v-model="form.no_marchamo"
-				/>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="inputFechaRec" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Fecha recepción:
-			</label>
-			<div class="col-sm-9">
-				<input 
-					type="date" 
-					class="form-control" 
-					id="inputFechaRec"
-					v-model="form.fecha_recepcion"
-				/>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="inputHoraInicio" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Hora inicio:
-			</label>
-			<div class="col-sm-9">
-				<input 
-					type="time" 
-					class="form-control" 
-					id="inputHoraInicio"
-					v-model="form.hora_inicio"
-				/>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
-				for="inputHoraFin" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Hora fin:
-			</label>
-			<div class="col-sm-9">
-				<input 
-					type="time" 
-					class="form-control" 
-					id="inputHoraFin"
-					v-model="form.hora_fin"
-				/>
-			</div>
-		</div>
-
-		<div class="col-sm-9 offset-sm-3 mt-2">
-			<div class="d-flex p-1">
-				<div class="flex-fill me-2">
-					<div class="form-check form-switch">
-						<input 
-							class="form-check-input" 
-							type="checkbox" 
-							role="switch" 
-							id="chkIngresaStock" 
-							:true-value="1" 
-							:false-value="0"
-							v-model="form.ingresa_stock"
-							checked 
-						>
-						<label class="form-check-label" for="chkIngresaStock">Ingresa a stock</label>
-					</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<label for="titulo" class="col-form-label mb-0 fw-bold">
+					Título: <span class="text-danger">*</span>
+				</label>
+				<div class="col-sm-12">
+					<input 
+						type="text" 
+						class="form-control" 
+						id="titulo" 
+						placeholder="Título menú"
+						v-model="form.titulo"
+					>
 				</div>
-
-				<div class="flex-fill me-4">
-					<div class="form-check form-switch">
-						<input 
-							class="form-check-input" 
-							type="checkbox" 
-							role="switch" 
-							id="chkAnulada" 
-							:true-value="1" 
-							:false-value="0"
-							v-model="form.anulada"
-							checked 
-						>
-						<label class="form-check-label" for="chkAnulada">Anulada</label>
-					</div>
-				</div>
-
-				<div class="flex-fill me-2">
-					<div class="form-check form-switch">
-						<input 
-							class="form-check-input" 
-							type="checkbox" 
-							role="switch" 
-							id="chkActivo" 
-							:true-value="1" 
-							:false-value="0"
-							v-model="form.activo"
-							checked 
-						>
-						<label class="form-check-label" for="chkActivo">Activa</label>
-					</div>
+			</div>
+			<div class="col-sm-6">
+				<label for="nombre" class="col-form-label mb-0 fw-bold">
+					Nombre: <span class="text-danger">*</span>
+				</label>
+				<div class="col-sm-12">
+					<input 
+						type="text" 
+						class="form-control" 
+						id="nombre" 
+						placeholder="Nombre menú"
+						v-model="form.nombre"
+					>
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<label for="nombre" class="col-form-label mb-0 fw-bold">
+					Padre: <span class="text-danger">*</span>
+				</label>
+				<select 
+					name="selectPadre" 
+					id="selectPadre" 
+					class="form-select"
+					v-model="form.padre"
+					@change="onChangePadre($event)"
+					required
+				>	
+					<option value="0">Sin Padre</option>
+					<option v-for="(i, idx) in cat.menu" :value="i.id">{{ i.titulo }} | Nivel: {{ i.nivel }} </option>
+				</select>
+			</div>
+			<div class="col-sm-6">
+				<label for="nombre" class="col-form-label mb-0 fw-bold">
+					Nivel: <span class="text-danger">*</span>
+				</label>
+				<div class="col-sm-12">
+					<input 
+						type="text" 
+						class="form-control" 
+						id="nivel" 
+						placeholder="Nivel menú"
+						v-model="form.nivel"
+                        disabled
+					>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<label for="titulo" class="col-form-label mb-0 fw-bold">
+					Ruta:
+				</label>
+				<div class="col-sm-12">
+					<input 
+						type="text" 
+						class="form-control" 
+						id="ruta" 
+						placeholder="Ruta menú"
+						v-model="form.ruta"
+					>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<label for="titulo" class="col-form-label mb-0 fw-bold">
+					Ícono: <span class="text-danger">*</span>
+				</label>
+				<select 
+					name="selectIcono" 
+					id="selectIcono" 
+					class="form-select"
+					v-model="form.icono"
+					required
+				>	
+					<option value="">Seleccione Ícono...</option>
+					<!-- <option v-for="(i, idx) in cat.icono" :value="i.id">{{ i.titulo }} | Nivel: {{ i.nivel }} </option> -->
+					<option value="fa fa-list">fa fa-list</option>
+                    <option value="fa fa-cubes-stacked">fa fa-cubes-stacked</option>
+				</select>
+			</div>
+		</div>
+        <br>
+        <div class="d-flex flex-row mb-3">
+            <div class="me-4">
+                <div class="form-check form-switch">
+                    <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        role="switch" 
+                        id="flexSwitchCheckChecked" 
+                        :true-value="1" 
+                        :false-value="0"
+                        v-model="form.solicita_clave"
+                        checked 
+                    >
+                    <label class="form-check-label" for="flexSwitchCheckChecked">Solicita Clave</label>
+                </div>
+            </div>
+        </div>
 
-		<div class="text-end mt-4 mb-1">
+		<div class="text-end mt-5">
 			<button 
 				type="button" 
 				class="btn btn-secondary me-2"
@@ -271,7 +130,7 @@
 
 			<button 
 				type="submit" 
-				class="btn btn-primary"
+				class="btn btn-success"
 				:disabled="btnGuardar"
 			>	
 					<span 
@@ -286,49 +145,93 @@
 					<span v-else>Guardar</span>
 			</button>
 		</div>
+
 	</form>
 </template>
 
 <script>
-	import Helper from '@/mixins/Helper.js'
+	import General from '@/mixins/General.js'
+	import Catalogo from '@/mixins/Catalogo.js'
 
 	export default {
-		name: 'FormRecepcion',
-		mixins: [Helper],
+		name: 'MenuForm',
+		mixins: [General, Catalogo],
 		props: {
-			recepcion: {
+			menu: {
 				type: Object,
-				required: false,
-				default: null
-			},
-			cat: {
-				type: Array,
-				required: true
+				required: false
 			}
-		},
+		},	
 		data: () => ({
-
+			btnGuardar: false,
 		}),
 		created() {
-			this.controlador = 'recepcion/principal'
-			this.autoBuscar = false
-			this._emit = true
+			
+			this.setForm()
 
-			if (this.recepcion != null) {
-				this.setDatosForm(this.recepcion)
-			} else {
-				this.fbase = {
-					vehiculos_id: null,
-					bodega_id: null,
-					pilotos_id: null,
-					tipo_transaccion_id: 1,
-					estado_recepcion_id: 1,
-					anulada: 0,
-					detalle: []
-				}
+			if (this.menu) {
+				this.pk = this.menu.id			
+				this.setDatosForm(this.menu);
 			}
+
+			this.controlador = 'mnt/menu'
+            this.getCatalogo(['menu'])
 		},
 		methods: {
+			guardar() {
+				this.btnGuardar = true
+
+				let datos = new FormData()
+
+				for (let i in this.form) {
+					datos.append(i, this.form[i]);
+				}
+
+				this.$http
+				.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk}`, datos)
+				.then(res => {
+					this.btnGuardar = false
+
+					if (res.data.exito) {
+						this.archivo = null
+
+						if (res.data.linea) {
+							this.$emit('actualizar', res.data.linea, this.pk)
+							this.$emit('cerrar')
+						}
+						
+					}
+				}).catch(e => {
+					this.btnGuardar = false
+					console.log(e)
+				})
+			},
+			setForm() {
+				this.pk = ''
+				this.form = {
+					titulo: '',
+					nombre: '',
+					nivel: 0,
+					padre: 0,
+					solicita_clave: 0,
+					icono: '',
+					ruta: '',
+					activo: 1
+				}
+				this.archivo = null
+			},
+			onChangePadre(event){
+				const newVal = event.target.value;
+
+                if(newVal!=0){
+                    let item = this.cat.menu.filter(e => e.id === newVal);
+                    
+                    this.form.nivel = parseInt(item[0].nivel)+1;
+                }else {
+                    this.form.nivel = 0;
+                }
+
+			}
 		}
 	}
 </script>
