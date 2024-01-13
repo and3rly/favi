@@ -154,10 +154,10 @@ const router = createRouter({
             meta: {titulo: 'Recpción'}
           },
           {
-            path: '/menu',
-            name: 'Menu',
-            component: () => import('@/views/mnt/menu/Menu.vue'),
-            meta: {titulo: 'Menu'}
+            path: '/modulo',
+            name: 'Módulo',
+            component: () => import('@/views/mnt/menu/Cuerpo.vue'),
+            meta: {titulo: 'Módulo'}
           }
         ]
     },

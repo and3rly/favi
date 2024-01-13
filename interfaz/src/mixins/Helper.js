@@ -1,10 +1,14 @@
+import Catalogo from '@/mixins/Catalogo.js'
+
 export default {
-	name: 'General',
+	name: 'Helper',
+	mixins: [Catalogo],
 	data: () => ({
 		pk: '',
 		fk: '',
 		controlador: '',
 		_key: 'id',
+		nombreAccion: 'guardar',
 		cargando: false,
 		autoBuscar: true,
 		btnGuardar: false,
@@ -40,7 +44,7 @@ export default {
 			}
 
 			this.$http
-			.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk}`, datos)
+			.post(`${this.$baseUrl}/${this.controlador}/${this.nombreAccion}/${this.pk}`, datos)
 			.then(result => {
 				this.btnGuardar = false
 

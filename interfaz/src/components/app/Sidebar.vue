@@ -237,7 +237,7 @@ function initMenu() {
 onMounted(() => {
 	setTimeout(function() {
 		initMenu()
-	}, 1500)	
+	}, 2000)	
 });
 </script>
 <template>

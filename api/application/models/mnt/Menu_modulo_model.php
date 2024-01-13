@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Menu_modulo_model extends CI_Model {
+class Menu_modulo_model extends General_model {
 
 	public $nombre;
 	public $icono;
@@ -20,6 +20,10 @@ class Menu_modulo_model extends CI_Model {
 	{	
 		if (elemento($args, 'modulo')) {
 			$this->db->where('modulo_id', $args['modulo']);
+		}
+
+		if (elemento($args, 'id')) {
+			$this->db->where('id', $args['id']);
 		}
 		
 		$tmp = $this->db

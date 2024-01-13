@@ -2,18 +2,18 @@
 
 class Menu_model extends General_model {
 
-	public $titulo;
 	public $nombre;
-	public $nivel;
-	public $padre;
-	public $solicita_clave;
+	public $url;
 	public $icono;
-	public $ruta;
 	public $activo = 1;
+	public $titulo = 0;
 
 	public function __construct($id="")
 	{
 		parent::__construct();
+		$this->setTabla("modulo");
+		$this->setLlave("id");
+
 		if (!empty($id)) {
 			$this->cargar($id);
 		}
@@ -21,6 +21,10 @@ class Menu_model extends General_model {
 	
 	public function _buscar($args=[])
 	{	
+		if (elemento($args, 'id')) {
+			$this->db->where("id", $args['id']);
+		}	
+		
 		$tmp = $this->db
 		->where("activo", 1)
 		->get("modulo");
