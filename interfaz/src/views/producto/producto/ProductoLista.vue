@@ -1,7 +1,7 @@
 <template>
 	<Card>
-		<CardBody>
-			<div class="input-group mt-3 mb-4">
+		<CardBody class="p-0">
+			<div class="input-group mt-3 mb-3 px-3">
 				<div class="input-group">
 					<input 
 						type="text" 
@@ -16,13 +16,13 @@
 				</div>
 			</div>
 			<div class="table-responsive" style="max-height: calc(100vh - 120px - 100px - 20px);">
-				<table class="table table-sm table-hover mb-0">
+				<table class="table table-sm table-striped mb-0">
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="30">#</th>
 							<th class="text-center" scope="col" width="70">Imagen</th>
 							<th scope="col" width="100">Código</th>
-							<th scope="col" width="100">Barra</th>
+							<!--th scope="col" width="100">Barra</th-->
 							<th scope="col" width="150">Nombre</th>
 							<!--th scope="col" width="150">Descripción</th-->
 							<th class="text-cemter">Costo</th>
@@ -36,7 +36,7 @@
 							<th scope="col">Tipo</th>
 							<th scope="col">Familia</th>
 							<th class="text-center">Estado</th>
-							<th></th>
+							<th class="text-center">Acción</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -53,7 +53,7 @@
 								/>
 							</td>
 							<td>{{ i.codigo }}</td>
-							<td>{{ i.barra }}</td>
+							<!--td>{{ i.barra }}</td-->
 							<td> 
 								<a 
 									href="javascript:;"

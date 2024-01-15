@@ -1,10 +1,6 @@
 <template>
 	<form @submit.prevent="guardar">
 		<div class="row g-2 mb-4">
-			<div class="alert alert-info fw-bold py-1 mb-1" role="alert">
-			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos marcados con  <span class="text-danger">*</span>
-		</div>
-
 			<div class="col-sm-4">
 				<label for="inputCnombre" class="fw-bold mb-1">
 					Nombre: <span class="text-danger">*</span>
@@ -13,8 +9,8 @@
 					id="inputCnombre" 
 					type="text" 
 					class="form-control"
-					placeholder="Nombre del contacto del cliente" 
 					v-model="form.nombre"
+					required
 				>
 			</div>
 
@@ -24,10 +20,10 @@
 				</label>
 				<input
 					id="inputCtelefono" 
-					type="number" 
+					type="text" 
 					class="form-control"
-					placeholder="Teléfono del contacto del cliente" 
 					v-model="form.telefono"
+					required
 				>
 			</div>
 
@@ -39,29 +35,27 @@
 					id="inputCcorreo" 
 					type="email" 
 					class="form-control"
-					placeholder="Correo del contacto del cliente" 
 					v-model="form.email"
 				>
 			</div>
+
 			<div class="d-flex flex-row mb-3">
-			<div class="me-4">
-				<div class="form-check form-switch">
-					<input 
-						class="form-check-input" 
-						type="checkbox" 
-						role="switch" 
-						id="flexSwitchCheckChecked" 
-						:true-value="1" 
-						:false-value="0"
-						v-model="form.activo"
-						checked 
-					>
-					<label class="form-check-label" for="flexSwitchCheckChecked">Activo <span class="text-danger">*</span></label>
+				<div class="me-4">
+					<div class="form-check form-switch">
+						<input 
+							class="form-check-input" 
+							type="checkbox" 
+							role="switch" 
+							id="flexSwitchCheckChecked" 
+							:true-value="1" 
+							:false-value="0"
+							v-model="form.activo"
+							checked 
+						>
+						<label class="form-check-label fw-bold" for="flexSwitchCheckChecked">Activo</label>
+					</div>
 				</div>
 			</div>
-
-		</div>
-
 		</div>
 
 		<div class="text-end mt-3 mb-1">
@@ -94,16 +88,23 @@
 		</div>
 	</form>
 
-	<div class="table-responsive-sm table-responsive-lg">
-		<table class="table table-sm table-hover" style="text-align: center;">
+	<div class="table-responsive-sm mt-2">
+		<table class="table table-sm table-hover table-bordered">
 			<thead class="bg-light">
-				<th class="text-center">#</th>
-				<th>Nombre de contacto</th>
-				<th>Teléfono</th>
-				<th>Correo</th>
-				<th>Activo</th>
+				<tr>
+					<th class="text-center">#</th>
+					<th>Nombre de contacto</th>
+					<th>Teléfono</th>
+					<th>Correo</th>
+					<th class="text-center">Estado</th>
+				</tr>
 			</thead>
 			<tbody>
+				<tr>
+          <td colspan="100%" class="text-center p-3" v-if="lista.length == 0 && !inicio">
+            No se encontraron registros
+          </td>
+        </tr>
 				<tr v-if="inicio === true">
 					<td colspan="100" class="text-center">
 			      <div class="spinner-border mt-3" role="status">
@@ -121,10 +122,21 @@
 					<td class="text-center">{{ idx + 1 }}</td>
 					<td>{{ i.nombre }}</td>
 					<td>{{ i.telefono }}</td>
-					<td class="text-center">{{ i.email }}</td>
+					<td>{{ i.email }}</td>
 					<td class="text-center">
-						<i v-if="i.activo == true" class="fas fa-check text-success"></i>
-						<i v-else class="fas fa-times text-danger"></i>
+						<span 
+							v-if="i.activo == 1"
+							class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+						>
+							<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Activo
+						</span>
+
+						<span 
+							v-else
+							class="badge bg-danger text-danger-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+						>
+							<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> Inactivo
+						</span>
 					</td>
 				</tr>
 			</tbody>

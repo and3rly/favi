@@ -1,8 +1,23 @@
 <template>
-	<div class="card">
-		<div class="card-body p-4">
+	<Card>
+		<CardBody class="p-0">
+			<div class="input-group mt-3 mb-3 px-3">
+				<div class="input-group">
+					<input 
+						type="text" 
+						class="form-control ps-35px"
+						placeholder="Buscar..." 
+						v-model="termino"
+						style="border-radius: 4px;" 
+					/>
+					<div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0" style="z-index: 1020;">
+						<i class="fa fa-search opacity-5"></i>
+					</div>
+				</div>
+			</div>
+
 			<div class="table-responsive-sm table-responsive-lg">
-				<table class="table table-sm table-hover mb-0" style="text-align: center;">
+				<table class="table table-sm table-hover table-striped mb-0" style="text-align: center;">
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="40">#</th>
@@ -13,13 +28,12 @@
 							<th  scope="col">Dirección</th>
 							<th scope="col">Correo</th>
 							<th scope="col">Tipo de Cliente</th> 
-							<th scope="col">Activo</th>
+							<th scope="col">Estado</th>
 							<th scope="col" class="text-center" width="70">Acción</th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-if="!cargando" v-for="(i, idx) in lista">
+						<tr v-if="!cargando" v-for="(i, idx) in filtrada">
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
 							<td>
 								<a 
@@ -38,8 +52,19 @@
 							<td>{{ i.email }}</td>
 							<td>{{ i.ncliente}}</td>
 							<td>
-								<i v-if="i.activo == 1" class="fa fa-check text-success"></i>
-								<i v-else class="fa fa-times text-danger"></i>
+								<span 
+									v-if="i.activo == 1"
+									class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+								>
+									<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Activo
+								</span>
+
+								<span 
+									v-else
+									class="badge bg-danger text-danger-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+								>
+									<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> Inactivo
+								</span>
 							</td>
 							<td>
 								<div class="dropdown position-static">
@@ -48,7 +73,7 @@
 										data-bs-toggle="dropdown"
 										aria-expanded="false" 
 									>
-										<i class="fas fa-ellipsis-v"></i>
+										<i class="fas fa-ellipsis-h"></i>
 									</a>
 								  <div class="dropdown-menu dropdown-menu-end">
 								    <a
@@ -56,28 +81,28 @@
 								    	class="dropdown-item"
 										@click="verContacto(i)"
 								    >
-								    	<i class=" fas fa-user-plus"></i>Agregar contacto
+								    	<i class=" fas fa-user-plus me-1"></i>Agregar contacto
 								    </a>
 									<a
 								    	href="javascript:;" 
 								    	class="dropdown-item"
 										@click="verDireccion(i)"
 								    >
-										<i class="fas fa-location-dot"></i>Agregar dirección
+										<i class="fas fa-route me-1"></i>Agregar dirección
 								    </a>
 									<a
 								    	href="javascript:;" 
 								    	class="dropdown-item"
 										@click="verBodega(i)"
 								    >
-								    	<i class=" fas fa-store"></i>Agregar Bodega
+								    	<i class=" fas fa-store me-1"></i>Agregar Bodega
 								    </a>
 									<a
 								    	href="javascript:;" 
 								    	class="dropdown-item"
 										@click="verSucursal(i)"
 								    >
-								    	<i class=" fas fa-store"></i>Agregar Sucursal
+								    	<i class=" fas fa-store me-1"></i>Agregar Sucursal
 								    </a>
 								    
 								</div>
@@ -100,8 +125,9 @@
 					</tfoot>
 				</table>
 			</div>
-		</div>
-	</div>
+		</CardBody>
+	</Card>
+
 	<div 
 		class="modal fade" id="mdlClienteContacto"
 		data-bs-backdrop="static" 
@@ -117,7 +143,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-					<i class="fas fa-address-book"></i> Contacto 	
+					<i class="fas fa-address-book me-1"></i>Cliente contacto<span v-if="cliente != null"> - {{ cliente.nombre_comercial }} </span>
 					</h1>
 					<button 
 						type="button" 
@@ -151,7 +177,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						Direccion de Cliente <i class="fas fa-route "></i>
+						<i class="fas fa-route me-1"></i>Cliente dirección <span v-if="cliente != null"> - {{ cliente.nombre_comercial }} </span>
 					</h1>
 					<button 
 						type="button" 
@@ -179,14 +205,14 @@
 		aria-labelledby="staticBackdropLabel" 
 		aria-hidden="true">
 
-		<div class="modal-dialog modal-xl">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						Bodegas  <i class="fas fa-store "></i>
+						<i class="fas fa-store me-1"></i>Cliente bodega<span v-if="cliente != null"> - {{ cliente.nombre_comercial }} </span>
 					</h1>
 					<button 
 						type="button" 
@@ -204,15 +230,8 @@
 				</div>
 			</div>
 		</div>
-
-
-
-		
 	</div>
 
-
-
-	
 	<div 
 		class="modal fade" id="mdlClienteSucursal"
 		data-bs-backdrop="static" 
@@ -221,14 +240,14 @@
 		aria-labelledby="staticBackdropLabel" 
 		aria-hidden="true">
 
-		<div class="modal-dialog modal-xl">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						Sucursales  <i class="fas fa-boxes-stacked"></i>
+						<i class="fas fa-store me-1"></i>Cliente sucursal <span v-if="cliente != null"> - {{ cliente.nombre_comercial }} </span>
 					</h1>
 					<button 
 						type="button" 
@@ -245,14 +264,8 @@
 					/>
 				</div>
 			</div>
-		</div>
-
-
-
-		
+		</div>		
 	</div>
-
-
 </template>
 
 <script>

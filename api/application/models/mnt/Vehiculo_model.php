@@ -18,8 +18,6 @@ class Vehiculo_model extends General_model {
     public $fecha_mod;
     public $activo;
 
-
-
 	public function __construct($id="")
 	{
 		parent::__construct();

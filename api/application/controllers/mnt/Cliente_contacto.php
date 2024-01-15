@@ -32,7 +32,7 @@ class Cliente_contacto extends CI_Controller {
 			$datos = json_decode(file_get_contents('php://input'));
 			
 			if (verPropiedad($datos, "nombre") &&
-				verPropiedad($datos, "email")) {
+				verPropiedad($datos, "telefono")) {
 
 				$contacto = new Cliente_contacto_model($id);
 

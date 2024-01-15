@@ -1,17 +1,14 @@
 <template>
-	<div class="row mb-3">		
-		<div class="col-sm-12">
-			<div class="alert alert-info p-2 mb-1 fw-bold m-0 rounded">
-				<i class="fas fa-plus me-2"></i>Asignar Sucursal
-			</div>
-		</div>
+	<div class="alert alert-info">
+		<i class="fas fa-lightbulb me-1"></i>
+		En la columna de la izquierda se muestran las sucursales asignadas <b>(se puede remover)</b>. Y en la columna de la derecha puede seleccionar las sucursales que se desean agregar.
 	</div>
 
 	<div class="row">
 		<div class="col-sm-6">
 			<ul class="list-group">
 				<li 
-					class="list-group-item bg-primary fw-bold text-white" 
+					class="list-group-item bg-light fw-bold" 
 					aria-current="true"
 				>
 					Disponibles
@@ -42,7 +39,7 @@
 		<div class="col-sm-6">
 			<ul class="list-group">
 				<li 
-					class="list-group-item bg-success fw-bold text-white" 
+					class="list-group-item bg-light fw-bold" 
 					aria-current="true"
 				>
 					Asignadas

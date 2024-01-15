@@ -126,7 +126,7 @@
 		<div class="col-sm-5">
 			<Card>
 				<CardHeader class="fw-bold">
-					Opciones
+					Opciones ({{lista.length}})
 				</CardHeader>
 				<CardBody class="p-0">
 					<div class="list-group list-group-flush">

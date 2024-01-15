@@ -19,6 +19,24 @@ class Cliente_model extends General_model {
 		}
 	}
 
+	public function existe($args=[])
+	{
+		if ($this->getPK()) {
+			$this->db->where("id <> ", $this->getPK());
+		}
+
+		$tmp = $this->db
+		->where("nombre_comercial", $args->nombre_comercial)
+		->where("nit", $args->nit)
+		->get("$this->_tabla");
+
+		if ($tmp->num_rows() > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function buscar($args=[])
 	{
 
@@ -28,7 +46,7 @@ class Cliente_model extends General_model {
 
 		$tmp = $this->db
 		->select("a.*,b.nombre ncliente,")
-		->join("favi.cliente_tipo b", "a.cliente_tipo_id=b.id")
+		->join("cliente_tipo b", "a.cliente_tipo_id=b.id")
 		->get('cliente a');
 
 		return verConsulta($tmp, $args);

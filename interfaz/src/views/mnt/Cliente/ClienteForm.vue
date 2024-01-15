@@ -1,10 +1,5 @@
 <template>
 	<form @submit.prevent="guardar(true)">
-		<div class="alert alert-info fw-bold py-2 mb-4" role="alert">
-			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos marcados con  <span class="text-danger">*</span>
-
-		</div>
-
 		<div class="row g-2 mb-4">
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
@@ -20,19 +15,31 @@
 				<input type="text" class="form-control" placeholder="Nombre del cliente" v-model="form.nombre_comercial">
 			</div>
 
-
-			<div class="col-sm-6">
-				<label for="" class="fw-bold mb-1">
-					Teléfono:
-				</label>
-				<input type="number" class="form-control" placeholder="Teléfono del cliente" v-model="form.telefono">
-			</div>
-
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
 					NIT: <span class="text-danger">*</span>
 				</label>
 				<input type="text" class="form-control" placeholder="Numero de identificación tributaria" v-model="form.nit">
+			</div>
+
+			<div class="col-sm-6">
+				<label for="" class="fw-bold mb-1">
+					Tipo de Cliente: <span class="text-danger">*</span>
+				</label>
+				<select name="selecttipoCliente"
+				 id="selecttipoCliente"
+				  class="form-select"
+				   v-model="form.cliente_tipo_id" required>
+					<option value="">Seleccione tipo de cliente...</option>
+					<option v-for="(i, idx) in cat.cliente_tipo" :value="i.id">{{ i.nombre }}</option>
+				</select>
+			</div>
+			
+			<div class="col-sm-6">
+				<label for="" class="fw-bold mb-1">
+					Teléfono:
+				</label>
+				<input type="number" class="form-control" placeholder="Teléfono del cliente" v-model="form.telefono">
 			</div>
 
 			<div class="col-sm-6">
@@ -49,23 +56,8 @@
 				</label>
 				<input type="email" class="form-control" placeholder="Correo del cliente" step="any" v-model="form.email">
 			</div>
-
-
-
-			<div class="col-sm-6">
-				<label for="" class="fw-bold mb-1">
-					Tipo de Cliente: <span class="text-danger">*</span>
-				</label>
-				<select name="selecttipoCliente"
-				 id="selecttipoCliente"
-				  class="form-select"
-				   v-model="form.cliente_tipo_id" required>
-					<option value="">Seleccione tipo de cliente...</option>
-					<option v-for="(i, idx) in cat.cliente_tipo" :value="i.id">{{ i.nombre }}</option>
-				</select>
-			</div>
-
 		</div>
+
 		<div class="d-flex flex-row mb-3">
 			<div class="me-4">
 				<div class="form-check form-switch">

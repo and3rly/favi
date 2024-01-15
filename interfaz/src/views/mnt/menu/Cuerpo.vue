@@ -18,7 +18,7 @@
 	<div class="row" v-else>
 		<div class="col-sm-7">
 			<Card>
-				<CardHeader class="fw-bold p-3">
+				<CardHeader class="fw-bold">
 					<i class="fas fa-list me-1"></i> Datos
 				</CardHeader>
 				<CardBody>
@@ -148,8 +148,8 @@
 
 		<div class="col-sm-5">
 			<Card>
-				<CardHeader class="fw-bold p-3">
-					<i class="fas fa-list me-1"></i> Modulos
+				<CardHeader class="fw-bold">
+					<i class="fas fa-list me-1"></i> Modulos ({{lista.length}})
 				</CardHeader>
 				<CardBody class="p-0">
 					<div class="list-group list-group-flush rounded-0 ">

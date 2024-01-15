@@ -31,7 +31,7 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-					<i class="fas fa-person-walking-luggage fa-sm me-2 ms-1"></i>Cliente <span v-if="reg != null">{{reg.nombre_comercial}}</span>
+					<i class="fas fa-person-walking-luggage fa-sm me-1"></i>Cliente <span v-if="reg != null"> - {{reg.nombre_comercial}}</span>
 					</h1>
 					<button 
 						type="button" 
@@ -42,44 +42,12 @@
 					</button>
 				</div>
 				<div class="modal-body">
-
-					
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
-						<li class="nav-item" role="presentation">
-							<button 
-								class="nav-link active" 
-								id="home-tab" 
-								data-bs-toggle="tab" 
-								data-bs-target="#home-tab-pane" 
-								type="button"
-								role="tab" 
-								aria-controls="home-tab-pane" 
-								aria-selected="true"
-							>
-								<i class="fas fa-list-ul me-1"></i> Datos Generales
-							</button>
-						</li>
-					</ul>
-				
-					<div class="tab-content" id="myTabContent">
-						<div 
-							class="tab-pane fade show active" 
-							id="home-tab-pane" 
-							role="tabpanel" 
-							aria-labelledby="home-tab" 
-							tabindex="0"
-						>
-							<ClienteForm 
-								class="mt-3"
-								v-if="verForm" 
-								@cerrar="cerrarModal" 
-								@actualizar="actualizar"
-								:cliente="reg" 
-							/>
-						</div>
-						
-					</div>
-					
+					<ClienteForm 
+						v-if="verForm" 
+						@cerrar="cerrarModal" 
+						@actualizar="actualizar"
+						:cliente="reg" 
+					/>					
 				</div>
 			</div>
 		</div>
@@ -120,10 +88,6 @@
 			abrirModal() {
 				this.verForm = true
 				this.modal.show()
-
-  				let item = document.querySelector('#myTab li:first-child button')
-  				let tab = new Tab(item);
-   				tab.show();
   			},
 			cerrarModal() {
 				this.reg = null

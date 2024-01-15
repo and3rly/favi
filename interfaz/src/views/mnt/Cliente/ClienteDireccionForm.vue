@@ -1,10 +1,7 @@
 <template>
 	<form @submit.prevent="guardar">
 		<div class="row g-2 mb-4">
-			<div class="alert alert-info fw-bold py-1 mb-1" role="alert">
-			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos marcados con  <span class="text-danger">*</span>
-		</div>
-            <div class="col-sm-12">
+      <div class="col-sm-12">
 				<label for="inputCdireccion" class="fw-bold mb-1">
 					Dirección:  <span class="text-danger">*</span>
 				</label>
@@ -12,8 +9,8 @@
 					id="inputCdireccion" 
 					type="text" 
 					class="form-control"
-					placeholder="Colocar dirección completa" 
 					v-model="form.direccion"
+					required
 				>
 			</div>
             
@@ -25,7 +22,6 @@
 					id="inputCAvenida" 
 					type="text" 
 					class="form-control"
-					placeholder="Avenida de residencia Ej: 2da" 
 					v-model="form.avenida"
 				>
 			</div>
@@ -38,7 +34,6 @@
 					id="inputCcalle" 
 					type="text" 
 					class="form-control"
-					placeholder="Calle de residencia Ej: 3ra" 
 					v-model="form.calle"
 				>
 			</div>
@@ -51,7 +46,6 @@
 					id="inputCcasa" 
 					type="text" 
 					class="form-control"
-					placeholder="Número de casa si tuviera EJ: Nc.2" 
 					v-model="form.no_casa"
 				>
 			</div>
@@ -65,7 +59,6 @@
 					id="inputCzona" 
 					type="text" 
 					class="form-control"
-					placeholder="Zona de ubicacion Ej: z2" 
 					v-model="form.zona"
 				>
 			</div>    
@@ -78,8 +71,6 @@
 					id="inputCLocal" 
 					type="text" 
 					class="form-control"
-                    placeholder="Número de local dentro de un comercial" 
-				
 					v-model="form.local"
 				>
 			</div> 
@@ -94,7 +85,6 @@
 					id="inputCRef" 
 					type="text" 
 					class="form-control"
-					placeholder="Ej: 300 mnts luego de la garita de entrada" 
 					v-model="form.referencia"
 				>
 			</div>  
@@ -135,7 +125,7 @@
 						v-model="form.activo"
 						checked 
 					>
-					<label class="form-check-label" for="flexSwitchCheckChecked">Activo  <span class="text-danger">*</span></label>
+					<label class="form-check-label fw-bold" for="flexSwitchCheckChecked">Activo</label>
 				</div>
 			</div>
 
@@ -173,19 +163,27 @@
 		</div>
 	</form>
 
-	<div class="table-responsive-sm table-responsive-lg">
-		<table class="table table-sm table-hover" style="text-align: center;">
+	<div class="table-responsive-sm mt-3">
+		<table class="table table-sm table-hover table-bordered">
 			<thead class="bg-light">
-				<th class="text-center">#</th>
-				<th>Zona</th>
-				<th>Avenida</th>
-				<th >Calle</th>
-				<th >No.Casa</th>
-                <th >Local</th>
-                <th >Dirección</th>
-				<th >Activo</th>
+				<tr>
+					<th class="text-center">#</th>
+					<th >Dirección</th>
+					<th class="text-center">Zona</th>
+					<th class="text-center">Avenida</th>
+					<th class="text-center">Calle</th>
+					<th class="text-center">No.Casa</th>
+	        <th class="text-center">Local</th>
+					<th class="text-center">Estado</th>
+				</tr>
 			</thead>
 			<tbody>
+				<tr>
+          <td colspan="100%" class="text-center p-3" v-if="lista.length == 0 && !inicio">
+            No se encontraron registros
+          </td>
+        </tr>
+
 				<tr v-if="inicio === true">
 					<td colspan="100" class="text-center">
 			      <div class="spinner-border mt-3" role="status">
@@ -200,16 +198,27 @@
 					style="cursor: pointer;" 
 					@click="setDatosForm(i)"
 				>
-					<td class="text-center">{{ idx + 1 }}</td>
-					<td>{{ i.zona }}</td>
-					<td>{{ i.avenida }}</td>
+					<th class="text-center">{{ idx + 1 }}</th>
+					<td>{{ i.direccion }}</td>
+					<td class="text-center">{{ i.zona }}</td>
+					<td class="text-center">{{ i.avenida }}</td>
 					<td class="text-center">{{ i.calle }}</td>
 					<td class="text-center">{{ i.no_casa }}</td>
-                    <td class="text-center">{{ i.local }}</td>
-                    <td class="text-center">{{ i.direccion }}</td>
+          <td class="text-center">{{ i.local }}</td>
 					<td class="text-center">
-						<i v-if="i.activo == true" class="fas fa-check text-success"></i>
-						<i v-else class="fas fa-times text-danger"></i>
+						<span 
+							v-if="i.activo == 1"
+							class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+						>
+							<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Activo
+						</span>
+
+						<span 
+							v-else
+							class="badge bg-danger text-danger-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+						>
+							<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> Inactivo
+						</span>
 					</td>
 				</tr>
 			</tbody>
