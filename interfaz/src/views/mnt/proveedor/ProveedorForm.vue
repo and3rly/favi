@@ -1,9 +1,5 @@
 <template>
 	<form @submit.prevent="guardar(true)">
-		<div class="alert alert-info fw-bold py-2 mb-4" role="alert">
-			<i class="fas fa-lightbulb me-2"></i>Rellenar todos los campos marcados con <span class="text-danger">*</span>
-		</div>
-
 		<div class="row g-2 mb-4">
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
@@ -16,9 +12,30 @@
 				<label for="" class="fw-bold mb-1">
 					Nombre: <span class="text-danger">*</span>
 				</label>
-				<input type="text" class="form-control" placeholder="Nombre del proveedor" v-model="form.nombre">
+				<input 
+					type="text"
+					class="form-control" 
+					placeholder="Nombre del proveedor" 
+					v-model="form.nombre"
+					required
+				>
 			</div>
 
+			<div class="col-sm-6">
+				<label for="" class="fw-bold mb-1">
+					Empresa:  <span class="text-danger">*</span>
+				</label>
+				<select 
+					name="selectEmpresa"
+				 	id="selectEmpresa"
+				  class="form-select"
+				  v-model="form.empresa_id" 
+				  required
+				>
+					<option value="">Seleccione empresa...</option>
+					<option v-for="(i, idx) in cat.empresa" :value="i.id">{{ i.nombre }}</option>
+				</select>
+			</div>
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
@@ -56,22 +73,8 @@
 				<input type="text" class="form-control" placeholder="Nombre del contacto del representante del proveedor"
 					step="any" v-model="form.contacto">
 			</div>
-
-
-			<div class="col-sm-6">
-				<label for="" class="fw-bold mb-1">
-					Nombre de empresa:  <span class="text-danger">*</span>
-				</label>
-				<select name="selectEmpresa"
-				 id="selectEmpresa"
-				  class="form-select"
-				   v-model="form.empresa_id" required>
-					<option value="">Seleccione empresa...</option>
-					<option v-for="(i, idx) in cat.empresa" :value="i.id">{{ i.nombre }}</option>
-				</select>
-			</div>
-
 		</div>
+
 		<div class="d-flex flex-row mb-3">
 			<div class="me-4">
 				<div class="form-check form-switch">
@@ -83,7 +86,7 @@
 						:false-value="0" 
 						v-model="form.activo"
 						 checked>
-					<label class="form-check-label" for="flexSwitchCheckChecked">Activo  <span class="text-danger">*</span></label>
+					<label class="form-check-label fw-bold" for="flexSwitchCheckChecked">Activo</label>
 				</div>
 			</div>
 
@@ -139,13 +142,8 @@
 			if (this.proveedor) {
 				this.pk = this.proveedor.id			
 				this.setDatosForm(this.proveedor);
-			}
-
-			
-		}
-		
-		
-		,
+			}	
+		},
 		methods: {
 			setForm() {
 			this.form = {

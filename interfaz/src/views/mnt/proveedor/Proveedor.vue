@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex align-items-center mb-4">
 		<h1 class="page-header mb-0">
-			<i class="fas fa-truck-field fa-sm me-2 ms-1"></i> Proveedor
+			<i class="fas fa-user fa-sm me-2 ms-1"></i> Proveedor
 		</h1>
 
 		<div class="ms-auto">
@@ -11,42 +11,36 @@
 		</div>
 	</div>
 
-	<ProveedorLista @abrirModal="editar" :tmpLinea="tmpReg" />
+	<ProveedorLista 
+		@abrirModal="editar" 
+		:tmpLinea="tmpReg" 
+	/>
 
-	<div class="modal fade" id="mdlProveedor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-
+	<div 
+		class="modal fade" 
+		id="mdlProveedor" 
+		data-bs-backdrop="static" 
+		data-bs-keyboard="false" 
+		tabindex="-1"
+		aria-labelledby="staticBackdropLabel" 
+		aria-hidden="true"
+	>
 		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="staticBackdropLabel">
-						<i class="fas fa-truck-field fa-sm me-2 ms-1"></i>Proveedor <span v-if="reg != null">{{ reg.nombre }}</span>  
+						<i class="fas fa-user me-1"></i>Proveedor <span v-if="reg != null">{{ reg.nombre }}</span>  
 					</h1>
 					<button type="button" class="btn-close" aria-label="Close" @click="cerrarModal">
 					</button>
 				</div>
 				<div class="modal-body">
-
-
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
-						<li class="nav-item" role="presentation">
-							<button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-								data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-								aria-selected="true">
-								<i class="fas fa-list-ul me-1"></i> Datos Generales
-							</button>
-						</li>
-					</ul>
-
-					<div class="tab-content" id="myTabContent">
-						<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
-							tabindex="0">
-							<ProveedorForm class="mt-3" v-if="verForm" @cerrar="cerrarModal" @actualizar="actualizar"
-								:proveedor="reg" />
-						</div>
-
-					</div>
-
+					<ProveedorForm
+						v-if="verForm" 
+						@cerrar="cerrarModal" 
+						@actualizar="actualizar"
+						:proveedor="reg" 
+						/>
 				</div>
 			</div>
 		</div>
@@ -84,10 +78,6 @@ export default {
 		abrirModal() {
 			this.verForm = true
 			this.modal.show()
-
-			let item = document.querySelector('#myTab li:first-child button')
-			let tab = new Tab(item);
-			tab.show();
 		},
 		cerrarModal() {
 			this.reg = null

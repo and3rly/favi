@@ -1,7 +1,7 @@
 <template>
 	<div class="alert alert-info">
 		<i class="fas fa-lightbulb me-1"></i>
-		En la columna de la izquierda se muestran las sucursales asignadas <b>(se puede remover)</b>. Y en la columna de la derecha puede seleccionar las sucursales que se desean agregar.
+		En la columna de la derecha se muestran las sucursales asignadas <b>(se puede remover)</b>. Y en la columna de la izquierda puede seleccionar las sucursales que se desean agregar.
 	</div>
 
 	<div class="row">

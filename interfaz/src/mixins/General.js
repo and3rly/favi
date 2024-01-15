@@ -82,7 +82,7 @@ export default {
 		},
 		setRegLista(o) {
 			if (o.pk === '') {
-				this.filtrada.push(o.linea)
+				this.lista.push(o.linea)
 			} else {
 				for (let i in o.linea) {
 					this.filtrada[o.idx][i] = o.linea[i]
@@ -92,24 +92,24 @@ export default {
 	},
 	computed: {
 		filtrada() {
-    	return this.lista.filter(o => {
-    		if (this.termino === '') {
-      			return true;
-    		} else {
-      			let res = false
-      			let ter = this.termino.toLowerCase()
+	    	return this.lista.filter(o => {
+	    		if (this.termino === '') {
+	      			return true;
+	    		} else {
+	      			let res = false
+	      			let ter = this.termino.toLowerCase()
 
-      			for (let i in o) {
-        			if (typeof o[i] === 'string' && o[i].toLowerCase().includes(ter)) {
-          				res = true
-        			} else if (o[i] == ter) {
-          				res = true
-        			}
-      			}
+	      			for (let i in o) {
+	        			if (typeof o[i] === 'string' && o[i].toLowerCase().includes(ter)) {
+	          				res = true
+	        			} else if (o[i] == ter) {
+	          				res = true
+	        			}
+	      			}
 
-      			return res
-    		}
-  		})
-  	}
+	      			return res
+	    		}
+	  		})
+	  	}
 	}
 }

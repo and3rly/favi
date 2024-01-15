@@ -33,7 +33,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-if="!cargando" v-for="(i, idx) in filtrada">
+						<tr 
+							v-if="!cargando" 
+							v-for="(i, idx) in filtrada"
+							style="cursor: pointer;" 
+						>
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
 							<td>
 								<a 
