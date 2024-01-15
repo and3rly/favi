@@ -1,56 +1,34 @@
 <template>
 	<template v-if="actual == 1">
-		<h1 class="page-header fw-bold mb-1">
-			Bodega
-		</h1>
-		<nav 
-			class="navbar navbar-expand-lg navbar-light"
-		>
-		<a href="" class="navbar-brand m-0"></a>
+		<div class="d-flex align-items-center mb-4">
+			<h1 class="page-header mb-0">
+				<i class="fas fa-home fa-sm me-2 ms-1"></i>Bodega
+			</h1>
 
-			<button 
-				class="navbar-toggler" 
-				type="button" 
-				data-bs-toggle="collapse" 
-				data-bs-target="#navbarLight"
-				aria-controls="navbarLight" 
-		    aria-expanded="false" 
-		    aria-label="Toggle navigation"
-			>
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarLight">
-
-				<form class="row row-cols-lg-auto g-1 align-items-center me-auto my-2">
-					<div class="col-12">
-						<input 
-							type="search" 
-							class="form-control" 
-							placeholder="Buscar por criterio"
-						>
-					</div>
-
-					<div class="col-12">
-						<button 
-							type="submit" 
-							class="btn btn-info text-white"
-						>
-							<i class="fas fa-search"></i>
-						</button>
-					</div>
-				</form>	
-				<button 
-					class="btn btn-theme"
-					@click="verBodega(null)"
-				>
-					<i class="fas fa-circle-plus me-2"></i>Nuevo
-				</button>	
+			<div class="ms-auto">
+				<a href="#" class="btn btn-theme" @click="verBodega(null)">
+					<i class="fa fa-plus-circle fa-fw me-2"></i> Nuevo
+				</a>
 			</div>
-		</nav>
+		</div>
 
 		<Card class="mt-1">
-			<CardBody>
+			<CardBody class="p-0">
+				<div class="input-group mt-3 mb-3 px-3">
+					<div class="input-group">
+						<input 
+							type="text" 
+							class="form-control ps-35px"
+							placeholder="Buscar..." 
+							v-model="termino"
+							style="border-radius: 4px;" 
+						/>
+						<div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0" style="z-index: 1020;">
+							<i class="fa fa-search opacity-5"></i>
+						</div>
+					</div>
+				</div>
+
 				<div v-if="inicio === true" class="text-center">
 		      <div class="spinner-border" role="status">
 		        <span class="sr-only">Loading...</span>
@@ -59,7 +37,7 @@
 		    </div>
 
 				<div v-else class="table-responsive">
-					<table class="table table-sm table-hover">
+					<table class="table table-sm table-hover table-striped m-0">
 						<thead>
 							<tr>
 								<th class="text-center">#</th>
@@ -73,17 +51,17 @@
 								<th class="text-center">Largo</th>
 								<th class="text-center">Ancho</th>
 								<th class="text-center">Alto</th>
-								<th class="text-center">Activo</th>
+								<th class="text-center">Estado</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr 
-								v-for="(i, idx) in lista" 
+								v-for="(i, idx) in filtrada" 
 								:key="idx"
 								@click="verBodega(i)"
 								style="cursor: pointer;"
 							>
-								<td class="text-center">{{ idx + 1 }}</td>
+								<th class="text-center">{{ idx + 1 }}</th>
 								<td class="text-center">{{ i.codigo }}</td>
 								<td>
 									<a 
@@ -97,13 +75,24 @@
 								<td>{{ i.telefono }}</td>
 								<td>{{ i.correo }}</td>
 								<td>{{ i.encargado }}</td>
-								<td>{{ i.nombre_empresa }}</td>
+								<td>{{ i.nempresa }}</td>
 								<td class="text-center">{{ i.largo }}</td>
 								<td class="text-center">{{ i.ancho }}</td>
 								<td class="text-center">{{ i.alto }}</td>
 								<td class="text-center">
-									<i v-if="i.activo == 1" class="fas fa-check text-success"></i>
-									<i v-else  class="fas fa-times text-danger"></i>
+									<span 
+										v-if="i.activo == 1"
+										class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+									>
+										<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Activo
+									</span>
+
+									<span 
+										v-else
+										class="badge bg-danger text-danger-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+									>
+										<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> Inactivo
+									</span>
 								</td>
 							</tr>
 						</tbody>
@@ -132,7 +121,8 @@
 			lista: [],
 			bform: {},
 			actual: 1,
-			reg: null
+			reg: null,
+			termino: ''
 		}),
 		created() {
 			this.buscar()
@@ -167,6 +157,28 @@
 					}
 				}
 			}
+		},
+		computed: {
+		filtrada() {
+	    	return this.lista.filter(o => {
+	    		if (this.termino === '') {
+	      			return true;
+	    		} else {
+	      			let res = false
+	      			let ter = this.termino.toLowerCase()
+
+	      			for (let i in o) {
+	        			if (typeof o[i] === 'string' && o[i].toLowerCase().includes(ter)) {
+	          				res = true
+	        			} else if (o[i] == ter) {
+	          				res = true
+	        			}
+	      			}
+
+	      			return res
+	    		}
+	  		})
+	  	}
 		},
 		components: {
 			Bodega
