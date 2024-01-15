@@ -13,8 +13,7 @@
 
 	<UmLista
 		@editar="editarReg"
-		:cargando="cargando"
-		:filtrada="lista"
+		:tmpLinea="tmpReg"
 	/>
 
 	<div 
@@ -74,7 +73,7 @@
 		},
 		created()  {
 			this.controlador = 'producto/unidad_medida'
-			this.autoBuscar = true
+			this.autoBuscar = false
 		},
 		methods: {
 			abrirModal() {
@@ -99,8 +98,6 @@
 					pk: pk,
 					idx: this.idx
 				}
-
-				this.setRegLista(this.tmpReg)
 			}
 		},
 		components: {
