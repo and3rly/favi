@@ -162,7 +162,7 @@
 					Parámetros:
 				</label>
 				<div class="d-flex flex-row mt-2">
-					<div class="flex-fill me-2">
+					<div class="flex-fill me-2" v-if="pk != ''">
 						<div class="form-check form-switch">
 							<input 
 								class="form-check-input" 
@@ -171,7 +171,7 @@
 								id="chkActivo" 
 								:true-value="1" 
 								:false-value="0"
-								v-model="form.activo"
+								v-model="form.activa"
 								checked 
 							>
 							<label class="form-check-label" for="chkActivo">Activo</label>

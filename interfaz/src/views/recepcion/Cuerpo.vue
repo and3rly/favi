@@ -17,30 +17,47 @@
 		</div>
 
 		<Card class="mt-1">
-			<CardHeader class="p-2 bg-white">			
-				<div class="d-flex">
-					<div class="flex-fill me-1">
-						<input type="text" class="form-control" placeholder="Buscar por criterio...">
-					</div>
-					<div class="flex-fill me-1">
-						<input type="date" class="form-control">
-					</div>
-					<div class="flex-fill me-1">
-						<select 
-							name="selectBodega" 
-							id="selectBodega"
-							class="form-select" 
-						>
-							<option :value="null">Seleccione una bodega...</option>
-						</select>
-					</div>
-					<button
-						class="btn btn-primary"
-					>
-						<i class="fas fa-search"></i>
-					</button>
+			<form @submit.prevent="buscar" class="d-flex px-3 mt-3 mb-3">
+				<div class="flex-fill me-1">
+					<input 
+						type="search" 
+						class="form-control" 
+						placeholder="Buscar por criterio..."
+						v-model="bform.criterio"
+					/>
 				</div>
-			</CardHeader>
+				<div class="flex-fill me-1">
+					<input 
+						type="date" 
+						class="form-control"
+						v-model="bform.fdel"
+					/>
+				</div>
+				<div class="flex-fill me-1">
+					<input 
+						type="date" 
+						class="form-control"
+						v-model="bform.fal"
+					/>
+				</div>
+				<div class="flex-fill me-1">
+					<select 
+						name="selectBodega" 
+						id="selectBodega"
+						class="form-select" 
+						v-model="bform.bodega_id"
+					>
+						<option :value="null">Seleccione una bodega...</option>
+						<option v-for="i in cat.bodega" :value="i.id"> {{ i.nombre }} </option>
+					</select>
+				</div>
+				<button
+					class="btn btn-primary"
+				>
+					<i class="fas fa-search"></i>
+				</button>
+			</form>
+
 			<CardBody class="p-0">
 				<div v-if="inicio === true" class="text-center">
 					<div class="spinner-border" role="status">
@@ -189,6 +206,7 @@
 			lista: [],
 			cat: [],
 			reg: {},
+			bform: {},
 			actual: 1,
 			inicio: false,
 			verForm: false

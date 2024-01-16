@@ -81,6 +81,23 @@
 					v-model="form.alto"
 				>
 			</div>
+
+			<div class="d-flex flex-row mb-3" v-if="pk != ''">
+				<div class="me-4">
+					<div class="form-check form-switch">
+						<input 
+						class="form-check-input"
+						 type="checkbox" role="switch"
+						  id="flexSwitchCheckChecked"
+							:true-value="1" 
+							:false-value="0" 
+							v-model="form.activo"
+							 checked>
+						<label class="form-check-label fw-bold" for="flexSwitchCheckChecked">Activo</label>
+					</div>
+				</div>
+			</div>
+			
 		</div>
 
 		<div class="text-end mt-3 mb-1">
