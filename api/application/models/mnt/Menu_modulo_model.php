@@ -27,6 +27,7 @@ class Menu_modulo_model extends General_model {
 		}
 		
 		$tmp = $this->db
+		->where("activo", 1)
 		->get("menu_modulo");
 
 		return verConsulta($tmp, $args);
