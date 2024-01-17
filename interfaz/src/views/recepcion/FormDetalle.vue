@@ -317,43 +317,35 @@
 				}
 			},
 			setProducto(obj) {
-				let auxProd = this.form.detalle.filter(e => {
-					return e.id_producto == obj.id_producto
-				})[0]
+				this.producto = {
+					id_producto: obj.id_producto,
+					codigo_producto: obj.codigo,
+					nombre_producto: obj.nombre,
+					nombre_presentacion: null,
+					nombre_unidad_medida: null,
+					nombre_producto_estado: null,
+					cantidad_recibida: this.cantidad,
+					presentacion_producto_id: '',
+					unidad_medida_id: obj.unidad_medida_id,
+					estado_producto_id: obj.estado_producto_id,
+					lote: '',
+					fecha_vence: null,
+					peso: 0,
+					peso_minimo: 0,
+					peso_maximo: 0,
+					costo: 0,
+					costo_oc: 0,
+					producto_bodega_id: obj.producto_bodega,
+					control_vence: obj.control_vence,
+					recepcion_enc_id: this.recepcion.id
+				}
 
-				if (auxProd) {
-					auxProd.cantidad_recibida = parseFloat(auxProd.cantidad_recibida) + parseFloat(this.cantidad)
-				} else {
-					this.producto = {
-						id_producto: obj.id_producto,
-						codigo_producto: obj.codigo,
-						nombre_producto: obj.nombre,
-						nombre_presentacion: null,
-						nombre_unidad_medida: null,
-						nombre_producto_estado: null,
-						cantidad_recibida: this.cantidad,
-						presentacion_producto_id: '',
-						unidad_medida_id: obj.unidad_medida_id,
-						estado_producto_id: obj.estado_producto_id,
-						lote: '',
-						fecha_vence: null,
-						peso: 0,
-						peso_minimo: 0,
-						peso_maximo: 0,
-						costo: 0,
-						costo_oc: 0,
-						producto_bodega_id: obj.producto_bodega,
-						control_vence: obj.control_vence,
-						recepcion_enc_id: this.recepcion.id
-					}
-
-					this.form.detalle.push(this.producto)
-				}	
+				this.form.detalle.push(this.producto)	
+				
 				this.codigo = null
 				this.cantidad = 1
 			},
 			verPresentaciones(obj) {
-				console.log(obj)
 				let tmp = this.cat.presentacion.filter(e => {
 					return e.producto_id == obj.id_producto
 				})

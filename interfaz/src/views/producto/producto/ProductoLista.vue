@@ -99,11 +99,19 @@
 							<td class="text-center">
 								<button
 									type="button"
-									class="btn btn-sm btn-secondary"
+									class="btn btn-sm btn-secondary me-1 ms-1"
 									title="Editar producto"
 									@click="$emit('editar', i, idx)"
 								>
 									<i class="fas fa-edit"></i>
+								</button>
+								<button
+									type="button"
+									class="btn btn-sm btn-warning"
+									title="Ver presentaciones"
+									@click="verPresentacion(i)"
+								>
+									<i class="fas fa-boxes-stacked"></i>
 								</button>
 							</td>
 						</tr>
@@ -125,11 +133,50 @@
 			</div>
 		</CardBody>
 	</Card>
+
+	<div 
+		class="modal fade" 
+		id="mdlPresentacion"
+		data-bs-backdrop="static" 
+		data-bs-keyboard="false" 
+		tabindex="-1" 
+		aria-labelledby="staticBackdropLabel" 
+		aria-hidden="true">
+
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 
+						class="modal-title fs-5" 
+						id="staticBackdropLabel"
+					> 
+						<i class="fas fa-boxes-stacked me-1"></i> Presentación 
+						<span v-if="producto != null"> - {{ producto.nombre }}</span>
+					</h1>
+					<button 
+						type="button" 
+						class="btn-close" 
+						aria-label="Close"
+						@click="cerrarPresentacion"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<Presentacion
+						v-if="producto != null"
+						:producto="producto"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </template>
 
 <script>
 	import General from '@/mixins/General.js'
 	import Imagen from '@/components/general/Imagen.vue'
+	import Presentacion from '@/views/producto/presentacion/Presentacion.vue'
 
 	export default {
 		name: 'ProductoLista',
@@ -145,13 +192,29 @@
 			},
 		},
 		data: () => ({
+			modal: null,
+			producto: null
 		}),
+		mounted() {
+			this.modal = new this.$modal(document.getElementById('mdlPresentacion'));
+		},
 		created() {
 			this.controlador = 'producto/producto'
 			this.autoBuscar = true
 		},
+		methods: {
+			verPresentacion(obj) {
+				this.producto = obj
+				this.modal.show()
+			},
+			cerrarPresentacion() {
+				this.producto = null
+				this.modal.hide()
+			}
+		},
 		components: {
-			Imagen
+			Imagen,
+			Presentacion
 		},
 		watch: {
 			'tmpLinea'(o) {

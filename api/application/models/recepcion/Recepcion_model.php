@@ -36,6 +36,33 @@ class Recepcion_model extends General_model {
 	{
 		if (elemento($args, "id")) {
 			$this->db->where("a.id", $args['id']);
+		} else {
+
+			if (elemento($args, "bodega_id")) {
+				$this->db->where("a.bodega_id", $args['bodega_id']);
+			}
+
+			if (elemento($args, 'criterio')) {
+
+				$termino = trim($args['criterio']);
+
+				$campos = [
+					'a.observacion',
+					'a.no_guia'
+				];
+
+				$where = implode(" like '%{$termino}%' or ", $campos);
+
+				$this->db->where("({$where} like '%{$termino}%')", null, false);
+
+			} else {
+				if (elemento($args, 'fdel') && 
+					elemento($args, 'fal')) {
+					$this->db
+					->where("CAST(a.fecha_agr as date) >=", $args["fdel"])
+					->where("CAST(a.fecha_agr as date) <=", $args["fal"]);
+				}
+			}
 		}
 
 		$tmp = $this->db

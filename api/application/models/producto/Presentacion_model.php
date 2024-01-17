@@ -5,6 +5,7 @@ class Presentacion_model extends General_model {
 	public $codigo;
 	public $nombre;
 	public $factor;
+	public $producto_id;
 	public $activo = 1;
 
 	public function __construct($id="")
@@ -24,21 +25,27 @@ class Presentacion_model extends General_model {
 			$this->db->where('id', $args['id']);
 		}
 
+		if (elemento($args, 'producto')) {
+			$this->db->where('producto_id', $args['producto']);
+		}
+
 		$tmp = $this->db
 					->get("$this->_tabla");
 					
 		return verConsulta($tmp, $args);
 	}
 
-	public function existe($args=[]) {
+	public function existe($args=[]) 
+	{
 		if ($this->getPK()) {
 			$this->db->where("id <>", $this->getPK());
 		}
 
 		$tmp = $this->db
-					->where("codigo", $args->codigo)
-					->where("factor", $args->factor)
-					->get("$this->_tabla");
+		->where("codigo", $args->codigo)
+		->where("factor", $args->factor)
+		->where("producto_id", $args->producto_id)
+		->get("$this->_tabla");
 
 		if ($tmp->num_rows() > 0) {
 			return true;

@@ -39,25 +39,31 @@ class Producto_model extends General_model {
 	{	
 		if (elemento($args, 'id')) {
 			$this->db->where('a.id', $args['id']);
+		} else {
+			if (isset($args['activo'])) {
+				$this->db->where('a.activo', $args['activo']);
+			} else {
+				$this->db->where('a.activo', 1);
+			}
 		}
 
 		$tmp = $this->db
-					->select("a.*,
-						b.nombre as um,
-						c.nombre as nmarca,
-						d.nombre as nclasificacion,
-						e.nombre as nestado,
-						e.utilizable, 
-						e.danado,
-						f.nombre as ntipo,
-						h.nombre as nfamilia")
-					->join("unidad_medida b","b.id = a.unidad_medida_id")
-					->join("marca_producto c","c.id = a.marca_producto_id")
-					->join("clasificacion_producto d","d.id = a.clasificacion_producto_id")
-					->join("estado_producto e","e.id = a.estado_producto_id")
-					->join("tipo_producto f","f.id = a.tipo_producto_id")
-					->join("familia_producto h","h.id = a.familia_producto_id")
-					->get("$this->_tabla a");
+		->select("a.*,
+			b.nombre as um,
+			c.nombre as nmarca,
+			d.nombre as nclasificacion,
+			e.nombre as nestado,
+			e.utilizable, 
+			e.danado,
+			f.nombre as ntipo,
+			h.nombre as nfamilia")
+		->join("unidad_medida b","b.id = a.unidad_medida_id")
+		->join("marca_producto c","c.id = a.marca_producto_id")
+		->join("clasificacion_producto d","d.id = a.clasificacion_producto_id")
+		->join("estado_producto e","e.id = a.estado_producto_id")
+		->join("tipo_producto f","f.id = a.tipo_producto_id")
+		->join("familia_producto h","h.id = a.familia_producto_id")
+		->get("$this->_tabla a");
 					
 		return verConsulta($tmp, $args);
 	}

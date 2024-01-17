@@ -268,12 +268,12 @@ class Catalogo_model extends General_model {
 					->get('pedido_tipo');
 		return verConsulta($tmp, $args);
 	}
+
 	public function ver_cliente_tipo() {
 		$this->load->model('mnt/Cliente_tipo_model');
 
 		return $this->Cliente_tipo_model->buscar();
 	}
-
 
 	public function ver_cliente($args=[]) {
 		$tmp = $this->db
@@ -282,8 +282,6 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
-
-
 
 	public function ver_cliente_bodega($args=[])
 	{	
@@ -312,6 +310,7 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
 	public function ver_cliente_sucursal($args=[])
 	{	
 		if (elemento($args, 'id')) {
@@ -471,9 +470,16 @@ class Catalogo_model extends General_model {
 		->join("bodega c","c.id = a.bodega_id")
 		->join("unidad_medida d","d.id = b.unidad_medida_id")
 		->join("estado_producto e","e.id = b.estado_producto_id")
+		->where("b.activo", 1)
 		->get("producto_bodega a");
 
 		return verConsulta($tmp, $args);
+	}
+
+	public function ver_productos() {
+		$this->load->model('producto/Producto_model');
+
+		return $this->Producto_model->buscar();
 	}
 }
 
