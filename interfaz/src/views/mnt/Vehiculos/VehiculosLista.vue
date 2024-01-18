@@ -21,9 +21,9 @@
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="40">#</th>
-							<th scope="col" width="100">Tipo</th>
-							<th scope="col" width="150">Placa</th>
-							<th scope="col" width="150">Marca</th>
+							<th scope="col">Tipo</th>
+							<th scope="col" >Placa</th>
+							<th scope="col">Marca</th>
 							<th scope="col">Modelo|Año</th>
 							<th scope="col">Placa Comercial</th>
 							<th scope="col">Es contenedor</th>
@@ -121,7 +121,7 @@
 	import General from '@/mixins/General.js'
 	
 	export default {
-		name: 'VehiculoLista',
+		name: 'VehiculosLista',
 		mixins: [General],
 		props: {
 			reg: {
@@ -138,11 +138,11 @@
 		data: () => ({
 			idx: null,
 			modal: null,
-			vehiculo: null
+			Vehiculos: null
 		}),
 		
 		created(){
-			this.controlador = 'mnt/Vehiculo'
+			this.controlador = 'mnt/Vehiculos'
 			this.autoBuscar = true
 		},
 		methods: {
