@@ -460,16 +460,21 @@ class Catalogo_model extends General_model {
 	public function ver_productos_bodega($args=[]) 
 	{
 		$tmp = $this->db
-		->select("a.*, a.id as producto_bodega, 
+		->select("
+			1 as cantidad,
+			a.*, 
+			a.id as producto_bodega, 
 			b.*,
 			b.id as id_producto,
 			c.nombre as nombre_bodega,
 			d.nombre as nombre_um,
-			e.nombre as nombre_estado")
+			e.nombre as nombre_estado,
+			f.nombre as nombre_marca")
 		->join("producto b","b.id = a.producto_id")
 		->join("bodega c","c.id = a.bodega_id")
 		->join("unidad_medida d","d.id = b.unidad_medida_id")
 		->join("estado_producto e","e.id = b.estado_producto_id")
+		->join("marca_producto f","f.id = b.marca_producto_id")
 		->where("b.activo", 1)
 		->get("producto_bodega a");
 

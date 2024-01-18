@@ -12,7 +12,7 @@
 		</button>
 
 		<a class="navbar-brand fw-bold m-0" href="#">
-			<i class="fas fa-list-check me-2"></i> Detalle - Recepción #{{recepcion.id}}
+			Detalle - Recepción #{{recepcion.id}}
 		</a>
 
 		<button 
@@ -35,15 +35,15 @@
 			</div>
 
 			<div class="mt-1">
-				<button 
-					class="btn btn-success me-1"
+				<!--button 
+					class="btn btn-theme me-1"
 					:disabled="btnGuardar"
 				>
 					<i class="fas fa-print me-1"></i>Imprimir
-				</button>
-				<button 
+				</button-->
+				<!--button 
 					type="button" 
-					class="btn btn-primary"
+					class="btn btn-theme"
 					@click="guardar"
 					:disabled="btnGuardar"
 				>	
@@ -57,47 +57,72 @@
 
 						<span v-if="btnGuardar">Guardando...</span>
 						<span v-else>Guardar</span>
-				</button>
+				</button-->
 			</div>
 		</div>
 	</nav>
 
-	<ul class="list-group mt-2">
-		<li class="list-group-item p-2">
-			<div class="alert alert-info">
-				<b>Bodega: </b> {{recepcion.nombre_bodega}} 
+	<Card>
+		<CardBoody class="p-0">
+			<div class="alert alert-danger text-center rounded-0" role="alert" v-if="pendiente">
+				<i class="fas fa-info-circle me-2"> </i>Tiene cambios pendientes por guardar.
 			</div>
+			<form @submit.prevent="agregarProducto" class="row g-2 p-3">
+				<div class="col-md-2">
+					<label for="inputCantidad" class="form-label fw-bold mb-0">Cantidad</label>
+					<input 
+						type="text" 
+						class="form-control text-center"
+						placeholder="Cantidad" 
+						v-model="cantidad"
+						:disabled="pendiente"
+					/>
+				</div>
 
-			<form @submit.prevent="agregarProducto">
-				<div class="d-flex">
-					<div class="flex me-1">
-						<input 
-							type="text" 
-							class="form-control text-center"
-							placeholder="Cantidad" 
-							v-model="cantidad"
-						>
-					</div>
-					<div class="flex-grow-1 me-1">
-						<input 
-							type="text" 
-							class="form-control"
-							placeholder="Buscar producto por código o barra" 
-							v-model="codigo"
-						>
-					</div>
-					<div class="flex-shrink-1">
-						<button 
-							type="submit"
-							class="btn btn-lime text-white"
-						>
-							<i class="fas fa-plus"></i>
-						</button>
+				<div class="col-md-8">
+					<label for="inputCantidad" class="form-label fw-bold mb-0">Código/Barra</label>
+					<div class="input-group">				  
+					  <input 
+					  	type="text" 
+					  	class="form-control"
+					  	aria-label="Example text with button addon" 
+					  	aria-describedby="button-addon1"
+					  	v-model="codigo"
+					  	:disabled="pendiente"
+					  >
+					  <button 
+					  	type="submit" 
+					  	class="btn btn-secondary" 		  	
+					  	id="button-addon1"
+					  >
+					  	<i class="fas fa-plus"></i>
+					  </button>
 					</div>
 				</div>
+
+				<div class="col-md-1 d-grid text-center">
+					<br>
+					<button 
+						type="button"
+						class="btn btn-primary btn-block"
+						@click="verProductos"
+						:disabled="pendiente"
+					>
+						<i class="fas fa-search me-1"></i> Buscar
+					</button>
+				</div>
+				<!--div class="col-md-1 d-grid text-center">
+					<br>
+					<button 
+						type="button"
+						class="btn btn-info"
+						:disabled="pendiente"
+					>
+						<i class="fas fa-upload me-1"></i> Cargar OC
+					</button>
+				</div-->
 			</form>
-		</li>
-		<li class="list-group-item p-0">
+
 			<div v-if="inicio === true" class="text-center mt-3">
 	      <div class="spinner-border" role="status">
 	        <span class="sr-only">Loading...</span>
@@ -105,21 +130,27 @@
 	      <p>Cargando detalle...</p>
 	    </div>
 			<div class="table-responsive mt-3" v-else>
-				<table class="table table-sm table-striped">
+				<table class="table table-sm table-striped m-0">
 					<thead>
 						<tr>
 							<th class="text-center" width="50">#</th>
 							<th class="text-center">Código</th>
 							<th>Nombre</th>
-							<th class="text-center" width="100">Cantidad Rec.</th>
-							<th class="text-center" width="150">Fecha Vence</th>
-							<th class="text-center" width="150">Lote</th>
-							<th class="text-center" width="120">Costo</th>
-							<th class="text-center" width="120">Costo Oc</th>
+							<th class="text-center" width="120">
+								Cantidad Rec. <span class="text-danger">*</span>
+							</th>
+							<th class="text-center">Fecha Vence</th>
+							<th class="text-center" width="160">Lote</th>
+							<th class="text-center">Costo</th>
+							<th class="text-center">Costo Oc</th>
 							<th class="text-center">UM</th>
-							<th>Estado</th>
-							<th>Presentación</th>
-							<th width="50"></th>
+							<th class="text-center"> 
+								Estado <span class="text-danger">*</span>
+							</th>
+							<th class="text-center">
+								Presentación <span class="text-danger">*</span>
+							</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -135,27 +166,39 @@
 									type="number" 
 									class="form-control text-center" 
 									v-model="i.cantidad_recibida"
+									:disabled="!i.pendiente"
 								/>
 							</td>
 							<td 
 								class="text-center no-wrap" 
 								:class="i.control_vence == 1 && (i.fecha_vence == null || !i.fecha_vence) ? 'bg-danger bg-opacity-20': ''"
 							>
-								<input type="date" class="form-control text-center" v-model="i.fecha_vence">
+								<input type="date" class="form-control text-center" v-model="i.fecha_vence" :disabled="!i.pendiente">
 							</td>
 							<td class="text-center">
 								<input 
 									type="text" 
 									class="form-control text-center" 
 									v-model="i.lote"
-									required 
+									required
+									:disabled="!i.pendiente"
 								>
 							</td>
 							<td class="text-center">
-								<input type="number" class="form-control text-center" v-model="i.costo">
+								<input 
+									type="number" 
+									class="form-control text-center" 
+									v-model="i.costo"
+									:disabled="!i.pendiente"
+								>
 							</td>
 							<td class="text-center">
-								<input type="number" class="form-control text-center" v-model="i.costo_oc">
+								<input 
+									type="number" 
+									class="form-control text-center" 
+									v-model="i.costo_oc"
+									:disabled="!i.pendiente"
+								>
 							</td>
 							<td class="text-center">
 								<select 
@@ -163,6 +206,7 @@
 									id="selectUm"
 									class="form-select"
 									v-model="i.unidad_medida_id"
+									disabled 
 								>
 									<option 
 										v-for="(j, idx) in cat.um" 
@@ -178,6 +222,7 @@
 									id="selectEstado" 
 									class="form-select"
 									v-model="i.estado_producto_id"
+									:disabled="!i.pendiente"
 								>
 									<option 
 										v-for="(k, idx) in cat.estado_prod" 
@@ -193,10 +238,11 @@
 									id="selectPresentacion"
 									class="form-select"
 									v-model="i.presentacion_producto_id"
+									:disabled="!i.pendiente"
 								>
 									<option value="">Seleccione presentación...</option>
 									<option 
-										v-for="(l, idx) in cat.presentacion.filter(e => {return e.producto_id == i.id_producto})" 
+										v-for="(l, idx) in cat.presentacion.filter(e =>  {return e.producto_id == i.id_producto} )" 
 										:value="l.id"
 									>
 										{{ l.codigo }} - {{ l.factor}}
@@ -205,9 +251,28 @@
 							</td>
 							<td class="text-center">
 								<button
+									v-if="i.id && !i.pendiente"
+									class="btn btn-sm btn-secondary me-1 ms-1" 
+									title="Editar" 
+									@click="editar(i)"
+									:disabled="btnGuardar"
+								>
+  								<span class="fas fa-edit"></span>
+  							</button>
+								<button
+									v-if="i.pendiente"
+									class="btn btn-sm btn-primary me-1 ms-1" 
+									title="Guardar" 
+									@click="guardar(i)"
+									:disabled="btnGuardar"
+								>
+  								<span class="fas fa-save"></span>
+  							</button>
+								<button
 									class="btn btn-sm btn-danger" 
 									title="Eliminar" 
 									@click="quitarProducto(idx)"
+									:disabled="btnGuardar"
 								>
   								<span class="fas fa-trash"></span>
   							</button>
@@ -223,11 +288,50 @@
 					</tfoot>
 				</table>
 			</div>
-		</li>
-	</ul>
+		</CardBoody>
+	</Card>
+
+	<div 
+		class="modal fade" 
+		id="mdlProducto"
+		data-bs-backdrop="static" 
+		data-bs-keyboard="false" 
+		tabindex="-1" 
+		aria-labelledby="staticBackdropLabel" 
+		aria-hidden="true">
+
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 
+						class="modal-title fs-5" 
+						id="staticBackdropLabel"
+					> 
+						<i class="fas fa-search me-1"></i> Buscar producto
+					</h1>
+					<button 
+						type="button" 
+						class="btn-close" 
+						aria-label="Close"
+						@click="cerrarProductos"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ProductoBodega
+						:lista="productos"
+						@agregar="setProducto"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </template>
 
 <script>
+	import ProductoBodega from '@/views/producto/ProductoBodega.vue'
+
 	export default {
 		name: 'RecepcionDetalle',
 		props: {
@@ -243,15 +347,21 @@
 		},
 		data: () => ({
 			btnGuardar: false,
+			pendiente: false,
 			inicio: false,
-			codigo: null, 
+			codigo: null,
+			moda: null, 
 			cantidad: 1,
+			pk_det: '',
 			form: {
 				detalle: []
 			},
 			bform: {},
 			controlador: 'recepcion/detalle'
 		}),
+		mounted() {
+			this.modal = new this.$modal(document.getElementById('mdlProducto'));
+		},
 		created() {
 			this.bform.recepcion_enc_id = this.recepcion.id
 			this.buscar()
@@ -272,31 +382,48 @@
 					console.log(e)
 				})
 			},
-			guardar() {
+			guardar(obj) {
 				if (confirm("¿Está seguro de guardar el detalle?")) {
+					this.btnGuardar = true
 
-					for (let i in this.form.detalle) {
-						if (!this.form.detalle.hasOwnProperty('id')) {
-							this.form.detalle[i].no_linea = parseInt(i) + 1
+					let datos = obj
+					if (datos.hasOwnProperty('id')) {
+						this.pk_det = datos.id
+	        } 
+
+					datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
+					datos.nombre_unidad_medida   = this.cat.um.filter(e => { return e.id == datos.unidad_medida_id})[0].nombre 
+					datos.nombre_producto_estado = this.cat.estado_prod.filter(e => { return e.id == datos.estado_producto_id})[0].nombre 
+
+					if (datos.control_vence) {
+						if (!datos.fecha_vence) {
+							this.$toast.error("Debe ingresar una fecha de vencimiento")
+							return
 						}
 					}
 
-					this.btnGuardar = true
-					console.log(this.fom)
 					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.recepcion.id}`, this.form)
+					.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk_det}`, datos)
 					.then(res => {
+						let exito = res.data.exito
 						this.btnGuardar = false
-						if (res.data.exito) {
-							this.form.detalle = res.data.lista
-
+						let idx = this.form.detalle.indexOf(obj)
+						if (exito == 1) {
+							this.form.detalle[idx] = res.data.linea
 							this.$toast.success(res.data.mensaje)
-						} else {
-							this.$toast.error(res.data.mensaje)
-						}
 
+						} else if (exito == 2) {
+							this.form.detalle[idx].pendiente = true
+							this.$toast.error(res.data.mensaje)
+						} else {
+							this.form.detalle[idx].pendiente = false
+							this.pendiente = false
+							this.$toast.error(res.data.mensaje)
+						}		
+						this.btnGuardar = false	
 					}).catch(e => {
 						this.btnGuardar = false
+						this.pendiente = false
 						console.log(e)
 					})
 				}
@@ -306,8 +433,9 @@
 					let tmp = this.productos.filter(e => {
 						return e.codigo.toLowerCase() == this.codigo.toLowerCase() || e.barra.toLowerCase() == this.codigo.toLowerCase()
 					})[0]
-					
+
 					if (tmp) {
+						tmp.cantidad = this.cantidad
 						this.setProducto(tmp)
 					} else {
 						this.$toast.error("No se encontró el producto.")
@@ -317,14 +445,17 @@
 				}
 			},
 			setProducto(obj) {
+				this.pendiente = true
+
 				this.producto = {
+					no_linea: this.form.detalle.length + 1,
 					id_producto: obj.id_producto,
 					codigo_producto: obj.codigo,
 					nombre_producto: obj.nombre,
 					nombre_presentacion: null,
 					nombre_unidad_medida: null,
 					nombre_producto_estado: null,
-					cantidad_recibida: this.cantidad,
+					cantidad_recibida: obj.cantidad,
 					presentacion_producto_id: '',
 					unidad_medida_id: obj.unidad_medida_id,
 					estado_producto_id: obj.estado_producto_id,
@@ -337,7 +468,8 @@
 					costo_oc: 0,
 					producto_bodega_id: obj.producto_bodega,
 					control_vence: obj.control_vence,
-					recepcion_enc_id: this.recepcion.id
+					recepcion_enc_id: this.recepcion.id,
+					pendiente: true
 				}
 
 				this.form.detalle.push(this.producto)	
@@ -352,14 +484,48 @@
 
 				return tmp
 			},
+			editar(obj) {
+				if (!this.pendiente) {
+					obj.pendiente = true
+					this.pendiente = true
+				} else {
+					this.$toast.error("Tiene cambios pendientes por guardar.")
+				}
+			},	
 			quitarProducto(idx) {
 	      if (confirm('¿Está seguro de quitar el producto?')) {
 	        let tmp = this.form.detalle[idx]
 
 	        if (!tmp.hasOwnProperty('id')) {
 	          this.form.detalle.splice(idx, 1)
-	        } 
+	        } else {
+	        	this.eliminar_producto(this.form.detalle[idx], idx)
+	        }
 	      }
+	    },
+	    eliminar_producto(obj, idx) {
+				this.$http
+				.post(`${this.$baseUrl}/${this.controlador}/eliminar_producto/${obj.id}`)
+				.then(res => {
+					this.btnGuardar = false
+
+					if (res.data.exito) {	
+						this.form.detalle.splice(idx, 1)
+						this.$toast.success(res.data.mensaje)
+					} else {
+						this.$toast.error(res.data.mensaje)
+					}	
+
+				}).catch(e => {
+					this.btnGuardar = false
+					console.log(e)
+				})		
+	    },
+	    verProductos() {
+	    	this.modal.show()
+	    },
+	    cerrarProductos() {
+	    	this.modal.hide()
 	    }
 		},
 		computed: {
@@ -371,6 +537,9 @@
 				}
 				return []
 			}
+		},
+		components: {
+			ProductoBodega
 		},
 		watch: {
 		}

@@ -44,6 +44,7 @@ class Sucursal_model extends General_model {
 		$tmp = $this->db
 					->where("nombre", $args['nombre'])
 					->where("empresa_id", $args['empresa_id'])
+					->where("activo", 1)
 					->get("$this->_tabla");
 
 		return $tmp->num_rows() == 0;
