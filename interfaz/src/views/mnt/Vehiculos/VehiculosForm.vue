@@ -198,7 +198,7 @@
 							:true-value="1" 
 							:false-value="0"
 							v-model="form.es_contenedor"
-							checked 
+							
 						>
 						<label class="form-check-label" for="chkIngresaStock">Es contenedor</label>
 					</div>

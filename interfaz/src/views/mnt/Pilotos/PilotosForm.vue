@@ -72,7 +72,6 @@
                 class="form-control" 
                 id="inputObservacion"
                 v-model="form.email"
-                required
             />
         </div>
     </div>

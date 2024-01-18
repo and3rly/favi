@@ -49,7 +49,7 @@
 						
 							<td class="text-center">
 								<span 
-									v-if="i.es-contenedor == 1"
+									v-if="i.es_contenedor == 1"
 									class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
 								>
 									<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Si
