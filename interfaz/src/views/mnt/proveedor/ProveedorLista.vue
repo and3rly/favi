@@ -43,13 +43,9 @@
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
 							<td>{{i.codigo}}</td>
 							<td>
-								<a 
-									href="javascript:;" 
-									class="text-decoration-none" 
-									@click="editar(i, idx)"
-								>
+								
 									{{ i.nombre }}
-								</a>
+							
 							</td>
 							<td>{{ i.telefono }}</td>
 							<td>{{ i.nit }}</td>

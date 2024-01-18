@@ -96,7 +96,7 @@
 				</label>
 				<input
 					id="inputCcordenadax" 
-					type="text" 
+					type="number" 
 					class="form-control"
 					v-model="form.coordenada_x"
 				>
@@ -107,7 +107,7 @@
 				</label>
 				<input
 					id="inputCcordenaday" 
-					type="text" 
+					type="number" 
 					class="form-control"
 					v-model="form.coordenada_y"
 				>

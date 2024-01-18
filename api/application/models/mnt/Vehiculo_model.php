@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Vehiculo_model extends General_model {
+class Vehiculo_model extends General_model{
+
 	public $tipo;
 	public $placa;
 	public $marca;
@@ -18,41 +19,45 @@ class Vehiculo_model extends General_model {
     public $fecha_mod;
     public $activo;
 
-	public function __construct($id="")
-	{
-		parent::__construct();
-		if (!empty($id)) {				
-			$this->cargar($id);
-		}		
+
+public function __construct($id="")
+{
+parent::__construct();
+if (!empty($id)) {				
+$this->cargar($id);
+}		
+}
+
+
+public function buscar($args=[])
+{
+	if (elemento($args,'id')) {
+		$this->db->where('id',$args['id']);
 	}
 
-	public function buscar($args=[])
-	{
-		if (elemento($args,'id')) {
-			$this->db->where('id',$args['id']);
-		}
+	$tmp = $this->db->get("vehiculos");
 
-		$tmp = $this->db->get("vehiculos");
+	return verConsulta($tmp, $args);
+}
 
-		return verConsulta($tmp, $args);
+
+public function existe($args=[]) {
+	if ($this->getPK()) {
+		$this->db->where("id <>", $this->getPK());
 	}
 
-	public function existe($args=[]) {
-		if ($this->getPK()) {
-			$this->db->where("id <>", $this->getPK());
-		}
-
-		$tmp = $this->db
-					->where("placa", $args->placa)
-					->where("activo",1)
-					->get('vehiculos');
+	$tmp = $this->db
+				->where("placa", $args->placa)
+				->where("activo",1)
+				->get('vehiculos');
 
 
-		if ($tmp->num_rows() > 0) {
-			return true;
-		}
+	if ($tmp->num_rows() > 0) {
+		return true;
+	}
 
-		return false;
-	}	
+	return false;
+}	
 
 }
+

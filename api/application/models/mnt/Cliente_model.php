@@ -26,6 +26,7 @@ class Cliente_model extends General_model {
 		}
 
 		$tmp = $this->db
+		->where("codigo", $args->codigo)
 		->where("nombre_comercial", $args->nombre_comercial)
 		->where("nit", $args->nit)
 		->get("$this->_tabla");
@@ -45,8 +46,7 @@ class Cliente_model extends General_model {
 		}
 
 		$tmp = $this->db
-		->select("a.*,b.nombre ncliente,")
-		->join("cliente_tipo b", "a.cliente_tipo_id=b.id")
+		->select("a.*")
 		->get('cliente a');
 
 		return verConsulta($tmp, $args);
