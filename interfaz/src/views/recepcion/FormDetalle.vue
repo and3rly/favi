@@ -130,7 +130,7 @@
 	      <p>Cargando detalle...</p>
 	    </div>
 			<div class="table-responsive mt-3" v-else>
-				<table class="table table-sm table-striped m-0">
+				<table class="table table-sm m-0">
 					<thead>
 						<tr>
 							<th class="text-center" width="50">#</th>
@@ -383,72 +383,70 @@
 					console.log(e)
 				})
 			},
-			guardar(obj) {
-				if (confirm("¿Está seguro de guardar el detalle?")) {
-					this.btnGuardar = true
+			guardar(obj) {	
+				this.btnGuardar = true
 
-					let datos = obj
-					if (datos.hasOwnProperty('id')) {
-						this.pk_det = datos.id
-	        } 
+				let datos = obj
+				if (datos.hasOwnProperty('id')) {
+					this.pk_det = datos.id
+        } 
 
-	        if (datos.control_vence) {
-						if (!datos.fecha_vence) {
-							this.$toast.error("Debe ingresar una fecha de vencimiento")
+        if (datos.control_vence) {
+					if (!datos.fecha_vence) {
+						this.$toast.error("Debe ingresar una fecha de vencimiento")
+						this.btnGuardar = false
+						return
+					} else {
+						if (datos.fecha_vence <= this.cat.fecha) {
+							this.$toast.error("La fecha de vencimiento no debe ser menor o igual a la actual")
 							this.btnGuardar = false
 							return
-						} else {
-							if (datos.fecha_vence <= this.cat.fecha) {
-								this.$toast.error("La fecha de vencimiento no debe ser menor o igual a la actual")
-								this.btnGuardar = false
-								return
-							}
 						}
 					}
-
-					if (!datos.presentacion_producto_id) {
-						this.$toast.error("Debe seleccionar una presentación.")
-						this.btnGuardar = false
-						return
-					}
-
-					if (!datos.estado_producto_id) {
-						this.$toast.error("Debe seleccionar un estado.")
-						this.btnGuardar = false
-						return
-					}
-
-					datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
-					datos.nombre_unidad_medida   = this.cat.um.filter(e => { return e.id == datos.unidad_medida_id})[0].nombre 
-					datos.nombre_producto_estado = this.cat.estado_prod.filter(e => { return e.id == datos.estado_producto_id})[0].nombre 
-
-					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk_det}`, datos)
-					.then(res => {
-						this.btnGuardar = false
-
-						let exito = res.data.exito
-						let idx = this.form.detalle.indexOf(obj)
-
-						if (exito == 1) {
-							this.form.detalle[idx] = res.data.linea
-							this.$toast.success(res.data.mensaje)
-
-						} else if (exito == 2) {
-							this.form.detalle[idx].pendiente = true
-							this.$toast.error(res.data.mensaje)
-
-						} else {
-							this.form.detalle[idx].pendiente = false
-							this.$toast.error(res.data.mensaje)
-						}		
-
-						this.btnGuardar = false	
-					}).catch(e => {
-						this.btnGuardar = false
-						console.log(e)
-					})
 				}
+
+				if (!datos.presentacion_producto_id) {
+					this.$toast.error("Debe seleccionar una presentación.")
+					this.btnGuardar = false
+					return
+				}
+
+				if (!datos.estado_producto_id) {
+					this.$toast.error("Debe seleccionar un estado.")
+					this.btnGuardar = false
+					return
+				}
+
+				datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
+				datos.nombre_unidad_medida   = this.cat.um.filter(e => { return e.id == datos.unidad_medida_id})[0].nombre 
+				datos.nombre_producto_estado = this.cat.estado_prod.filter(e => { return e.id == datos.estado_producto_id})[0].nombre 
+
+				this.$http
+				.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk_det}`, datos)
+				.then(res => {
+					this.btnGuardar = false
+
+					let exito = res.data.exito
+					let idx = this.form.detalle.indexOf(obj)
+
+					if (exito == 1) {
+						this.form.detalle[idx] = res.data.linea
+						this.$toast.success(res.data.mensaje)
+
+					} else if (exito == 2) {
+						this.form.detalle[idx].pendiente = true
+						this.$toast.error(res.data.mensaje)
+
+					} else {
+						this.form.detalle[idx].pendiente = false
+						this.$toast.error(res.data.mensaje)
+					}		
+
+					this.btnGuardar = false	
+				}).catch(e => {
+					this.btnGuardar = false
+					console.log(e)
+				})				
 			},	
 			agregarProducto() {
 				if (this.codigo != null && this.codigo) {
