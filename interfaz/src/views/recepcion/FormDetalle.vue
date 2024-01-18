@@ -150,13 +150,14 @@
 							<th class="text-center">
 								Presentación <span class="text-danger">*</span>
 							</th>
-							<th></th>
+							<th width="100"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr 
 							v-for="(i, idx) in form.detalle"
 							style="cursor: pointer;"
+							:style="i.pendiente ? 'background-color: #FFECB3;': ''"
 						>
 							<th class="text-center">{{ idx + 1 }}</th>
 							<td class="text-center">{{ i.codigo_producto }}</td>
@@ -419,8 +420,8 @@
 					.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk_det}`, datos)
 					.then(res => {
 						this.btnGuardar = false
-						let exito = res.data.exito
 						
+						let exito = res.data.exito
 						let idx = this.form.detalle.indexOf(obj)
 
 						if (exito == 1) {
@@ -498,7 +499,7 @@
 				return tmp
 			},
 			editar(obj) {
-				if (!this.pendientes()) {
+				if (!this.pendientes) {
 					obj.pendiente = true
 				} else {
 					this.$toast.error("Tiene cambios pendientes por guardar.")
