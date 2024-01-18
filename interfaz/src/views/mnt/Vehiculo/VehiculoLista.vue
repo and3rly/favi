@@ -1,7 +1,7 @@
 <template>
 	<Card>
 		<CardBody class="p-0">
-			<div class="input-group mt-3 mb-4 p-2 px-3">
+			<div class="input-group mt-3 mb-3 px-3">
 				<div class="input-group">
 					<input 
 						type="text" 
@@ -15,19 +15,20 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="table-responsive-sm table-responsive-lg">
-				<table class="table table-sm table-striped mb-0" style="text-align: center;">
+				<table class="table table-sm table-hover table-striped m-0" style="text-align: center;">
 					<thead>
 						<tr>
-							<th scope="col" class="text-center" width="30">#</th>
-							<th scope="col">Tipo de vehiculo</th>
-							<th scope="col">Placa</th>
-							<th scope="col">marca</th>
-							<th scope="col">Modelo</th>
+							<th scope="col" class="text-center" width="40">#</th>
+							<th scope="col" width="100">Tipo</th>
+							<th scope="col" width="150">Placa</th>
+							<th scope="col" width="150">Marca</th>
+							<th scope="col">Modelo|Año</th>
 							<th scope="col">Placa Comercial</th>
-							<th scope="col">contenedor</th>
-							<th scope="col">Activo</th>
-							
+							<th scope="col">Es contenedor</th>
+							<th class="text-center">Estado</th>
+							<th scope="col">Acción</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -37,23 +38,15 @@
 							style="cursor: pointer;" 
 						>
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
-							<td> {{ i.tipo }} </td>
-							<td>
-								<a 
-									href="javascript:;" 
-									class="text-decoration-none" 
-									@click="editar(i, idx)"
-								>
-									{{ i.placa }}
-								</a>
-							</td>
-							<td> {{ i.marca }} </td>
-							<td> {{ i.modelo }} </td>
-							<td> {{ i.placa_comercial }} </td>
-              
+							
+							<td>{{i.tipo}}</td>
+							<td>{{i.placa}}</td>
+							<td>{{ i.marca }}</td>
+							<td>{{ i.modelo }}</td>
+							<td>{{ i.placa_comercial }}</td>
 							<td class="text-center">
 								<span 
-									v-if="i.es_contenedor == 1"
+									v-if="i.es-contenedor == 1"
 									class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
 								>
 									<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Si
@@ -65,7 +58,6 @@
 								>
 									<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> No
 								</span>
-
 							</td>
 							<td class="text-center">
 								<span 
@@ -82,7 +74,26 @@
 									<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> Inactivo
 								</span>
 							</td>
-						
+							<td class="text-center">
+								<div class="dropdown position-static">
+									<a 
+										href="javascript:;"
+										data-bs-toggle="dropdown"
+										aria-expanded="false" 
+									>
+										<i class="fas fa-ellipsis-h"></i>
+									</a>
+								  <div class="dropdown-menu dropdown-menu-end">
+								  	<a
+									    href="javascript:;" 
+									    class="dropdown-item"
+											@click="editar(i, idx)"
+									    >
+									    	<i class=" fas fa-edit me-1"></i> Editar
+									  </a>
+									</div>
+								</div>
+							</td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -102,28 +113,34 @@
 			</div>
 		</CardBody>
 	</Card>
+
+
 </template>
 
 <script>
 	import General from '@/mixins/General.js'
-	import Imagen from '@/components/general/Imagen.vue'
-
+	
 	export default {
-		name: 'MenuLista',
+		name: 'VehiculoLista',
 		mixins: [General],
 		props: {
 			reg: {
 				type: Object,
-				required: false
+				required: false,
+				default: null
 			},
 			tmpLinea: {
 				type: Object,
-				required: false
+				required: false,
+				default: null
 			},
 		},
 		data: () => ({
-			idx: null
+			idx: null,
+			modal: null,
+			vehiculo: null
 		}),
+		
 		created(){
 			this.controlador = 'mnt/Vehiculo'
 			this.autoBuscar = true
@@ -131,29 +148,7 @@
 		methods: {
 			editar(obj, idx) {
 				this.$emit('abrirModal', obj, idx)
-			},
-			anular_menu(obj, idx) {
-				if (confirm("¿Está seguro?")) {
-					this.pk = obj.id
-
-					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/anular_menu/${this.pk}`)
-					.then(res => {
-						this.btnGuardar = false
-
-						if (res.data.exito) {	
-							this.filtrada.splice(idx, 1)
-						}
-
-					}).catch(e => {
-						this.btnGuardar = false
-						console.log(e)
-					})
-				}
 			}
-	},
-		components: {
-			Imagen
 		},
 		watch: {
 			'tmpLinea'(o) {

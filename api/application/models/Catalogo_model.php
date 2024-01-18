@@ -326,7 +326,7 @@ class Catalogo_model extends General_model {
 		}
 
 		if (isset($args['activo'])) {
-			$this->db->where('a.activo', $args['activo']);
+			$this->db->where('cs.activo', $args['activo']);
 		} else {
 			$this->db->where('cs.activo', 1);
 		}
