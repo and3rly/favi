@@ -67,7 +67,7 @@
 				</div>
 
 				<div v-else class="table-responsive mt-3">
-					<table class="table table-sm table-hover table-striped">
+					<table class="table table-sm table-hover table-striped m-0">
 						<thead>
 							<tr>
 								<th class="text-center" width="50">#</th>
