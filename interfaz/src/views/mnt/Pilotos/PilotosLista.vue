@@ -21,14 +21,10 @@
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="40">#</th>
-							<th scope="col">Tipo</th>
-							<th scope="col" >Placa</th>
-							
-							<th scope="col">Marca</th>
-							<th scope="col">Modelo|Año</th>
-							
-							<th scope="col">Es contenedor</th>
-							<th scope="col">Placa Comercial</th>
+							<th scope="col">Nombres</th>
+							<th scope="col" >Apellidos</th>
+							<th scope="col">No Licencia</th>
+							<th scope="col">Telefono</th>
 							<th class="text-center">Estado</th>
 							<th scope="col">Acción</th>
 						</tr>
@@ -41,28 +37,13 @@
 						>
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
 							
-							<td>{{i.tipo}}</td>
-							<td>{{i.placa}}</td>
+							<td>{{i.nombres}}</td>
+							<td>{{i.apellidos}}</td>
 							
-							<td>{{ i.marca }}</td>
-							<td>{{ i.modelo }}</td>
+							<td>{{ i.no_licencia }}</td>
+							<td>{{ i.telefono }}</td>
 						
-							<td class="text-center">
-								<span 
-									v-if="i.es-contenedor == 1"
-									class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-								>
-									<i class="fa fa-check-circle text-success fs-10px fa-fw me-5px"></i> Si
-								</span>
-
-								<span 
-									v-else
-									class="badge bg-danger text-danger-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-								>
-									<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> No
-								</span>
-							</td>
-							<td>{{ i.placa_comercial }}</td>
+							
 							<td class="text-center">
 								<span 
 									v-if="i.activo == 1"
@@ -125,7 +106,7 @@
 	import General from '@/mixins/General.js'
 	
 	export default {
-		name: 'VehiculosLista',
+		name: 'PilotosLista',
 		mixins: [General],
 		props: {
 			reg: {
@@ -142,11 +123,11 @@
 		data: () => ({
 			idx: null,
 			modal: null,
-			Vehiculos: null
+			Pilotos: null
 		}),
 		
 		created(){
-			this.controlador = 'mnt/Vehiculos'
+			this.controlador = 'mnt/Pilotos'
 			this.autoBuscar = true
 		},
 		methods: {

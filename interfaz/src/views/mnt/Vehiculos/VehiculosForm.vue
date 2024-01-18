@@ -1,11 +1,14 @@
 <template>
+		<div class="alert alert-info">
+			<i class="fas fa-lightbulb me-2"></i>Todos los campos marcados con <span class="text-danger">*</span> son obligatorios.
+	</div>
 	<form @submit.prevent="guardar(true)">
 		<div class="mb-1 row">
 			<label
 				for="selectVehiculo" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
-				Tipo de vehiculo:
+				Tipo de vehiculo: <span class="text-danger">*</span>
 			</label>
 			<div class="col-sm-9">
 				<select 
@@ -17,10 +20,12 @@
 				>
 				
 					<option value="Automovil">Automóvil</option>
+					<option value="Pick-Up">Pick-Up</option>
+					<option value="Suv-Agricola">Camioneta agricola</option>
 					<option value="Camion">Camión</option>
 					<option value="Autobus">Autobús</option>
 					<option value="Motocicleta">Motocicleta</option>
-					<option value="Contenedor">Remolque</option>
+					<option value="Contenedor">Contenedor</option>
 					<option value="Trailer">tráiler</option>
 				</select>
 			</div>
@@ -31,7 +36,7 @@
 				for="inputPlaca" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
-				Placa:
+				Placa: <span class="text-danger">*</span>
 			</label>
 			<div class="col-sm-9">
 				<input 
@@ -211,7 +216,7 @@
 							v-model="form.activo"
 							checked 
 						>
-						<label class="form-check-label" for="chkActivo">Activo</label>
+						<label class="form-check-label" for="chkActivo">Activo <span class="text-danger">*</span></label>
 					</div>
 				</div>
 			</div>

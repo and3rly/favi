@@ -448,6 +448,10 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
+
+
+
+
 	public function ver_pilotos($args=[]) 
 	{
 		$tmp = $this->db
