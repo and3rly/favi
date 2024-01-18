@@ -233,7 +233,7 @@
 									</option>
 								</select>
 							</td>
-							<td :class="!i.presentacion_producto_id ? 'bg-danger bg-opacity-20': ''">
+							<td>
 								<select 
 									name="selectPresentacion" 
 									id="selectPresentacion"
@@ -241,7 +241,7 @@
 									v-model="i.presentacion_producto_id"
 									:disabled="!i.pendiente"
 								>
-									<option value="">Seleccione presentación...</option>
+									<option :value="null">Seleccione presentación...</option>
 									<option 
 										v-for="(l, idx) in cat.presentacion.filter(e =>  {return e.producto_id == i.id_producto} )" 
 										:value="l.id"
@@ -320,7 +320,8 @@
 				</div>
 				<div class="modal-body">
 					<ProductoBodega
-						:lista="productos"
+						v-if="vp"
+						:recepcion="recepcion"
 						@agregar="setProducto"
 					/>
 				</div>
@@ -350,6 +351,7 @@
 			btnGuardar: false,
 			pendiente: false,
 			inicio: false,
+			vp: false,
 			codigo: null,
 			moda: null, 
 			cantidad: 1,
@@ -396,28 +398,19 @@
 						this.$toast.error("Debe ingresar una fecha de vencimiento")
 						this.btnGuardar = false
 						return
-					} else {
-						if (datos.fecha_vence <= this.cat.fecha) {
-							this.$toast.error("La fecha de vencimiento no debe ser menor o igual a la actual")
-							this.btnGuardar = false
-							return
-						}
 					}
 				}
-
-				if (!datos.presentacion_producto_id) {
-					this.$toast.error("Debe seleccionar una presentación.")
-					this.btnGuardar = false
-					return
-				}
-
+				
 				if (!datos.estado_producto_id) {
 					this.$toast.error("Debe seleccionar un estado.")
 					this.btnGuardar = false
 					return
 				}
 
-				datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
+				if (datos.presentacion_producto_id) {
+					datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
+				}
+				
 				datos.nombre_unidad_medida   = this.cat.um.filter(e => { return e.id == datos.unidad_medida_id})[0].nombre 
 				datos.nombre_producto_estado = this.cat.estado_prod.filter(e => { return e.id == datos.estado_producto_id})[0].nombre 
 
@@ -474,7 +467,7 @@
 					nombre_unidad_medida: null,
 					nombre_producto_estado: null,
 					cantidad_recibida: obj.cantidad,
-					presentacion_producto_id: '',
+					presentacion_producto_id: null,
 					unidad_medida_id: obj.unidad_medida_id,
 					estado_producto_id: obj.estado_producto_id,
 					lote: '',
@@ -541,9 +534,11 @@
 				})		
 	    },
 	    verProductos() {
+	    	this.vp = true
 	    	this.modal.show()
 	    },
 	    cerrarProductos() {
+	    	this.vp = false
 	    	this.modal.hide()
 	    }
 		},

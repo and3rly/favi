@@ -2,24 +2,6 @@
 	<form @submit.prevent="guardar">
 		<div class="mb-1 row">
 			<label
-				for="inputObservacion" 
-				class="col-sm-3 col-form-label fw-bold"
-			>
-				Observación: <span class="text-danger">*</span>
-			</label>
-			<div class="col-sm-9">
-				<input 
-					type="text" 
-					class="form-control" 
-					id="inputObservacion"
-					v-model="form.observacion"
-					required
-				/>
-			</div>
-		</div>
-
-		<div class="mb-1 row">
-			<label
 				for="selectEstado" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
@@ -86,7 +68,7 @@
 				for="selectVehiculo" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
-				Vehículo: <span class="text-danger">*</span>
+				Vehículo:
 			</label>
 			<div class="col-sm-9">
 				<select 
@@ -94,7 +76,6 @@
 					id="selectVehiculo"
 					class="form-select" 
 					v-model="form.vehiculos_id"
-					required
 				>
 					<option :value="null">------------------</option>
 					<option v-for="i in cat.vehiculo" :value="i.id"> {{ i.placa }} - {{ i.marca }} {{ i.model }} </option>
@@ -107,7 +88,7 @@
 				for="selectPiloto" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
-				Piloto: <span class="text-danger">*</span>
+				Piloto:
 			</label>
 			<div class="col-sm-9">
 				<select 
@@ -115,11 +96,27 @@
 					id="selectPiloto"
 					class="form-select" 
 					v-model="form.pilotos_id"
-					required
 				>
 					<option :value="null">------------------</option>
 					<option v-for="i in cat.piloto" :value="i.id"> {{ i.nombres }} {{ i.apellidos }} </option>
 				</select>
+			</div>
+		</div>
+
+		<div class="mb-1 row">
+			<label
+				for="inputObservacion" 
+				class="col-sm-3 col-form-label fw-bold"
+			>
+				Observación:
+			</label>
+			<div class="col-sm-9">
+				<input 
+					type="text" 
+					class="form-control" 
+					id="inputObservacion"
+					v-model="form.observacion"
+				/>
 			</div>
 		</div>
 

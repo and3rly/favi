@@ -56,26 +56,36 @@
 </template>
 
 <script>
+	import Catalogo from '@/mixins/Catalogo.js'
+
 	export default {
 		name:"ProductoBodega",
+		mixins: [Catalogo],
 		props: {
-			lista: {
-				type: Array,
-				required: false
-			},
 			cat: {
 				type: Array, 
 				required: false
+			},
+			recepcion: {
+				type: Object,
+				required: false
 			}
-		},
+		},	
 		data: () => ({
 			filtro: {}
 		}),
+		created() {
+			this.args.productos_bodega = {
+				bodega: this.recepcion.bodega_id
+			}
+
+			this.getCatalogo(['productos_bodega'])
+		},
 		computed: {
 			filtrada() {
-				if (this.lista) {
+				if (this.cat.productos_bodega) {
 					if (this.filtro.termino) {
-						return this.lista.filter(obj => {
+						return this.cat.productos_bodega.filter(obj => {
               let ter = this.filtro.termino.toLowerCase()
               let continuar = false
 
@@ -89,8 +99,7 @@
             })
 					}
 				}
-
-				return this.lista
+				return this.cat.productos_bodega
 			}
 		}
 	}
