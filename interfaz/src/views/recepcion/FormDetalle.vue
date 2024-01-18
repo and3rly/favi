@@ -397,6 +397,12 @@
 							this.$toast.error("Debe ingresar una fecha de vencimiento")
 							this.btnGuardar = false
 							return
+						} else {
+							if (datos.fecha_vence <= this.cat.fecha) {
+								this.$toast.error("La fecha de vencimiento no debe ser menor o igual a la actual")
+								this.btnGuardar = false
+								return
+							}
 						}
 					}
 

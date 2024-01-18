@@ -40,7 +40,8 @@ class Principal extends CI_Controller {
 				'piloto'      => $this->catalogo->ver_pilotos(),
 				'presentacion'=> $this->catalogo->ver_presentacion(),
 				'estado_prod' => $this->catalogo->ver_estado(),
-				'um'          => $this->catalogo->ver_um()
+				'um'          => $this->catalogo->ver_um(),
+				'fecha' 	  => Hoy(),
 			]
 		];
 
