@@ -1,14 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Vehiculos extends CI_Controller {
+class Pilotos extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('mnt/Vehiculos_model');
+		$this->load->model('mnt/Pilotos_model');
 		$this->output->set_content_type('application/json');
-
-		$this->user = $this->session->userdata('usuario');
+	
+	
 	}
 
 	public function index()
@@ -19,7 +19,7 @@ class Vehiculos extends CI_Controller {
 	public function buscar(){
 
 		$data = [
-			'lista'=> $this->Vehiculos_model->buscar($_GET)
+			'lista'=> $this->Pilotos_model->buscar($_GET)
 		];
 
 		$this->output->set_output(json_encode($data));
@@ -33,25 +33,23 @@ class Vehiculos extends CI_Controller {
 		if ($this->input->method() === "post") {
 			$datos = (object) $_POST;
 
-			if (verPropiedad($datos, "tipo") && verPropiedad($datos, "placa") && verPropiedad($datos, "activo")) {
+			if (verPropiedad($datos, "no_licencia") && verPropiedad($datos, "no_dpi")&&verPropiedad($datos, "nombres")&&verPropiedad($datos, "apellidos")) {
 
-				$Vehiculos = new Vehiculos_model($id);
+				$Pilotos = new Pilotos_model($id);
 
-				if (empty($id)) {
-					$datos->usuario_agr = $this->user['id'];
-					$datos->fecha_agr = Hoy(true);
-				}
+		
+		
 
-				if ($Vehiculos->existe($datos)) {
+				if ($Pilotos->existe($datos)) {
 					$data['mensaje'] = "Los datos ya se encuentran almacenados.";
 				} else {
 
-					if ($Vehiculos->guardar($datos)) {
+					if ($Pilotos->guardar($datos)) {
 						$data['exito']   = 1;
 						$data['mensaje'] = empty($id) ? "Registro guardado con éxito.":"Registro actualizado.";
-						$data['linea']   = $Vehiculos->buscar(['id' => $Vehiculos->getPK(), 'uno' => true]);
+						$data['linea']   = $Pilotos->buscar(['id' => $Pilotos->getPK(), 'uno' => true]);
 					} else {
-						$data['mensaje'] = $Vehiculos->getMensaje();
+						$data['mensaje'] = $Pilotos->getMensaje();
 					}
 				}
 			} else {

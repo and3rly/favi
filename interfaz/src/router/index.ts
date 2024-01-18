@@ -118,6 +118,12 @@ const router = createRouter({
             meta: {titulo: 'Vehiculos'}
           },
           { 
+            path: '/pilotos',
+            name: 'Pilotos',
+            component: () => import('@/views/mnt/Pilotos/Pilotos.vue'),
+            meta: {titulo: 'Pilotos'}
+          },
+          { 
             path: '/anulacion_pedido',
             name: 'Anulacion de pedido',
             component: () => import('@/views/mnt/motivo_anulacion_pedido/Motivo_anulacion_pedido.vue'),
