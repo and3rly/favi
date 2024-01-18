@@ -301,7 +301,7 @@
 		aria-labelledby="staticBackdropLabel" 
 		aria-hidden="true">
 
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 
@@ -420,7 +420,7 @@
 					.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk_det}`, datos)
 					.then(res => {
 						this.btnGuardar = false
-						
+
 						let exito = res.data.exito
 						let idx = this.form.detalle.indexOf(obj)
 

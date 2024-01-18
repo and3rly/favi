@@ -35,14 +35,15 @@
 					<td>{{ i.precio }}</td>
 					<td>{{ i.costo }}</td>
 					<td>{{ i.nombre_um }}</td>
-					<td>{{ i. nombre_estado }}</td>
 					<td>{{ i.nombre_marca }}</td>
+					<td>{{ i.nombre_estado }}</td>
 					<td class="text-center">
 						<input type="number" class="form-control text-center" v-model="i.cantidad"/>
 					</td>
 					<td class="text-center">
 						<button 
-							class="btn btn-sm btn-success"
+							class="btn btn-sm btn-theme"
+							title="Agregar producto" 
 							@click="$emit('agregar', i)"
 						>
 							<i class="fa fa-plus"></i>						
