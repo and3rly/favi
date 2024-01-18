@@ -1,35 +1,34 @@
 <template>
 	<form @submit.prevent="guardar(true)">
-			
-			<div class="mb-1 row">
+		<div class="mb-1 row">
 			<label
-				for="selectEstado" 
+				for="selectVehiculo" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
 				Tipo de vehiculo:
 			</label>
 			<div class="col-sm-9">
 				<select 
-					name="selectEstado" 
-					id="selectEstado"
+					name="selectVehiculo" 
+					id="selectVehiculo"
 					class="form-select" 
 					v-model="form.tipo"
 					required
 				>
 				
-					<option :value="Automovil">Automóvil</option>
-					<option :value="Camion">Camión</option>
-					<option :value="Autobus">Autobús</option>
-					<option :value="Motocicleta">Motocicleta</option>
-					<option :value="Contenedor">Remolque</option>
-					<option :value="Trailer">tráiler</option>
+					<option value="Automovil">Automóvil</option>
+					<option value="Camion">Camión</option>
+					<option value="Autobus">Autobús</option>
+					<option value="Motocicleta">Motocicleta</option>
+					<option value="Contenedor">Remolque</option>
+					<option value="Trailer">tráiler</option>
 				</select>
 			</div>
 		</div>
 			
 		<div class="mb-1 row">
 			<label
-				for="inputObservacion" 
+				for="inputPlaca" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
 				Placa:
@@ -38,7 +37,7 @@
 				<input 
 					type="text" 
 					class="form-control" 
-					id="inputObservacion"
+					id="inputPlaca"
 					v-model="form.placa"
 					required
 				/>
@@ -46,7 +45,7 @@
 		</div>
 		<div class="mb-1 row">
 			<label
-				for="inputObservacion" 
+				for="inputMarca" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
 				Marca: 
@@ -55,7 +54,7 @@
 				<input 
 					type="text" 
 					class="form-control" 
-					id="inputObservacion"
+					id="inputMarca"
 					v-model="form.marca"
 					required
 				/>
@@ -66,7 +65,7 @@
 
 		<div class="mb-1 row">
 			<label
-				for="inputObservacion" 
+				for="inputModelo" 
 				class="col-sm-3 col-form-label fw-bold"
 			>
 				Modelo|Año:
@@ -75,7 +74,7 @@
 				<input 
 					type="text" 
 					class="form-control" 
-					id="inputObservacion"
+					id="inputModelo"
 					v-model="form.modelo"
 					required
 				/>
@@ -246,10 +245,10 @@
 	import General from '@/mixins/General.js'
 	import Catalogo from '@/mixins/Catalogo.js'
 	export default {
-		name: 'VehiculoForm',
+		name: 'VehiculosForm',
 		mixins: [General,Catalogo],
 		props: {
-			vehiculo: {
+			vehiculos: {
 				type: Object,
 				required: false
 			}
@@ -259,12 +258,12 @@
 		}),
 		
 		created() {
-			this.controlador = 'mnt/Vehiculo'
+			this.controlador = 'mnt/Vehiculos'
 			this.setForm()
 		
-			if (this.vehiculo) {
-				this.pk = this.vehiculo.id			
-				this.setDatosForm(this.vehiculo);
+			if (this.vehiculos) {
+				this.pk = this.vehiculos.id			
+				this.setDatosForm(this.vehiculos);
 			}	
 		},
 		methods: {

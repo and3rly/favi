@@ -11,7 +11,7 @@
 		</div>
 	</div>
 
-	<VehiculoLista 
+	<VehiculosLista 
 		@abrirModal="editar" 
 		:tmpLinea="tmpReg" 
 	/>
@@ -35,11 +35,11 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<VehiculoForm
+					<VehiculosForm
 						v-if="verForm" 
 						@cerrar="cerrarModal" 
 						@actualizar="actualizar"
-						:proveedor="reg" 
+						:vehiculos="reg" 
 						/>
 				</div>
 			</div>
@@ -48,14 +48,14 @@
 </template>
 
 <script>
-import VehiculoLista from '@/views/mnt/vehiculo/VehiculoLista.vue'
-import VehiculoForm from '@/views/mnt/vehiculo/VehiculoForm.vue'
+import VehiculosLista from '@/views/mnt/vehiculos/VehiculosLista.vue'
+import VehiculosForm from '@/views/mnt/vehiculos/VehiculosForm.vue'
 import Catalogo from '@/mixins/Catalogo.js'
 import { Modal } from 'bootstrap'
 import { Tab } from 'bootstrap'
 
 export default {
-	name: 'vehiculo',
+	name: 'vehiculos',
 	mixins: [Catalogo],
 	data: () => ({
 		modal: null,
@@ -93,8 +93,8 @@ export default {
 		}
 	},
 	components: {
-		VehiculoLista,
-		VehiculoForm
+		VehiculosLista,
+		VehiculosForm
 	}
 }
 </script>
