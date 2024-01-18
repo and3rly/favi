@@ -64,7 +64,7 @@
 
 	<Card>
 		<CardBoody class="p-0">
-			<div class="alert alert-danger text-center rounded-0" role="alert" v-if="pendiente">
+			<div class="alert alert-danger text-center rounded-0" role="alert" v-if="pendientes">
 				<i class="fas fa-info-circle me-2"> </i>Tiene cambios pendientes por guardar.
 			</div>
 			<form @submit.prevent="agregarProducto" class="row g-2 p-3">
@@ -75,7 +75,7 @@
 						class="form-control text-center"
 						placeholder="Cantidad" 
 						v-model="cantidad"
-						:disabled="pendiente"
+						:disabled="pendientes"
 					/>
 				</div>
 
@@ -88,7 +88,7 @@
 					  	aria-label="Example text with button addon" 
 					  	aria-describedby="button-addon1"
 					  	v-model="codigo"
-					  	:disabled="pendiente"
+					  	:disabled="pendientes"
 					  >
 					  <button 
 					  	type="submit" 
@@ -106,7 +106,7 @@
 						type="button"
 						class="btn btn-primary btn-block"
 						@click="verProductos"
-						:disabled="pendiente"
+						:disabled="pendientes"
 					>
 						<i class="fas fa-search me-1"></i> Buscar
 					</button>
@@ -391,23 +391,38 @@
 						this.pk_det = datos.id
 	        } 
 
-					datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
-					datos.nombre_unidad_medida   = this.cat.um.filter(e => { return e.id == datos.unidad_medida_id})[0].nombre 
-					datos.nombre_producto_estado = this.cat.estado_prod.filter(e => { return e.id == datos.estado_producto_id})[0].nombre 
-
-					if (datos.control_vence) {
+	        if (datos.control_vence) {
 						if (!datos.fecha_vence) {
 							this.$toast.error("Debe ingresar una fecha de vencimiento")
+							this.btnGuardar = false
 							return
 						}
 					}
 
+					if (!datos.presentacion_producto_id) {
+						this.$toast.error("Debe seleccionar una presentación.")
+						this.btnGuardar = false
+						return
+					}
+
+					if (!datos.estado_producto_id) {
+						this.$toast.error("Debe seleccionar un estado.")
+						this.btnGuardar = false
+						return
+					}
+
+					datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
+					datos.nombre_unidad_medida   = this.cat.um.filter(e => { return e.id == datos.unidad_medida_id})[0].nombre 
+					datos.nombre_producto_estado = this.cat.estado_prod.filter(e => { return e.id == datos.estado_producto_id})[0].nombre 
+
 					this.$http
 					.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk_det}`, datos)
 					.then(res => {
-						let exito = res.data.exito
 						this.btnGuardar = false
+						let exito = res.data.exito
+						
 						let idx = this.form.detalle.indexOf(obj)
+
 						if (exito == 1) {
 							this.form.detalle[idx] = res.data.linea
 							this.$toast.success(res.data.mensaje)
@@ -415,15 +430,15 @@
 						} else if (exito == 2) {
 							this.form.detalle[idx].pendiente = true
 							this.$toast.error(res.data.mensaje)
+
 						} else {
 							this.form.detalle[idx].pendiente = false
-							this.pendiente = false
 							this.$toast.error(res.data.mensaje)
 						}		
+
 						this.btnGuardar = false	
 					}).catch(e => {
 						this.btnGuardar = false
-						this.pendiente = false
 						console.log(e)
 					})
 				}
@@ -445,8 +460,6 @@
 				}
 			},
 			setProducto(obj) {
-				this.pendiente = true
-
 				this.producto = {
 					no_linea: this.form.detalle.length + 1,
 					id_producto: obj.id_producto,
@@ -485,9 +498,8 @@
 				return tmp
 			},
 			editar(obj) {
-				if (!this.pendiente) {
+				if (!this.pendientes()) {
 					obj.pendiente = true
-					this.pendiente = true
 				} else {
 					this.$toast.error("Tiene cambios pendientes por guardar.")
 				}
@@ -504,6 +516,8 @@
 	      }
 	    },
 	    eliminar_producto(obj, idx) {
+	    	this.btnGuardar = true
+
 				this.$http
 				.post(`${this.$baseUrl}/${this.controlador}/eliminar_producto/${obj.id}`)
 				.then(res => {
@@ -536,12 +550,26 @@
 						})
 				}
 				return []
+			},
+			pendientes() {
+				if (this.form.detalle) {
+					let tmp = this.form.detalle.filter(e => {
+							return e.pendiente == true
+					})[0]
+
+					if (tmp) {
+						return true
+					}
+				}
+
+				return false
 			}
 		},
 		components: {
 			ProductoBodega
 		},
 		watch: {
+		
 		}
 	}
 </script>

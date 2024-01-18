@@ -48,6 +48,7 @@ class Recepcion_det_model extends General_model {
 		->where("fecha_vence", $args->fecha_vence)
 		->where("estado_producto_id", $args->estado_producto_id)
 		->where("recepcion_enc_id", $args->recepcion_enc_id)
+		->where("activo", 1)
 		->get("$this->_tabla");
 
 

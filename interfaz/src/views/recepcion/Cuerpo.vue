@@ -206,7 +206,9 @@
 			lista: [],
 			cat: [],
 			reg: {},
-			bform: {},
+			bform: {
+				bodega_id: null
+			},
 			actual: 1,
 			inicio: false,
 			verForm: false
