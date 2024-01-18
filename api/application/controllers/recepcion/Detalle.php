@@ -37,7 +37,6 @@ class Detalle extends CI_Controller {
 				verPropiedad($datos, 'no_linea') &&
 				verPropiedad($datos, 'cantidad_recibida') &&
 				verPropiedad($datos, 'producto_bodega_id') &&
-				verPropiedad($datos, 'presentacion_producto_id') && 
 				verPropiedad($datos, 'unidad_medida_id') &&
 				verPropiedad($datos, 'estado_producto_id')) {
 

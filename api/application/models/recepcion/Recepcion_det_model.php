@@ -20,7 +20,7 @@ class Recepcion_det_model extends General_model {
 	public $costo_oc;
 	public $activo = 1;
 	public $producto_bodega_id;
-	public $presentacion_producto_id;
+	public $presentacion_producto_id = null;
 	public $unidad_medida_id;
 	public $estado_producto_id;
 

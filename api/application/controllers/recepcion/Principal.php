@@ -55,9 +55,7 @@ class Principal extends CI_Controller {
 		if ($this->input->method() === "post") {
 			$datos = json_decode(file_get_contents('php://input'));
 			
-			if (verPropiedad($datos, "observacion") &&
-				verPropiedad($datos, "vehiculos_id") &&
-				verPropiedad($datos, "pilotos_id") &&
+			if (verPropiedad($datos, "bodega_id") &&
 				verPropiedad($datos, "tipo_transaccion_id") &&
 				verPropiedad($datos, "estado_recepcion_id")) {
 

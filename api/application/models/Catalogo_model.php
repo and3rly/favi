@@ -462,7 +462,11 @@ class Catalogo_model extends General_model {
 	}
 
 	public function ver_productos_bodega($args=[]) 
-	{
+	{	
+		if (elemento($args, 'bodega')) {
+			$this->db->where('a.bodega_id', $args['bodega']);
+		}
+
 		$tmp = $this->db
 		->select("
 			1 as cantidad,

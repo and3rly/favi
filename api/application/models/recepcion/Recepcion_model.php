@@ -77,9 +77,9 @@ class Recepcion_model extends General_model {
 			f.nombre as nombre_estado,
 			f.color as nombre_color"
 		)
-		->join("vehiculos b", "b.id = a.vehiculos_id")
+		->join("vehiculos b", "b.id = a.vehiculos_id", "left")
 		->join("bodega c","c.id = a.bodega_id")
-		->join("pilotos d","d.id = a.pilotos_id")
+		->join("pilotos d","d.id = a.pilotos_id", "left")
 		->join("tipo_transaccion e","e.id = a.tipo_transaccion_id")
 		->join("estado_recepcion f","f.id = a.estado_recepcion_id")
 		->order_by("a.id")
