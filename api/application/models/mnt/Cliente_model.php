@@ -47,6 +47,7 @@ class Cliente_model extends General_model {
 
 		$tmp = $this->db
 		->select("a.*")
+		->where('activo', 1)
 		->get('cliente a');
 
 		return verConsulta($tmp, $args);

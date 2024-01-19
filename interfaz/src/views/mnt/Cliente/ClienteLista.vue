@@ -40,14 +40,10 @@
 						>
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
 							<td>
-								<a 
-									href="javascript:;" 
-									class="text-decoration-none" 
-									@click="editar(i, idx)"
-								>
+								
 									
 								{{i.codigo}} 
-								</a>
+							
 							</td>
 							<td>{{ i.nombre_comercial}}</td>
 							<td>{{ i.telefono }}</td>
@@ -108,6 +104,13 @@
 								    >
 								    	<i class=" fas fa-store me-1"></i>Agregar Sucursal
 								    </a>
+									<a
+									    href="javascript:;" 
+									    class="dropdown-item"
+											@click="editar(i, idx)"
+									    >
+									    	<i class=" fas fa-edit me-1"></i> Editar
+									  </a>
 								    
 								</div>
 								</div>

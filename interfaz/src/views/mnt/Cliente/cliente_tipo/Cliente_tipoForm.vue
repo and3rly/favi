@@ -12,7 +12,7 @@
 				<input 
 					type="text" 
 					class="form-control"
-					placeholder="Nombre del motivo de devolución" 
+					placeholder="Nombre del tipo de cliente" 
 					v-model="form.nombre"
 				>
 			</div>

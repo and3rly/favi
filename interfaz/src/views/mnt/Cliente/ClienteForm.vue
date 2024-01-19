@@ -3,16 +3,16 @@
 		<div class="row g-2 mb-4">
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
-					Código:
+					Código:  
 				</label>
-				<input type="text" class="form-control" placeholder="Código del cliente" v-model="form.codigo">
+				<input type="text" class="form-control" placeholder="Código del cliente" v-model="form.codigo"   >
 			</div>
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
 					Nombre: <span class="text-danger">*</span>
 				</label>
-				<input type="text" class="form-control" placeholder="Nombre del cliente" v-model="form.nombre_comercial">
+				<input type="text" class="form-control" placeholder="Nombre del cliente" v-model="form.nombre_comercial"      required>
 			</div>
 
 			<div class="col-sm-6">
@@ -30,10 +30,18 @@
 				 id="selecttipoCliente"
 				  class="form-select"
 				   v-model="form.cliente_tipo_id" required>
-					<option value="null">Seleccione tipo de cliente...</option>
+				   
 					<option v-for="(i, idx) in cat.cliente_tipo" :value="i.id">{{ i.nombre }}</option>
 				</select>
+				
 			</div>
+
+
+
+
+
+
+			
 			
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
