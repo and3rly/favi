@@ -25,18 +25,19 @@ $this->cargar($id);
 }
 
 
-public function buscar($args=[])
-{
+
+
+
+public function buscar($args=[]){
 	if (elemento($args,'id')) {
-		$this->db->where('id',$args['id']);
+	$this->db->where('a.id',$args['id']);
 	}
-	$tmp = $this->db->get("$this->_tabla");
 
+	$tmp = $this->db->select("a.*")
+	
+	->get("$this->_tabla a");
 	return verConsulta($tmp, $args);
-}
-
-
-
+	}
 
 
 

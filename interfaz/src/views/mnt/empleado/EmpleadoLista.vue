@@ -21,12 +21,14 @@
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="40">#</th>
-							<th scope="col">Nombres</th>
-							<th scope="col" >Apellidos</th>
-							<th scope="col">No Licencia</th>
-							<th scope="col">Telefono</th>
+							<th scope="col">Código</th>
+							<th scope="col">Nombre</th>
+							<th scope="col">Apellido</th>
+							<th scope="col">Correo</th>
+							<th scope="col" >Teléfono</th>
+							<th scope="col">Dirección</th>
 							<th class="text-center">Estado</th>
-							<th scope="col">Acción</th>
+							<th scope="col" class="text-center" width="70">Acción</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -36,14 +38,13 @@
 							style="cursor: pointer;" 
 						>
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
-							
-							<td>{{i.nombres}}</td>
-							<td>{{i.apellidos}}</td>
-							
-							<td>{{ i.no_licencia }}</td>
+							<td>{{i.codigo}}</td>
+							<td>{{ i.nombre }}</td>
+							<td>{{ i.apellido }}</td>
+							<td>{{ i.correo }}</td>
 							<td>{{ i.telefono }}</td>
+							<td>{{ i.direccion }}</td>
 						
-							
 							<td class="text-center">
 								<span 
 									v-if="i.activo == 1"
@@ -79,9 +80,9 @@
 									  <a
 									    href="javascript:;" 
 									    class="dropdown-item"
-										@click="verVehiculo(i)"
+											@click="verSucursal(i, idx)"
 									    >
-									    	<i class=" fas fa-car-side me-1"></i> Asignar Vehiculo
+									    	<i class=" fas fa-edit me-1"></i> Agregar Sucursal
 									  </a>
 									</div>
 								</div>
@@ -106,7 +107,7 @@
 		</CardBody>
 	</Card>
 	<div 
-		class="modal fade" id="mdlVehiculoPiloto"
+		class="modal fade" id="mdlEmpleadoSucursal"
 		data-bs-backdrop="static" 
 		data-bs-keyboard="false" 
 		tabindex="-1" 
@@ -120,33 +121,33 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						<i class="fas fa-store me-1"></i>Piloto de Vehiculo
+						<i class="fas fa-store me-1"></i>Empleado sucursal <span v-if="empleado != null"> - {{ empleado.nombre }} </span>
 					</h1>
 					<button 
 						type="button" 
 						class="btn-close" 
 						aria-label="Close" 
-						@click="cmVehiculo"
+						@click="cmSucursal"
 					>
 					</button>
 				</div>
 				<div class="modal-body">
-					<VehiculosPilotos
-						v-if="pilotos != null"
-						:pilotos="pilotos"
+					<EmpleadoSucursal
+						v-if="empleado != null"
+						:empleado="empleado"
 					/>
 				</div>
 			</div>
 		</div>		
 	</div>
-
 </template>
 
 <script>
 	import General from '@/mixins/General.js'
-	import VehiculosPilotos from  '@/views/mnt/Pilotos/VehiculosPilotos.vue'
+
+import EmpleadoSucursal from  '@/views/mnt/empleado/EmpleadoSucursal.vue'
 	export default {
-		name: 'PilotosLista',
+		name: 'EmpleadoLista',
 		mixins: [General],
 		props: {
 			reg: {
@@ -163,35 +164,32 @@
 		data: () => ({
 			idx: null,
 			modal: null,
-			pilotos: null
-		}),mounted(){
-
-			this.modal = new this.$modal(document.getElementById('mdlVehiculoPiloto'));
+			empleado: null
+		}),
+		mounted(){
+			this.modal = new this.$modal(document.getElementById('mdlEmpleadoSucursal'));
 		},
-		
+	
 		created(){
-			this.controlador = 'mnt/Pilotos'
+			this.controlador = 'mnt/Empleado'
 			this.autoBuscar = true
 		},
 		methods: {
 			editar(obj, idx) {
 				this.$emit('abrirModal', obj, idx)
 			},
-			
-			verVehiculo(obj) {
-				this.pilotos  = obj
+			verSucursal(obj) {
+				this.empleado  = obj
 				this.modal.show()
 			},
-			
-			cmVehiculo() {
-				this.pilotos = null
+			cmSucursal() {
+				this.empleado = null
 				this.modal.hide()
-			},
+			}
 		},
-		components:{
-
-VehiculosPilotos,
-
+		components: {
+			
+			EmpleadoSucursal
 		},
 		watch: {
 			'tmpLinea'(o) {

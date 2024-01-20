@@ -35,6 +35,35 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+	
+	
+	public function ver_vehiculos_pilotos($args=[])
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('vp.id', $args['id']);
+		}
+
+		if (elemento($args, 'pilotos_id')) {
+			$this->db->where('vp.pilotos_id', $args['pilotos_id']);
+		}
+
+		if (elemento($args, 'vehiculos_id')) {
+			$this->db->where('vp.vehiculos_id', $args['vehiculos_id']);
+		}
+
+		if (isset($args['activo'])) {
+			$this->db->where('vp.activo', $args['activo']);
+		} else {
+			$this->db->where('vp.activo', 1);
+		}
+
+		$tmp = $this->db
+					->select("vp.*, b.placa,b.marca,b.modelo,b.id")
+					->join("vehiculos b"," vp.vehiculos_id=b.id ")
+					->get('vehiculos_pilotos vp');
+
+		return verConsulta($tmp, $args);
+	}
 
 	public function ver_proveedor_bodega($args=[])
 	{	
@@ -144,6 +173,23 @@ class Catalogo_model extends General_model {
 		$tmp = $this->db
 					->where('activo', 1)
 					->get('sucursal');
+
+		return verConsulta($tmp, $args);
+	}
+	
+	public function ver_empleado($args=[])
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('empleado');
+
+		return verConsulta($tmp, $args);
+	}
+	public function ver_usuario($args=[])
+	{
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('usuario');
 
 		return verConsulta($tmp, $args);
 	}
@@ -339,7 +385,33 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
+	public function ver_empleado_sucursal($args=[])
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('es.id', $args['id']);
+		}
 
+		if (elemento($args, 'cliente_id')) {
+			$this->db->where('es.cliente_id', $args['cliente_id']);
+		}
+
+		if (elemento($args, 'sucursal_id')) {
+			$this->db->where('es.sucursal_id', $args['sucursal_id']);
+		}
+
+		if (isset($args['activo'])) {
+			$this->db->where('es.activo', $args['activo']);
+		} else {
+			$this->db->where('es.activo', 1);
+		}
+
+		$tmp = $this->db
+					->select("es.*, b.nombre as nombre_sucursal")
+					->join("sucursal b","b.id = es.sucursal_id")
+					->get('empleado_sucursal es');
+
+		return verConsulta($tmp, $args);
+	}
 
 	public function ver_rotacion($args=[]) 
 	{

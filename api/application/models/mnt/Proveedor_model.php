@@ -28,6 +28,7 @@
 			$tmp = $this->db->select("a.*,
 				b.nombre as Empresa")
 			->join("empresa b","b.id= a.empresa_id")
+			->where('a.activo', 1)
 			->get("$this->_tabla a");
 			return verConsulta($tmp, $args);
 			}

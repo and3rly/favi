@@ -156,7 +156,7 @@
                 class="form-control" 
                 id="inputObservacion"
                 v-model="form.fecha_nacimiento"
-                required
+
             />
         </div>
     </div>
@@ -194,7 +194,7 @@
                         id="chkIngresaStock" 
                         :true-value="1" 
                         :false-value="0"
-                        v-model="form.es_contenedor"
+                        v-model="form.activo"
                         checked 
                     >
                     <label class="form-check-label" for="chkIngresaStock">Activo <span class="text-danger">*</span></label>

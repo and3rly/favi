@@ -47,7 +47,7 @@
 				<label for="" class="fw-bold mb-1">
 					Teléfono:
 				</label>
-				<input type="number" class="form-control" placeholder="Teléfono del cliente" v-model="form.telefono">
+				<input type="text" class="form-control" placeholder="Teléfono del cliente" v-model="form.telefono">
 			</div>
 
 			<div class="col-sm-6">
