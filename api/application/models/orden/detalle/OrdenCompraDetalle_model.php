@@ -39,7 +39,7 @@ class OrdenCompraDetalle_model extends General_model {
 		}
 
 		$tmp = $this->db
-					->select('ocd.*, p.codigo as codigo_producto_j, p.nombre as nombre_producto_j, pp.codigo as codigo_presentacion_j, pp.nombre nombre_presentacion_j, um.nombre as nombre_unidad_medida_j, md.nombre as nombre_motivo_dev')
+					->select('ocd.*, p.id as id_producto_j, p.codigo as codigo_producto_j, p.nombre as nombre_producto_j, pp.codigo as codigo_presentacion_j, pp.nombre nombre_presentacion_j, um.nombre as nombre_unidad_medida_j, md.nombre as nombre_motivo_dev')
 					->join('producto_bodega pb', 'pb.id = ocd.producto_bodega_id')
 					->join('producto p', 'p.id = pb.producto_id')
 					->join('presentacion_producto pp', 'pp.id = ocd.presentacion_producto_id ')

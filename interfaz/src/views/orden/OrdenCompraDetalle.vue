@@ -12,7 +12,7 @@
 		</button>
 
 		<a class="navbar-brand fw-bold m-0" href="#">
-			<i class="fas fa-list-check me-2"></i> Detalle - Orden de Compra #{{this.ordenCompra.no_documento}}
+			Detalle - Orden de Compra #{{this.ordenCompra.no_documento}}
 		</a>
 
 		<button 
@@ -35,41 +35,70 @@
 			</div>
 
 			<div class="mt-1">
-				<button 
-					type="button" 
-					class="btn btn-primary"
-					@click="abrirModal"
-					:disabled="btnGuardar"
-				>	
-						<span 
-							v-if="btnGuardar"
-							class="spinner-border spinner-border-sm me-1" 
-							role="status" 
-							aria-hidden="true"
-						></span>
-						<i v-else class="fas fa-save me-1"></i>
-
-						<span v-if="btnGuardar">Guardando...</span>
-						<span v-else>Nuevo</span>
-				</button>
 			</div>
 		</div>
 	</nav>
-	<ul class="list-group mt-2">
-		<li class="list-group-item p-2">
-			<div class="alert alert-info">
-				<b>Bodega: </b> {{ordenCompra.nombre_bodega}} 
+	
+	<Card>
+		<CardBody class="p-0">
+			<div class="alert alert-danger text-center rounded-0" role="alert" v-if="pendientes">
+				<i class="fas fa-info-circle me-2"> </i>Tiene cambios pendientes por guardar.
 			</div>
-		</li>
-		<li class="list-group-item p-0">
+			<form @submit.prevent="agregarProducto" class="row g-2 p-3">
+				<div class="col-md-2">
+					<label for="inputCantidad" class="form-label fw-bold mb-0">Cantidad</label>
+					<input 
+						type="text" 
+						class="form-control text-center"
+						placeholder="Cantidad" 
+						v-model="cantidad"
+						:disabled="pendientes"
+					/>
+				</div>
+
+				<div class="col-md-8">
+					<label for="inputCantidad" class="form-label fw-bold mb-0">Código/Barra</label>
+					<div class="input-group">				  
+					  <input 
+					  	type="text" 
+					  	class="form-control"
+					  	aria-label="Example text with button addon" 
+					  	aria-describedby="button-addon1"
+					  	v-model="codigo"
+					  	:disabled="pendientes"
+					  >
+					  <button 
+					  	type="submit" 
+					  	class="btn btn-secondary" 		  	
+					  	id="button-addon1"
+					  >
+					  	<i class="fas fa-plus"></i>
+					  </button>
+					</div>
+				</div>
+
+				<div class="col-md-1 d-grid text-center">
+					<br>
+					<button 
+						type="button"
+						class="btn btn-primary btn-block"
+						@click="verProductos"
+						:disabled="pendientes"
+					>
+						<i class="fas fa-search me-1"></i> Buscar
+					</button>
+				</div>
+			</form>
+
 			<div v-if="inicio === true" class="text-center mt-3">
 				<div class="spinner-border" role="status">
 					<span class="sr-only">Loading...</span>
 				</div>
 				<p>Cargando detalle...</p>
 			</div>
+
 			<div class="table-responsive mt-3" v-else>
-				<table class="table table-sm table-striped">
+				<table class="table table-sm m-0">
 					<thead>
 						<tr>
 							<th class="text-center" width="40">#</th>
@@ -87,55 +116,181 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-if="cat.orden_compra_det && cat.orden_compra_det.length > 0" v-for="(i,idx) in cat.orden_compra_det">
+						<tr 
+							v-for="(i, idx) in form.detalle"
+							style="cursor: pointer;"
+							:style="i.pendiente ? 'background-color: #FFECB3;': ''"
+						>
 							<td class="text-center fw-bold">{{idx + 1}}</td>
 							<td class="text-center"> {{ i.no_linea }} </td>
 							<td class="text-center">{{ i.codigo_producto_j }}</td>
 							<td>{{ i.nombre_producto_j }}</td>
-							<td class="text-center">{{ i.codigo_presentacion_j }} - {{ i.nombre_presentacion_j }}</td>
-							<td class="text-center">{{ i.nombre_unidad_medida_j }}</td>
-							<td class="text-center">{{ i.cantidad }} / {{ i.cantidad_recibida }}</td>
-							<td class="text-center">{{ i.peso }} / {{ i.peso_recibido }}</td>
-							<td class="text-center">{{ i.nombre_motivo_dev }}</td>
-							<td class="text-center">{{ i.total_linea }}</td>
+							<td class="text-center">
+								<div v-if="i.pendiente">
+									<select 
+										style="width: 110px;"
+										name="selectPresentacion" 
+										id="selectPresentacion"
+										class="form-select"
+										v-model="i.presentacion_producto_id"
+										:disabled="!i.pendiente"
+									>
+										<option :value="null">Seleccione presentación...</option>
+										<option 
+											v-for="(l, idx) in cat.presentacion.filter(e =>  {return e.producto_id == i.id_producto_j} )" 
+											:value="l.id"
+										>
+											{{ l.codigo }} - {{ l.factor}}
+										</option>
+									</select>
+								</div>
+								<a v-else>{{ i.codigo_presentacion_j }} - {{ i.nombre_presentacion_j }}</a>
+							</td>
+							<td class="text-center">
+								<div v-if="i.pendiente">
+									<select 
+										style="width: 110px;"
+										name="selectUm" 
+										id="selectUm"
+										class="form-select"
+										v-model="i.unidad_medida_id"
+										disabled 
+									>
+										<option 
+											v-for="(j, idx) in cat.um.filter(e =>  {return e.id == i.unidad_medida_id} )"  
+											:value="j.id"
+										>
+											{{ j.nombre }}
+										</option>
+									</select>
+								</div>
+								<a v-else>{{ i.nombre_unidad_medida_j }}</a>
+							</td>
+							<td class="text-center">
+								<div v-if="i.pendiente" style="display: flex;">
+									<input
+										style="width: 75px;"
+										type="number" 
+										class="form-control text-center" 
+										v-model="i.cantidad"
+										:disabled="!i.pendiente"
+									/>
+									<h4>/</h4>
+									<input
+										style="width: 75px;"
+										type="number" 
+										class="form-control text-center" 
+										v-model="i.cantidad_recibida"
+										:disabled="!i.pendiente"
+									/>
+								</div>
+								
+								<a v-else>{{ i.cantidad }} / {{ i.cantidad_recibida }}</a>
+							</td>
+							<td class="text-center">
+								<div v-if="i.pendiente" style="display: flex;">
+									<input
+										style="width: 75px;"
+										type="number" 
+										class="form-control text-center" 
+										v-model="i.peso"
+										:disabled="!i.pendiente"
+									/>
+									<h4>/</h4>
+									<input
+										style="width: 75px;"
+										type="number" 
+										class="form-control text-center" 
+										v-model="i.peso_recibido"
+										:disabled="!i.pendiente"
+									/>
+								</div>
+								
+								<a v-else>{{ i.peso }} / {{ i.peso_recibido }}</a>
+							</td>
+							<td class="text-center">
+								<div v-if="i.pendiente">
+									<select 
+										style="width: 150px;"
+										name="selectMD" 
+										id="selectMD" 
+										class="form-select"
+										v-model="i.motivo_devolucion_id"
+										:disabled="!i.pendiente"
+										required
+									>	
+										<option :value="null">Seleccione Motivo...</option>
+										<option v-for="(j, idx) in cat.motivo_devolucion" :value="j.id">{{ j.nombre }}</option>
+									</select>
+								</div>
+								
+								<a v-else>{{ i.nombre_motivo_dev }}</a>
+							</td>
+							<td class="text-center">
+								<div v-if="i.pendiente">
+									<input
+										style="width: 90px;"
+										type="number"
+										class="form-control text-center"
+										v-model="i.total_linea"
+										:disabled="!i.pendiente"
+									/>
+								</div>
+								<a v-else>{{ i.total_linea }}</a>
+							</td>
 							<td class="text-center">
 								<i v-if="i.activo == 1" class="fa fa-check text-success"></i>
 								<i v-else class="fa fa-times text-danger" ></i>
 							</td>
 							<td class="text-center">
 								<button
-									class="btn btn-sm btn-secondary me-1"
-									@click="editarRegDet(i, idx)" 
-									title="Editar"
+									v-if="i.id && !i.pendiente"
+									class="btn btn-sm btn-secondary me-1 ms-1" 
+									title="Editar" 
+									@click="editar(i)"
+									:disabled="btnGuardar"
 								>
-									<i class="fas fa-edit"></i>
+									<span class="fas fa-edit"></span>
+								</button>
+								<button
+									v-if="i.pendiente"
+									class="btn btn-sm btn-primary me-1 ms-1" 
+									title="Guardar" 
+									@click="guardar(i)"
+									:disabled="btnGuardar"
+								>
+									<span class="fas fa-save"></span>
+								</button>
+								<button
+									class="btn btn-sm btn-danger" 
+									title="Eliminar" 
+									@click="quitarProducto(idx)"
+									:disabled="btnGuardar"
+								>
+									<span class="fas fa-trash"></span>
 								</button>
 							</td>
 						</tr>
 					</tbody>
-					<tfoot>
+					<tfoot v-if="!inicio && this.form.detalle.length == 0">
 						<tr>
-							<td v-if="cargando" colspan="100" class="text-center">
-								<div class="d-flex justify-content-center mb-3 mt-3">
-									<div class="spinner-border" role="status">
-										<span class="visually-hidden">Loading...</span>
-									</div>
-
-								</div>
-								Cargando información...
+							<td class="text-center p-4 fw-bold" colspan="100">
+								<i class="fas fa-info-circle me-1"></i>	Sin detalle
 							</td>
 						</tr>
 					</tfoot>
 				</table>
 			</div>
-		</li>
-	</ul>
+		</CardBody>
+	</Card>
 
-    <div 
+    
+	<div 
 		class="modal fade" 
-		id="mdlOrdenCompraDet"
+		id="mdlProducto"
 		data-bs-backdrop="static" 
-		data-bs-keyboard="false"
+		data-bs-keyboard="false" 
+		tabindex="-1" 
 		aria-labelledby="staticBackdropLabel" 
 		aria-hidden="true">
 
@@ -146,28 +301,22 @@
 						class="modal-title fs-5" 
 						id="staticBackdropLabel"
 					> 
-						<i class="fas fa-cubes-stacked  fa-sm me-2 ms-1"></i>Detalle de Orden
-						<span v-if="reg != null"> - {{reg.id}}</span>
+						<i class="fas fa-search me-1"></i> Buscar producto
 					</h1>
 					<button 
 						type="button" 
 						class="btn-close" 
 						aria-label="Close"
-						@click="cerrarModal" 
+						@click="cerrarProductos"
 					>
 					</button>
 				</div>
 				<div class="modal-body">
-
-                    <OrdenCompraAgregarDetalle
-                        class="mt-3"
-                        v-if="verForm"
-                        :ordenCompra="ordenCompra"
-                        :ordenCompraDet="reg"
-                        @actualizar="actualizaListaDet"
-                        @cerrar="cerrarModal"
-                    />
-					
+					<ProductoBodega
+						v-if="vp"
+						:recepcion="ordenCompra"
+						@agregar="setProducto"
+					/>
 				</div>
 			</div>
 		</div>
@@ -179,6 +328,7 @@
 	import General from '@/mixins/General.js'
 	import Catalogo from '@/mixins/Catalogo.js'
 	import OrdenCompraAgregarDetalle from '@/views/orden/orden_detalle/OrdenCompraAgregarDetalle.vue'
+	import ProductoBodega from '@/views/producto/ProductoBodega.vue'
 	import { Tab } from 'bootstrap'
 
 	export default {
@@ -195,18 +345,51 @@
 			}
 		},
 		data: () => ({
+			btnGuardar: false,
             reg: null,
 			modal: null,
-			verForm: false
+			vp: false,
+			pendiente: false,
+			inicio: false,
+			codigo: null,
+			pk_det: '',
+			form: {
+				detalle: []
+			},
+			bform: {},
+			verForm: false,
+			controlador: 'orden/detalle/ordenCompraDetalle'
         }),
 		created() {
-			this.args.orden_compra_det = { orden_compra_enc_id: this.ordenCompra.id }
-			this.getCatalogo(['orden_compra_det'])
+			this.getCatalogo([
+                "producto_bodega_orden",
+                "presentacion",
+                "um",
+                "motivo_devolucion",
+				"productos_bodega"
+            ])
+			this.bform.orden_compra_enc_id = this.ordenCompra.id
+			this.buscar()
 		},
 		mounted() {
-			this.modal = new this.$modal(document.getElementById('mdlOrdenCompraDet'));
+			this.modal = new this.$modal(document.getElementById('mdlProducto'));
 		},
 		methods: {
+			buscar() {
+				this.inicio = true
+
+				this.$http
+				.get(`${this.$baseUrl}/${this.controlador}/buscar`, {params: this.bform})
+				.then(res => {
+					this.inicio = false
+					if (res.data.lista) {
+						this.form.detalle = res.data.lista
+					}
+				}).catch(e => {
+					this.inicio = false
+					console.log(e)
+				})
+			},
 			abrirModal() {
 				this.verForm = true
 				this.modal.show()
@@ -215,16 +398,77 @@
 				let tab = new Tab(item);
 				tab.show();
 			},
-			cerrarModal() {
-				this.verForm = false
-				this.reg = null
-				this.idx = null
+			cerrarProductos() {
+				this.vp = false
 				this.modal.hide()
+			},	
+			agregarProducto() {
+				if (this.codigo != null && this.codigo) {
+					let tmp = this.productos.filter(e => {
+						return e.codigo.toLowerCase() == this.codigo.toLowerCase() || e.barra.toLowerCase() == this.codigo.toLowerCase()
+					})[0]
+
+					if (tmp) {
+						tmp.cantidad = this.cantidad
+						this.setProducto(tmp)
+					} else {
+						this.$toast.error("No se encontró el producto.")
+					}
+				} else {
+					this.$toast.info("Ingrese código ó barra del producto")
+				}
 			},
-			editarRegDet(o, idx) {
-				this.idx = idx
-				this.reg = o
-				this.abrirModal()
+			setProducto(obj) {
+				this.producto = {
+					no_linea: this.form.detalle.length + 1,
+					id_producto: obj.id_producto,
+					id_producto_j: obj.id_producto,
+					codigo_producto_j: obj.codigo,
+					nombre_producto_j: obj.nombre,
+					nombre_presentacion: null,
+					nombre_unidad_medida: null,
+					nombre_producto_estado: null,
+					cantidad_recibida: obj.cantidad,
+					cantidad: 0,
+					presentacion_producto_id: null,
+					unidad_medida_id: obj.unidad_medida_id,
+					estado_producto_id: obj.estado_producto_id,
+					lote: '',
+					fecha_vence: null,
+					peso: 0,
+					peso_recibido: 0,
+					peso_minimo: 0,
+					peso_maximo: 0,
+					costo: 0,
+					costo_oc: 0,
+					producto_bodega_id: obj.producto_bodega,
+					control_vence: obj.control_vence,
+					orden_compra_enc_id: this.ordenCompra.id,
+					pendiente: true
+				}
+
+				this.form.detalle.push(this.producto)	
+				
+				this.codigo = null
+				this.cantidad = 1
+			},
+			editar(obj) {
+				if (!this.pendientes) {
+					obj.pendiente = true
+				} else {
+					this.$toast.error("Tiene cambios pendientes por guardar.")
+				}
+			},
+			quitarProducto(idx) {
+				if (confirm('¿Está seguro de quitar el producto?')) {
+					let tmp = this.form.detalle[idx]
+
+					if (!tmp.hasOwnProperty('id')) {
+					this.form.detalle.splice(idx, 1)
+					} else {
+						this.eliminar_producto(this.form.detalle[idx], idx)
+					}
+				}
 			},
 			actualizaListaDet(o, pk) {
 				this.tmpReg = {
@@ -234,9 +478,95 @@
 				}
 
 				this.setRegLista(this.tmpReg)
-			}
+			},
+			verProductos() {
+				this.vp = true
+				this.modal.show()
+			},
+			guardar(obj) {	
+				this.btnGuardar = true
+
+				let datos = obj
+				if (datos.hasOwnProperty('id')) {
+					this.pk_det = datos.id
+				}
+				
+				if (!datos.motivo_devolucion_id) {
+					this.$toast.error("Seleccione un motivo de devolución")
+					this.btnGuardar = false
+					return
+				}
+
+				if (datos.presentacion_producto_id) {
+					datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
+				}else {
+					this.$toast.error("Seleccione una presentación")
+					this.btnGuardar = false
+					return
+				}
+				
+				if(datos.unidad_medida_id){
+					datos.nombre_unidad_medida   = this.cat.um.filter(e => { return e.id == datos.unidad_medida_id})[0].nombre
+				}else {
+					this.$toast.error("Seleccione una unidad de medida")
+					this.btnGuardar = false
+					return
+				}
+
+				this.$http
+				.post(`${this.$baseUrl}/${this.controlador}/guardar/${this.pk_det}`, datos)
+				.then(res => {
+
+					this.btnGuardar = false
+
+					let exito = res.data.exito
+					let idx = this.form.detalle.indexOf(obj)
+
+					if (exito == 1) {
+						this.form.detalle[idx] = res.data.linea
+						this.$toast.success(res.data.mensaje)
+
+					} else if (exito == 2) {
+						this.form.detalle[idx].pendiente = true
+						this.$toast.error(res.data.mensaje)
+
+					} else {
+						this.form.detalle[idx].pendiente = false
+						this.$toast.error(res.data.mensaje)
+					}		
+
+					this.btnGuardar = false	
+				}).catch(e => {
+					this.btnGuardar = false
+					console.log(e)
+				})				
+			},	
         },
+		computed: {
+			productos() {
+				if (this.cat.productos_bodega) {
+					return this.cat.productos_bodega.filter(e => {
+						return e.bodega_id === this.ordenCompra.bodega_id
+					})
+				}
+				return []
+			},
+			pendientes() {
+				if (this.form.detalle) {
+					let tmp = this.form.detalle.filter(e => {
+							return e.pendiente == true
+					})[0]
+
+					if (tmp) {
+						return true
+					}
+				}
+
+				return false
+			}
+		},
 		components: {
+			ProductoBodega,
 			OrdenCompraAgregarDetalle
 		}
 	}
