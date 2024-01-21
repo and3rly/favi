@@ -129,8 +129,8 @@ class Catalogo_model extends General_model {
 			$this->db->where('mr.id', $args['id']);
 		}
 
-		if (elemento($args, 'menu_id')) {
-			$this->db->where('mr.menu_id', $args['menu_id']);
+		if (elemento($args, 'menu_modulo_id')) {
+			$this->db->where('mr.menu_modulo_id', $args['menu_modulo_id']);
 		}
 
 		if (elemento($args, 'rol_id')) {
@@ -148,23 +148,68 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
-	public function ver_rol_menu($args=[])
+	public function ver_modulo_rol($args=[])
 	{
-		if (elemento($args, 'rol_id')) {
-			$this->db->where('m.rol_id', $args['rol_id']);
+		if (elemento($args, 'id')) {
+			$this->db->where('mr.id', $args['id']);
 		}
-		
-		if (elemento($args, 'menu_id')) {
-			$this->db->where('a.id', $args['menu_id']);
+
+		if (elemento($args, 'modulo_id')) {
+			$this->db->where('mr.modulo_id', $args['modulo_id']);
+		}
+
+		if (elemento($args, 'rol_id')) {
+			$this->db->where('mr.rol_id', $args['rol_id']);
+		}
+
+		if (elemento($args, 'activo')) {
+			$this->db->where('mr.activo', $args['activo']);
 		}
 
 		$tmp = $this->db
-					->select("a.*, m.id as menu_rol_id")
-					->join("menu_rol m", "a.id = m.menu_id")
-					->join("rol b", "b.id = m.rol_id")
-					->where('m.activo', 1)
-					->get('menu a');
+					->select("mr.*")
+					->get('modulo_rol mr');
 
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_rol_menu($args=[])
+	{
+		if (elemento($args, 'rol_id')) {
+			$this->db->where('mr.rol_id', $args['rol_id']);
+		}
+		
+		if (elemento($args, 'menu_modulo_id')) {
+			$this->db->where('mm.id', $args['menu_modulo_id']);
+		}
+
+		$tmp = $this->db
+					->select("mm.*, mr.id as menu_rol_id")
+					->join("menu_rol mr", "mm.id = mr.menu_modulo_id")
+					->join("rol b", "b.id = mr.rol_id")
+					->where('mr.activo', 1)
+					->get('menu_modulo mm');
+					
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_rol_modulo($args=[])
+	{
+		if (elemento($args, 'rol_id')) {
+			$this->db->where('mr.rol_id', $args['rol_id']);
+		}
+		
+		if (elemento($args, 'modulo_id')) {
+			$this->db->where('m.id', $args['modulo_id']);
+		}
+
+		$tmp = $this->db
+					->select("m.*, mr.id as modulo_rol_id")
+					->join("modulo_rol mr", "m.id = mr.modulo_id")
+					->join("rol b", "b.id = mr.rol_id")
+					->where('mr.activo', 1)
+					->get('modulo m');
+					
 		return verConsulta($tmp, $args);
 	}
 
@@ -290,6 +335,35 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function ver_menu_modulo($args=[]) {
+		$tmp = $this->db
+					->where('activo', 1)
+					->get('menu_modulo');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_menu_modulo_filter($args=[]) {
+		$tmp = $this->db
+					->select('mm.*')
+					->join('modulo_rol mr', 'm.id = mr.modulo_id')
+					->join('menu_modulo mm', 'm.id = mm.modulo_id')
+					->where('mr.activo', 1)
+					->get('modulo m');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_modulo($args=[]) {
+		$tmp = $this->db
+					->where('titulo', 0)
+					->where('activo', 1)
+					->get('modulo');
+
+		return verConsulta($tmp, $args);
+	}
+
   	public function ver_motivo_anulacion_pedido($args=[])
 	{
 		$tmp = $this->db

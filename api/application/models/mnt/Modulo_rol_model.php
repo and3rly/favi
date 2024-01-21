@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Menu_rol_model extends General_model {
+class Modulo_rol_model extends General_model {
     
-	public $menu_modulo_id;
+	public $modulo_id;
 	public $rol_id;
 	public $activo = 1;
 
@@ -16,5 +16,5 @@ class Menu_rol_model extends General_model {
 
 }
 
-/* End of file Menu_rol_model.php */
-/* Location: ./application/models/Menu_rol_model.php */
+/* End of file Modulo_rol_model.php */
+/* Location: ./application/models/Modulo_rol_model.php */

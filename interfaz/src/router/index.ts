@@ -95,7 +95,7 @@ const router = createRouter({
           { 
             path: '/rol',
             name: 'Rol',
-            component: () => import('@/views/mnt/rol/Rol.vue'),
+            component: () => import('@/views/mnt/rol/Cuerpo.vue'),
             meta: {titulo: 'Rol'}
           },
           { 

@@ -20,14 +20,21 @@ class Menu_model extends General_model {
 	}
 	
 	public function _buscar($args=[])
-	{	
+	{
 		if (elemento($args, 'id')) {
-			$this->db->where("id", $args['id']);
-		}	
+			$this->db->where("m.id", $args['id']);
+		}
+
+		if (elemento($args, 'rol_id')) {
+			$this->db->join("modulo_rol mr", "m.id = mr.modulo_id");
+			$this->db->where("mr.rol_id", $args['rol_id']);
+			$this->db->where("mr.activo", "1");
+		}
 		
 		$tmp = $this->db
-		->where("activo", 1)
-		->get("modulo");
+		->select("m.*")
+		->where("m.activo", 1)
+		->get("modulo m");
 
 		return verConsulta($tmp, $args);
 	}

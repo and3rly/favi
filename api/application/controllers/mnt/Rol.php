@@ -47,7 +47,7 @@ class Rol extends CI_Controller {
 
 		if ($this->input->method() === 'post') {
 			
-			$datos = (object) $_POST;
+			$datos = json_decode(file_get_contents('php://input'));
 
 			if (verPropiedad($datos, 'nombre')) {
 
@@ -75,22 +75,22 @@ class Rol extends CI_Controller {
 	}
 	
 
-	public function anular_menu_rol($id)
-	{
-		$data = ['exito' => 0];
-		$datos = ['activo' => 0];
+	// public function anular_menu_rol($id)
+	// {
+	// 	$data = ['exito' => 0];
+	// 	$datos = ['activo' => 0];
 
-		$rol = new Rol_model($id);
+	// 	$rol = new Rol_model($id);
 
-		if ($rol->guardar($datos)) {
-			$data['exito'] = 1;
-			$data['mensaje'] = "Se ha removido corretamente el menu.";
-		} else {
-			$data['mensaje'] = $rol->getMensaje();
-		}
+	// 	if ($rol->guardar($datos)) {
+	// 		$data['exito'] = 1;
+	// 		$data['mensaje'] = "Se ha removido corretamente el menu.";
+	// 	} else {
+	// 		$data['mensaje'] = $rol->getMensaje();
+	// 	}
 
-		$this->output->set_output(json_encode($data));
-	}
+	// 	$this->output->set_output(json_encode($data));
+	// }
 
 }
 

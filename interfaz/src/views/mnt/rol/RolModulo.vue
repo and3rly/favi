@@ -47,8 +47,8 @@
 					<div class="list-group list-group-flush">
 						<div 
 							class="list-group-item list-group-item-action"
-							v-if="cat.rol_menu && cat.rol_menu.length > 0"
-							v-for="(i,idx) in cat.rol_menu" 
+							v-if="cat.rol_modulo && cat.rol_modulo.length > 0"
+							v-for="(i,idx) in cat.rol_modulo" 
 							:key="idx"
 						>
 							<div class="d-flex">
@@ -60,7 +60,7 @@
 										type="button" 
 										title="Quitar"
 										class="ms-2 me-auto"
-										@click="anular_menu_rol(i, idx)"
+										@click="anular_modulo_rol(i, idx)"
 									>
 										<i class="fas fa-arrow-left" style="color: red;"></i>
 									</a>
@@ -85,41 +85,41 @@
 	import Catalogo from '@/mixins/Catalogo.js'
 
 	export default {
-		name: 'RolMenu',
+		name: 'RolModulo',
 		mixins: [General, Catalogo],
 		props: {
 			rol: {
 				type: Object,
 				required: false
 			},
-			menu: {
+			modulo: {
 				type: Array,
 				required: false
 			}
 		},
 		data: () => ({
-			menus: []
+			modulos: []
 		}),
 		created() {
-			this.menus = this.menu;
-			this.args.rol_menu = { rol_id: this.rol.id }
-			this.getCatalogo(['rol_menu','menu_modulo_filter'])
+			this.modulos = this.modulo;
+			this.args.rol_modulo = { rol_id: this.rol.id }
+			this.getCatalogo(['rol_modulo'])
 
-			this.controlador = 'mnt/menu_rol'
+			this.controlador = 'mnt/modulo_rol'
 		},
 		methods: {
 			guardar(o) {
 
 				if (confirm("¿Está seguro?")) {
-					let datos =  {menu_modulo_id: o.id, rol_id: this.rol.id}
+					let datos =  {modulo_id: o.id, rol_id: this.rol.id}
 					
 					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/asignar_menu/${this.pk}`, datos)
+					.post(`${this.$baseUrl}/${this.controlador}/asignar_modulo/${this.pk}`, datos)
 					.then(res => {
 						this.btnGuardar = false
 
 						if (res.data.exito) {
-							this.cat.rol_menu.push(res.data.reg[0])	
+							this.cat.rol_modulo.push(res.data.reg[0])	
 						}
 
 					}).catch(e => {
@@ -128,16 +128,16 @@
 					})
 				}
 			},
-			anular_menu_rol(o, idx) {
+			anular_modulo_rol(o, idx) {
 				if (confirm("¿Está seguro?")) {
-					this.pk = o.menu_rol_id
+					this.pk = o.modulo_rol_id
 					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/anular_menu_rol/${this.pk}`)
+					.post(`${this.$baseUrl}/${this.controlador}/anular_modulo_rol/${this.pk}`)
 					.then(res => {
 						this.btnGuardar = false
 
 						if (res.data.exito) {	
-							this.cat.rol_menu.splice(idx, 1)		
+							this.cat.rol_modulo.splice(idx, 1)		
 							this.pk = ''	
 						}
 
@@ -152,8 +152,8 @@
 			agregadas() {
 				let datos = []
 
-				if (this.cat.rol_menu) {
-					this.cat.rol_menu.forEach(e => {
+				if (this.cat.rol_modulo) {
+					this.cat.rol_modulo.forEach(e => {
 						datos.push(e.id)
 					})
 				}
@@ -162,9 +162,9 @@
 			},
 			disponibles() {
 
-				if (this.cat.menu_modulo_filter) {
+				if (this.modulos) {
 					if (this.agregadas) {
-						return this.cat.menu_modulo_filter.filter(e => 
+						return this.modulos.filter(e => 
 							this.agregadas.indexOf(e.id) < 0
 						)
 					}

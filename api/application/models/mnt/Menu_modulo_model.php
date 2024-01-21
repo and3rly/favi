@@ -17,7 +17,7 @@ class Menu_modulo_model extends General_model {
 	}
 
 	public function _buscar($args=[])
-	{	
+	{
 		if (elemento($args, 'modulo')) {
 			$this->db->where('modulo_id', $args['modulo']);
 		}
@@ -25,10 +25,17 @@ class Menu_modulo_model extends General_model {
 		if (elemento($args, 'id')) {
 			$this->db->where('id', $args['id']);
 		}
+
+		if (elemento($args, 'rol_id')) {
+			$this->db->join("menu_rol mr", "m.id = mr.menu_modulo_id");
+			$this->db->where("mr.rol_id", $args['rol_id']);
+			$this->db->where("mr.activo", "1");
+		}
 		
 		$tmp = $this->db
-		->where("activo", 1)
-		->get("menu_modulo");
+		->select("m.*")
+		->where("m.activo", 1)
+		->get("menu_modulo m");
 
 		return verConsulta($tmp, $args);
 	}

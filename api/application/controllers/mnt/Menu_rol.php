@@ -22,7 +22,7 @@ class Menu_rol extends CI_Controller {
 			$datos = json_decode(file_get_contents('php://input'));
 			
 			$existe_menu = $this->catalogo->ver_menu_rol([
-				'menu_id'	=> $datos->menu_id,
+				'menu_modulo_id'	=> $datos->menu_modulo_id,
 				'rol_id'	=> $datos->rol_id,
 				'activo'     => 0,
 				'uno'    => true
@@ -33,7 +33,7 @@ class Menu_rol extends CI_Controller {
 				$datos->activo = 1;
 			}
 
-			if (verPropiedad($datos, 'menu_id') && verPropiedad($datos, 'rol_id')) {
+			if (verPropiedad($datos, 'menu_modulo_id') && verPropiedad($datos, 'rol_id')) {
 				
 				$menu_rol = new Menu_rol_model($id);
 
@@ -42,7 +42,7 @@ class Menu_rol extends CI_Controller {
 					$data['mensaje'] = "Menu asignado con éxito";
 					$data['reg'] = $this->catalogo->ver_rol_menu([
 						'rol_id'     => $datos->rol_id,
-						'menu_id'     => $datos->menu_id
+						'menu_modulo_id'     => $datos->menu_modulo_id
 					]);
 				} else {
 					$data['mensaje'] = $menu_rol->getMensaje();
