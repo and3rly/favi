@@ -59,7 +59,7 @@
 						<i class="fas fa-arrow-left" style="color: red;"></i>
 					</a>
 
-					{{ i.datos_vehiculo }}
+					{{ i.tipo }} {{ i.marca }} {{ i.modelo }}
 				</li>
 				<li
 					v-else
@@ -97,7 +97,7 @@
 		methods: {
 			guardar(o) {
 				if (confirm("¿Está seguro?")) {
-					let datos =  {pilotos_id: this.pilotos.id, pilotos_id: o.id}
+					let datos =  {pilotos_id: this.pilotos.id, vehiculos_id: o.id}
 
 					this.$http
 					.post(`${this.$baseUrl}/${this.controlador}/asignar_vehiculos_pilotos/${this.pk}`, datos)

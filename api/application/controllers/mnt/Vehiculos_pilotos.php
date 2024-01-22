@@ -14,6 +14,10 @@ class Vehiculos_pilotos extends CI_Controller {
 		$this->output->set_status_header('404');
 	}
 
+
+	
+
+
 	public function asignar_vehiculos_pilotos($id='')
 	{
 		$data = ['extio' => 0];
@@ -22,8 +26,9 @@ class Vehiculos_pilotos extends CI_Controller {
 			$datos = json_decode(file_get_contents('php://input'));
 			
 			$existe_vehiculo = $this->catalogo->ver_vehiculos_pilotos([
-				'pilotos_id' => $datos->pilotos_id, 
+				
 				'vehiculos_id' => $datos->vehiculos_id, 
+				'pilotos_id' => $datos->pilotos_id, 
 				'activo'     => 0, 
 				'uno'        => true
 			]);

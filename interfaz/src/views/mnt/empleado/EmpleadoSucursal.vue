@@ -97,7 +97,7 @@
 		methods: {
 			guardar(o) {
 				if (confirm("¿Está seguro?")) {
-					let datos =  {empleado_id: this.empleado.id, empleado_id: o.id}
+					let datos =  {empleado_id: this.empleado.id, sucursal_id: o.id}
 
 					this.$http
 					.post(`${this.$baseUrl}/${this.controlador}/asignar_empleado_sucursal/${this.pk}`, datos)
