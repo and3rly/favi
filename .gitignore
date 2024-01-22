@@ -18,6 +18,8 @@ api/user_guide_src/cilexer/dist/*
 api/user_guide_src/cilexer/pycilexer.egg-info/*
 api/vendor/
 
+assets
+
 # IDE Files
 #-------------------------
 api/nbproject/
