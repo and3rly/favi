@@ -58,8 +58,8 @@ class Catalogo_model extends General_model {
 		}
 
 		$tmp = $this->db
-					->select("vp.*, b.placa,b.marca,b.modelo,b.id")
-					->join("vehiculos b"," vp.vehiculos_id=b.id ")
+					->select("vp.*, b.*")
+					->join("vehiculos b"," b.id=vp.vehiculos_id ")
 					->get('vehiculos_pilotos vp');
 
 		return verConsulta($tmp, $args);

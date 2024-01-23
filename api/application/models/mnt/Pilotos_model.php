@@ -34,7 +34,7 @@ public function buscar($args=[]){
 	}
 
 	$tmp = $this->db->select("a.*")
-	->where("activo",1)
+	->where("a.activo",1)
 	->get("$this->_tabla a");
 	return verConsulta($tmp, $args);
 	}

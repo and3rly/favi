@@ -50,11 +50,11 @@
         </label>
         <div class="col-sm-9">
             <input 
-                type="number" 
+                type="text" 
                 class="form-control" 
                 id="inputModelo"
                 v-model="form.telefono"
-                required
+               
             />
         </div>
     </div>
@@ -139,7 +139,7 @@
                 class="form-control" 
                 id="inputObservacion"
                 v-model="form.direccion"
-                required
+              
             />
         </div>
     </div>	
@@ -173,7 +173,7 @@
 					id="selectVehiculo"
 					class="form-select" 
 					v-model="form.tipo_licencia"
-					required
+					
 				>
 				
 					<option value="A">A</option>

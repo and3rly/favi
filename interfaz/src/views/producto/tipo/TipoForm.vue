@@ -12,7 +12,7 @@
 				<input 
 					type="text" 
 					class="form-control"
-					placeholder="Nombre de la unidad de medida" 
+					placeholder="Nombre del tipo de producto" 
 					v-model="form.nombre"
 					required
 				>

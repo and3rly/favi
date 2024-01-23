@@ -44,7 +44,7 @@
 					class="form-control" 
 					id="inputPlaca"
 					v-model="form.placa"
-					required
+				
 				/>
 			</div>
 		</div>
@@ -61,7 +61,7 @@
 					class="form-control" 
 					id="inputMarca"
 					v-model="form.marca"
-					required
+					
 				/>
 			</div>
 		</div>
@@ -81,7 +81,7 @@
 					class="form-control" 
 					id="inputModelo"
 					v-model="form.modelo"
-					required
+					
 				/>
 			</div>
 		</div>
@@ -99,7 +99,7 @@
 					class="form-control" 
 					id="inputObservacion"
 					v-model="form.peso"
-					required
+					
 				/>
 			</div>
 		</div>
@@ -116,7 +116,7 @@
 					class="form-control" 
 					id="inputObservacion"
 					v-model="form.volumen"
-					required
+					
 				/>
 			</div>
 		</div>
@@ -133,7 +133,7 @@
 					class="form-control" 
 					id="inputObservacion"
 					v-model="form.alto"
-					required
+					
 				/>
 			</div>
 		</div>
@@ -150,7 +150,7 @@
 					class="form-control" 
 					id="inputObservacion"
 					v-model="form.largo"
-					required
+				
 				/>
 			</div>
 		</div>	<div class="mb-1 row">
@@ -166,7 +166,7 @@
 					class="form-control" 
 					id="inputObservacion"
 					v-model="form.ancho"
-					required
+					
 				/>
 			</div>
 		</div>	<div class="mb-1 row">
@@ -182,7 +182,7 @@
 					class="form-control" 
 					id="inputObservacion"
 					v-model="form.placa_comercial"
-					required
+					
 				/>
 			</div>
 		</div>

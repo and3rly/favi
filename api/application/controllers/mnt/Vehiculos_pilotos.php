@@ -5,7 +5,7 @@ class Vehiculos_pilotos extends CI_Controller {
 	public function __construct()
 	{	
 		parent::__construct();
-		$this->load->model(['mnt/Vehiculos_pilotos_model']);
+		$this->load->model(['mnt/Vehiculos_Pilotos_model']);
 		$this->output->set_content_type('application/json');
 	}
 
@@ -14,11 +14,7 @@ class Vehiculos_pilotos extends CI_Controller {
 		$this->output->set_status_header('404');
 	}
 
-
-	
-
-
-	public function asignar_vehiculos_pilotos($id='')
+	public function asignar_Vehiculos_Pilotos($id='')
 	{
 		$data = ['extio' => 0];
 
@@ -26,9 +22,8 @@ class Vehiculos_pilotos extends CI_Controller {
 			$datos = json_decode(file_get_contents('php://input'));
 			
 			$existe_vehiculo = $this->catalogo->ver_vehiculos_pilotos([
-				
 				'vehiculos_id' => $datos->vehiculos_id, 
-				'pilotos_id' => $datos->pilotos_id, 
+				'pilotos_id'  => $datos->pilotos_id, 
 				'activo'     => 0, 
 				'uno'        => true
 			]);
@@ -41,17 +36,17 @@ class Vehiculos_pilotos extends CI_Controller {
 			if (verPropiedad($datos, 'vehiculos_id') && 
 				verPropiedad($datos, 'pilotos_id')) {
 				
-				$plVehiculo = new Vehiculos_pilotos_model($id);
+				$clsucursal = new Vehiculos_Pilotos_model($id);
 
-				if ($plVehiculo->guardar($datos)) {
+				if ($clsucursal->guardar($datos)) {
 					$data['exito'] = 1;
 					$data['mensaje'] = empty($id) ?"Registro guardado con éxito.":"Registro actualizado.";
 					$data['reg'] = $this->catalogo->ver_vehiculos_pilotos([
-						'id'=> $plVehiculo->getPK(), 
+						'id'=> $clsucursal->getPK(), 
 						'uno' => true
 					]);
 				} else {
-					$data['mensaje'] = $plVehiculo->getMensaje();
+					$data['mensaje'] = $clsucursal->getMensaje();
 				}
 			}
 		} 
@@ -64,14 +59,14 @@ class Vehiculos_pilotos extends CI_Controller {
 		$data = ['exito' => 0];
 		$datos = ['activo' => 0];
 
-		$vehiculos = new Vehiculos_pilotos_model($id);
+		$sucursal = new Vehiculos_Pilotos_model($id);
 
-		if ($vehiculos->guardar($datos)) {
+		if ($sucursal->guardar($datos)) {
 			$data['exito'] = 1;
 			$data['mensaje'] = empty($id) ?"Registro guardado con éxito.":"Registro actualizado.";
 				
 		} else {
-			$data['mensaje'] = $vehiculos->getMensaje();
+			$data['mensaje'] = $sucursal->getMensaje();
 		}
 
 		$this->output->set_output(json_encode($data));
