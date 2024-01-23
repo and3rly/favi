@@ -88,7 +88,7 @@
 					id="selectUM" 
 					class="form-select"
 					v-model="form.unidad_medida_id"
-					required
+					
 				>	
 					<option value="">Seleccione um...</option>
 					<option v-for="(i, idx) in cat.um" :value="i.id">{{ i.nombre }}</option>
@@ -120,7 +120,7 @@
 					id="selectEstado" 
 					class="form-select"
 					v-model="form.estado_producto_id"
-					required
+					
 				>
 					<option value="">Seleccione estado...</option>
 					<option v-for="(i, idx) in cat.estado" :value="i.id">{{ i.nombre }}</option>
@@ -136,7 +136,7 @@
 					id="selectMarca" 
 					class="form-select"
 					v-model="form.marca_producto_id"
-					required
+				
 				>
 					<option value="">Seleccione marca...</option>
 					<option v-for="(i, idx) in cat.marca" :value="i.id">{{ i.nombre }}</option>
@@ -152,7 +152,7 @@
 					id="selectClasificacion" 
 					class="form-select"
 					v-model="form.clasificacion_producto_id"
-					required
+				
 				>
 					<option value="">Seleccione clasificación...</option>
 					<option v-for="(i, idx) in cat.clasificacion" :value="i.id">{{ i.nombre }}</option>
@@ -168,7 +168,7 @@
 					id="selectTipo" 
 					class="form-select"
 					v-model="form.tipo_producto_id"
-					required
+				
 				>
 					<option value="">Seleccione tipo...</option>
 					<option v-for="(i, idx) in cat.tipo" :value="i.id">{{ i.nombre }}</option>
@@ -184,7 +184,7 @@
 					id="selectFamilia" 
 					class="form-select"
 					v-model="form.familia_producto_id"
-					required
+				
 				>
 					<option value="">Seleccione familia...</option>
 					<option v-for="(i, idx) in cat.familia" :value="i.id">{{ i.nombre }}</option>

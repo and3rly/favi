@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Vehiculos_pilotos_model extends General_model {
+class Vehiculos_Pilotos_model extends General_model {
 
 	public $vehiculos_id;
 	public $pilotos_id;

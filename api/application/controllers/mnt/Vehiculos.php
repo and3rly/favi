@@ -33,7 +33,7 @@ class Vehiculos extends CI_Controller {
 		if ($this->input->method() === "post") {
 			$datos = (object) $_POST;
 
-			if (verPropiedad($datos, "tipo") && verPropiedad($datos, "placa") && verPropiedad($datos, "activo")) {
+			if (verPropiedad($datos, "tipo") && verPropiedad($datos, "placa") ) {
 
 				$Vehiculos = new Vehiculos_model($id);
 

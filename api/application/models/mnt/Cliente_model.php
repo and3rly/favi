@@ -45,9 +45,11 @@ class Cliente_model extends General_model {
 			$this->db->where("a.id", $args['id']);
 		}
 
+	
 		$tmp = $this->db
-		->select("a.*")
-		->where('activo', 1)
+		->select("a.*,b.nombre as ncliente")
+		->join("cliente_tipo b","b.id= a.cliente_tipo_id")
+		->where('a.activo', 1)
 		->get('cliente a');
 
 		return verConsulta($tmp, $args);

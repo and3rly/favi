@@ -30,7 +30,7 @@ class Cliente extends CI_Controller{
 		if ($this->input->method() =="post") {
 			$datos = (object) $_POST;
 
-			if ( verPropiedad($datos,"nombre_comercial") && &&verPropiedad($datos,"cliente_tipo_id")) {
+			if ( verPropiedad($datos,"nombre_comercial") &&verPropiedad($datos,"cliente_tipo_id")) {
 
 				$cliente = new Cliente_model($id);
 

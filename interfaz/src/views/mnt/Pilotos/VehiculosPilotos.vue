@@ -100,7 +100,7 @@
 					let datos =  {pilotos_id: this.pilotos.id, vehiculos_id: o.id}
 
 					this.$http
-					.post(`${this.$baseUrl}/${this.controlador}/asignar_vehiculos_pilotos/${this.pk}`, datos)
+					.post(`${this.$baseUrl}/${this.controlador}/asignar_Vehiculos_Pilotos/${this.pk}`, datos)
 					.then(res => {
 						
 						this.btnGuardar = false
@@ -147,7 +147,7 @@
 
 				if (this.cat.vehiculos_pilotos) {
 					this.cat.vehiculos_pilotos.forEach(e => {
-						datos.push(e.pilotos_id)
+						datos.push(e.vehiculos_id)
 					})
 				}
 

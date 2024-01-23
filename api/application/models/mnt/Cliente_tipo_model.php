@@ -13,11 +13,14 @@ class Cliente_tipo_model extends General_model {
 
 	public function buscar($args=[])
 	{
-		if (elemento($args,'id')) {
-			$this->db->where('id',$args['id']);
+		if (elemento($args, 'id')) {
+			$this->db->where("a.id", $args['id']);
 		}
 
-		$tmp = $this->db->get("$this->_tabla");
+		$tmp = $this->db
+		->select("a.*")
+		->where('activo', 1)
+		->get('cliente_tipo a');
 
 		return verConsulta($tmp, $args);
 	}
