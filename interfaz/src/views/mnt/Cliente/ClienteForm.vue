@@ -30,7 +30,7 @@
 				 id="selecttipoCliente"
 				  class="form-select"
 				   v-model="form.cliente_tipo_id" required>
-				   
+				   <option value="">Seleccione tipo de cliente...</option>
 					<option v-for="(i, idx) in cat.cliente_tipo" :value="i.id">{{ i.nombre }}</option>
 				</select>
 				
