@@ -47,6 +47,7 @@ class Tramo_model extends General_model {
 		->join("bodega b","b.id = a.bodega_id")
 		->join("bodega_area c","c.id = a.bodega_area_id")
 		->join("bodega_sector d","d.id = a.bodega_sector_id")
+		->where('a.activo', 1)
 		->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);

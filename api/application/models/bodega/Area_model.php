@@ -34,6 +34,7 @@ class Area_model extends General_model {
 		$tmp = $this->db
 					->select("a.*, b.nombre as nombre_bodega")
 					->join("bodega b","b.id = a.bodega_id")
+					->where('a.activo', 1)
 					->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);

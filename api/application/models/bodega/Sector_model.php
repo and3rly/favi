@@ -43,6 +43,7 @@ class Sector_model extends General_model {
 				c.descripcion as nombre_area")
 		->join("bodega b","b.id = a.bodega_id")
 		->join("bodega_area c","c.id = a.bodega_area_id")
+		->where('a.activo', 1)
 		->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);

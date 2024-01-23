@@ -58,6 +58,7 @@ class Ubicacion_model extends General_model {
 		->join("bodega_sector d","d.id = a.bodega_sector_id")
 		->join("bodega_tramo e","e.id = a.bodega_tramo_id")
 		->join("rotacion f","f.id = a.rotacion_id")
+		->where('a.activa', 1)
 		->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);
