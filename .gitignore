@@ -19,6 +19,8 @@ api/user_guide_src/cilexer/pycilexer.egg-info/*
 api/vendor/
 
 assets
+favicon.ico
+index.html
 
 # IDE Files
 #-------------------------
