@@ -8,7 +8,7 @@ export const useAppSidebarMenuStore = defineStore({
   }),
   actions: {
     async get_menu() {
-      await axiosClient.get("/api/index.php/mnt/menu/get_modulos")
+      await axiosClient.get("app/api/index.php/mnt/menu/get_modulos")
       .then (res => {
         this.modulos = res.data.lista
       });

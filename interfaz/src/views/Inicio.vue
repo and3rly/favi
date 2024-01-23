@@ -1,18 +1,23 @@
 <template>
-	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">BREADCRUMB</a></li>
-		<li class="breadcrumb-item active">HOME PAGE</li>
-	</ul>
-	<h1 class="page-header">
-		Starter Page <small>page header description goes here...</small>
-	</h1>
-	<p>
-		Start build your page here
-	</p>
+	<div class="container text-center mt-5">
+		<h3> ¡Bienvenido {{usuario.nombre }} {{ usuario.apellido }}!</h3>
+		<img 
+			src="@/assets/images/inicio.png" 
+			class="img-fluid mt-5" 
+			style="width: 250px;"
+		>
+	</div>
 </template>
 
 <script>
-export default {
-  
-}
+	import { useLoginStore } from "@/stores/app-login";
+
+	export default {
+		data: () => ({
+			usuario: null
+		}),
+	  created() {
+	  	this.usuario = useLoginStore().usuario
+	  }
+	}
 </script>

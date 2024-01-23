@@ -11,11 +11,11 @@ export default defineConfig({
     open: true,
     host: true,
     proxy: {
-      "/api": {
+      "/app": {
         target: "http://localhost/favi/",
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/app/, ""),
       },
     },
   },

@@ -15,7 +15,7 @@ export const useLoginStore = defineStore('login', {
 				axiosClient.defaults.headers.common['usuario'] = data.usuario;
 				axiosClient.defaults.headers.common['clave']   = data.clave;
 
-				axiosClient.post("/api/index.php/sesion/login", data)
+				axiosClient.post("app/api/index.php/sesion/login", data)
 				.then(res => {
 
 					if (res.data.exito) {
@@ -31,7 +31,7 @@ export const useLoginStore = defineStore('login', {
 			})	
 		},
 		async logout() {
-			await axiosClient.post("/api/index.php/sesion/logout")
+			await axiosClient.post("app/api/index.php/sesion/logout")
 			.then (res => {
 				if (res.data.exito) {
 					this.token = null;
@@ -45,7 +45,7 @@ export const useLoginStore = defineStore('login', {
 			const storeLogin = useLoginStore();
 
 			if (this.token) {
-				await axiosClient.post('/api/index.php/sesion/validar_token', {token: this.token})
+				await axiosClient.post('app/api/index.php/sesion/validar_token', {token: this.token})
 				.then(res => {
 
 					if (res.data.valido) {
