@@ -17,7 +17,7 @@
 			</div>
 
 			<div class="table-responsive-sm table-responsive-lg">
-				<table class="table table-sm table-hover table-striped mb-0" style="text-align: center;">
+				<table class="table table-sm table-hover table-striped mb-0">
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="40">#</th>
@@ -25,10 +25,10 @@
 							<th scope="col" width="150">Nombre</th>
 							<th scope="col" width="150">Teléfono</th>
 							<th scope="col">NIT</th>
-							<th  scope="col">Dirección</th>
+							<th scope="col">Dirección</th>
 							<th scope="col">Correo</th>
 							<th scope="col">Tipo de Cliente</th> 
-							<th scope="col">Estado</th>
+							<th scope="col" class="text-center">Estado</th>
 							<th scope="col" class="text-center" width="70">Acción</th>
 						</tr>
 					</thead>
@@ -39,19 +39,18 @@
 							style="cursor: pointer;" 
 						>
 							<th scope="row" class="text-center">{{ idx + 1 }}</th>
+							<td>{{i.codigo}}</td>
 							<td>
-								
-									
-								{{i.codigo}} 
-							
+								<a href="javascript:;" class="text-decoration-none" @click="editar(i, idx)">
+									{{ i.nombre_comercial}}
+								</a>
 							</td>
-							<td>{{ i.nombre_comercial}}</td>
 							<td>{{ i.telefono }}</td>
 							<td>{{ i.nit }}</td>
 							<td>{{ i.direccion }}</td>
 							<td>{{ i.email }}</td>
 							<td>{{ i.ncliente}}</td>
-							<td>
+							<td class="text-center">
 								<span 
 									v-if="i.activo == 1"
 									class="badge bg-success text-success-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
@@ -66,7 +65,7 @@
 									<i class="fa fa-times-circle text-danger fs-10px fa-fw me-5px"></i> Inactivo
 								</span>
 							</td>
-							<td>
+							<td class="text-center">
 								<div class="dropdown position-static">
 									<a 
 										href="javascript:;"
@@ -79,14 +78,14 @@
 								    <a
 								    	href="javascript:;" 
 								    	class="dropdown-item"
-										@click="verContacto(i)"
+											@click="verContacto(i)"
 								    >
 								    	<i class=" fas fa-user-plus me-1"></i>Agregar contacto
 								    </a>
-									<a
+										<a
 								    	href="javascript:;" 
 								    	class="dropdown-item"
-										@click="verDireccion(i)"
+											@click="verDireccion(i)"
 								    >
 										<i class="fas fa-route me-1"></i>Agregar dirección
 								    </a>
@@ -97,22 +96,21 @@
 								    >
 								    	<i class=" fas fa-store me-1"></i>Agregar Bodega
 								    </a>
-									<a
+										<a
 								    	href="javascript:;" 
 								    	class="dropdown-item"
-										@click="verSucursal(i)"
+											@click="verSucursal(i)"
 								    >
 								    	<i class=" fas fa-store me-1"></i>Agregar Sucursal
 								    </a>
-									<a
+										<a
 									    href="javascript:;" 
 									    class="dropdown-item"
 											@click="editar(i, idx)"
 									    >
 									    	<i class=" fas fa-edit me-1"></i> Editar
-									  </a>
-								    
-								</div>
+									  </a>							    
+									</div>
 								</div>
 							</td>
 						</tr>
