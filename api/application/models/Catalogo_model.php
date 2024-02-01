@@ -12,13 +12,13 @@ class Catalogo_model extends General_model {
 	{
 
 		if (elemento($args, 'usuario_id')) {
-			$this->db->where('u.id', $args['usuario_id']);
+			$this->db->where('u.usuario_id', $args['usuario_id']);
 		}
 
 		$tmp = $this->db
 					->select("e.*")
 					->join("sucursal s","e.id = s.empresa_id")
-					->join("usuario u", "u.id = s.usuario_id")
+					->join("usuario_sucursal u", "u.usuario_id = s.usuario_id")
 					->get('empresa e');
 
 		return verConsulta($tmp, $args);
