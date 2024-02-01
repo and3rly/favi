@@ -50,6 +50,7 @@
     "highlight.js": "^11.7.0",
     "highlightjs": "^9.16.2",
     "jquery": "^3.7.0",
+    "jspdf": "^2.5.1",
     "jsvectormap": "^1.5.1",
     "lity": "^2.4.1",
     "maska": "^2.1.7",

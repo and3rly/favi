@@ -60,7 +60,7 @@
 										<th class="text-center">Tipo</th>
 										<th class="text-center">Motivo Devolución</th>
 										<th class="text-center">Activo</th>
-										<th width="80"></th>
+										<th width="100"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -81,6 +81,13 @@
 											<i v-else class="fa fa-times text-danger" ></i>
 										</td>
 										<td class="text-center">
+											<button
+												class="btn btn-sm btn-secondary me-1"
+												@click="buscarDet(i, idx)" 
+												title="Imprimir"
+											>
+												<i class="fas fa-edit"></i>
+											</button>
 											<button
 												class="btn btn-sm btn-secondary me-1"
 												@click="$emit('editar', i, idx)" 
@@ -129,12 +136,16 @@
 
 <script>
 	import General from '@/mixins/General.js'
+	import Catalogo from '@/mixins/Catalogo.js'
 	import OrdenCompraDetalle from '@/views/orden/OrdenCompraDetalle.vue'
 	import OrdenCompraForm from '@/views/orden/OrdenCompraForm.vue'
+	import { useLoginStore } from "@/stores/app-login";
+	import '@/assets/css/login.css';
+	import jsPDFInvoiceTemplate, { OutputType, jsPDF } from "@/views/orden/pdfTemplate.js";
 
 	export default {
 		name: 'OrdenCompraLista',
-		mixins: [General],
+		mixins: [General, Catalogo],
 		props: {
 			filtrada: {
 				type: Array,
@@ -147,19 +158,170 @@
 		},
 		data: () => ({
 			reg: {},
-			actual: 1
+			actual: 1,
+			bform: {},
+			formDet: {
+				detalle: []
+			},
 		}),
+		created() {
+			this.args.empresa_usuario_sucursal = { usuario_id: useLoginStore().usuario.id }
+			this.args.orden_compra_det = { orden_compra_enc_id: 2 }
+			this.getCatalogo([
+                "empresa_usuario_sucursal",
+				"orden_compra_det"
+			])
+		},
 		methods: {
+			buscarDet(i, idx) {
+				this.inicio = true
+				this.bform.orden_compra_enc_id = i.id
+
+				this.$http
+				.get(`${this.$baseUrl}/orden/detalle/ordenCompraDetalle/buscar`, {params: this.bform})
+				.then(res => {
+					this.inicio = false
+					if (res.data.lista) {
+						this.formDet.detalle = res.data.lista
+						this.generatePDF(i, idx);
+					}
+				}).catch(e => {
+					this.inicio = false
+					console.log(e)
+				})
+			},
 			verDetalle(obj) {
 				this.reg = obj
 				this.actual = 2
 			},
+			generatePDF(i, idx) {
+
+				var total_oc = 0.00
+
+				this.formDet.detalle.forEach(function(item, index) {
+					total_oc += parseFloat(item.total_linea)
+				});
+
+				var props = {
+					outputType: OutputType.Save,
+					returnJsPDFDocObject: true,
+					fileName: "Orden de Compra "+i.no_documento,
+					orientationLandscape: false,
+					compress: true,
+					logo: {
+						src: "/src/assets/images/logo.png",
+						type: 'PNG', //optional, when src= data:uri (nodejs case)
+						width: 53.33, //aspect ratio = width/height
+						height: 26.66,
+						margin: {
+							top: 0, //negative or positive num, from the current position
+							left: 0 //negative or positive num, from the current position
+						}
+					},
+					business: {
+						name: this.cat.empresa_usuario_sucursal[0].nombre,
+						address: this.cat.empresa_usuario_sucursal[0].direccion,
+						phone: this.cat.empresa_usuario_sucursal[0].telefono,
+						email: this.cat.empresa_usuario_sucursal[0].correo,
+						email_1: this.cat.empresa_usuario_sucursal[0].razon_social,
+						website: this.cat.empresa_usuario_sucursal[0].nit,
+					},
+					contact: {
+						label: "Bodega: "+i.nombre_bodega,
+						name: "Proveedor: "+i.nombre_proveedor,
+						address: "Estado de Orden de Compra: "+i.nombre_tipo_oc,
+						phone: "Motivo Devolución: "+i.nombre_motivo_dev
+					},
+					invoice: {
+						label: "Orden de Compra #: ",
+						num: i.no_documento,
+						invDate: "Fecha Creación: "+i.fecha_creacion,
+						invGenDate: "Tipo Orden de Compra: "+i.nombre_tipo_oc,
+						headerBorder: false,
+						tableBodyBorder: false,
+						header: [
+						{
+							title: "#", 
+							style: { 
+								width: 5
+							} 
+						}, 
+						{ 
+							title: "Código",
+							style: {
+								width: 15
+							} 
+						}, 
+						{ 
+							title: "Nombre",
+							style: {
+								width: 30
+							} 
+						}, 
+						{ 
+							title: "Presentación/UM",
+							style: {
+								width: 30
+							}
+						},
+						{ 
+							title: "Cantidad",
+							style: {
+								width: 25
+							}
+						},
+						{ 
+							title: "Peso",
+							style: {
+								width: 25
+							}
+						},
+						{
+							title: "Motivo Devolución",
+							style: {
+								width: 45
+							}
+						},
+						{ 
+							title: "Total",
+							style: {
+								width: 15
+							}
+						}
+						],
+						table: Array.from(this.formDet.detalle, (item, index)=>([
+							index + 1,
+							item.codigo_producto_j,
+							item.nombre_producto_j,
+							item.nombre_presentacion_j + ' / ' + item.nombre_unidad_medida_j,
+							item.cantidad + ' / ' + item.cantidad_recibida,
+							item.peso + ' / ' + item.peso_recibido,
+							item.nombre_motivo_dev,
+							'Q.'+item.total_linea
+						])),
+						additionalRows: [{
+							col1: 'Total:',
+							col2: 'Q.'+total_oc.toString(),
+							style: {
+								fontSize: 12 //optional, default 12
+							}
+						}],
+						invDescLabel: "Observación",
+						invDesc: i.observacion,
+					},
+					pageEnable: true,
+					pageLabel: "Página ",
+				};
+
+				jsPDFInvoiceTemplate(props);
+			}
 		},
 		components: {
 			OrdenCompraForm,
 			OrdenCompraDetalle
 		}
 	}
+	
 </script>
 
 <style>
