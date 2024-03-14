@@ -514,6 +514,11 @@ class Catalogo_model extends General_model {
 
 	public function ver_proveedor_bodega_orden($args=[])
 	{
+
+		if (isset($args['bodega_id'])) {
+			$this->db->where('b.id', $args['bodega_id']);
+		}
+
 		$tmp = $this->db
 					->select('pb.*, p.nombre as nombre_proveedor, b.nombre as nombre_bodega')
 					->join('proveedor p', 'p.id = pb.proveedor_id')

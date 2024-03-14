@@ -341,7 +341,8 @@
 			},
 			ordenCompra: {
 				type: Object,
-				required: false
+				required: true,
+				default: null
 			}
 		},
 		data: () => ({
@@ -489,12 +490,6 @@
 				let datos = obj
 				if (datos.hasOwnProperty('id')) {
 					this.pk_det = datos.id
-				}
-				
-				if (!datos.motivo_devolucion_id) {
-					this.$toast.error("Seleccione un motivo de devolución")
-					this.btnGuardar = false
-					return
 				}
 
 				if (datos.presentacion_producto_id) {

@@ -59,3 +59,5 @@ api/*.sublime-workspace
 api/*.sublime-project
 api/tests/tests/
 api/tests/results/
+
+node_modules

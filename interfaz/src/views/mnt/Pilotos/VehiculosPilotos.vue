@@ -24,7 +24,7 @@
 						href="javascript:;"
 						@click="guardar(i)"
 						title="Asignar">
-						<i class="fas fa-arrow-right" style="color: ;"></i>
+						<i class="fas fa-arrow-right" style="color: red;"></i>
 					</a>
 				</li>
 				<li

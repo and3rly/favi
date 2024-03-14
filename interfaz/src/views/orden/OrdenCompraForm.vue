@@ -19,7 +19,7 @@
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
-					Procedencia: <span class="text-danger">*</span>
+					Procedencia:
 				</label>
 				<input 
 					type="text" 
@@ -42,22 +42,6 @@
 				>
 			</div>
 
-			<div class="col-sm-6">
-				<label for="" class="fw-bold mb-1">
-					Proveedor Bodega: <span class="text-danger">*</span>
-				</label>
-				<select 
-					name="selectPB" 
-					id="selectPB" 
-					class="form-select"
-					v-model="form.proveedor_bodega_id"
-					required
-				>	
-					<option value="">Seleccione Proveedor...</option>
-					<option v-for="(i, idx) in cat.proveedor_bodega_orden" :value="i.id">{{ i.nombre_proveedor }} | {{ i.nombre_bodega }} </option>
-				</select>
-			</div>
-
             <div class="col-sm-6">
                 <label for="" class="fw-bold mb-1">
                     Bodega: <span class="text-danger">*</span>
@@ -67,12 +51,29 @@
                     id="selectB" 
                     class="form-select"
                     v-model="form.bodega_id"
+					@change="onChangeBodega($event)"
                     required
                 >	
                     <option value="">Seleccione Bodega...</option>
                     <option v-for="(i, idx) in cat.bodega" :value="i.id">{{ i.nombre }}</option>
                 </select>
             </div>
+
+		<div class="col-sm-6">
+			<label for="" class="fw-bold mb-1">
+				Proveedor Bodega: <span class="text-danger">*</span>
+			</label>
+			<select 
+				name="selectPB" 
+				id="selectPB" 
+				class="form-select"
+				v-model="form.proveedor_bodega_id"
+				required
+			>	
+				<option value="">Seleccione Proveedor...</option>
+				<option v-for="(i, idx) in this.cat.proveedor_bodega_orden" :value="i.id">{{ i.nombre_proveedor }} | {{ i.nombre_bodega }} </option>
+			</select>
+		</div>
 
             <div class="col-sm-6">
                 <label for="" class="fw-bold mb-1">
@@ -108,7 +109,7 @@
 
             <div class="col-sm-6">
                 <label for="" class="fw-bold mb-1">
-                    Motivo Devolución: <span class="text-danger">*</span>
+                    Motivo Devolución:
                 </label>
                 <select 
                     name="selectMD" 
@@ -122,7 +123,7 @@
                 </select>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <label for="" class="fw-bold mb-1">
                     Observación: <span class="text-danger">*</span>
                 </label>
@@ -133,10 +134,23 @@
                     v-model="form.observacion"
                 >
             </div>
+			
+			<div class="col-sm-2" style="display: flex;  justify-content: center; align-items: center; ">
+				<div class="form-check form-switch">
+					<input 
+						class="form-check-input" 
+						type="checkbox" 
+						role="switch" 
+						id="chkActivo" 
+						:true-value="1" 
+						:false-value="0"
+						v-model="form.activo"
+						checked 
+					>
+					<label class="form-check-label" for="chkActivo">Activa</label>
+				</div>
+			</div>
 		</div>
-	    <div class="col-sm-2 offset-sm-2 mt-2">
-	    	
-	    </div>
 		
 		<div class="text-end mt-1 mb-1">
 			<button 
@@ -180,8 +194,7 @@
 				required: false
 			}
 		},
-		data: () => ({
-		}),
+		data: () => ({}),
 		created() {
 			this.controlador = 'orden/ordenCompra'
 			this.autoBuscar = false
@@ -192,6 +205,7 @@
                 "orden_compra_estado",
                 "motivo_devolucion"
             ])
+
 			this.setForm()
 
 			if (this.ordenCompra) {
@@ -209,11 +223,16 @@
 					proveedor_bodega_id: '',
 					orden_compra_estado_id: '',
 					orden_compra_tipo_id: '',
-					motivo_devolucion_id: '',
+					motivo_devolucion_id: null,
 					bodega_id: '',
 					activo: 1
 				}
-			}
+			},
+			
+			onChangeBodega(event){
+				this.args.proveedor_bodega_orden = {bodega_id: event.target.value}
+				this.getCatalogo(['proveedor_bodega_orden'])
+			},
 		}
 	}
 </script>

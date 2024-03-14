@@ -86,17 +86,17 @@
 				if (this.cat.productos_bodega) {
 					if (this.filtro.termino) {
 						return this.cat.productos_bodega.filter(obj => {
-              let ter = this.filtro.termino.toLowerCase()
-              let continuar = false
+						let ter = this.filtro.termino.toLowerCase()
+						let continuar = false
 
-                for (let i in obj) {
-                  if (typeof obj[i] === 'string' && obj[i].toLowerCase().includes(ter)) {
-                    continuar = true
-                  }
-                }
+							for (let i in obj) {
+							if (typeof obj[i] === 'string' && obj[i].toLowerCase().includes(ter)) {
+								continuar = true
+							}
+							}
 
-              return continuar
-            })
+						return continuar
+						})
 					}
 				}
 				return this.cat.productos_bodega

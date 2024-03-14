@@ -30,7 +30,7 @@ class OrdenCompra extends CI_Controller {
 		if ($this->input->method() === "post") {
 			$datos = (object) $_POST;
 
-			if (verPropiedad($datos, "no_documento")) {
+			if (verPropiedad($datos, "no_documento") && verPropiedad($datos, "observacion")) {
 
 				$ordenCompra = new OrdenCompra_model($id);
 

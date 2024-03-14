@@ -20,22 +20,41 @@
 			<CardHeader class="p-2 bg-white">			
 				<div class="d-flex">
 					<div class="flex-fill me-1">
-						<input type="text" class="form-control" placeholder="Buscar por criterio...">
+						<input 
+							type="search" 
+							class="form-control" 
+							placeholder="Buscar por criterio..."
+							v-model="bformF.criterio"
+						/>
 					</div>
 					<div class="flex-fill me-1">
-						<input type="date" class="form-control">
+						<input 
+							type="date" 
+							class="form-control"
+							v-model="bformF.fdel"
+						/>
+					</div>
+					<div class="flex-fill me-1">
+						<input 
+							type="date" 
+							class="form-control"
+							v-model="bformF.fal"
+						/>
 					</div>
 					<div class="flex-fill me-1">
 						<select 
 							name="selectBodega" 
 							id="selectBodega"
 							class="form-select" 
+							v-model="bformF.bodega_id"
 						>
 							<option :value="null">Seleccione una bodega...</option>
+							<option v-for="i in cat.bodega" :value="i.id"> {{ i.nombre }} </option>
 						</select>
 					</div>
 					<button
 						class="btn btn-primary"
+						@click="buscarFiltrado()"
 					>
 						<i class="fas fa-search"></i>
 					</button>
@@ -64,7 +83,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="(i, idx) in filtrada">
+									<tr v-for="(i, idx) in filtArr">
 										<td class="text-center fw-bold">{{idx + 1}}</td>
 										<td class="text-center"> {{i.no_documento}} </td>
 										<td>{{ i.procedencia }}</td>
@@ -86,7 +105,7 @@
 												@click="buscarDet(i, idx)" 
 												title="Imprimir"
 											>
-												<i class="fas fa-edit"></i>
+												<i class="fa-solid fa-print"></i>
 											</button>
 											<button
 												class="btn btn-sm btn-secondary me-1"
@@ -157,20 +176,33 @@
 			}
 		},
 		data: () => ({
+			filtArr: [],
 			reg: {},
 			actual: 1,
 			bform: {},
 			formDet: {
 				detalle: []
 			},
+			bformF: {
+				bodega_id: null
+			},
 		}),
 		created() {
+			this.filtArr = this.filtrada;
+			
 			this.args.empresa_usuario_sucursal = { usuario_id: useLoginStore().usuario.id }
 			this.args.orden_compra_det = { orden_compra_enc_id: 2 }
 			this.getCatalogo([
                 "empresa_usuario_sucursal",
-				"orden_compra_det"
+				"orden_compra_det",
+				"bodega"
 			])
+		},
+		watch: {
+			filtrada(newVal) {
+			// Actualizar la propiedad de data cuando el prop cambie
+				this.filtArr = newVal;
+			}
 		},
 		methods: {
 			buscarDet(i, idx) {
@@ -193,6 +225,23 @@
 			verDetalle(obj) {
 				this.reg = obj
 				this.actual = 2
+			},
+			buscarFiltrado() {
+				this.inicio = true
+
+				this.$http
+				.get(`${this.$baseUrl}/orden/ordencompra/buscar`, {params: this.bformF})
+				.then(res => {
+					
+					this.inicio = false
+
+					if (res.data.lista) {
+						this.filtArr = res.data.lista
+					}
+				}).catch(e => {
+					this.inicio = false
+					console.log(e)
+				})
 			},
 			generatePDF(i, idx) {
 

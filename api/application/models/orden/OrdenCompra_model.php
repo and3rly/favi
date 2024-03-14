@@ -28,6 +28,34 @@ class OrdenCompra_model extends General_model {
 	{	
 		if (elemento($args, 'id')) {
 			$this->db->where('oce.id', $args['id']);
+		} else {
+
+			if (elemento($args, "bodega_id")) {
+				$this->db->where("b.id", $args['bodega_id']);
+			}
+
+			if (elemento($args, 'criterio')) {
+
+				$termino = trim($args['criterio']);
+
+				$campos = [
+					'oce.no_documento',
+					'oce.procedencia',
+					'oce.referencia',
+					'oce.observacion'
+				];
+
+				$where = implode(" like '%{$termino}%' or ", $campos);
+
+				$this->db->where("({$where} like '%{$termino}%')", null, false);
+
+			} else {
+				if (elemento($args, 'fdel') && elemento($args, 'fal')) {
+					$this->db
+					->where("CAST(oce.fecha_creacion as date) >=", $args["fdel"])
+					->where("CAST(oce.fecha_creacion as date) <=", $args["fal"]);
+				}
+			}
 		}
 
 		$tmp = $this->db
