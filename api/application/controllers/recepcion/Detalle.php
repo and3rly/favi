@@ -71,6 +71,52 @@ class Detalle extends CI_Controller {
 		$this->output->set_output(json_encode($data));
 	}
 
+	public function guardar_detalle()
+	{
+		$data = ["exito" => 0];
+
+		if ($this->input->method() === "post") {
+			$datos = json_decode(file_get_contents('php://input'));
+
+			if (verPropiedad($datos, 'detalle') && verPropiedad($datos, 'id')) {
+				$det = new Recepcion_det_model();
+
+				$realizados = 0;
+				foreach ($datos->detalle as $row) {
+					$detg = new Recepcion_det_model();
+
+					$row->recepcion_enc_id = $datos->id;
+					$row->estado_producto_id = 1;
+					$row->cantidad_recibida = $row->cantidad;
+					$detg->setNoLinea(['recepcion' => $datos->id]);
+					$detg->guardar($row);
+					$realizados++;
+				}
+
+				$droc = [
+					'orden_compra_enc_id' => $datos->oc,
+					'recepcion_enc_id' => $datos->id
+				];
+
+				$det->insert_rec_oc($droc);
+
+				if ($realizados > 0) {
+					$data['exito'] = 1;
+					$data['mensaje'] = "Producto agregrado con éxito.";
+				} else {
+					$data['mensaje'] = $det->getMensaje();
+				}
+
+			} else {
+				$data['mensaje'] = "Complete todos los campos marcados con *.";
+			}
+		} else {
+			$data['menasje'] = "Error en el envio de datos";
+		}
+
+		$this->output->set_output(json_encode($data));
+	}
+
 	public function eliminar_producto($id)
 	{
 		$data = ['exito' => 0];

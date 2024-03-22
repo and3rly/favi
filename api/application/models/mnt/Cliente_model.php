@@ -40,11 +40,15 @@ class Cliente_model extends General_model {
 
 	public function buscar($args=[])
 	{
-
 		if (elemento($args, 'id')) {
 			$this->db->where("a.id", $args['id']);
+		} else {
+			if (isset($args['activo'])) {
+				$this->db->where('a.activo', $args['activo']);
+			} else {
+				$this->db->where('a.activo', 1);
+			}
 		}
-
 	
 		$tmp = $this->db
 		->select("a.*,b.nombre as ncliente")

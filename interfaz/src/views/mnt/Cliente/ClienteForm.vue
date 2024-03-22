@@ -12,14 +12,27 @@
 				<label for="" class="fw-bold mb-1">
 					Nombre: <span class="text-danger">*</span>
 				</label>
-				<input type="text" class="form-control" placeholder="Nombre del cliente" v-model="form.nombre_comercial"      required>
+				<input 
+					type="text" 
+					class="form-control" 
+					placeholder="Nombre del cliente"
+					v-model="form.nombre_comercial"      
+					required
+				/>
 			</div>
 
 			<div class="col-sm-6">
-				<label for="" class="fw-bold mb-1">
+				<label for="inputNit" class="fw-bold mb-1">
 					NIT: <span class="text-danger">*</span>
 				</label>
-				<input type="text" class="form-control" placeholder="Numero de identificación tributaria" v-model="form.nit">
+				<input 
+					id="inputNit"
+					type="text" 
+					class="form-control"
+					placeholder="Numero de identificación tributaria" 
+					v-model="form.nit"
+					required 
+				/>
 			</div>
 
 			<div class="col-sm-6">
@@ -32,17 +45,9 @@
 				   v-model="form.cliente_tipo_id" required>
 				   <option value="">Seleccione tipo de cliente...</option>
 					<option v-for="(i, idx) in cat.cliente_tipo" :value="i.id">{{ i.nombre }}</option>
-				</select>
-				
+				</select>				
 			</div>
 
-
-
-
-
-
-			
-			
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
 					Teléfono:

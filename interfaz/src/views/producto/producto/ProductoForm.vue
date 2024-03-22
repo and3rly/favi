@@ -7,13 +7,14 @@
 		<div class="row g-2 mb-4">
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
-					Código:
+					Código: <span class="text-danger">*</span>
 				</label>
 				<input 
 					type="text" 
 					class="form-control"
 					placeholder="Código del producto" 
 					v-model="form.codigo"
+					required 
 				>
 			</div>
 
@@ -76,6 +77,7 @@
 					placeholder="Precio del producto" 
 					step="any"
 					v-model="form.precio"
+					required
 				>
 			</div>
 
@@ -87,10 +89,9 @@
 					name="selectUM" 
 					id="selectUM" 
 					class="form-select"
-					v-model="form.unidad_medida_id"
-					
+					v-model="form.unidad_medida_id"					
 				>	
-					<option value="">Seleccione um...</option>
+					<option :value="null">Seleccione um...</option>
 					<option v-for="(i, idx) in cat.um" :value="i.id">{{ i.nombre }}</option>
 				</select>
 			</div>
@@ -106,7 +107,7 @@
 					v-model="form.presentacion_producto_id"
 					required
 				>
-					<option value="">Seleccione presentación...</option>
+					<option :value="null">Seleccione presentación...</option>
 					<option v-for="(i, idx) in cat.presentacion" :value="i.id">{{ i.nombre }} - {{ i.factor }}</option>
 				</select>
 			</div-->
@@ -119,10 +120,9 @@
 					name="selectEstado" 
 					id="selectEstado" 
 					class="form-select"
-					v-model="form.estado_producto_id"
-					
+					v-model="form.estado_producto_id"					
 				>
-					<option value="">Seleccione estado...</option>
+					<option :value="null">Seleccione estado...</option>
 					<option v-for="(i, idx) in cat.estado" :value="i.id">{{ i.nombre }}</option>
 				</select>
 			</div>
@@ -135,10 +135,9 @@
 					name="selectMarca" 
 					id="selectMarca" 
 					class="form-select"
-					v-model="form.marca_producto_id"
-				
+					v-model="form.marca_producto_id"			
 				>
-					<option value="">Seleccione marca...</option>
+					<option :value="null">Seleccione marca...</option>
 					<option v-for="(i, idx) in cat.marca" :value="i.id">{{ i.nombre }}</option>
 				</select>
 			</div>
@@ -154,7 +153,7 @@
 					v-model="form.clasificacion_producto_id"
 				
 				>
-					<option value="">Seleccione clasificación...</option>
+					<option :value="null">Seleccione clasificación...</option>
 					<option v-for="(i, idx) in cat.clasificacion" :value="i.id">{{ i.nombre }}</option>
 				</select>
 			</div>
@@ -168,9 +167,8 @@
 					id="selectTipo" 
 					class="form-select"
 					v-model="form.tipo_producto_id"
-				
 				>
-					<option value="">Seleccione tipo...</option>
+					<option :value="null">Seleccione tipo...</option>
 					<option v-for="(i, idx) in cat.tipo" :value="i.id">{{ i.nombre }}</option>
 				</select>
 			</div>
@@ -184,9 +182,8 @@
 					id="selectFamilia" 
 					class="form-select"
 					v-model="form.familia_producto_id"
-				
 				>
-					<option value="">Seleccione familia...</option>
+					<option :value="null">Seleccione familia...</option>
 					<option v-for="(i, idx) in cat.familia" :value="i.id">{{ i.nombre }}</option>
 				</select>
 			</div>
@@ -392,13 +389,6 @@
 					control_vence: '',
 					existencia_maxima: '',
 					existencia_minima: '',
-					unidad_medida_id: '',
-					marca_producto_id: '',
-					clasificacion_producto_id: '',
-					estado_producto_id: '',
-					tipo_producto_id: '',
-					presentacion_producto_id: '',
-					familia_producto_id: '',
 					activo: 1
 				}
 			},

@@ -18,12 +18,12 @@ class Producto_model extends General_model {
 	public $existencia_maxima;
 	public $existencia_minima;
 	public $activo = 1;
-	public $unidad_medida_id;
-	public $marca_producto_id;
-	public $clasificacion_producto_id;
-	public $estado_producto_id;
-	public $tipo_producto_id;
-	public $familia_producto_id;
+	public $unidad_medida_id = null;
+	public $marca_producto_id = null;
+	public $clasificacion_producto_id = null;
+	public $estado_producto_id = null;
+	public $tipo_producto_id = null;
+	public $familia_producto_id = null;
 	public $usuario_agr;
 
 	public function __construct($id="")
@@ -57,12 +57,12 @@ class Producto_model extends General_model {
 			e.danado,
 			f.nombre as ntipo,
 			h.nombre as nfamilia")
-		->join("unidad_medida b","b.id = a.unidad_medida_id")
-		->join("marca_producto c","c.id = a.marca_producto_id")
-		->join("clasificacion_producto d","d.id = a.clasificacion_producto_id")
-		->join("estado_producto e","e.id = a.estado_producto_id")
-		->join("tipo_producto f","f.id = a.tipo_producto_id")
-		->join("familia_producto h","h.id = a.familia_producto_id")
+		->join("unidad_medida b","b.id = a.unidad_medida_id","left")
+		->join("marca_producto c","c.id = a.marca_producto_id","left")
+		->join("clasificacion_producto d","d.id = a.clasificacion_producto_id","left")
+		->join("estado_producto e","e.id = a.estado_producto_id","left")
+		->join("tipo_producto f","f.id = a.tipo_producto_id","left")
+		->join("familia_producto h","h.id = a.familia_producto_id","left")
 		->get("$this->_tabla a");
 					
 		return verConsulta($tmp, $args);

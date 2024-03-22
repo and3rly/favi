@@ -57,7 +57,7 @@
 							<td> 
 								<a 
 									href="javascript:;"
-									class="text-decoration-none" 
+									class="text-decoration-none"
 									@click="$emit('editar', i, idx)" 
 								>
 									{{i.nombre}} 

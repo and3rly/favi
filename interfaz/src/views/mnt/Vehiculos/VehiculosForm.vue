@@ -1,7 +1,7 @@
 <template>
 		<div class="alert alert-info">
 			<i class="fas fa-lightbulb me-2"></i>Todos los campos marcados con <span class="text-danger">*</span> son obligatorios.
-	</div>
+		</div>
 	<form @submit.prevent="guardar(true)">
 		<div class="mb-1 row">
 			<label

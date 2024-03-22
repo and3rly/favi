@@ -9,7 +9,7 @@
 					<img 
 						src="@/assets/images/logo.png" 
 						class="img-fluid" 
-						style="width: 250px;"
+						style="width: 350px;"
 					>
 				</div>
 			</div>

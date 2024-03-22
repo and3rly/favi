@@ -86,6 +86,13 @@ class Recepcion_det_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
+	public function insert_rec_oc($args = [])
+	{
+		$this->db->insert('recepcion_orden', $args);
+
+		return $this->db->affected_rows() > 0;
+	}
+
 }
 
 /* End of file Recepcion_det_model.php */

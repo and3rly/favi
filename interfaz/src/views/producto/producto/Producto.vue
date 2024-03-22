@@ -75,7 +75,7 @@
 		},
 		created() {
 			this.controlador = 'producto/producto'
-			this.autoBuscar = true
+			this.autoBuscar = false
 		},
 		methods: {
 			abrirModal() {
