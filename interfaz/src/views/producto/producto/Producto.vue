@@ -60,6 +60,7 @@
 	import General from '@/mixins/General.js'
 	import ProductoLista from '@/views/producto/producto/ProductoLista.vue'
 	import ProductoForm from '@/views/producto/producto/ProductoForm.vue'
+	import ProductoBodega from '@/views/producto/producto/ProductoBodega.vue'
 
 	export default {
 		name: "Producto",
@@ -106,7 +107,8 @@
 		},
 		components: {
 			ProductoLista,
-			ProductoForm
+			ProductoForm,
+			ProductoBodega
 		}
 	}
 </script>

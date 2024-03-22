@@ -114,6 +114,14 @@
 								>
 									<i class="fas fa-boxes-stacked"></i>
 								</button>
+								<button
+									type="button"
+									class="btn btn-sm btn-warning"
+									title="Asignar bodega"
+									@click="verBodega(i)"
+								>
+									<i class="fas fa-store me-1"></i>
+								</button>
 							</td>
 						</tr>
 					</tbody>
@@ -172,12 +180,48 @@
 		</div>
 	</div>
 
+		<div 
+		class="modal fade" id="mdlProductobodega"
+		data-bs-backdrop="static" 
+		data-bs-keyboard="false" 
+		tabindex="-1" 
+		aria-labelledby="staticBackdropLabel" 
+		aria-hidden="true">
+
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 
+						class="modal-title fs-5" 
+						id="staticBackdropLabel"
+					> 
+						<i class="fas fa-store me-1"></i> Producto bodega <span v-if="producto != null">- {{ producto.nombre }}</span>
+					</h1>
+					<button 
+						type="button" 
+						class="btn-close" 
+						aria-label="Close" 
+						@click="cmBodega"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ProductoBodega
+						v-if="producto != null"
+						:producto="producto"
+					/>
+				</div>
+			</div>
+		</div>	
+	</div>
+
 </template>
 
 <script>
 	import General from '@/mixins/General.js'
 	import Imagen from '@/components/general/Imagen.vue'
 	import Presentacion from '@/views/producto/presentacion/Presentacion.vue'
+	import ProductoBodega from '@/views/producto/producto/ProductoBodega.vue'
 
 	export default {
 		name: 'ProductoLista',
@@ -194,10 +238,12 @@
 		},
 		data: () => ({
 			modal: null,
-			producto: null
+			producto: null,
+			modal2:null
 		}),
 		mounted() {
 			this.modal = new this.$modal(document.getElementById('mdlPresentacion'));
+			this.modal2 = new this.$modal(document.getElementById('mdlProductobodega'));
 		},
 		created() {
 			this.controlador = 'producto/producto'
@@ -211,11 +257,20 @@
 			cerrarPresentacion() {
 				this.producto = null
 				this.modal.hide()
+			},
+			verBodega(obj) {
+				this.producto  = obj
+				this.modal2.show()
+			},
+			cmBodega() {
+				this.producto = null
+				this.modal2.hide()
 			}
 		},
 		components: {
 			Imagen,
-			Presentacion
+			Presentacion,
+			ProductoBodega
 		},
 		watch: {
 			'tmpLinea'(o) {
