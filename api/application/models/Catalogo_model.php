@@ -109,6 +109,33 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
+	public function ver_producto_bodega($args=[])
+	{	
+		if (elemento($args, 'id')) {
+			$this->db->where('a.id', $args['id']);
+		}
+
+		if (elemento($args, 'producto_id')) {
+			$this->db->where('a.producto_id', $args['producto_id']);
+		}
+
+		if (elemento($args, 'bodega_id')) {
+			$this->db->where('a.bodega_id', $args['bodega_id']);
+		}
+
+		if (isset($args['activo'])) {
+			$this->db->where('a.activo', $args['activo']);
+		} else {
+			$this->db->where('a.activo', 1);
+		}
+
+		$tmp = $this->db
+					->select("a.*, b.nombre as bodega_nombre")
+					->join("bodega b","b.id = a.bodega_id")
+					->get('producto_bodega a');
+
+		return verConsulta($tmp, $args);
+	}
 
 
 	public function ver_usuario_rol($args=[])
@@ -546,6 +573,32 @@ class Catalogo_model extends General_model {
 		$tmp = $this->db
 					->where('activo', 1)
 					->get('bodega');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_producto($args=[]) 
+	{
+		if (elemento($args, 'id')) {
+			$this->db->where('pr.id', $args['id']);
+		}
+
+		if (elemento($args, 'codigo')) {
+			$this->db->where('pr.codigo', $args['codigo']);
+		}
+
+		if (elemento($args, 'nombre')) {
+			$this->db->where('pr.nombre', $args['nombre']);
+		}
+
+		if (isset($args['activo'])) {
+			$this->db->where('pr.activo', $args['activo']);
+		} else {
+			$this->db->where('pr.activo', 1);
+		}
+
+		$tmp = $this->db
+					->get('producto pr');
 
 		return verConsulta($tmp, $args);
 	}
