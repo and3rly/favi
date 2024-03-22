@@ -81,7 +81,6 @@ export default {
 			}
 		},
 		setRegLista(o) {
-			console.log(o)
 			if (o.pk === '') {
 				this.lista.push(o.linea)
 			} else {

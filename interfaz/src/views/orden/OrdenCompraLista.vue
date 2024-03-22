@@ -94,7 +94,7 @@
 										<td>{{ i.nombre_bodega }}</td>
 										<td>{{ i.nombre_estado_oc }}</td>
 										<td>{{ i.nombre_tipo_oc }}</td>
-										<td>{{ i.nombre_motivo_dev }}</td>
+										<td>{{ i.nombre_motivo_dev || "Sin motivo de devolución" }}</td>
 										<td class="text-center">
 											<i v-if="i.activo == 1" class="fa fa-check text-success"></i>
 											<i v-else class="fa fa-times text-danger" ></i>

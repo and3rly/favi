@@ -44,7 +44,6 @@
 					class="form-select"
 					v-model="form.presentacion_producto_id"
 					@change="onChangePresentation($event)"
-					required
 				>	
 					<option value="">Seleccione Presentación...</option>
 					<option v-for="(i, idx) in cat.presentacion" :value="i.id">{{ i.codigo }} | {{ i.nombre }}</option>
@@ -132,7 +131,6 @@
 					id="selectMD" 
 					class="form-select"
 					v-model="form.motivo_devolucion_id"
-					required
 				>	
 					<option value="">Seleccione Motivo...</option>
 					<option v-for="(i, idx) in cat.motivo_devolucion" :value="i.id">{{ i.nombre }}</option>
@@ -191,7 +189,7 @@
 							class="form-control"
 							placeholder="Cantidad Recibida del Producto" 
 							v-model="form.cantidad_recibida"
-							required
+							disabled
 						>
 					</div>
 				</div>
@@ -310,9 +308,9 @@
 					peso: '',
 					peso_recibido: '',
 					producto_bodega_id: '',
-					presentacion_producto_id: '',
+					presentacion_producto_id: null,
 					unidad_medida_id: '',
-					motivo_devolucion_id: '',
+					motivo_devolucion_id: null,
 					activo: 1
 				}
 			},

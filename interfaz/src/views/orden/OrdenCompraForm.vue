@@ -61,7 +61,7 @@
 
 		<div class="col-sm-6">
 			<label for="" class="fw-bold mb-1">
-				Proveedor Bodega: <span class="text-danger">*</span>
+				Proveedor: <span class="text-danger">*</span>
 			</label>
 			<select 
 				name="selectPB" 
@@ -71,7 +71,7 @@
 				required
 			>	
 				<option value="">Seleccione Proveedor...</option>
-				<option v-for="(i, idx) in this.cat.proveedor_bodega_orden" :value="i.id">{{ i.nombre_proveedor }} | {{ i.nombre_bodega }} </option>
+				<option v-for="(i, idx) in this.cat.proveedor_bodega_orden" :value="i.id">{{ i.nombre_proveedor }} </option>
 			</select>
 		</div>
 
@@ -116,7 +116,6 @@
                     id="selectMD" 
                     class="form-select"
                     v-model="form.motivo_devolucion_id"
-                    required
                 >	
                     <option value="">Seleccione Motivo...</option>
                     <option v-for="(i, idx) in cat.motivo_devolucion" :value="i.id">{{ i.nombre }}</option>

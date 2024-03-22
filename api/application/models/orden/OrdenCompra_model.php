@@ -65,7 +65,7 @@ class OrdenCompra_model extends General_model {
 					->join("bodega b","pb.bodega_id = b.id")
 					->join("orden_compra_estado oce2","oce.orden_compra_estado_id = oce2.id")
 					->join("orden_compra_tipo oct2","oce.orden_compra_tipo_id = oct2.id")
-					->join("motivo_devolucion md","oce.motivo_devolucion_id = md.id")
+					->join("motivo_devolucion md","oce.motivo_devolucion_id = md.id", "left")
 					->get("orden_compra_enc oce");
 					
 		return verConsulta($tmp, $args);

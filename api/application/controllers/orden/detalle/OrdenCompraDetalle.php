@@ -59,6 +59,23 @@ class OrdenCompraDetalle extends CI_Controller {
 		$this->output->set_output(json_encode($data));
 	}
 
+	public function eliminar_producto($id)
+	{
+		$data = ['exito' => 0];
+		$datos = ['activo' => 0];
+
+		$det = new OrdenCompraDetalle_model($id);
+
+		if ($det->guardar($datos)) {
+			$data['exito'] = 1;
+			$data['mensaje'] = "Producto removido con éxito.";
+		} else {
+			$data['mensaje'] = $det->getMensaje();
+		}
+
+		$this->output->set_output(json_encode($data));
+	}
+
 }
 
 /* End of file OrdenCompra.php */

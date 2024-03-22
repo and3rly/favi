@@ -32,6 +32,10 @@ class OrdenCompra extends CI_Controller {
 
 			if (verPropiedad($datos, "no_documento") && verPropiedad($datos, "observacion")) {
 
+				if($datos->motivo_devolucion_id == 'null' || $datos->motivo_devolucion_id == '' || $datos->motivo_devolucion_id == 'NULL'){
+					$datos->motivo_devolucion_id = null;
+				}
+
 				$ordenCompra = new OrdenCompra_model($id);
 
 				if ($ordenCompra->existe($datos)) {

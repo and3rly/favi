@@ -181,7 +181,7 @@
 										type="number" 
 										class="form-control text-center" 
 										v-model="i.cantidad_recibida"
-										:disabled="!i.pendiente"
+										:disabled="true"
 									/>
 								</div>
 								
@@ -202,7 +202,7 @@
 										type="number" 
 										class="form-control text-center" 
 										v-model="i.peso_recibido"
-										:disabled="!i.pendiente"
+										:disabled="true"
 									/>
 								</div>
 								
@@ -217,14 +217,13 @@
 										class="form-select"
 										v-model="i.motivo_devolucion_id"
 										:disabled="!i.pendiente"
-										required
 									>	
 										<option :value="null">Seleccione Motivo...</option>
-										<option v-for="(j, idx) in cat.motivo_devolucion" :value="j.id">{{ j.nombre }}</option>
+										<option v-for="(j, idx) in cat.motivo_devolucion" :value="j.id">{{ j.nombre ? j.nombre : 'Sin motivo' }}</option>
 									</select>
 								</div>
 								
-								<a v-else>{{ i.nombre_motivo_dev }}</a>
+								<a v-else>{{ i.nombre_motivo_dev ? i.nombre_motivo_dev : 'Sin motivo' }}</a>
 							</td>
 							<td class="text-center">
 								<div v-if="i.pendiente">
@@ -420,32 +419,38 @@
 				}
 			},
 			setProducto(obj) {
+				
 				this.producto = {
 					no_linea: this.form.detalle.length + 1,
 					id_producto: obj.id_producto,
 					id_producto_j: obj.id_producto,
+					codigo_producto: obj.codigo,
 					codigo_producto_j: obj.codigo,
+					nombre_producto: obj.nombre,
 					nombre_producto_j: obj.nombre,
-					nombre_presentacion: null,
-					nombre_unidad_medida: null,
-					nombre_producto_estado: null,
-					cantidad_recibida: obj.cantidad,
-					cantidad: 0,
-					presentacion_producto_id: null,
+					nombre_presentacion: obj.nombre_presentacion,
+					nombre_unidad_medida: obj.nombre_unidad_medida,
+					nombre_producto_estado: obj.nombre_producto_estado,
+					cantidad_recibida: 0,
+					cantidad: obj.cantidad,
+					presentacion_producto_id: obj.presentacion_producto_id,
 					unidad_medida_id: obj.unidad_medida_id,
 					estado_producto_id: obj.estado_producto_id,
-					lote: '',
-					fecha_vence: null,
-					peso: 0,
+					lote: obj.lote,
+					fecha_vence: obj.fecha_vence,
+					peso: obj.peso,
 					peso_recibido: 0,
-					peso_minimo: 0,
-					peso_maximo: 0,
-					costo: 0,
-					costo_oc: 0,
+					peso_minimo: obj.peso_minimo,
+					peso_maximo: obj.peso_maximo,
+					costo: obj.costo,
+					costo_oc: obj.costo_oc,
 					producto_bodega_id: obj.producto_bodega,
 					control_vence: obj.control_vence,
 					orden_compra_enc_id: this.ordenCompra.id,
-					pendiente: true
+					pendiente: true,
+					motivo_devolucion_id: obj.motivo_devolucion_id,
+					total_linea: obj.costo * obj.cantidad,
+					activo: 1
 				}
 
 				this.form.detalle.push(this.producto)	
@@ -465,11 +470,31 @@
 					let tmp = this.form.detalle[idx]
 
 					if (!tmp.hasOwnProperty('id')) {
-					this.form.detalle.splice(idx, 1)
+						this.form.detalle.splice(idx, 1)
 					} else {
 						this.eliminar_producto(this.form.detalle[idx], idx)
 					}
 				}
+			},
+			eliminar_producto(obj, idx) {
+				this.btnGuardar = true
+
+					this.$http
+					.post(`${this.$baseUrl}/${this.controlador}/eliminar_producto/${obj.id}`)
+					.then(res => {
+						this.btnGuardar = false
+
+						if (res.data.exito) {	
+							this.form.detalle.splice(idx, 1)
+							this.$toast.success(res.data.mensaje)
+						} else {
+							this.$toast.error(res.data.mensaje)
+						}	
+
+					}).catch(e => {
+						this.btnGuardar = false
+						console.log(e)
+					})		
 			},
 			actualizaListaDet(o, pk) {
 				this.tmpReg = {
@@ -495,9 +520,7 @@
 				if (datos.presentacion_producto_id) {
 					datos.nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.presentacion_producto_id})[0].nombre 
 				}else {
-					this.$toast.error("Seleccione una presentación")
-					this.btnGuardar = false
-					return
+					datos.nombre_presentacion    = null;
 				}
 				
 				if(datos.unidad_medida_id){
