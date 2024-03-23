@@ -25,6 +25,12 @@ class Presentacion_model extends General_model {
 			$this->db->where('id', $args['id']);
 		}
 
+		if (isset($args['activo'])) {
+			$this->db->where('activo', $args['activo']);
+		} else {
+			$this->db->where('activo', 1);
+		}
+
 		if (elemento($args, 'producto')) {
 			$this->db->where('producto_id', $args['producto']);
 		}

@@ -282,8 +282,6 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
-
-
 	public function ver_proveedor($args=[])
 	{
 		$tmp = $this->db
@@ -331,6 +329,7 @@ class Catalogo_model extends General_model {
 
 	public function ver_estado($args=[])
 	{	
+
 		$tmp = $this->db
 					->where('activo', 1)
 					->get('estado_producto');
@@ -388,11 +387,18 @@ class Catalogo_model extends General_model {
 	}
 
 	public function ver_menu_modulo_filter($args=[]) {
+
+		if (elemento($args, 'rol_id')) {
+			$this->db->where('mr.rol_id', $args['rol_id']);
+		}
+
+
+		$this->db->where('mr.activo', 1);
+		
 		$tmp = $this->db
 					->select('mm.*')
 					->join('modulo_rol mr', 'm.id = mr.modulo_id')
 					->join('menu_modulo mm', 'm.id = mm.modulo_id')
-					->where('mr.activo', 1)
 					->get('modulo m');
 
 		return verConsulta($tmp, $args);

@@ -98,30 +98,36 @@
 								</span>
 							</td>		
 							<td class="text-center">
-								<button
-									type="button"
-									class="btn btn-sm btn-secondary me-1 ms-1"
-									title="Editar producto"
-									@click="$emit('editar', i, idx)"
-								>
-									<i class="fas fa-edit"></i>
-								</button>
-								<button
-									type="button"
-									class="btn btn-sm btn-warning"
-									title="Ver presentaciones"
-									@click="verPresentacion(i)"
-								>
-									<i class="fas fa-boxes-stacked"></i>
-								</button>
-								<button
-									type="button"
-									class="btn btn-sm btn-warning"
-									title="Asignar bodega"
-									@click="verBodega(i)"
-								>
-									<i class="fas fa-store me-1"></i>
-								</button>
+								<a 
+										href="javascript:;"
+										data-bs-toggle="dropdown"
+										aria-expanded="false" 
+									>
+										<i class="fas fa-ellipsis-h"></i>
+									</a>
+								<div class="dropdown-menu dropdown-menu-end">
+ 									<a
+								    	href="javascript:;" 
+								    	class="dropdown-item"
+											@click="$emit('editar', i, idx)"
+								    >
+								    	<i class=" fas fa-edit"></i>Editar producto
+								    </a>
+								    <a
+								    	href="javascript:;" 
+								    	class="dropdown-item"
+											@click="verPresentacion(i)"
+								    >
+										<i class="fas fa-boxes-stacked"></i>Asignar presentacion
+								    </a>
+								     <a
+								    	href="javascript:;" 
+								    	class="dropdown-item"
+											@click="verBodega(i)"
+								    >
+										<i class="fas fa-store me-1"></i>Asignar bodega
+								    </a>
+								</div>
 							</td>
 						</tr>
 					</tbody>

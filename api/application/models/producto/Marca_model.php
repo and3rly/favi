@@ -21,6 +21,12 @@ class Marca_model extends General_model {
 			$this->db->where('id', $args['id']);
 		}
 
+		if (isset($args['activo'])) {
+			$this->db->where('activo', $args['activo']);
+		} else {
+			$this->db->where('activo', 1);
+		}
+
 		$tmp = $this->db
 					->get("$this->_tabla");
 					
