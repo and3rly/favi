@@ -37,6 +37,10 @@ class OrdenCompraDetalle_model extends General_model {
 		if (elemento($args, 'orden_compra_enc_id')) {
 			$this->db->where('ocd.orden_compra_enc_id', $args['orden_compra_enc_id']);
 		}
+		
+		if (elemento($args, 'no_linea')) {
+			$this->db->where('ocd.no_linea >', $args['no_linea']);
+		}
 
 		$tmp = $this->db
 					->select('ocd.*, p.id as id_producto_j, p.codigo as codigo_producto_j, p.nombre as nombre_producto_j, pp.codigo as codigo_presentacion_j, pp.nombre nombre_presentacion_j, um.nombre as nombre_unidad_medida_j, md.nombre as nombre_motivo_dev')

@@ -352,11 +352,16 @@
 			pendiente: false,
 			inicio: false,
 			codigo: null,
+			no_linea_last: 0,
 			pk_det: '',
 			form: {
 				detalle: []
 			},
+			form2: {
+				detalle: []
+			},
 			bform: {},
+			bform2: {},
 			verForm: false,
 			controlador: 'orden/detalle/ordenCompraDetalle'
         }),
@@ -369,6 +374,7 @@
 				"productos_bodega"
             ])
 			this.bform.orden_compra_enc_id = this.ordenCompra.id
+			this.bform2.orden_compra_enc_id = this.ordenCompra.id
 			this.buscar()
 		},
 		mounted() {
@@ -382,9 +388,46 @@
 				.get(`${this.$baseUrl}/${this.controlador}/buscar`, {params: this.bform})
 				.then(res => {
 					this.inicio = false
+					
 					if (res.data.lista) {
 						this.form.detalle = res.data.lista
+						res.data.lista.forEach(element => {
+							if(element.no_linea>this.no_linea_last){
+								this.no_linea_last = element.no_linea;
+							}
+						});
 					}
+					
+				}).catch(e => {
+					this.inicio = false
+					console.log(e)
+				})
+			},
+			actualizar_no_linea() {
+				this.inicio = true
+
+				this.$http
+				.get(`${this.$baseUrl}/${this.controlador}/buscar`, {params: this.bform2})
+				.then(res => {
+					
+					if (res.data.lista.length>0) {
+						this.form2.detalle = res.data.lista
+
+						this.form2.detalle.forEach(element => {
+							this.$http
+							.get(`${this.$baseUrl}/${this.controlador}/actualizar_linea/${element.id}`)
+							.then(res => {
+								
+								this.buscar()
+
+							}).catch(e => {
+								this.inicio = false
+								console.log(e)
+							})
+						})
+
+					}
+
 				}).catch(e => {
 					this.inicio = false
 					console.log(e)
@@ -421,7 +464,7 @@
 			setProducto(obj) {
 				
 				this.producto = {
-					no_linea: this.form.detalle.length + 1,
+					no_linea: parseInt(this.no_linea_last) + 1,
 					id_producto: obj.id_producto,
 					id_producto_j: obj.id_producto,
 					codigo_producto: obj.codigo,
@@ -486,10 +529,12 @@
 
 						if (res.data.exito) {	
 							this.form.detalle.splice(idx, 1)
+							this.bform2.no_linea = obj.no_linea;
+							this.actualizar_no_linea()
 							this.$toast.success(res.data.mensaje)
 						} else {
 							this.$toast.error(res.data.mensaje)
-						}	
+						}
 
 					}).catch(e => {
 						this.btnGuardar = false
@@ -543,7 +588,7 @@
 					if (exito == 1) {
 						this.form.detalle[idx] = res.data.linea
 						this.$toast.success(res.data.mensaje)
-
+						this.buscar()
 					} else if (exito == 2) {
 						this.form.detalle[idx].pendiente = true
 						this.$toast.error(res.data.mensaje)

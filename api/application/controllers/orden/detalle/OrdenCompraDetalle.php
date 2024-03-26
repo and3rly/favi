@@ -76,6 +76,24 @@ class OrdenCompraDetalle extends CI_Controller {
 		$this->output->set_output(json_encode($data));
 	}
 
+	public function actualizar_linea($id)
+	{
+		$data = ['exito' => 0];
+
+		$det = new OrdenCompraDetalle_model($id);
+		
+		$datos = ['no_linea' => $det->no_linea-1];
+
+		if ($det->guardar($datos)) {
+			$data['exito'] = 1;
+			$data['mensaje'] = "Número de línea actualizado con éxito.";
+		} else {
+			$data['mensaje'] = $det->getMensaje();
+		}
+
+		$this->output->set_output(json_encode($data));
+	}
+
 }
 
 /* End of file OrdenCompra.php */
