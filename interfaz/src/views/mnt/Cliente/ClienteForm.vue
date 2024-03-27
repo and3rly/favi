@@ -132,6 +132,7 @@
 		
 		created() {
 			this.controlador = 'mnt/Cliente'
+			this.autoBuscar = true
 			this.getCatalogo(['cliente_tipo'])
 			this.setForm()
 		

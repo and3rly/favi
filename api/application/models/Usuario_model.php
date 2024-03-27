@@ -61,6 +61,22 @@ class Usuario_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function existe($args=[]) {
+		if ($this->getPK()) {
+			$this->db->where("id <>", $this->getPK());
+		}
+
+		$tmp = $this->db
+					->where("usuario", $args->usuario)
+					->get("$this->_tabla");
+
+		if ($tmp->num_rows() > 0) {
+			return true;
+		}
+
+		return false;
+	}
 }
 
 /* End of file Usuario_model.php */

@@ -5,7 +5,6 @@ class Usuario_sucursal_model extends General_model {
 	public $sucursal_id;
 	public $usuario_id;
 	public $activo = 1;
-	public $fecha;
 
 	public function __construct($id='')
 	{

@@ -75,8 +75,7 @@
 						type="text" 
 						class="form-control" 
 						id="usuario"
-						placeholder="Se generará automáticamente"									
-						disabled
+						v-model="form.usuario"
 					>
 				</div>
 
@@ -85,11 +84,10 @@
 				</label>
 				<div class="col-sm-12">
 					<input 
-						type="text" 
+						type="password" 
 						class="form-control" 
 						id="clave"
-						placeholder="Se generará automáticamente"									
-						:disabled="true"
+						v-model="form.clave"
 					>
 				</div>
 

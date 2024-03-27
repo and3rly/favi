@@ -315,6 +315,7 @@
 		methods: {
 			editar(obj, idx) {
 				this.$emit('abrirModal', obj, idx)
+				this.lista.splice(idx, 1)
 			},
 			anular_cliente(obj, idx) {
 				if (confirm("¿Está seguro?")) {

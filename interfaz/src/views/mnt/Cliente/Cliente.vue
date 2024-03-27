@@ -45,7 +45,7 @@
 					<ClienteForm 
 						v-if="verForm" 
 						@cerrar="cerrarModal" 
-						@actualizar="actualizar"
+						@actualizar="actualizaLista"
 						:cliente="reg" 
 					/>					
 				</div>
@@ -56,18 +56,19 @@
 </template>
 
 <script>
+	import General from '@/mixins/General.js'
 	import ClienteLista from '@/views/mnt/cliente/ClienteLista.vue'
 	import ClienteForm from '@/views/mnt/cliente/ClienteForm.vue'
 	import ContactoForm from '@/views/mnt/cliente/ContactoForm.vue'
 	import ClienteBodega	from '@/views/mnt/cliente/ClienteBodega.vue' 
 	import ClienteSucursal	from '@/views/mnt/cliente/ClienteSucursal.vue' 
-		import Catalogo from '@/mixins/Catalogo.js'
+	import Catalogo from '@/mixins/Catalogo.js'
 	import { Modal } from 'bootstrap'
 	import { Tab } from 'bootstrap'
 
 	export default {
 		name: 'Cliente',
-		mixins: [Catalogo],
+		mixins: [Catalogo,General],
 		data:() => ({
 			modal: null,
 			usuario: null,
@@ -75,9 +76,13 @@
 			idx: null,
 			verForm: false,
 			actual: 1
-		}),		
+		}),	
 		mounted() {
 			this.modal = new Modal(document.getElementById('mdlCliente'));
+		},
+		created() {
+			this.controlador = 'mnt/cliente'
+			this.autoBuscar = true
 		},
 		methods: {
 			editar(o, idx) {
@@ -95,7 +100,7 @@
 				this.usuario = null
 				this.modal.hide()
 			},
-			actualizar(o, pk) {
+			actualizaLista(o, pk) {
 				this.tmpReg = {
 					linea: o,
 					pk: pk,

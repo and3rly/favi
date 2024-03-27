@@ -152,6 +152,7 @@
 		methods: {
 			editar(obj, idx) {
 				this.$emit('abrirModal', obj, idx)
+				this.lista.splice(idx, 1)
 			}
 		},
 		watch: {

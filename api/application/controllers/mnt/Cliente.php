@@ -41,10 +41,7 @@ class Cliente extends CI_Controller{
 					if ($cliente->guardar($datos)) {
 						$data['exito']   = 1;
 						$data['mensaje'] = empty($id) ?"Cliente guardado con éxito.":"Cliente actualizado con éxito.";
-						$data['linea']   = $cliente->buscar([
-							'id'=>$cliente->getPK(),
-							'uno'=> true
-						]);
+						$data['linea']   = $cliente->buscar(['id'=>$cliente->getPK(),'uno'=> true]);
 
 					} else {
 						$data['mensaje'] = $cliente->getMensaje();

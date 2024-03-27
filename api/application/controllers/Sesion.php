@@ -94,13 +94,18 @@ class Sesion extends CI_Controller {
 
 		$JWT = new Token();
 
-		if ($JWT->token_valido($datos->token)) {
+		if (is_null($datos->token)){
+			$data['mensaje'] = 'Tiempo agotado de sesion.';
+		}else{
+			if ($JWT->token_valido($datos->token)) {
 			$data['valido'] = 1;
 			$data['mensaje'] = "Token válido";
-		} else {
-			http_response_code(401);
-			$data['mensaje'] = 'Acceso denegado.';
+			} else {
+				http_response_code(401);
+				$data['mensaje'] = 'Acceso denegado.';
+			}
 		}
+		
 
 		$this->output->set_output(json_encode($data));
 	}

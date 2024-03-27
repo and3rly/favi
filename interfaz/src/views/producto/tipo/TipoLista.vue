@@ -17,6 +17,7 @@
 								<a 
 									href="javascript:;" 
 									@click="$emit('editar', i, idx)"
+
 								>
 									{{i.nombre}}
 								</a>

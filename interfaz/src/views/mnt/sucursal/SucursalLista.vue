@@ -114,6 +114,7 @@
 		methods: {
 			editar(o, idx) {
 				this.$emit('editar', o, idx)
+				this.lista.splice(idx, 1)
 			}
 		},
 		watch: {

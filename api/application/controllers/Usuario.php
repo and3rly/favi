@@ -29,16 +29,19 @@ class Usuario extends CI_Controller {
 			$datos = (object) $_POST;
 
 			if (verPropiedad($datos, 'nombre') && 
-				verPropiedad($datos, 'apellido')) {
+				verPropiedad($datos, 'apellido')&& 
+				verPropiedad($datos, 'usuario')&& 
+				verPropiedad($datos, 'clave')) {
 
 				$us = new Usuario_model($id);
 
-				if (empty($id)) {
-					$datos->usuario = $_POST['correo'];
-					$datos->clave = md5('123');
-				}
+				if ($us->existe($datos)){
+					$data['mensaje'] = "Ya existe el usuario que intenta guardar.";
+				}else{
 
-				if (elemento($_FILES, 'foto') && 
+					$datos->clave = md5($datos->clave);
+					
+					if (elemento($_FILES, 'foto') && 
 					 elemento($_FILES['foto'], 'tmp_name')) {
 					
 					$foto = subirArchivo([
@@ -53,19 +56,24 @@ class Usuario extends CI_Controller {
 						$datos->foto_enlace = $foto->link;
 					} 
 				}
+					if ($us->guardar($datos)) {
 
-				if ($us->guardar($datos)) {
+						$data['exito'] = 1;
+						$texto = empty($id) ? 'creado':'actualizado';
+						$data['mensaje'] = "Usuario {$texto} con éxito.";
+						$data['linea'] = $this->Usuario_model->buscar(["id" => $us->getPK(),'uno' => true]);
 
-					$data['exito'] = 1;
-					$texto = empty($id) ? 'creado':'actualizado';
-					$data['mensaje'] = "Usuario {$texto} con éxito.";
-					$data['linea'] = $this->Usuario_model->buscar(["id" => $us->getPK(),'uno' => true]);
-
-				} else {
-					$data['mensaje'] = $us->getMensaje();
+					} else {
+						$data['mensaje'] = $us->getMensaje();
+					}
 				}
+				
+			}else {
+				$data['mensaje'] = "Complete todos los campos marcados con *.";
 			}
 			
+		}else {
+			$data['menasje'] = "Error en el envio de datos";
 		}
 
 		$this->output->set_output(json_encode($data));
