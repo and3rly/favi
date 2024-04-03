@@ -174,6 +174,7 @@
 										class="form-control text-center" 
 										v-model="i.cantidad"
 										:disabled="!i.pendiente"
+										@change="onChangeQuantity($event,idx)"
 									/>
 									<h4>/</h4>
 									<input
@@ -417,9 +418,7 @@
 							this.$http
 							.get(`${this.$baseUrl}/${this.controlador}/actualizar_linea/${element.id}`)
 							.then(res => {
-								
-								this.buscar()
-
+								console.log(res)
 							}).catch(e => {
 								this.inicio = false
 								console.log(e)
@@ -427,6 +426,8 @@
 						})
 
 					}
+					
+					this.buscar()
 
 				}).catch(e => {
 					this.inicio = false
@@ -462,9 +463,10 @@
 				}
 			},
 			setProducto(obj) {
+				this.no_linea_last = parseInt(this.no_linea_last) + 1;
 				
 				this.producto = {
-					no_linea: parseInt(this.no_linea_last) + 1,
+					no_linea: this.no_linea_last,
 					id_producto: obj.id_producto,
 					id_producto_j: obj.id_producto,
 					codigo_producto: obj.codigo,
@@ -500,7 +502,6 @@
 				
 				this.codigo = null
 				this.cantidad = 1
-				this.no_linea_last = parseInt(this.no_linea_last) + 1;
 			},
 			editar(obj) {
 				if (!this.pendientes) {
@@ -563,6 +564,11 @@
 				this.vp = true
 				this.modal.show()
 			},
+			onChangeQuantity(event, idx){
+				const newQuantity = event.target.value;
+
+				this.form.detalle[idx].total_linea = parseFloat(this.form.detalle[idx].costo) * parseFloat(newQuantity);
+			},
 			guardar(obj) {	
 				this.btnGuardar = true
 
@@ -597,7 +603,6 @@
 					if (exito == 1) {
 						this.form.detalle[idx] = res.data.linea
 						this.$toast.success(res.data.mensaje)
-						this.buscar()
 					} else if (exito == 2) {
 						this.form.detalle[idx].pendiente = true
 						this.$toast.error(res.data.mensaje)

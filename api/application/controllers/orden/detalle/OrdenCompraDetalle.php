@@ -23,6 +23,15 @@ class OrdenCompraDetalle extends CI_Controller {
 		$this->output->set_output(json_encode($data)); 
 	}
 
+	public function getLast()
+	{
+		$data = [
+			'lista' => $this->OrdenCompraDetalle_model->getLast($_GET)
+		];
+
+		$this->output->set_output(json_encode($data));
+	}
+
 	public function guardar($id="") 
 	{
 		$data = ["exito" => 0];
@@ -42,7 +51,13 @@ class OrdenCompraDetalle extends CI_Controller {
 					if ($ordenCompraDetalle->guardar($datos)) {
 						$data['exito']   = 1;
 						$data['mensaje'] = empty($id) ? "Registro guardado con éxito.":"Registro actualizado.";
-						$data['linea']   = $ordenCompraDetalle->buscar(['id' => $ordenCompraDetalle->getPK(), 'uno' => true]);
+
+						if(empty($id)){
+							$data['linea']   = $ordenCompraDetalle->getLast(['orden_compra_enc_id' => $datos->orden_compra_enc_id, 'uno' => true]);
+						}else{
+							$data['linea']   = $ordenCompraDetalle->buscar(['id' => $ordenCompraDetalle->getPK(), 'uno' => true]);
+						}
+						
 					} else {
 						$data['mensaje'] = $ordenCompraDetalle->getMensaje();
 					}
