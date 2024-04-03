@@ -500,6 +500,7 @@
 				
 				this.codigo = null
 				this.cantidad = 1
+				this.no_linea_last = parseInt(this.no_linea_last) + 1;
 			},
 			editar(obj) {
 				if (!this.pendientes) {
@@ -511,6 +512,14 @@
 			quitarProducto(idx) {
 				if (confirm('¿Está seguro de quitar el producto?')) {
 					let tmp = this.form.detalle[idx]
+
+					this.form.detalle.forEach(element => {
+						if(element.no_linea>tmp.no_linea){
+							element.no_linea = parseInt(element.no_linea) - 1
+						}
+					});
+
+					this.no_linea_last = parseInt(this.no_linea_last) - 1;
 
 					if (!tmp.hasOwnProperty('id')) {
 						this.form.detalle.splice(idx, 1)

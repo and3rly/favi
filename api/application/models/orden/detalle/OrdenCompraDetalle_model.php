@@ -43,7 +43,7 @@ class OrdenCompraDetalle_model extends General_model {
 		}
 
 		$tmp = $this->db
-					->select('ocd.*, p.id as id_producto_j, p.codigo as codigo_producto_j, p.nombre as nombre_producto_j, pp.codigo as codigo_presentacion_j, pp.nombre nombre_presentacion_j, um.nombre as nombre_unidad_medida_j, md.nombre as nombre_motivo_dev')
+					->select('ocd.id, ocd.orden_compra_enc_id, ocd.no_linea, ocd.codigo_producto, ocd.nombre_producto, IFNULL(ocd.nombre_presentacion, "Sin Presentacion") as nombre_presentacion, IFNULL(ocd.nombre_unidad_medida, "Sin Unidad de Medida") as nombre_unidad_medida, ocd.cantidad, ocd.cantidad_recibida, ocd.costo, ocd.total_linea, ocd.peso, ocd.peso_recibido, ocd.activo, ocd.producto_bodega_id, IFNULL(ocd.presentacion_producto_id, "Sin Presencation") as presentacion_producto_id, ocd.unidad_medida_id, IFNULL(ocd.motivo_devolucion_id, "Sin Motivo Devolucion") as motivo_devolucion_id, p.id AS id_producto_j, p.codigo AS codigo_producto_j, p.nombre AS nombre_producto_j, IFNULL(pp.codigo, "Sin Presentacion") AS codigo_presentacion_j, IFNULL(pp.nombre, "Sin Presentacion") AS nombre_presentacion_j, IFNULL(um.nombre, "Sin Unidad de Medida") AS nombre_unidad_medida_j, IFNULL(md.nombre, "Sin Motivo Devolucion") AS nombre_motivo_dev')
 					->join('producto_bodega pb', 'pb.id = ocd.producto_bodega_id')
 					->join('producto p', 'p.id = pb.producto_id')
 					->join('presentacion_producto pp', 'pp.id = ocd.presentacion_producto_id ', 'left')
