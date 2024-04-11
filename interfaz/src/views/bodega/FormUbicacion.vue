@@ -225,6 +225,70 @@
 							<label class="form-check-label" for="chkVirtual">Virtual</label>
 						</div>
 					</div>
+
+					<div class="flex-fill me-2">
+						<div class="form-check form-switch">
+							<input 
+								class="form-check-input" 
+								type="checkbox" 
+								role="switch" 
+								id="chkpicking" 
+								:true-value="1" 
+								:false-value="0"
+								v-model="form.ubicacion_picking"
+								checked 
+							>
+							<label class="form-check-label" for="chkpicking">Ubicación de Picking</label>
+						</div>
+					</div>
+
+					<div class="flex-fill me-2">
+						<div class="form-check form-switch">
+							<input 
+								class="form-check-input" 
+								type="checkbox" 
+								role="switch" 
+								id="chkrecepcion" 
+								:true-value="1" 
+								:false-value="0"
+								v-model="form.ubicacion_recepcion"
+								checked 
+							>
+							<label class="form-check-label" for="chkrecepcion">Ubicación de Recepción</label>
+						</div>
+					</div>
+
+					<div class="flex-fill me-2">
+						<div class="form-check form-switch">
+							<input 
+								class="form-check-input" 
+								type="checkbox" 
+								role="switch" 
+								id="chkdespacho" 
+								:true-value="1" 
+								:false-value="0"
+								v-model="form.ubicacion_despacho"
+								checked 
+							>
+							<label class="form-check-label" for="chkdespacho">Ubicación de Despacho</label>
+						</div>
+					</div>
+
+					<div class="flex-fill me-2">
+						<div class="form-check form-switch">
+							<input 
+								class="form-check-input" 
+								type="checkbox" 
+								role="switch" 
+								id="chkmerma" 
+								:true-value="1" 
+								:false-value="0"
+								v-model="form.ubicacion_merma"
+								checked 
+							>
+							<label class="form-check-label" for="chkmerma">Ubicación de Merma</label>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -275,6 +339,10 @@
 				<th class="text-center">Bloqueada</th>
 				<th class="text-center">Virtual</th>
 				<th class="text-center">Activo</th>
+				<th class="text-center">Picking</th>
+				<th class="text-center">Recepcion</th>
+				<th class="text-center">Despacho</th>
+				<th class="text-center">Merma</th>
 			</thead>
 			<tbody>
 				<tr v-if="inicio === true">
@@ -317,6 +385,22 @@
 						<i v-if="i.activa == true" class="fas fa-check text-success"></i>
 						<i v-else class="fas fa-times text-danger"></i>
 					</td>
+					<td class="text-center">
+						<i v-if="i.ubicacion_picking == true" class="fas fa-check text-success"></i>
+						<i v-else class="fas fa-times text-danger"></i>
+					</td>
+					<td class="text-center">
+						<i v-if="i.ubicacion_recepcion == true" class="fas fa-check text-success"></i>
+						<i v-else class="fas fa-times text-danger"></i>
+					</td>
+					<td class="text-center">
+						<i v-if="i.ubicacion_despacho == true" class="fas fa-check text-success"></i>
+						<i v-else class="fas fa-times text-danger"></i>
+					</td>
+					<td class="text-center">
+						<i v-if="i.ubicacion_merma == true" class="fas fa-check text-success"></i>
+						<i v-else class="fas fa-times text-danger"></i>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -352,6 +436,10 @@
 				danada: 0,
 				bloqueada: 0,
 				virtual: 0,
+				ubicacion_picking: 0,
+				ubicacion_recepcion:0,
+				ubicacion_despacho:0,
+				ubicacion_merma: 0,
 				activa: 1
 			}
 		}

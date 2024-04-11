@@ -17,6 +17,10 @@ class Ubicacion_model extends General_model {
 	public $danado = 0;
 	public $bloqueada = 0;
 	public $virtual = 0;
+	public $ubicacion_picking = 0;
+	public $ubicacion_recepcion = 0;
+	public $ubicacion_despacho = 0;
+	public $ubicacion_merma = 0;
 
 	public function __construct($id="")
 	{

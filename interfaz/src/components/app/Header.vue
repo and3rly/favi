@@ -31,6 +31,13 @@ function logout() {
     }
   })
 }
+function changepassword() {	
+	 loginStore.logout().then((res) => {
+    if (loginStore.isLoggedIn) {
+      router.push({name: 'Login'})
+    }
+  })
+}
 
 </script>
 <template>
@@ -114,8 +121,9 @@ function logout() {
 					<RouterLink to="/calendar" class="dropdown-item d-flex align-items-center">Calendar <i class="fa fa-calendar-alt fa-fw ms-auto text-gray-400 fs-16px"></i></RouterLink>
 					<RouterLink to="/settings" class="dropdown-item d-flex align-items-center">Setting <i class="fa fa-wrench fa-fw ms-auto text-gray-400 fs-16px"></i></RouterLink>
 					<div class="dropdown-divider"></div-->
+					<div class="dropdown-item d-flex align-items-center" @click="changepassword">Cambiar Clave <i class="fa fa-refresh fa-fw ms-auto text-gray-400 fs-16px"></i></div>
 					<div class="dropdown-item d-flex align-items-center" @click="logout">Cerrar Sesión <i class="fa fa-toggle-off fa-fw ms-auto text-gray-400 fs-16px"></i></div>
-				</div>
+			</div>
 			</div>
 		</div>
 		<!-- END menu -->
