@@ -81,30 +81,35 @@ class Detalle extends CI_Controller {
 			if (verPropiedad($datos, 'detalle') && verPropiedad($datos, 'id')) {
 				$det = new Recepcion_det_model();
 
-				$realizados = 0;
-				foreach ($datos->detalle as $row) {
-					$detg = new Recepcion_det_model();
+				if ($det->existe_oc_rec(["oc" => $datos->oc, "rec" => $datos->id])) {
+					$data["mensaje"] = "La orden de compra #{$datos->oc} ya esta relacionada a la recepción #{$datos->id}.";
 
-					$row->recepcion_enc_id = $datos->id;
-					$row->estado_producto_id = 1;
-					$row->cantidad_recibida = $row->cantidad;
-					$detg->setNoLinea(['recepcion' => $datos->id]);
-					$detg->guardar($row);
-					$realizados++;
-				}
-
-				$droc = [
-					'orden_compra_enc_id' => $datos->oc,
-					'recepcion_enc_id' => $datos->id
-				];
-
-				$det->insert_rec_oc($droc);
-
-				if ($realizados > 0) {
-					$data['exito'] = 1;
-					$data['mensaje'] = "Producto agregrado con éxito.";
 				} else {
-					$data['mensaje'] = $det->getMensaje();
+					$realizados = 0;
+					foreach ($datos->detalle as $row) {
+						$detg = new Recepcion_det_model();
+
+						$row->recepcion_enc_id = $datos->id;
+						$row->estado_producto_id = 1;
+						$row->cantidad_recibida = $row->cantidad;
+						$detg->setNoLinea(['recepcion' => $datos->id]);
+						$detg->guardar($row);
+						$realizados++;
+					}
+
+					$droc = [
+						'orden_compra_enc_id' => $datos->oc,
+						'recepcion_enc_id' => $datos->id
+					];
+
+					$det->insertrec_oc($droc);
+
+					if ($realizados > 0) {
+						$data['exito'] = 1;
+						$data['mensaje'] = "Producto agregrado con éxito.";
+					} else {
+						$data['mensaje'] = $det->getMensaje();
+					}
 				}
 
 			} else {

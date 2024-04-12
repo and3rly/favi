@@ -1,5 +1,5 @@
 <template>
-  <template v-if="actual == 1">
+  <template v-if="actual === 1">
     <div class="d-flex py-2">
       <div class="flex-fill me-1">
         <h1 class="page-header mb-1">
@@ -58,7 +58,7 @@
         </button>
       </form>
 
-      <CardBody class="p-0">
+      <CardBody>
         <div v-if="inicio === true" class="text-center">
           <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
@@ -66,14 +66,11 @@
           <p>Cargando registros...</p>
         </div>
 
-        <div v-else class="table-responsive mt-3">
-          <table class="table table-sm table-hover table-striped m-0">
-            <thead>
+        <div v-else class="table-responsive">
+          <table class="table table-sm table-hover table-bordered m-0">
+            <thead class="bg-light">
               <tr>
                 <th class="text-center" width="50">#</th>
-                <th>Observación</th>
-                <th>Marchamo</th>
-                <th>Guía</th>
                 <th class="text-center">Fecha recepción</th>
                 <th class="text-center">Hora inicio</th>
                 <th class="text-center">Hora fin</th>
@@ -83,7 +80,6 @@
                 <th class="text-center">Ingresa Stock</th>
                 <th class="text-center">Anulada</th>
                 <th class="text-center">Activo</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -91,11 +87,9 @@
                 v-for="(i, idx) in lista" 
                 :key="idx"
                 style="cursor: pointer;"
+                @click="verRecepcion(i)"
               > 
                 <th class="text-center"> {{ idx + 1 }} </th>
-                <td> {{ i.observacion}} </td>
-                <td> {{ i.no_marchamo }} </td>
-                <td> {{ i.no_guia }} </td>
                 <td class="text-center"> {{ formatoFecha(i.fecha_recepcion,1) }} </td>
                 <td class="text-center"> {{ i.hora_inicio }} </td>
                 <td class="text-center"> {{ i.hora_fin }} </td>
@@ -122,22 +116,6 @@
                   <i class="fas fa-check-circle text-success" v-if="i.activo == 1"></i>
                   <i class="fas fa-times-circle text-danger" v-else></i>
                 </td>
-                <td class="text-center">
-                  <button
-                    class="btn btn-sm btn-secondary me-1"
-                    @click="verRecepcion(i)"
-                    title="Editar"
-                  >
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button
-                    class="btn btn-sm btn-warning"
-                    @click="verDetalle(i)"
-                    title="Ver detalle"
-                  >
-                    <i class="fas fa-list-alt"></i>
-                  </button>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -146,94 +124,95 @@
     </Card>
   </template>
 
-  <FormDetalle
-    v-if="actual == 2"
-    :cat="cat"
-    :recepcion="reg"
-    @regresar="actual = 1"
-  />
+  <template v-else>
+    <nav 
+      class="navbar navbar-expand-lg navbar-light"
+    >
+      <button 
+        class="navbar-toggler" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbarLight"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <div 
-    class="modal fade" 
-    id="mdlRecepcionEnc"
-    data-bs-backdrop="static" 
-    data-bs-keyboard="false" 
-    tabindex="-1" 
-    aria-labelledby="staticBackdropLabel" 
-    aria-hidden="true">
-
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 
-            class="modal-title fs-5" 
-            id="staticBackdropLabel"
-          > 
-            <i class="fas fa-list-alt fa-sm me-1"></i> Recepción <span v-if="reg != null"> - {{ reg.observacion }}</span>
-          </h1>
+      <div class="collapse navbar-collapse" id="navbarLight">
+        <div class="mt-2">
           <button 
-            type="button" 
-            class="btn-close" 
-            aria-label="Close"
-            @click="cerrarModal"
+            class="btn btn-secondary me-2"
+            @click="actual = 1"
           >
+            <i class="fas fa-arrow-left"></i>
           </button>
-        </div>
-        <div class="modal-body">
-          <Form
-            v-if="verForm"
-            :recepcion="reg"
-            :cat="cat"
-            @actualizar="actLista"
-            @cerrar="cerrarModal"
-          />
+          <a class="navbar-brand fw-bold" href="#">
+            <span> {{ recepcion != null ? 'Recepción #' + recepcion.id : 'Nueva recepción'}}</span>
+          </a>
         </div>
       </div>
-    </div>
-  </div>
+    </nav>
 
+    <Card class="mt-2">
+      <ul class="nav nav-tabs nav-tabs-v2 ps-4 pe-4">
+        <li class="nav-item me-3">
+          <a 
+            href="#tab-bodega" 
+            class="nav-link active" 
+            data-bs-toggle="tab"
+          >
+            <i class="fas fa-store me-1"></i>Encabezado
+          </a>
+        </li>
+        <li class="nav-item me-3" v-if="recepcion !== null">
+          <a 
+            href="#tab-area" 
+            class="nav-link" 
+            data-bs-toggle="tab"
+          >
+            <i class="fas fa-chart-area me-1"></i>Detalle
+          </a>
+        </li>
+      </ul>
+      <div class="tab-content p-3">
+        <div 
+          class="tab-pane fade show active" 
+          id="tab-bodega"
+        >
+          <Form
+            :recepcion="recepcion"
+            @actualizar="actLista"
+          ></Form>
+        </div>
+        <div 
+          class="tab-pane fade"
+          id="tab-area"
+        >
+          Detalle
+        </div>
+      </div>
+    </Card>
+  </template>
 </template>
 
 <script>
   import Form from '@/views/recepcion/Form.vue'
-  import FormDetalle from '@/views/recepcion/FormDetalle.vue'
   import Utileria from '@/mixins/Utileria.js'
 
   export default {
-    name: 'CuerpoRec',
+    name: "Recepcion",
     mixins: [Utileria],
-    data:() =>({
+    data: () => ({
+      inicio: false,
+      actual: 1,
       lista: [],
       cat: [],
-      reg: {},
-      bform: {
-        bodega_id: null
-      },
-      actual: 1,
-      inicio: false,
-      verForm: false
+      bform: {},
+      recepcion: null
     }),
-    mounted() {
-      this.modal = new this.$modal(document.getElementById('mdlRecepcionEnc'));
-    },
     created() {
       this.buscar()
-      this.getDatos()
-    },
+    }, 
     methods: {
-      getDatos() {
-        this.inicio = true
-
-        this.$http
-        .get(`${this.$baseUrl}/recepcion/principal/get_datos`)
-        .then(res => {
-          this.inicio = false
-          this.cat = res.data.cat
-        }).catch(e => {
-          this.inicio = false
-          console.log(e)
-        })
-      },
       buscar() {
         this.inicio = true
 
@@ -250,34 +229,23 @@
         })
       },
       verRecepcion(obj) {
-        this.reg = obj
-        this.verForm = true
-        this.modal.show()
-      },
-      verDetalle(obj) {
-        this.reg = obj
         this.actual = 2
-      },
-      cerrarModal() {
-        this.reg = null
-        this.verForm = false
-        this.modal.hide()
+        this.recepcion = obj
       },
       actLista(obj) {
-        if (this.reg === null) {
+        if (this.recepcion === null) {
           this.lista.push(obj)
-        } else {
-          let idx = this.lista.indexOf(this.reg)
+          this.recepcion = obj
 
-          for (let i in obj) {
-            this.lista[idx][i] = obj[i]
+        } else {
+          for (let i in this.recepcion) {
+            this.recepcion[i] = obj[i]
           }
         }
       }
     },
     components: {
-      Form,
-      FormDetalle
+      Form
     }
   }
 </script>

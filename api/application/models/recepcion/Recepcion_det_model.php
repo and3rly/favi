@@ -55,6 +55,16 @@ class Recepcion_det_model extends General_model {
 		return $tmp->num_rows() > 0;
 	}
 
+	public function existe_oc_rec($args=[])
+	{
+		$tmp = $this->db
+		->where('orden_compra_enc_id', $args['oc'])
+		->where('recepcion_enc_id', $args['rec'])
+		->get("recepcion_orden");
+
+		return $tmp->num_rows() > 0;
+	}
+
 	public function setNoLinea($args=[])
 	{
 		$tmp = $this->db->select("count(*) + 1 as numero")
