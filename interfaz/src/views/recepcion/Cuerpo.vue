@@ -1,21 +1,53 @@
 <template>
-  <template v-if="actual === 1">
-    <div class="d-flex py-2">
-      <div class="flex-fill me-1">
-        <h1 class="page-header mb-1">
-          <i class="fas fa-circle-down me-1"></i>Recepción
-        </h1>
-      </div>
-      <div class="flex-fill text-end">
-        <button 
-          class="btn btn-theme"
-          @click="verRecepcion(null)"
+
+  <div class="d-flex py-2">
+    <div class="flex-fill me-1">
+      <h1 class="page-header mb-1">
+        <button
+          v-if="actual == 2"
+          type="button"
+          class="btn btn-secondary me-1"
+          @click="regresar"
         >
-          <i class="fas fa-circle-plus me-2"></i>Nuevo
-        </button> 
-      </div>
+          <i class="fas fa-arrow-left"></i>
+        </button>
+
+        Recepción
+      </h1>
     </div>
 
+    <div class="flex-fill text-end">
+      <button 
+        v-if="actual === 1"
+        class="btn btn-theme"
+        @click="verRecepcion(null)"
+      >
+        <i class="fas fa-circle-plus me-2"></i>Nuevo
+      </button> 
+    </div>
+  </div>
+
+  <div class="mb-sm-3 mb-3 mt-2 d-sm-flex" v-if="recepcion != null">
+    <div class="mt-sm-0 me-3 mt-2">
+      <a
+        href="javascript:;" 
+        class="text-body text-decoration-none"
+        @click="agregarDetalle"
+      >
+        <i class="fas fa-tasks fa-fw me-1 text-muted"></i> Agregar detalle
+      </a>
+    </div>
+    <div class="mt-sm-0 me-3 mt-2">
+      <a 
+        href="javascript:;"  
+        class="text-body text-decoration-none"
+      >
+        <i class="fas fa-check fa-fw text-muted"></i> Finalizar
+      </a>
+    </div>
+  </div>
+
+  <template v-if="actual === 1">
     <Card class="mt-1">
       <form @submit.prevent="buscar" class="d-flex px-3 mt-3 mb-3">
         <div class="flex-fill me-1">
@@ -125,33 +157,6 @@
   </template>
 
   <template v-else>
-    <nav 
-      class="navbar navbar-expand-lg navbar-light"
-    >
-      <button 
-        class="navbar-toggler" 
-        type="button" 
-        data-bs-toggle="collapse" 
-        data-bs-target="#navbarLight"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarLight">
-        <div class="mt-2">
-          <button 
-            class="btn btn-secondary me-2"
-            @click="actual = 1"
-          >
-            <i class="fas fa-arrow-left"></i>
-          </button>
-          <a class="navbar-brand fw-bold" href="#">
-            <span> {{ recepcion != null ? 'Recepción #' + recepcion.id : 'Nueva recepción'}}</span>
-          </a>
-        </div>
-      </div>
-    </nav>
-
     <Card class="mt-2">
       <ul class="nav nav-tabs nav-tabs-v2 ps-4 pe-4">
         <li class="nav-item me-3">
@@ -159,17 +164,20 @@
             href="#tab-bodega" 
             class="nav-link active" 
             data-bs-toggle="tab"
+            @click="vista = 1"
           >
-            <i class="fas fa-store me-1"></i>Encabezado
+            <i class="fas fa-arrow-alt-circle-down me-1"></i>Encabezado
           </a>
         </li>
         <li class="nav-item me-3" v-if="recepcion !== null">
-          <a 
-            href="#tab-area" 
+          <a
+            id="tab-detalle"
+            href="#tab-det" 
             class="nav-link" 
             data-bs-toggle="tab"
+            @click="vista = 2"
           >
-            <i class="fas fa-chart-area me-1"></i>Detalle
+            <i class="fas fa-list me-1"></i>Detalle
           </a>
         </li>
       </ul>
@@ -180,39 +188,108 @@
         >
           <Form
             :recepcion="recepcion"
+            :cat="cat"
             @actualizar="actLista"
           ></Form>
         </div>
         <div 
           class="tab-pane fade"
-          id="tab-area"
+          id="tab-det"
         >
-          Detalle
+          <Detalle
+            v-if="vista === 2"
+            :recepcion="recepcion"
+            :cat="cat"
+            :ud="ud"
+          ></Detalle>
         </div>
       </div>
     </Card>
   </template>
+
+  <div 
+    class="modal fade" 
+    id="mdlOc"
+    data-bs-backdrop="static" 
+    data-bs-keyboard="false" 
+    tabindex="-1" 
+    aria-labelledby="staticBackdropLabel" 
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 
+            class="modal-title fs-5" 
+            id="staticBackdropLabel"
+          > 
+            <i class="fas fa-indent me-1"></i> Orden de compra
+          </h1>
+          <button 
+            type="button" 
+            class="btn-close" 
+            aria-label="Close"
+            @click="cerrarOc"
+          >
+          </button>
+        </div>
+        <div class="modal-body">
+          <FormOc
+            v-if="oc"
+            :rec="recepcion"
+            @actualizar="actUd"
+          ></FormOc>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
-  import Form from '@/views/recepcion/Form.vue'
-  import Utileria from '@/mixins/Utileria.js'
+  import Form from "@/views/recepcion/Form.vue"
+  import FormOc from "@/views/recepcion/FormOc.vue"
+  import Detalle from "@/views/recepcion/Detalle.vue"
+  import Utileria from "@/mixins/Utileria.js"
 
   export default {
     name: "Recepcion",
     mixins: [Utileria],
     data: () => ({
       inicio: false,
+      ud: false,
+      oc: false,
       actual: 1,
+      vista: 1,
       lista: [],
       cat: [],
       bform: {},
-      recepcion: null
+      recepcion: null,
+      modal: null
     }),
+    mounted() {
+      this.modal = new this.$modal(document.getElementById('mdlOc'));
+    },
     created() {
       this.buscar()
+      this.getDatos()
     }, 
     methods: {
+      getDatos() {
+        this.inicio = true
+
+        this.$http
+        .get(`${this.$baseUrl}/recepcion/principal/get_datos`)
+        .then(res => {
+
+          this.inicio = false
+          this.cat = res.data.cat
+
+        }).catch(e => {
+          this.inicio = false
+          console.log(e)
+        })
+      },
       buscar() {
         this.inicio = true
 
@@ -242,10 +319,33 @@
             this.recepcion[i] = obj[i]
           }
         }
+      },
+      regresar() {
+        this.actual    = 1
+        this.vista     = null
+        this.recepcion = null
+      },
+      agregarDetalle() {
+        this.ud = false
+        this.oc = true
+
+        let tab = document.getElementById("tab-detalle");
+        tab.click();
+
+        this.modal.show()
+      },
+      cerrarOc() {
+        this.oc = false
+        this.modal.hide()
+      },
+      actUd(v) {
+        this.ud = v
       }
     },
     components: {
-      Form
+      Form,
+      FormOc,
+      Detalle
     }
   }
 </script>

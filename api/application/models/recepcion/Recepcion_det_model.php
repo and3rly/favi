@@ -72,7 +72,7 @@ class Recepcion_det_model extends General_model {
 		->get("$this->_tabla")
 		->row();
 
-		$this->no_linea = $tmp->numero;
+		return $tmp->numero;
 	}
 
 	public function _buscar($args='')

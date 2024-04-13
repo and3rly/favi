@@ -92,7 +92,7 @@ class Detalle extends CI_Controller {
 						$row->recepcion_enc_id = $datos->id;
 						$row->estado_producto_id = 1;
 						$row->cantidad_recibida = $row->cantidad;
-						$detg->setNoLinea(['recepcion' => $datos->id]);
+						$row->no_linea = $detg->setNoLinea(['recepcion' => $datos->id]);
 						$detg->guardar($row);
 						$realizados++;
 					}
@@ -102,7 +102,7 @@ class Detalle extends CI_Controller {
 						'recepcion_enc_id' => $datos->id
 					];
 
-					$det->insertrec_oc($droc);
+					$det->insert_rec_oc($droc);
 
 					if ($realizados > 0) {
 						$data['exito'] = 1;

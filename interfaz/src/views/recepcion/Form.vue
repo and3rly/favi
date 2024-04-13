@@ -235,6 +235,10 @@
       recepcion: {
         type: Object,
         default: null
+      },
+      cat: {
+        type: Array,
+        required: true
       }
     },
     data: () => ({
@@ -245,30 +249,25 @@
       this.autoBuscar = false
       this._emit = true
 
-      this.getDatos()
-
       if (this.recepcion !== null) {
         this.setDatosForm(this.recepcion)
       } else {
-        this.fbase.activa = 1
-        this.fbase.anulada = 0
+        this.fbase = {
+          vehiculos_id: "",
+          bodega_id: "",
+          pilotos_id: "",
+          tipo_transaccion_id: 1,
+          estado_recepcion_id: 1,
+          anulada: 0,
+          detalle: []
+        }
       }
     },
     methods: {
-      getDatos() {
-        this.inicio = true
-
-        this.$http
-        .get(`${this.$baseUrl}/${this.controlador}/get_datos`)
-        .then(res => {
-
-          this.inicio = false
-          this.cat = res.data.cat
-
-        }).catch(e => {
-          this.inicio = false
-          console.log(e)
-        })
+    },
+    watch: {
+      recepcion(v) {
+        this.setDatosForm(v)
       }
     }
   }
