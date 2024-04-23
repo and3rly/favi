@@ -432,8 +432,11 @@ class Catalogo_model extends General_model {
 
 	public function ver_pedido_tipo($args=[])
 	{
+		if (elemento($args, 'nombre')) {
+			$this->db->where('nombre', $args['nombre']);
+		}
+
 		$tmp = $this->db
-					->where('nombre', $args['nombre'])
 					->get('pedido_tipo');
 		return verConsulta($tmp, $args);
 	}
