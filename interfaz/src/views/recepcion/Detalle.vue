@@ -1,8 +1,17 @@
 <template>
-  <div class="text-end">
-    <button type="button" class="btn btn-lime mb-2">
+  <div class="text-end" v-if="recepcion.estado_recepcion_id != 6">
+    <button 
+      type="button" 
+      class="btn btn-lime mb-2" 
+      @click="recibir"
+      :disabled="btnGuardar"
+    >
       <i class="fas fa-check me-1"></i>Recibir
     </button>
+  </div>
+
+  <div class="alert alert-success text-center" role="alert" v-if="recepcion.estado_recepcion_id == 6"> 
+    Recepción finalizada con éxito.
   </div>
 
   <div class="table-responsive">
@@ -18,7 +27,7 @@
           <th>UM</th>
           <th>Estado</th>
           <th>Presentación</th>
-          <th></th>
+          <th v-if="recepcion.estado_recepcion_id != 6"></th>
         </tr>
       </thead>
       <tbody>
@@ -98,13 +107,7 @@
               </option>
             </select>
           </td>
-          <td class="text-center">
-            <!--button
-              class="btn btn-sm btn-secondary me-1 ms-1" 
-              title="Editar" 
-            >
-              <span class="fas fa-edit"></span>
-            </button-->
+          <td class="text-center" v-if="recepcion.estado_recepcion_id != 6">
             <button
               class="btn btn-sm btn-primary me-1" 
               title="Guardar" 
@@ -133,7 +136,8 @@
     name: "Detalle",
     props: {
       recepcion: {
-        type: Object
+        type: Object,
+        default: null
       },
       cat: {
         type: Array,
@@ -248,6 +252,31 @@
           console.log(e)
         })    
       },
+      recibir() {
+        this.btnGuardar = true
+
+        let datos = {
+          detalle: this.detalle,
+          bodega: this.recepcion.bodega_id
+        }
+
+        this.$http
+        .post(`${this.$baseUrl}/recepcion/principal/recibir`, datos)
+        .then(res => {
+          this.btnGuardar = false
+
+          if (res.data.exito) {
+            this.$toast.success(res.data.mensaje)
+            this.$emit("act-rec", res.data.recepcion.estado_recepcion_id)
+          } else {
+            this.$toast.error(res.data.mensaje)
+          } 
+
+        }).catch(e => {
+          this.btnGuardar = false
+          console.log(e)
+        })    
+      }
     },
     watch: {
       ud(v) {

@@ -192,7 +192,8 @@
             v-if="vista === 2"
             :recepcion="recepcion"
             :cat="cat"
-            :ud="ud"
+            :ud="ud"            
+            @act-rec="actualizarRec"
           ></Detalle>
         </div>
       </div>
@@ -332,6 +333,11 @@
       },
       actUd(v) {
         this.ud = v
+      },
+      actualizarRec(e) {
+        if (this.recepcion !== null) {
+          this.recepcion.estado_recepcion_id = e
+        }
       }
     },
     components: {

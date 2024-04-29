@@ -7,7 +7,8 @@ class Principal extends CI_Controller {
 		parent::__construct();
 		$this->load->model([
 			'recepcion/Recepcion_model',
-			'recepcion/Recepcion_det_model'
+			'recepcion/Recepcion_det_model',
+			'stock/Stock_model'
 		]);
 
 		$this->output->set_content_type('application/json');
@@ -90,6 +91,60 @@ class Principal extends CI_Controller {
 			}
 		} else {
 			$data['menasje'] = "Error en el envio de datos";
+		}
+
+		$this->output->set_output(json_encode($data));
+	}
+
+	public function recibir() 
+	{
+		$data = ["exito" => 0];
+
+		if ($this->input->method() === "post") {
+			$datos = json_decode(file_get_contents('php://input'));
+
+			if (verPropiedad($datos, "detalle")) {
+
+				$ubic = $this->catalogo->ver_ubicacion([
+					"bodega_id" => $datos->bodega,
+					"ubicacion_recepcion" => 1,
+					"uno" => true
+				]);
+
+				$realizados = 0;
+				if ($ubic) {
+					foreach($datos->detalle as $row) {
+						$row->cantidad  = $row->cantidad_recibida;
+						$row->bodega_id = $datos->bodega;
+						$row->bodega_ubicacion_id = $ubic->id;
+						$row->recepcion_det_id = $row->id;
+						$row->bodega_ubicacion_id_anterior = $ubic->id;
+
+						$stock = new Stock_model();
+
+						$stock->guardar($row);
+						$realizados++;
+					}
+
+					if ($realizados > 0) {
+						$drecepcion = [
+							"estado_recepcion_id" => 6
+						];
+
+						$rec = new Recepcion_model($datos->detalle[0]->recepcion_enc_id);
+						$rec->guardar($drecepcion);
+
+						$data["exito"] = 1;
+						$data["mensaje"] = "Recepción realizada con éxito.";
+						$data["recepcion"] = $rec->_buscar(["id" => $rec->getPK(), "uno" => true]);
+					}
+
+				} else {
+					$data["mensaje"] = "No se tiene una ubicación de recepción";
+				}
+			}	
+		} else {
+			$data["mensaje"] = "Metodo de envio incorrecto";
 		}
 
 		$this->output->set_output(json_encode($data));

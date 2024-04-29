@@ -677,10 +677,6 @@ class Catalogo_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
-
-
-
-
 	public function ver_pilotos($args=[]) 
 	{
 		$tmp = $this->db
@@ -722,6 +718,12 @@ class Catalogo_model extends General_model {
 		$this->load->model('producto/Producto_model');
 
 		return $this->Producto_model->buscar();
+	}
+
+	public function ver_ubicacion($args=[]) {
+		$this->load->model('bodega/Ubicacion_model');
+
+		return $this->Ubicacion_model->_buscar($args);
 	}
 }
 
