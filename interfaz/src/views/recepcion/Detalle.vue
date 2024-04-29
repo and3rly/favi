@@ -1,4 +1,10 @@
 <template>
+  <div class="text-end">
+    <button type="button" class="btn btn-lime mb-2">
+      <i class="fas fa-check me-1"></i>Recibir
+    </button>
+  </div>
+
   <div class="table-responsive">
     <table class="table table-sm table-hover table-bordered">
       <thead class="bg-light">
@@ -33,6 +39,7 @@
               class="form-control text-center"
               :class="i.control_vence == 1 && (i.fecha_vence == null || !i.fecha_vence) ? 'bg-danger bg-opacity-20': ''"
               v-model="i.fecha_vence"
+              :disabled="i.control_vence == 0"
             />
           </td>
           <td>
@@ -109,6 +116,7 @@
             <button
               class="btn btn-sm btn-danger me-1" 
               title="Eliminar"
+              @click="eliminar_producto(i, idx)"
               :disabled="btnGuardar"
             >
               <span class="fas fa-trash"></span>
@@ -219,7 +227,27 @@
           this.btnGuardar = false
           console.log(e)
         })        
-      },  
+      },
+      eliminar_producto(obj, idx) {
+        this.btnGuardar = true
+
+        this.$http
+        .post(`${this.$baseUrl}/${this.controlador}/eliminar_producto/${obj.id}`)
+        .then(res => {
+          this.btnGuardar = false
+
+          if (res.data.exito) { 
+            this.detalle.splice(idx, 1)
+            this.$toast.success(res.data.mensaje)
+          } else {
+            this.$toast.error(res.data.mensaje)
+          } 
+
+        }).catch(e => {
+          this.btnGuardar = false
+          console.log(e)
+        })    
+      },
     },
     watch: {
       ud(v) {

@@ -37,14 +37,6 @@
         <i class="fas fa-tasks fa-fw me-1 text-muted"></i> Agregar detalle
       </a>
     </div>
-    <div class="mt-sm-0 me-3 mt-2">
-      <a 
-        href="javascript:;"  
-        class="text-body text-decoration-none"
-      >
-        <i class="fas fa-check fa-fw text-muted"></i> Finalizar
-      </a>
-    </div>
   </div>
 
   <template v-if="actual === 1">
