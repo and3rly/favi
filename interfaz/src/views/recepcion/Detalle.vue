@@ -257,7 +257,9 @@
 
         let datos = {
           detalle: this.detalle,
-          bodega: this.recepcion.bodega_id
+          bodega: this.recepcion.bodega_id,
+          transaccion: this.recepcion.tipo_transaccion_id,
+          rec: this.recepcion.id         
         }
 
         this.$http

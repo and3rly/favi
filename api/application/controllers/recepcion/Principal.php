@@ -8,7 +8,9 @@ class Principal extends CI_Controller {
 		$this->load->model([
 			'recepcion/Recepcion_model',
 			'recepcion/Recepcion_det_model',
-			'stock/Stock_model'
+			'stock/Stock_model',
+			'Movimiento_model',
+			'producto/Presentacion_model'
 		]);
 
 		$this->output->set_content_type('application/json');
@@ -114,15 +116,45 @@ class Principal extends CI_Controller {
 				$realizados = 0;
 				if ($ubic) {
 					foreach($datos->detalle as $row) {
-						$row->cantidad  = $row->cantidad_recibida;
+
+						if (!empty($row->presentacion_producto_id)) {
+							$pres = $this->Presentacion_model->buscar([
+								'id' => $row->presentacion_producto_id, 
+								'uno' => true
+							]);
+
+							if ($pres) {
+								$row->cantidad = $pres->factor * $row->cantidad_recibida;
+							}
+						} else {
+							$row->cantidad  = $row->cantidad_recibida;
+						}
+
 						$row->bodega_id = $datos->bodega;
 						$row->bodega_ubicacion_id = $ubic->id;
 						$row->recepcion_det_id = $row->id;
 						$row->bodega_ubicacion_id_anterior = $ubic->id;
 
 						$stock = new Stock_model();
-
 						$stock->guardar($row);
+
+						$row->fechaVence = $row->fecha_vence;
+						$row->cantHist = $row->cantidad;
+						$row->pesoHist = $row->peso;
+						$row->fechaOperacion = Hoy(true);
+						$row->usuario_agr = $this->user['id'];
+						$row->empresa_id =  $this->user['empresa_id'];
+						$row->bodega_ubicacion_id_origen = $row->bodega_ubicacion_id;
+						$row->bodega_ubicacion_id_destino = $row->bodega_ubicacion_id;
+						$row->bodega_id_origen = $datos->bodega;
+						$row->bodega_id_destino = $datos->bodega;
+						$row->estado_producto_id_origen = $row->estado_producto_id;
+						$row->estado_producto_id_destino = $row->estado_producto_id;
+						$row->recepcion_enc_id = $datos->rec;
+						$row->tipo_transaccion_id = $datos->transaccion;
+
+						$mov = new Movimiento_model();
+						$mov->guardar($row);
 						$realizados++;
 					}
 
@@ -142,7 +174,9 @@ class Principal extends CI_Controller {
 				} else {
 					$data["mensaje"] = "No se tiene una ubicación de recepción";
 				}
-			}	
+			} else {
+				$data["mensaje"] = "No tiene productos que recibir";
+			}
 		} else {
 			$data["mensaje"] = "Metodo de envio incorrecto";
 		}

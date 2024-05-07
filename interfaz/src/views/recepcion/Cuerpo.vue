@@ -94,7 +94,7 @@
           <table class="table table-sm table-hover table-bordered m-0">
             <thead class="bg-light">
               <tr>
-                <th class="text-center" width="50">#</th>
+                <th class="text-center" width="50">Id</th>
                 <th class="text-center">Fecha recepción</th>
                 <th class="text-center">Hora inicio</th>
                 <th class="text-center">Hora fin</th>
@@ -113,7 +113,7 @@
                 style="cursor: pointer;"
                 @click="verRecepcion(i)"
               > 
-                <th class="text-center"> {{ idx + 1 }} </th>
+                <th class="text-center"> {{ i.id }} </th>
                 <td class="text-center"> {{ formatoFecha(i.fecha_recepcion,1) }} </td>
                 <td class="text-center"> {{ i.hora_inicio }} </td>
                 <td class="text-center"> {{ i.hora_fin }} </td>
