@@ -177,6 +177,12 @@ const router = createRouter({
             meta: {titulo: 'Recepción'}
           },
           {
+            path: '/despacho',
+            name: 'Despacho',
+            component: () => import('@/views/despacho/Cuerpo.vue'),
+            meta: {titulo: 'Despacho'}
+          },
+          {
             path: '/pedido',
             name: 'Pedido',
             component: () => import('@/views/pedido/Cuerpo.vue'),

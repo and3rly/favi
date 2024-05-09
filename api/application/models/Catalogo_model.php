@@ -580,8 +580,15 @@ class Catalogo_model extends General_model {
 	public function ver_bodega($args=[]) 
 	{
 		$tmp = $this->db
-					->where('activo', 1)
 					->get('bodega');
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_ruta($args=[]) 
+	{
+		$tmp = $this->db
+					->get('ruta');
 
 		return verConsulta($tmp, $args);
 	}
