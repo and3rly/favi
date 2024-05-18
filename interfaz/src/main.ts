@@ -81,5 +81,6 @@ app.config.globalProperties.$http = axiosClient
 app.config.globalProperties.$modal = Modal
 app.config.globalProperties.$toast = toast
 app.config.globalProperties.$baseUrl = 'app/api/index.php'
+//app.config.globalProperties.$baseUrl = '/api/index.php'
 
 app.mount('#app');
