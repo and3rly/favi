@@ -60,8 +60,7 @@ $autoload['packages'] = array();
 */
 $autoload['libraries'] = array(
 	'database', 
-	'session', 
-	'drive/Drive'
+	'session'
 );
 
 /*
