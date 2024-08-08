@@ -7,11 +7,7 @@
   </template>
 
   <div class="row g-1 mb-3" v-else>
-    <!--div class="col-sm-2">
-      <label for="inputCantidad" class="form-label fw-bold">Cantidad</label>
-      <input type="number" class="form-control" id="inputCantidad" :disabled="parseInt(recepcion.ingresa_productos) !== 1">
-    </div-->
-    <div class="col-sm-10">
+    <div class="col-sm-8">
       <label for="inputCodigo" class="form-label fw-bold">Código/Barra</label>
       <input 
         type="text" 
@@ -21,6 +17,17 @@
         v-model="codigo"
       >
     </div>
+    <div class="col-sm-2">
+      <label for="inputCantidad" class="form-label fw-bold">Cantidad</label>
+      <input 
+        type="number" 
+        class="form-control text-center" 
+        id="inputCantidad" 
+        :disabled="parseInt(recepcion.ingresa_productos) !== 1" 
+        @keydown.enter="getProducto"
+        v-model="cantidad"
+      >
+    </div>    
     <div class="col-sm-1 d-grid gap-2 text-center"><br>
       <button class="btn btn-secondary" title="Agregar producto" :disabled="parseInt(recepcion.ingresa_productos) !== 1" @click="getProducto">
         <i class="fas fa-plus"></i>
@@ -272,6 +279,7 @@
         id: ""
       },
       codigo: "",
+      cantidad: 1,
       termino: ""
     }),
     mounted() {
@@ -306,6 +314,7 @@
         this.lista.push({ ...this.producto })
 
         this.codigo = ""
+        this.cantidad = 1
       },
       abrir() {
         this.modal.show()
@@ -352,11 +361,12 @@
             })[0]
 
             if (tmp) {
-              this.agregarProducto(tmp)
+              let producto = { ...tmp }
+              producto.cantidad = this.cantidad
+
+              this.agregarProducto(producto)
             }
           }
-        } else {
-          this.$toast.warning("Debe ingresar un código de producto")
         }
       }
     },

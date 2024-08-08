@@ -11,7 +11,8 @@
           <i class="fas fa-arrow-left"></i>
         </button>
 
-        Recepción
+        Recepción 
+        <span v-if="recepcion !== null"> #{{ recepcion.id }}</span>
       </h1>
     </div>
 
@@ -287,7 +288,7 @@
         if (this.recepcion === null) {
           this.lista.push(obj)
           this.recepcion = obj
-
+          this.detalle = []
         } else {
           for (let i in this.recepcion) {
             this.recepcion[i] = obj[i]
@@ -295,9 +296,15 @@
         }
       },
       regresar() {
-        this.actual    = 1
-        this.vista     = null
-        this.recepcion = null
+        let continuar = true
+        if (this.vista == 2 && parseInt(this.recepcion.estado_recepcion_id) !== 6) {
+          continuar = confirm("¿Está seguro de salir? Recuerde guardar la información.")
+        }
+        if (continuar) {
+          this.actual    = 1
+          this.vista     = null
+          this.recepcion = null
+        }
       },
       agregarDetalle() {
         this.ud = false
@@ -349,7 +356,6 @@
           }
 
           for (let i in datos.detalle) {
-            console.log(datos.detalle[i])
 
             if (parseInt(datos.detalle[i].control_vence) == 1) {
               if (!datos.detalle[i].fecha_vence) {
@@ -396,30 +402,35 @@
         this.detalle = det
       },
       recibir() {
-        this.btnGuardar = true
+        if (confirm("¿Está seguro?")) {
 
-        let datos = {
-          detalle: this.detalle,
-          bodega: this.recepcion.bodega_id,
-          transaccion: this.recepcion.tipo_transaccion_id,
-          rec: this.recepcion.id         
+          this.btnGuardar = true
+
+          let datos = {
+            detalle: this.detalle,
+            bodega: this.recepcion.bodega_id,
+            transaccion: this.recepcion.tipo_transaccion_id,
+            rec: this.recepcion.id         
+          }
+
+          this.$http
+          .post(`${this.$baseUrl}/recepcion/principal/recibir`, datos)
+          .then(res => {
+            this.btnGuardar = false
+
+            if (res.data.exito) {
+              this.actLista(res.data.recepcion)
+              
+              this.$toast.success(res.data.mensaje)
+            } else {
+              this.$toast.error(res.data.mensaje)
+            } 
+
+          }).catch(e => {
+            this.btnGuardar = false
+            console.log(e)
+          })    
         }
-
-        this.$http
-        .post(`${this.$baseUrl}/recepcion/principal/recibir`, datos)
-        .then(res => {
-          this.btnGuardar = false
-
-          if (res.data.exito) {
-            this.$toast.success(res.data.mensaje)
-          } else {
-            this.$toast.error(res.data.mensaje)
-          } 
-
-        }).catch(e => {
-          this.btnGuardar = false
-          console.log(e)
-        })    
       }
     },
     computed: {
