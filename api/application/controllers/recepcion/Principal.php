@@ -45,6 +45,7 @@ class Principal extends CI_Controller {
 				'estado_prod' => $this->catalogo->ver_estado(),
 				'um'          => $this->catalogo->ver_um(),
 				'fecha' 	  => Hoy(),
+				'tipos'		  => $this->catalogo->ver_tipos_recepcion()
 			]
 		];
 

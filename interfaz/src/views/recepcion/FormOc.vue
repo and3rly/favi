@@ -190,7 +190,8 @@
           let res = result.data
           
           if (res.exito) {
-              this.$emit('actualizar', true)
+              this.$emit('actualizar', res.detalle)
+              this.$toast.success(res.mensaje)
           } else {
             this.$toast.error(res.mensaje)
           }
@@ -202,25 +203,25 @@
     },
     computed: {
       filtrada() {
-      return this.lista.filter(o => {
-        if (this.termino === '') {
-            return true;
-        } else {
-            let res = false
-            let ter = this.termino.toLowerCase()
+        return this.lista.filter(o => {
+          if (this.termino === '') {
+              return true;
+          } else {
+              let res = false
+              let ter = this.termino.toLowerCase()
 
-            for (let i in o) {
-              if (typeof o[i] === 'string' && o[i].toLowerCase().includes(ter)) {
-                  res = true
-              } else if (o[i] == ter) {
-                  res = true
+              for (let i in o) {
+                if (typeof o[i] === 'string' && o[i].toLowerCase().includes(ter)) {
+                    res = true
+                } else if (o[i] == ter) {
+                    res = true
+                }
               }
-            }
 
-            return res
-        }
-      })
-    }
+              return res
+          }
+        })
+      }
     }
   }
 </script>

@@ -20,7 +20,7 @@ api/vendor/
 
 /assets
 favicon.ico
-index.html
+#index.html
 
 # IDE Files
 #-------------------------

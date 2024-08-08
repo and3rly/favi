@@ -32,37 +32,27 @@ class Detalle extends CI_Controller {
 
 		if ($this->input->method() === "post") {
 			$datos = json_decode(file_get_contents('php://input'));
+			
+			if (verPropiedad($datos, "recepcion") &&
+				verPropiedad($datos, "detalle")) {
+				$detalle = new Recepcion_det_model();
 
-			if (verPropiedad($datos, 'recepcion_enc_id') &&
-				verPropiedad($datos, 'no_linea') &&
-				verPropiedad($datos, 'cantidad_recibida') &&
-				verPropiedad($datos, 'producto_bodega_id') &&
-				verPropiedad($datos, 'unidad_medida_id') &&
-				verPropiedad($datos, 'estado_producto_id')) {
-
-				$det = new Recepcion_det_model($id);
 				
-				if (empty($id)) {
-					$det->setNoLinea(['recepcion' => $datos->recepcion_enc_id]);
+				$contar = 0;
+				foreach ($datos->detalle as $row) {
+					$det = new Recepcion_det_model($row->id);
+
+					$det->guardar($row);
+
+					$contar++;
 				}
 
-				if ($det->existe($datos)) {
-					$data['exito'] = 2;
-					$data['mensaje'] = "El producto ya se encuentra agregado a está recepción.";
-				} else {
-
-					if ($det->guardar($datos)) {
-						$data['exito'] = 1;
-						$termino = empty($id) ? 'agregado':'actualizado';
-						$data['mensaje'] = "Producto {$termino} con éxito.";
-
-						$data['linea'] = $det->_buscar(['id' => $det->getPK(), 'uno' => true]);
-					} else {
-						$data['mensaje'] = $det->getMensaje();
-					}
+				if ($contar > 0) {
+					$data["exito"] = 1;
+					$data["mensaje"] = "Productos guardados con éxito.";
+					$data["detalle"] = $detalle->_buscar(["recepcion_enc_id" => $datos->recepcion]);
 				}
-			} else {
-				$data['mensaje'] = "Complete todos los campos marcados con *.";
+
 			}
 		} else {
 			$data['menasje'] = "Error en el envio de datos";
@@ -106,7 +96,8 @@ class Detalle extends CI_Controller {
 
 					if ($realizados > 0) {
 						$data['exito'] = 1;
-						$data['mensaje'] = "Producto agregrado con éxito.";
+						$data['mensaje'] = "Productos agregrados con éxito.";
+						$data["detalle"] = $det->_buscar(["recepcion_enc_id" => $datos->id]);
 					} else {
 						$data['mensaje'] = $det->getMensaje();
 					}

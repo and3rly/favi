@@ -1,5 +1,4 @@
 <template>
-
   <div class="d-flex py-2">
     <div class="flex-fill me-1">
       <h1 class="page-header mb-1">
@@ -27,14 +26,22 @@
     </div>
   </div>
 
-  <div class="mb-sm-3 mb-3 mt-2 d-sm-flex" v-if="recepcion != null">
-    <div class="mt-sm-0 me-3 mt-2">
+  <div class="mb-sm-3 mb-3 mt-2 d-sm-flex">
+    <div class="mt-sm-0 me-3 mt-2" v-if="(recepcion != null  && parseInt(recepcion.estado_recepcion_id) !== 6) && finalizar">
       <a
         href="javascript:;" 
         class="text-body text-decoration-none"
-        @click="agregarDetalle"
+        @click="recibir"
       >
-        <i class="fas fa-tasks fa-fw me-1 text-muted"></i> Agregar detalle
+        <i class="fas fa-check fa-fw me-1 text-muted"></i> Recibir
+      </a>
+    </div>
+    <div class="mt-sm-0 me-3 mt-2" v-if="recepcion !== null">
+      <a
+        href="javascript:;" 
+        class="text-body text-decoration-none"
+      >
+        <i class="fas fa-print fa-fw me-1 text-muted"></i> Imprimir
       </a>
     </div>
   </div>
@@ -176,6 +183,11 @@
             <i class="fas fa-list me-1"></i>Detalle
           </a>
         </li>
+        <li class="nav-item ms-auto" v-if="vista == 2 && recepcion.estado_recepcion_id != 6">
+          <button class="btn btn-outline-success mt-2 py-2" @click="guardarDetalle">
+              <i class="fas fa-save"></i> Guardar detalle
+          </button>
+      </li>
       </ul>
       <div class="tab-content p-3">
         <div 
@@ -194,58 +206,19 @@
         >
           <Detalle
             v-if="vista === 2"
-            :recepcion="recepcion"
+            :detalle="detalle"
             :cat="cat"
-            :ud="ud"            
-            @act-rec="actualizarRec"
+            :recepcion="recepcion"
+            @actualizarDet="actualizarListaDet"
           ></Detalle>
         </div>
       </div>
     </Card>
   </template>
-
-  <div 
-    class="modal fade" 
-    id="mdlOc"
-    data-bs-backdrop="static" 
-    data-bs-keyboard="false" 
-    tabindex="-1" 
-    aria-labelledby="staticBackdropLabel" 
-    aria-hidden="true">
-
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 
-            class="modal-title fs-5" 
-            id="staticBackdropLabel"
-          > 
-            <i class="fas fa-indent me-1"></i> Orden de compra
-          </h1>
-          <button 
-            type="button" 
-            class="btn-close" 
-            aria-label="Close"
-            @click="cerrarOc"
-          >
-          </button>
-        </div>
-        <div class="modal-body">
-          <FormOc
-            v-if="oc"
-            :rec="recepcion"
-            @actualizar="actUd"
-          ></FormOc>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </template>
 
 <script>
   import Form from "@/views/recepcion/Form.vue"
-  import FormOc from "@/views/recepcion/FormOc.vue"
   import Detalle from "@/views/recepcion/Detalle.vue"
   import Utileria from "@/mixins/Utileria.js"
 
@@ -262,10 +235,10 @@
       cat: [],
       bform: {},
       recepcion: null,
-      modal: null
+      modal: null,
+      detalle: []
     }),
     mounted() {
-      this.modal = new this.$modal(document.getElementById('mdlOc'));
     },
     created() {
       this.buscar()
@@ -305,6 +278,10 @@
       verRecepcion(obj) {
         this.actual = 2
         this.recepcion = obj
+
+        if (this.recepcion !== null) {
+          this.getDetalle()
+        }
       },
       actLista(obj) {
         if (this.recepcion === null) {
@@ -342,11 +319,120 @@
         if (this.recepcion !== null) {
           this.recepcion.estado_recepcion_id = e
         }
+      },
+      getDetalle() {
+        this.inicio = true
+
+        let datos = {
+          recepcion_enc_id: this.recepcion.id
+        }
+
+        this.$http
+        .get(`${this.$baseUrl}/recepcion/detalle/buscar`, {params: datos})
+        .then(res => {
+          this.inicio = false
+          if (res.data.lista) {
+            this.detalle = res.data.lista
+          }
+        }).catch(e => {
+          this.inicio = false
+          console.log(e)
+        })
+      },
+      guardarDetalle() {
+        if (confirm("¿Está seguro?")) {
+          this.btnGuardar = true
+
+          let datos = {
+            recepcion: this.recepcion.id,
+            detalle: this.detalle
+          }
+
+          for (let i in datos.detalle) {
+            console.log(datos.detalle[i])
+
+            if (parseInt(datos.detalle[i].control_vence) == 1) {
+              if (!datos.detalle[i].fecha_vence) {
+                this.$toast.error("Debe ingresar una fecha de vencimiento")
+                this.btnGuardar = false
+                return
+              }
+            }
+            
+            if (!datos.detalle[i].estado_producto_id) {
+              this.$toast.error("Debe seleccionar un estado.")
+              this.btnGuardar = false
+              return
+            }
+
+            if (datos.detalle[i].presentacion_producto_id) {
+              datos.detalle[i].nombre_presentacion    = this.cat.presentacion.filter(e => { return e.id == datos.detalle[i].presentacion_producto_id})[0].nombre 
+            }
+            
+            datos.detalle[i].nombre_unidad_medida   = this.cat.um.filter(e => { return e.id == datos.detalle[i].unidad_medida_id})[0].nombre 
+            datos.detalle[i].nombre_producto_estado = this.cat.estado_prod.filter(e => { return e.id == datos.detalle[i].estado_producto_id})[0].nombre 
+          }
+
+          this.$http
+          .post(`${this.$baseUrl}/recepcion/detalle/guardar`, datos)
+          .then(result => {
+            this.btnGuardar = false
+
+            let res = result.data
+            
+            if (res.exito) {
+                this.$toast.success(res.mensaje)
+                this.detalle = res.detalle
+            } else {
+              this.$toast.error(res.mensaje)
+            }
+          }).catch(e => {
+            this.btnGuardar = false
+            console.log(e)
+          })
+        }
+      },
+      actualizarListaDet(det) {
+        this.detalle = det
+      },
+      recibir() {
+        this.btnGuardar = true
+
+        let datos = {
+          detalle: this.detalle,
+          bodega: this.recepcion.bodega_id,
+          transaccion: this.recepcion.tipo_transaccion_id,
+          rec: this.recepcion.id         
+        }
+
+        this.$http
+        .post(`${this.$baseUrl}/recepcion/principal/recibir`, datos)
+        .then(res => {
+          this.btnGuardar = false
+
+          if (res.data.exito) {
+            this.$toast.success(res.data.mensaje)
+          } else {
+            this.$toast.error(res.data.mensaje)
+          } 
+
+        }).catch(e => {
+          this.btnGuardar = false
+          console.log(e)
+        })    
+      }
+    },
+    computed: {
+      finalizar() {
+        if (this.detalle.length > 0 && this.recepcion !== null) {
+          return this.detalle.every(e => e.id !== "")
+        }
+
+        return false
       }
     },
     components: {
       Form,
-      FormOc,
       Detalle
     }
   }

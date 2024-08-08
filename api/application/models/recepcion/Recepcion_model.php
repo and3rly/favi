@@ -20,6 +20,7 @@ class Recepcion_model extends General_model {
 	public $pilotos_id;
 	public $tipo_transaccion_id;
 	public $estado_recepcion_id;
+	public $recepcion_tipo_id;
 
 	public function __construct($id='')
 	{
@@ -75,13 +76,15 @@ class Recepcion_model extends General_model {
 			d.apellidos as apelldiso_piloto,
 			e.nombre as nombre_transaccion, 
 			f.nombre as nombre_estado,
-			f.color as nombre_color"
+			f.color as nombre_color,
+			g.ingresa_productos"
 		)
 		->join("vehiculos b", "b.id = a.vehiculos_id", "left")
 		->join("bodega c","c.id = a.bodega_id")
 		->join("pilotos d","d.id = a.pilotos_id", "left")
 		->join("tipo_transaccion e","e.id = a.tipo_transaccion_id")
 		->join("estado_recepcion f","f.id = a.estado_recepcion_id")
+		->join("recepcion_tipo g","g.id = a.recepcion_tipo_id", "left")
 		->order_by("a.id")
 		->get("$this->_tabla a");
 

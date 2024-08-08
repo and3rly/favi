@@ -732,6 +732,15 @@ class Catalogo_model extends General_model {
 
 		return $this->Ubicacion_model->_buscar($args);
 	}
+
+	public function ver_tipos_recepcion($args=[])
+	{
+		$tmp = $this->db
+		->where("activo", 1)
+		->get("recepcion_tipo");
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Catalogo_model.php */

@@ -33,7 +33,7 @@
         </select>
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-3">
         <label for="selectBodega" class="fw-bold mb-1">
           Bodega: <span class="text-danger">*</span>
         </label>
@@ -46,6 +46,22 @@
         > 
           <option value="">---------------</option>
           <option v-for="i in cat.bodega" :value="i.id">{{ i.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="col-sm-3">
+        <label for="selectBodega" class="fw-bold mb-1">
+          Tipo: <span class="text-danger">*</span>
+        </label>
+        <select 
+          name="selectBodega" 
+          id="selectBodega" 
+          class="form-select"
+          v-model="form.recepcion_tipo_id"
+          required
+        > 
+          <option value="0">---------------</option>
+          <option v-for="i in cat.tipos" :value="i.id">{{ i.nombre }}</option>
         </select>
       </div>
 
@@ -256,6 +272,7 @@
           vehiculos_id: "",
           bodega_id: "",
           pilotos_id: "",
+          recepcion_tipo_id: "0",
           tipo_transaccion_id: 1,
           estado_recepcion_id: 1,
           anulada: 0,
