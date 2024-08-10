@@ -55,7 +55,6 @@ class Stock_model extends General_model {
 
 	public function ObtenerStock($args='')
 	{
-		
 		$sql = "SELECT 
 		        stock.*, 
 		       CASE 
@@ -63,8 +62,6 @@ class Stock_model extends General_model {
 		            THEN FLOOR(stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0))
 		            ELSE FLOOR((stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) - (FLOOR((stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) / stock.factor) * stock.factor))
 		        END AS cantidad_stock,
-		         /*as cantidad_stock,*/
-		        /*ROUND(((stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) / stock.factor ), 2) as cantidad_presentacion*/
 		        FLOOR((stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) / stock.factor) as cantidad_presentacion
 		    FROM (
 		        SELECT 
@@ -146,7 +143,7 @@ class Stock_model extends General_model {
 		    ON 
 		        stock.producto_bodega_id = reserva.producto_bodega_id 
 		        AND stock.estado_producto_id = reserva.estado_producto_id 
-		        AND stock.presentacion_producto_id = reserva.presentacion_producto_id 
+		        AND (stock.presentacion_producto_id = reserva.presentacion_producto_id OR (stock.presentacion_producto_id IS NULL AND reserva.presentacion_producto_id IS NULL))
 		        AND stock.unidad_medida_id = reserva.unidad_medida_id 
 		        AND stock.bodega_id = reserva.bodega_id 
 		        AND (stock.lote = reserva.lote OR (stock.lote IS NULL AND reserva.lote IS NULL)) 

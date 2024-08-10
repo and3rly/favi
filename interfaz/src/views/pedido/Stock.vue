@@ -62,7 +62,7 @@
                   <input 
                     type="number" 
                     class="form-control text-center" 
-                    v-model="i.cantidad"
+                    v-model="i.cantidad_agregar"
                     min="0"                   />
                 </td>
                 <td class="text-center">
@@ -128,8 +128,9 @@
 
           let datos = obj
 
-          if (!datos.cantidad || datos.cantidad < 1) {
+          if (!datos.cantidad_agregar || datos.cantidad_agregar < 1) {
             this.$toast.error("Debe ingresar una cantida mayor a 0.")
+            this.btnGuardar = false
             return
           }
 
@@ -138,25 +139,22 @@
               && datos.factor 
               && datos.factor > 0 ) {
 
-            if (datos.cantidad > datos.cantidad_presentacion) {
+            if (datos.cantidad_agregar > datos.cantidad_presentacion) {
               this.$toast.error("La cantida a ingresar no debe ser mayor a la existente en presentación.")
+              this.btnGuardar = false
               return
             }
 
-            datos.cantidad = datos.cantidad * datos.factor
+            datos.cantidad = datos.cantidad_agregar * datos.factor
           }else if (datos.cantidad > datos.cantidad_stock) {
               this.$toast.error("La cantida a ingresar no debe ser mayor a la existente.")
+              this.btnGuardar = false
               return
           }
 
-          /*if (!datos.presentacion_producto_id || datos.presentacion_producto_id < 1 ) {
-            this.$toast.error("El producto debe tener configurada la presentación, por favor verifique la información")
-            this.btnGuardar = false
-            return
-          }*/
-
           if (!datos.unidad_medida_id || datos.unidad_medida_id < 1) {
             this.$toast.error("El producto debe tener configurada la unidad de medida, por favor verifique la información")
+            this.btnGuardar = false
             return
           }
 
@@ -178,16 +176,15 @@
                   && datos.factor 
                   && datos.factor > 0 ) {
 
-                this.stock[idx].cantidad_presentacion = datos.cantidad_presentacion - datos.cantidad
+                this.stock[idx].cantidad_presentacion = datos.cantidad_presentacion - datos.cantidad_agregar
               }else{
-                this.stock[idx].cantidad_stock = datos.cantidad_stock - datos.cantidad
+                this.stock[idx].cantidad_stock = datos.cantidad_stock - datos.cantidad_agregar
               }
 
               this.stock[idx].cantidad = null
 
               this.$toast.success(res.data.mensaje)
               this.$emit('actualizar', true)
-              this.btnGuardar = true
 
             } else {
               this.$toast.error(res.data.mensaje)

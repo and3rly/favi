@@ -58,6 +58,55 @@ class Stock_res_model extends General_model {
 		}
 	}
 
+	public function ObtenerStockSinReserva($args=[])
+	{
+		
+		$this->db->select('*, (a.cantidad - (SELECT IFNULL(SUM(res.cantidad), 0) FROM stock_bodega_res res WHERE res.stock_bodega_id = a.id)) as CantidadStock');
+						$this->db->from('stock_bodega a');
+		$this->db->where('a.producto_bodega_id', $args['datos']->producto_bodega_id);
+		$this->db->group_start();
+
+		    	if (!isset($args['datos']->lote)) {
+		    		$this->db->where('a.lote IS NULL');
+		    	}else {
+		    		$this->db->where('a.lote', $args['datos']->lote);
+		    	}
+
+		$this->db->group_end();
+		$this->db->group_start();
+
+				if (!isset($args['datos']->fecha_vence)) {
+					$this->db->where('a.fecha_vence IS NULL');
+				}else {
+					$this->db->where('a.fecha_vence', $args['datos']->fecha_vence);
+				}
+
+		$this->db->group_end();
+		$this->db->group_start();
+
+				if (!isset($args['datos']->presentacion_producto_id)) {
+					$this->db->where('a.presentacion_producto_id IS NULL');
+				}else {
+					$this->db->where('a.presentacion_producto_id', $args['datos']->presentacion_producto_id);
+				}
+
+		$this->db->group_end();
+		$this->db->group_start();
+
+				if (!isset($args['datos']->unidad_medida_id)) {
+					$this->db->where('a.unidad_medida_id IS NULL');
+				}else {
+					$this->db->where('a.unidad_medida_id', $args['datos']->unidad_medida_id);
+				}
+
+		$this->db->group_end();
+
+		$query = $this->db->get();
+		$result = $query->result();
+
+		return $result;
+	}
+
 }
 
 /* End of file Stock_model.php */

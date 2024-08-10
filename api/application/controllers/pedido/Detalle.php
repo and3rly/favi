@@ -73,6 +73,7 @@ class Detalle extends CI_Controller {
 	public function guardarDetalle()
 	{
 		$data = ["exito" => 0];
+		$data = ["mensaje" => ""];
 
 		if ($this->input->method() === "post") {
 			$datos = json_decode(file_get_contents('php://input'));
@@ -84,9 +85,11 @@ class Detalle extends CI_Controller {
 				$det = new Pedido_det_model();
 
 				$id =  $det->ObtenerDetalleExistente(['datos' => $datos]);
+				$cantidadReservar = $datos->cantidad;
 
 				if ($id) {
 					$det = new Pedido_det_model($id);
+
 					$datos->cantidad += $det->cantidad;
 				}
 
@@ -97,32 +100,64 @@ class Detalle extends CI_Controller {
 				}
 
 				if ($det->guardar($datos)) {
-					$data['exito'] = 1;
+
 					$termino = empty($id) ? 'agregado':'actualizado';
 					$data['mensaje'] = "Producto {$termino} con éxito.";
 
-					$data['linea'] = $det->_buscar(['id' => $det->getPK(), 'uno' => true]);
-
 					$res = new Stock_res_model();
-					$datos->pedido_det_id = $det->getPK();
-					$idRes = $res->ObtenerReservaExistente(['datos' => $datos]);
+					$stockR = $res->ObtenerStockSinReserva(['datos' => $datos]);
 					$datos->tipo_transaccion_id = 2;
-					$datos->bodega_ubicacion_id_anterior = $datos->bodega_id;
-					$datos->stock_bodega_id = $datos->stock_id;
+					$datos->pedido_det_id = $det->getPK();
 
-					if ($idRes) {
-						$res = new Stock_res_model($idRes);
-					}
+					if (count($stockR) > 0) {
 
-					if ($res->guardar($datos)) {
-						$data['exito'] = 1;
-						$termino = empty($idRes) ? 'agregada':'actualizada';
-						$data['mensaje'] = $data['mensaje'] . " Y reserva {$termino} con éxito.";
+						$sumatoriaCantidad = array_sum(array_column($stockR, 'CantidadStock'));
 
-					}
-					else {
-						$data['mensaje'] += $data['mensaje'] . " " . $det->getMensaje();
-					}
+						if ($cantidadReservar <= $sumatoriaCantidad) {
+
+							foreach ($stockR as $stock) {
+								
+								if ($cantidadReservar <= 0) {
+				                    break;
+				                }
+
+				                $res = new Stock_res_model();
+
+				                $datos->stock_bodega_id = $stock->id;
+				                $datos->bodega_ubicacion_id_anterior = $stock->bodega_ubicacion_id_anterior;
+
+				                if ($cantidadReservar <= $stock->CantidadStock) {
+
+				                	$datos->cantidad = $cantidadReservar;
+
+				                	if ($res->guardar($datos)) {
+				                		$data['exito'] = 1;
+										$data['mensaje'] = $data['mensaje'] . " Y reserva agergada con éxito.";
+				                	}else {
+				                		$data['mensaje'] += $data['mensaje'] . " " . $det->getMensaje();
+				                	}
+
+				                	break;
+				                }else if ($cantidadReservar > $stock->CantidadStock) {
+
+				                	$datos->cantidad = $stock->CantidadStock;
+				                	
+				                	if ($res->guardar($datos)) {
+				                		$data['exito'] = 1;
+				                	}else {
+				                		$data['mensaje'] += $data['mensaje'] . " " . $det->getMensaje();
+				                		break;
+				                	}
+
+				                	$cantidadReservar = $cantidadReservar - $stock->CantidadStock;
+				                }
+							}
+
+						}else {
+							$data['mensaje'] = "La cantidad a reservar supera a la cantidad de stock.";
+						}
+					 	
+					 } 
 
 				} else {
 					$data['mensaje'] = $det->getMensaje();
