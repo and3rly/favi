@@ -63,7 +63,9 @@
                     type="number" 
                     class="form-control text-center" 
                     v-model="i.cantidad_agregar"
-                    min="0"                   />
+                    min="0"
+                    @keydown.enter="guardar(i)"
+                    />
                 </td>
                 <td class="text-center">
                   <button
@@ -146,10 +148,12 @@
             }
 
             datos.cantidad = datos.cantidad_agregar * datos.factor
-          }else if (datos.cantidad > datos.cantidad_stock) {
+          }else if (datos.cantidad_agregar > datos.cantidad_stock) {
               this.$toast.error("La cantida a ingresar no debe ser mayor a la existente.")
               this.btnGuardar = false
               return
+          }else{
+            datos.cantidad = datos.cantidad_agregar
           }
 
           if (!datos.unidad_medida_id || datos.unidad_medida_id < 1) {
@@ -160,6 +164,7 @@
 
           datos.pedido_enc_id = this.pedido.id
           datos.cantidad_despachada = 0
+          datos.cantidad = datos.cantidad_agregar
 
           this.$http
           .post(`${this.$baseUrl}/${this.controlador}/guardarDetalle`, datos)

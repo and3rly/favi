@@ -177,6 +177,9 @@ class Stock_model extends General_model {
 		    $sql .= ' WHERE ' . implode(' AND ', $condiciones);
 		}
 
+
+		$sql .= ' ORDER BY stock.codigo_producto ASC';
+
 		$query = $this->db->query($sql, array(2));
 
 		return verConsulta($query, $args);

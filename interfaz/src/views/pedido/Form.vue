@@ -119,7 +119,7 @@
 
       <div class="col-sm-6">
         <label for="datePedido" class="fw-bold mb-1">
-          Fecha recepción: 
+          Fecha pedido: 
         </label>
         <input 
           type="date" 
@@ -239,14 +239,19 @@
       finalizado: false
     },
     data: () => ({
-      cat: []
+      cat: [],
     }),
     created() {
+
       this.controlador = 'pedido/principal'
       this.autoBuscar = false
       this._emit = true
 
       if (this.pedido !== null) {
+        this.pedido.fecha_pedido = this.ObtenerFecha(this.pedido.fecha_pedido, 1)
+        this.pedido.fecha_entrega = this.ObtenerFecha(this.pedido.fecha_entrega, 1)
+
+        console.log(this.pedido)
         this.setDatosForm(this.pedido)
       } else {
         this.fbase = {
@@ -262,6 +267,20 @@
       }
     },
     methods: {
+      ObtenerFecha(f, tipo){
+        if (f) {
+          var fecha = f.split(" ");
+
+          switch(tipo){
+            case 1:
+              return fecha[0]
+            case 2:
+              return fecha[1]
+          }
+        }
+
+        return ''
+      }
     },
     watch: {
       recepcion(v) {
