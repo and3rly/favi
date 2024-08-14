@@ -275,6 +275,7 @@
           recepcion_tipo_id: "0",
           tipo_transaccion_id: 1,
           estado_recepcion_id: 1,
+          ingresa_stock: 1,
           anulada: 0,
           detalle: []
         }
