@@ -85,12 +85,12 @@ class Detalle extends CI_Controller {
 				$det = new Pedido_det_model();
 
 				$id =  $det->ObtenerDetalleExistente(['datos' => $datos]);
-				$cantidadReservar = $datos->cantidad;
+				$det = new Pedido_det_model($id);
 
-				if ($id) {
-					$det = new Pedido_det_model($id);
-
-					$datos->cantidad += $det->cantidad;
+				if (isset($datos->cantidad_agregar_p)) {
+					$datos->cantidad = $det->cantidad + $datos->cantidad_agregar_p;
+				}else {
+					$datos->cantidad = $det->cantidad + $datos->cantidad_agregar_UM;
 				}
 
 				if (empty($det->no_linea)) {
@@ -108,6 +108,7 @@ class Detalle extends CI_Controller {
 					$stockR = $res->ObtenerStockSinReserva(['datos' => $datos]);
 					$datos->tipo_transaccion_id = 2;
 					$datos->pedido_det_id = $det->getPK();
+					$cantidadReservar = $datos->cantidad_agregar_UM;
 
 					if (count($stockR) > 0) {
 
@@ -125,6 +126,7 @@ class Detalle extends CI_Controller {
 
 				                $datos->stock_bodega_id = $stock->id;
 				                $datos->bodega_ubicacion_id_anterior = $stock->bodega_ubicacion_id_anterior;
+				                $datos->recepcion_enc_id = $stock->recepcion_enc_id;
 
 				                if ($cantidadReservar <= $stock->CantidadStock) {
 
@@ -132,7 +134,7 @@ class Detalle extends CI_Controller {
 
 				                	if ($res->guardar($datos)) {
 				                		$data['exito'] = 1;
-										$data['mensaje'] = $data['mensaje'] . " Y reserva agergada con éxito.";
+										$data['mensaje'] = $data['mensaje'] . " Y reserva agregada con éxito.";
 				                	}else {
 				                		$data['mensaje'] += $data['mensaje'] . " " . $det->getMensaje();
 				                	}

@@ -7,6 +7,8 @@
           <th class="text-center">Código</th>
           <th class="text-center">Nombre</th>
           <th class="text-center">Cantidad</th>
+          <th class="text-center">Precio</th>
+          <th class="text-center">Total</th>
           <th class="text-center">Cantidad<br> Despachada</th>
           <th class="text-center">Peso</th>
           <th class="text-center">UM</th>
@@ -22,6 +24,8 @@
           <td>{{ i.codigo_producto }}</td>
           <td>{{ i.nombre_producto }}</td>
           <td class="text-center">{{ i.cantidad }}</td>
+          <td class="text-center">{{ i.precio }}</td>
+          <td class="text-center">{{ ObtenerTotal(i.cantidad * i.precio) }}</td>
           <td class="text-center">{{ i.cantidad_despachada }}</td>
           <td class="text-center">{{ i.peso }}</td>
           <td class="text-center">{{ i.nombre_unidad_medida }}</td>
@@ -115,6 +119,9 @@
           })
         }
       },
+      ObtenerTotal(value) {
+          return `Q. ${parseFloat(value).toFixed(2)}`;
+      }
     },
     watch: {
       ud(v) {
