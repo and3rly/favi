@@ -57,11 +57,12 @@ class Stock_model extends General_model {
 	{
 		$sql = "SELECT 
 		        stock.*, 
-		       CASE 
+		        /*CASE 
 		            WHEN stock.factor = 0 
 		            THEN FLOOR(stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0))
 		            ELSE FLOOR((stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) - (FLOOR((stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) / stock.factor) * stock.factor))
-		        END AS cantidad_stock,
+		        END AS cantidad_stock,*/
+		        FLOOR(stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) as cantidad_stock,
 		        FLOOR((stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) / stock.factor) as cantidad_presentacion
 		    FROM (
 		        SELECT 

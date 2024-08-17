@@ -53,7 +53,7 @@
                 <td class="text-center"> {{ i.nombre_producto }} </td>
                 <td class="text-center"> {{ i.lote }} </td>
                 <td class="text-center"> {{ formatoFecha(i.fecha_vence,1) }} </td>
-                <td class="text-center"> {{ i.nombre_presentacion }} </td>
+                <td class="text-center"> {{ ObtenerPresentacion(i.nombre_presentacion, i.factor, i.nombre_unidad_medida) }} </td>
                 <td class="text-center"> {{ i.cantidad_presentacion }} </td>
                 <td class="text-center"> {{ i.nombre_unidad_medida }} </td>
                 <td class="text-center"> {{ i.cantidad_stock }} </td>
@@ -208,6 +208,14 @@
 
           this.$emit('actualizar', false)
         },
+        ObtenerPresentacion(np, cp, um){
+          if (np) {
+            return `${np} - ${cp} ${um}`;
+          }else{
+            return '';
+          }
+
+        }
 	    },
 	}
 </script>
