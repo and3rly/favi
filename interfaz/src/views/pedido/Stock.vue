@@ -147,13 +147,19 @@
               return
             }
 
-            datos.cantidad = datos.cantidad_agregar * datos.factor
-          }else if (datos.cantidad_agregar > datos.cantidad_stock) {
+            //datos.cantidad = datos.cantidad_agregar * datos.factor
+            datos.cantidad_agregar_p = datos.cantidad_agregar
+            datos.cantidad_agregar_UM = datos.cantidad_agregar * datos.factor
+
+          }else{
+
+            if (datos.cantidad_agregar > datos.cantidad_stock) {
               this.$toast.error("La cantida a ingresar no debe ser mayor a la existente.")
               this.btnGuardar = false
               return
-          }else{
-            datos.cantidad = datos.cantidad_agregar
+            }
+
+            datos.cantidad_agregar_UM = datos.cantidad_agregar
           }
 
           if (!datos.unidad_medida_id || datos.unidad_medida_id < 1) {
@@ -181,9 +187,10 @@
                   && datos.factor 
                   && datos.factor > 0 ) {
 
-                this.stock[idx].cantidad_presentacion = datos.cantidad_presentacion - datos.cantidad_agregar
+                this.stock[idx].cantidad_presentacion = datos.cantidad_presentacion - datos.cantidad_agregar_p
+                this.stock[idx].cantidad_stock = datos.cantidad_stock - datos.cantidad_agregar_UM
               }else{
-                this.stock[idx].cantidad_stock = datos.cantidad_stock - datos.cantidad_agregar
+                this.stock[idx].cantidad_stock = datos.cantidad_stock - datos.cantidad_agregar_UM
               }
 
               this.stock[idx].cantidad = null

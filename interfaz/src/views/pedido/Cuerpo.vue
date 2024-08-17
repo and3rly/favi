@@ -305,7 +305,7 @@
       verPedido(obj) {
         this.actual = 2
         this.pedido = obj
-        this.finalizado = obj.estado == "FINALIZADO" ? true : false
+        this.finalizado = obj != null && obj.estado == "FINALIZADO" ? true : false
       },
       actLista(obj) {
         if (this.pedido === null) {

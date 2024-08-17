@@ -81,6 +81,18 @@ class Principal extends CI_Controller {
 				$datos->fecha_mod = $fecha;
 				$datos->usuario_mod =  $us;
 
+				if ($datos->motivo_anulacion_pedido_id === 'null') {
+					$datos->motivo_anulacion_pedido_id = null;
+				}
+
+				if (!isset($datos->fecha_entrega)) {
+					$datos->fecha_entrega = date('Y-m-d');
+				}
+
+				if (!isset($datos->hora_fin)) {
+					$datos->hora_fin = date('H:i');
+				}
+
 				if ($rec->guardar($datos)) {
 					$data['exito'] = 1;
 					$data['mensaje'] = empty($id) ? "Pedido guardado con éxito.":"Pedido actualizado.";

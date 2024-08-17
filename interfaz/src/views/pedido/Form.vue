@@ -5,6 +5,13 @@
         <label for="selectCliente" class="fw-bold mb-1">
           Cliente: <span class="text-danger">*</span>
         </label>
+        <!--<vue-select 
+          id="selectDepartamento"
+          :options="clientes"
+          :reduce="r => r.value"
+          placeholder="Cliente"
+          v-model="form.cliente_id"
+        ></vue-select>-->
         <select 
           name="selectCliente" 
           id="selectCliente" 
@@ -223,7 +230,7 @@
 </template>
 
 <script>
-  import Helper from '@/mixins/Helper.js'
+  import Helper from '@/mixins/Helper.js';
 
   export default {
     mixins: [Helper],
@@ -234,7 +241,7 @@
       },
       cat: {
         type: Array,
-        required: true
+        required: true,
       },
       finalizado: false
     },
@@ -251,8 +258,8 @@
         this.pedido.fecha_pedido = this.ObtenerFecha(this.pedido.fecha_pedido, 1)
         this.pedido.fecha_entrega = this.ObtenerFecha(this.pedido.fecha_entrega, 1)
 
-        console.log(this.pedido)
         this.setDatosForm(this.pedido)
+
       } else {
         this.fbase = {
           cliente_id: "",
@@ -262,7 +269,9 @@
           motivo_anulacion_pedido_id: null,
           anulada: 0,
           detalle: [],
-          estado: "NUEVO"
+          estado: "NUEVO",
+          fecha_pedido: new Date().toISOString().split('T')[0],
+          hora_inicio: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
         }
       }
     },
@@ -280,12 +289,15 @@
         }
 
         return ''
-      }
+      },
     },
     watch: {
-      recepcion(v) {
+      pedido(v) {
+        v.fecha_pedido = this.ObtenerFecha(this.pedido.fecha_pedido, 1)
+        v.fecha_entrega = this.ObtenerFecha(this.pedido.fecha_entrega, 1)
+
         this.setDatosForm(v)
-      }
-    }
+      },
+    },
   }
 </script>

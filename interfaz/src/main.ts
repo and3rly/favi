@@ -26,6 +26,7 @@ import CardGroup from '@/components/bootstrap/CardGroup.vue';
 import CardImgOverlay from '@/components/bootstrap/CardImgOverlay.vue';
 import CardExpandToggler from '@/components/bootstrap/CardExpandToggler.vue';
 import quillEditor from '@/components/plugins/QuillEditor.vue';
+import vueSelect from '@/components/plugins/VueSelect.vue';
 
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import { Modal } from 'bootstrap'
@@ -58,6 +59,8 @@ app.component('CardGroup', CardGroup);
 app.component('CardImgOverlay', CardImgOverlay);
 app.component('CardExpandToggler', CardExpandToggler);
 app.component('QuillEditor', quillEditor);
+app.component('vueSelect', vueSelect);
+
 app.use(Toast, {
   transition: "Vue-Toastification__fade",
   filterBeforeCreate: (toast, toasts) => {
