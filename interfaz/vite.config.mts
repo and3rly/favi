@@ -28,9 +28,9 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['vue-demi']
   },
-  build: {
+  /*build: {
     outDir: "../",
     assetsDir: "assets",
     chunkSizeWarningLimit: 4096
-  }
+  }*/
 });

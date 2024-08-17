@@ -571,7 +571,7 @@ class Catalogo_model extends General_model {
 					->select('pb.*, p.codigo as codigo_producto, p.nombre as nombre_producto, b.nombre as nombre_bodega')
 					->join('producto p', 'p.id = pb.producto_id')
 					->join('bodega b', 'b.id = pb.bodega_id')
-					// ->where('pb.activo', 1)
+					->where('pb.activo', 1)
 					->get('producto_bodega pb');
 
 		return verConsulta($tmp, $args);
@@ -580,6 +580,7 @@ class Catalogo_model extends General_model {
 	public function ver_bodega($args=[]) 
 	{
 		$tmp = $this->db
+					->where('activo', 1)
 					->get('bodega');
 
 		return verConsulta($tmp, $args);

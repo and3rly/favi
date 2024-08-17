@@ -13,7 +13,7 @@
           required
         > 
           <option value="">---------------</option>
-          <option v-for="i in cat.cliente" :value="i.id">{{ i.nombre_comercial }}</option>
+          <option v-for="i in cat.cliente" :value="i.id">{{ i.codigo+'-'+i.nombre_comercial }}</option>
         </select>
       </div>
 
