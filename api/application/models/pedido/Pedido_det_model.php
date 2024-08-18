@@ -20,6 +20,7 @@ class Pedido_det_model extends General_model {
     public $activo = 1;
     public $lote;
     public $fecha_vence;
+    public $total;
 
 	public function __construct($id='')
 	{
@@ -63,7 +64,27 @@ class Pedido_det_model extends General_model {
 		}
 
 		$tmp = $this->db
-		->select("a.*")
+		->select("a.id,
+			, a.pedido_enc_id
+			, a.no_linea
+			, a.cantidad
+			, a.peso
+			, a.cantidad_despachada
+			, a.codigo_producto
+			, a.nombre_producto
+			, a.nombre_presentacion
+			, a.nombre_unidad_medida
+			, a.nombre_estado_producto
+			, a.producto_bodega_id
+			, a.presentacion_producto_id
+			, a.unidad_medida_id
+			, a.estado_producto_id
+			, a.activo
+			, a.lote
+			, a.fecha_vence
+			, a.precio * IFNULL(b.factor, 1) as precio
+			, IFNULL(a.total, a.precio * IFNULL(b.factor, 1) * a.cantidad) as total")
+		->join('presentacion_producto b', 'a.presentacion_producto_id = b.id', 'left')
 		->where('a.activo', 1)
 		->order_by("a.no_linea")
 		->get("$this->_tabla a");
@@ -115,13 +136,21 @@ class Pedido_det_model extends General_model {
 		    $condicion .= " AND a.lote IS NULL";
 		}
 
+		if (!isset($args['datos']->presentacion_producto_id)) {
+			$condicion .= " AND a.presentacion_producto_id IS NULL";
+		}else {
+			$condicion .= " AND a.presentacion_producto_id = {$args['datos']->presentacion_producto_id}";
+		}
+
+
 
 		$consulta = $this->db
 		->select("a.id")
 		->from("$this->_tabla a")
 		->where("a.pedido_enc_id", $args['datos']->pedido_enc_id)
-		->where("a.presentacion_producto_id", $args['datos']->presentacion_producto_id)
+		/*->where("a.presentacion_producto_id", $args['datos']->presentacion_producto_id)*/
 		->where('a.unidad_medida_id', $args['datos']->unidad_medida_id)
+		->where('a.codigo_producto', $args['datos']->codigo_producto)
 		->where($condicion)
 		->get();
 

@@ -34,7 +34,7 @@
               @keydown.enter="EditarPrecio(i, idx)"
             />
           </td>
-          <td class="text-center align-middle">{{ ObtenerTotal(i.cantidad * i.precio) }}</td>
+          <td class="text-center align-middle">{{ ObtenerTotal(i.total) }}</td>
           <td class="text-center align-middle">{{ i.cantidad_despachada }}</td>
           <td class="text-center align-middle">{{ i.peso }}</td>
           <td class="text-center align-middle">{{ i.nombre_unidad_medida }}</td>
@@ -158,6 +158,7 @@
               if (exito == 1) {
 
                 this.detalleOriginal[idx].precio = obj.precio
+                this.detalleOriginal[idx].total = obj.total
 
                 this.$toast.success(res.data.mensaje)
               } else {
@@ -174,11 +175,13 @@
       CambiarPrecio(item, idx) {
 
         const valorAntiguo = this.detalleOriginal[idx].precio;
+        const cantidadOrignal = this.detalleOriginal[idx].cantidad;
         const nuevoValor = item.precio;
 
         if (valorAntiguo !== nuevoValor) {
           if (!this.itemsCambiados.includes(idx)) {
             this.itemsCambiados.push(idx);
+            item.total = cantidadOrignal * nuevoValor
           }else{
             this.itemsCambiados.splice(idx);
           }

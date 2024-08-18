@@ -150,6 +150,7 @@
             //datos.cantidad = datos.cantidad_agregar * datos.factor
             datos.cantidad_agregar_p = datos.cantidad_agregar
             datos.cantidad_agregar_UM = datos.cantidad_agregar * datos.factor
+            datos.total = datos.precio * (datos.cantidad_agregar * datos.factor)
 
           }else{
 
@@ -160,6 +161,7 @@
             }
 
             datos.cantidad_agregar_UM = datos.cantidad_agregar
+            datos.total = datos.precio * datos.cantidad_agregar
           }
 
           if (!datos.unidad_medida_id || datos.unidad_medida_id < 1) {

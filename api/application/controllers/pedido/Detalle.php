@@ -29,6 +29,44 @@ class Detalle extends CI_Controller {
 
 	public function guardar($id='')
 	{
+		$data =["exito" => 0];
+		
+		if ($this->input->method() == "post") {
+			$datos = json_decode(file_get_contents('php://input'));
+
+			if (verPropiedad($datos, 'pedido_enc_id') &&
+				verPropiedad($datos, 'no_linea') &&
+				verPropiedad($datos, 'precio') &&
+				verPropiedad($datos, 'producto_bodega_id')) {
+
+				$id = $datos->id;
+				$det = new Pedido_det_model($id);
+
+				if ($det->guardar($datos)) {
+					$data['exito']   = 1;
+					$data['mensaje'] = empty($id) ?"Detalle guardado con exito.":"Detalle actualizado con éxito.";
+					//$data['linea']   = $det->buscar(['id'=>$det->getPK(),'uno'=> true]);
+
+					$data['linea'] = $det->_buscar([
+						'id' => $det->getPK(), 
+						'uno' => true
+					]);
+
+				} else {
+					$data['mensaje'] = $det->getMensaje();
+				}
+			} else {
+				$data['mensaje'] = "datos incompletos.";
+			}
+		} else {
+			$data['mensaje'] = "Error en el envio de datos";
+		}
+
+		$this->output->set_output(json_encode($data));
+	}
+
+	/*public function guardar($id='')
+	{
 		$data = ["exito" => 0];
 
 		if ($this->input->method() === "post") {
@@ -68,7 +106,7 @@ class Detalle extends CI_Controller {
 		}
 
 		$this->output->set_output(json_encode($data));
-	}
+	}*/
 
 	public function guardarDetalle()
 	{
@@ -83,9 +121,11 @@ class Detalle extends CI_Controller {
 				verPropiedad($datos, 'producto_bodega_id')) {
 
 				$det = new Pedido_det_model();
-
 				$id =  $det->ObtenerDetalleExistente(['datos' => $datos]);
-				$det = new Pedido_det_model($id);
+
+				if ($id) {
+					$det = new Pedido_det_model($id);	
+				}
 
 				if (isset($datos->cantidad_agregar_p)) {
 					$datos->cantidad = $det->cantidad + $datos->cantidad_agregar_p;
