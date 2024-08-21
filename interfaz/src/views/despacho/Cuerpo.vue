@@ -1,5 +1,4 @@
 <template>
-
   <div class="d-flex py-2">
     <div class="flex-fill me-1">
       <h1 class="page-header mb-1">
@@ -168,70 +167,18 @@
           class="tab-pane fade show active" 
           id="tab-bodega"
         >
-          <Form
-            :despacho="despacho"
-            :cat="cat"
-            @actualizar="actLista"
-          ></Form>
         </div>
         <div 
           class="tab-pane fade"
           id="tab-det"
         >
-          <Detalle
-            v-if="vista === 2"
-            :despacho="despacho"
-            :cat="cat"
-            :ud="ud"
-          ></Detalle>
         </div>
       </div>
     </Card>
   </template>
-
-  <div 
-    class="modal fade" 
-    id="mdlOc"
-    data-bs-backdrop="static" 
-    data-bs-keyboard="false" 
-    tabindex="-1" 
-    aria-labelledby="staticBackdropLabel" 
-    aria-hidden="true">
-
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 
-            class="modal-title fs-5" 
-            id="staticBackdropLabel"
-          > 
-            <i class="fas fa-indent me-1"></i> Pedido de Cliente
-          </h1>
-          <button 
-            type="button" 
-            class="btn-close" 
-            aria-label="Close"
-            @click="cerrarOc"
-          >
-          </button>
-        </div>
-        <div class="modal-body">
-          <FormOc
-            v-if="oc"
-            :rec="despacho"
-            @actualizar="actUd"
-          ></FormOc>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </template>
 
 <script>
-  import Form from "@/views/despacho/Form.vue"
-  import FormOc from "@/views/despacho/FormOc.vue"
-  import Detalle from "@/views/despacho/Detalle.vue"
   import Utileria from "@/mixins/Utileria.js"
 
   export default {
@@ -250,7 +197,6 @@
       modal: null
     }),
     mounted() {
-      this.modal = new this.$modal(document.getElementById('mdlOc'));
     },
     created() {
       this.buscar()
@@ -325,9 +271,6 @@
       }
     },
     components: {
-      Form,
-      FormOc,
-      Detalle
     }
   }
 </script>
