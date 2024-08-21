@@ -51,14 +51,6 @@
       <form @submit.prevent="buscar" class="d-flex px-3 mt-3 mb-3">
         <div class="flex-fill me-1">
           <input 
-            type="search" 
-            class="form-control" 
-            placeholder="Buscar por criterio..."
-            v-model="bform.criterio"
-          />
-        </div>
-        <div class="flex-fill me-1">
-          <input 
             type="date" 
             class="form-control"
             v-model="bform.fdel"
@@ -82,6 +74,15 @@
             <option v-for="i in cat.bodega" :value="i.id"> {{ i.nombre }} </option>
           </select>
         </div>
+        <div class="flex-fill me-1">
+          <input 
+            type="search" 
+            class="form-control" 
+            placeholder="Buscar por criterio..."
+            v-model="bform.criterio"
+          />
+        </div>
+        
         <button
           class="btn btn-primary"
         >
@@ -191,16 +192,23 @@
       actual: 1,
       vista: 1,
       lista: [],
-      cat: [],
-      bform: {},
+      cat: [
+      ],
+      bform: {
+        bodega_id: null
+      },
       despacho: null,
       modal: null
     }),
     mounted() {
     },
     created() {
-      this.buscar()
       this.getDatos()
+
+      this.bform.fdel = this.setFechaInicio()
+      this.bform.fal = this.setFechaActual()
+
+      this.buscar()
     }, 
     methods: {
       getDatos() {
@@ -232,42 +240,6 @@
           this.inicio = false
           console.log(e)
         })
-      },
-      verDespacho(obj) {
-        this.actual = 2
-        this.despacho = obj
-      },
-      actLista(obj) {
-        if (this.despacho === null) {
-          this.lista.push(obj)
-          this.despacho = obj
-
-        } else {
-          for (let i in this.despacho) {
-            this.despacho[i] = obj[i]
-          }
-        }
-      },
-      regresar() {
-        this.actual    = 1
-        this.vista     = null
-        this.despacho = null
-      },
-      agregarDetalle() {
-        this.ud = false
-        this.oc = true
-
-        let tab = document.getElementById("tab-detalle");
-        tab.click();
-
-        this.modal.show()
-      },
-      cerrarOc() {
-        this.oc = false
-        this.modal.hide()
-      },
-      actUd(v) {
-        this.ud = v
       }
     },
     components: {
