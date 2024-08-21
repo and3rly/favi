@@ -8,7 +8,10 @@ class Principal extends CI_Controller {
 		$this->load->model([
 			'pedido/Pedido_model',
 			'pedido/Pedido_det_model',
-			'stock/Stock_model'
+			'stock/Stock_model',
+			'producto/Presentacion_model',
+			'Stock_res/Stock_res_model',
+			'Movimiento_model'
 		]);
 
 		$this->output->set_content_type('application/json');
@@ -119,14 +122,60 @@ class Principal extends CI_Controller {
 	public function finalizarPedido($id)
 	{
 		$data = ['exito' => 0];
-		$datos = ['estado' => "FINALIZADO"];
+		$datos = ['estado_pedido_id' => 2];
 
-		$det = new Pedido_model($id);
+		$ped = new Pedido_model($id);
 
-		if ($det->guardar($datos)) {
-			$data['exito'] = 1;
-			$data['mensaje'] = "Pedido finalizado con éxito.";
+		if ($ped->guardar($datos)) {
+
+			$sRes = new Stock_res_model();
+			$resDetalle = $sRes->ObtenerReservaExistente(["id" => $id]);
+			$realizados = 0;
+
+			foreach ($resDetalle as $row) {
+
+				$row->fechaVence = $row->fecha_vence;
+				$row->horaInicio = $ped->hora_inicio;
+				$row->horaFinal = $ped->hora_fin;
+				$row->cantHist = $row->cantidad;
+				$row->pesoHist = $row->peso;
+				$row->fechaOperacion = Hoy(true);
+				$row->usuario_agr = $this->user['id'];
+				$row->empresa_id =  $this->user['empresa_id'];
+				$row->bodega_ubicacion_id_origen = $row->origen;
+				$row->bodega_ubicacion_id_destino = $row->destino;
+				$row->bodega_id_origen = $row->bodega_id;
+				$row->bodega_id_destino = $row->bodega_id;
+				$row->estado_producto_id_origen = $row->estado_producto_id;
+				$row->estado_producto_id_destino = $row->estado_producto_id;
+
+				$mov = new Movimiento_model();
+				$mov->guardar($row);
+				$realizados++;
+			}
+
+			if ($realizados > 0) {
+				$data['exito'] = 1;
+				$data['mensaje'] = "Pedido finalizado con éxito.";
+			}
+
 		} else {
+			$data['mensaje'] = $ped->getMensaje();
+		}
+
+		$this->output->set_output(json_encode($data));
+	}
+
+	public function obtenerUltimoPedido(){
+		$data = ['exito' => 0];
+
+		$pedido = new Pedido_model();
+		$correlativo = $pedido->obtenerUltimoId();
+
+		if ($correlativo) {
+			$data['exito'] = 1;
+			$data['correlativo'] = $correlativo;
+		}else {
 			$data['mensaje'] = $det->getMensaje();
 		}
 

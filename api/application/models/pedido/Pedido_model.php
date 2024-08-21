@@ -17,6 +17,7 @@ class Pedido_model extends General_model {
 	public $referencia;
 	public $motivo_anulacion_pedido_id;
 	public $activo = 1;
+	public $estado_pedido_id = 1;
 
 	public function __construct($id='')
 	{
@@ -69,16 +70,31 @@ class Pedido_model extends General_model {
 			d.nombre as nombre_pedido_tipo, 
 			d.descripcion as desc_pedido_tipo,
 			d.reservar_stock,
-			e.nombre as nombre_transaccion"
+			e.nombre as nombre_transaccion,
+			IFNULL(f.id, 1) as estado_pedido_id,
+			IFNULL(f.nombre, 'Nuevo') as nombre_estado,
+			IFNULL(f.color, 'primary') as color_estado"
 		)
 		->join("motivo_anulacion_pedido b", "b.id = a.motivo_anulacion_pedido_id", "left")
 		->join("bodega c","c.id = a.bodega_id")
 		->join("pedido_tipo d","d.id = a.pedido_tipo_id", "left")
 		->join("tipo_transaccion e","e.id = a.tipo_transaccion_id")
+		->join("estado_pedido f", "a.estado_pedido_id = f.id", "left")
 		->order_by("a.id")
 		->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);
+	}
+
+	public function obtenerUltimoId($args=[])
+	{
+		$tmp = $this->db
+		->select("IFNULL(a.id, 0) + 1 as correlativo")
+		->order_by("a.id", "DESC")
+		->get("$this->_tabla a")
+		->row();
+
+		return $tmp->correlativo ?? 1;
 	}
 }
 

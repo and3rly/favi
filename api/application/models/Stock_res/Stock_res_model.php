@@ -37,13 +37,24 @@ class Stock_res_model extends General_model {
 	{	
 
 		$tmp = $this->db
-		->select("a.id")
-		->where("a.pedido_enc_id", $args['datos']->pedido_enc_id)
-		->where("a.pedido_det_id", $args['datos']->pedido_det_id)
-		->get("$this->_tabla a")
-		->row();
+		->select("a.cantidad, 
+			a.peso,
+			a.lote,
+			a.fecha_vence,
+			a.tipo_transaccion_id,
+			a.producto_bodega_id,
+			a.presentacion_producto_id,
+			b.bodega_ubicacion_id as destino,
+			b.bodega_ubicacion_id_anterior as origen,
+			a.bodega_id,
+			a.estado_producto_id,
+			a.unidad_medida_id,
+			b.recepcion_enc_id")
+		->join("stock_bodega b", "a.stock_bodega_id = b.id", "left")
+		->where("a.pedido_enc_id", $args['id'])
+		->get("$this->_tabla a");
 
-		return $tmp->id ?? null;
+		return verConsulta($tmp, $args);
 	}
 
 	public function EliminarReserva($id)

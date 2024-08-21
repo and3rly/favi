@@ -27,7 +27,7 @@
   </div>
 
   <div class="mb-sm-3 mb-3 mt-2 d-sm-flex" v-if="pedido != null">
-    <div class="mt-sm-0 me-3 mt-2" v-if="!finalizado">
+    <div class="mt-sm-0 me-3 mt-2" v-if="this.pedido.estado_pedido_id == 1 || this.pedido.estado_pedido_id == 4">
       <a
         href="javascript:;" 
         class="text-body text-decoration-none"
@@ -36,10 +36,13 @@
         <i class="fas fa-tasks fa-fw me-1 text-muted"></i> Agregar detalle
       </a>
     </div>
-    <div class="mt-sm-0 me-3 mt-2" v-else>
+    <div class="mt-sm-0 me-3 mt-2" v-if="this.pedido.estado_pedido_id == 2">
       <i class="fas fa-tasks fa-fw me-1 text-muted"></i> Finalizado
     </div>
-    <div class="mt-sm-0 me-3 mt-2" v-if="!finalizado">
+    <div class="mt-sm-0 me-3 mt-2" v-if="this.pedido.estado_pedido_id == 3">
+      <i class="fas fa-tasks fa-fw me-1 text-muted"></i> Anulado
+    </div>
+    <div class="mt-sm-0 me-3 mt-2" v-if="this.pedido.estado_pedido_id == 1 || this.pedido.estado_pedido_id == 4">
       <a 
         href="javascript:;"  
         class="text-body text-decoration-none"
@@ -114,6 +117,7 @@
                 <th>Transacción</th>
                 <th>Tipo</th>
                 <th class="text-center">Observación</th>
+                <th class="text-center">Estado</th>
                 <th class="text-center">Activo</th>
               </tr>
             </thead>
@@ -133,6 +137,15 @@
                 <td> {{ i.nombre_transaccion }} </td>
                 <td> {{ i.nombre_pedido_tipo }} </td>
                 <td> {{ i.observacion }} </td>
+                <td class="text-center">
+                  <span 
+                    :class="'badge bg-'+i.color_estado+' bg-opacity-20 text-'+i.color_estado+' fs-11px d-inline-flex align-items-center'"
+                  >
+                    <i 
+                      :class="'fa fa-check-circle text-'+i.color_estado+' fs-10px fa-fw me-1'"
+                    ></i>{{ i.nombre_estado }}
+                  </span>
+                </td>
                 <td class="text-center">
                   <i class="fas fa-check-circle text-success" v-if="i.activo == 1"></i>
                   <i class="fas fa-times-circle text-danger" v-else></i>
@@ -179,6 +192,7 @@
             :pedido="pedido"
             :cat="cat"
             :finalizado="finalizado"
+            :correlativo="correlativo"
             @actualizar="actLista"
           ></Form>
         </div>
@@ -262,6 +276,7 @@
       modal: null,
       ped: false,
       finalizado: false,
+      correlativo: 0,
     }),
     mounted() {
       this.modal = new this.$modal(document.getElementById('mdlOc'));
@@ -303,9 +318,28 @@
         })
       },
       verPedido(obj) {
-        this.actual = 2
-        this.pedido = obj
-        this.finalizado = obj != null && obj.estado == "FINALIZADO" ? true : false
+
+        if (!obj) {
+          this.$http
+            .get(`${this.$baseUrl}/pedido/principal/obtenerUltimoPedido`)
+            .then(res => {
+              if (res.data.correlativo) {
+
+                this.correlativo = parseInt(res.data.correlativo, 10);
+                this.actual = 2;
+                this.pedido = obj;
+
+              }
+            })
+            .catch(e => {
+              this.inicio = false;
+              console.log(e);
+            });
+        } else {
+          this.actual = 2;
+          this.pedido = obj;
+        }
+
       },
       actLista(obj) {
         if (this.pedido === null) {
@@ -348,7 +382,9 @@
 
             if (res.data.exito) {
               this.$toast.success(res.data.mensaje)
-              this.finalizado = true
+              this.pedido.estado_pedido_id = 2
+              this.pedido.color_estado = "teal"
+              this.pedido.nombre_estado = "Finalizado"
             } else {
               this.$toast.error(res.data.mensaje)
             } 

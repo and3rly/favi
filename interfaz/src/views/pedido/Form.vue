@@ -210,7 +210,7 @@
         <button 
           type="submit" 
           class="btn btn-primary"
-          :disabled="btnGuardar || finalizado"
+          :disabled="btnGuardar || this.pedido.estado_pedido_id == 2 || this.pedido.estado_pedido_id == 3"
         > 
             <span 
               v-if="btnGuardar"
@@ -243,7 +243,7 @@
         type: Array,
         required: true,
       },
-      finalizado: false
+      correlativo: 0,
     },
     data: () => ({
       cat: [],
@@ -258,9 +258,16 @@
         this.pedido.fecha_pedido = this.ObtenerFecha(this.pedido.fecha_pedido, 1)
         this.pedido.fecha_entrega = this.ObtenerFecha(this.pedido.fecha_entrega, 1)
 
+        if (this.pedido.no_documento && !this.pedido.no_documento.includes("PED")) {
+          let numeroFormateado = this.pedido.no_documento.toString().padStart(10, '0');
+          this.pedido.no_documento =  `PED${numeroFormateado}`
+        }
+
         this.setDatosForm(this.pedido)
 
       } else {
+        let numeroFormateado = this.correlativo.toString().padStart(10, '0');
+
         this.fbase = {
           cliente_id: "",
           bodega_id: "",
@@ -271,7 +278,8 @@
           detalle: [],
           estado: "NUEVO",
           fecha_pedido: new Date().toISOString().split('T')[0],
-          hora_inicio: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+          hora_inicio: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+          no_documento: `PED${numeroFormateado}`
         }
       }
     },
