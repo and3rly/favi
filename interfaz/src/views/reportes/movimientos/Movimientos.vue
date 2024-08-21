@@ -73,7 +73,7 @@
                 style="cursor: pointer;"
               > 
                 <th class="text-center"> {{ i.id }} </th>
-                <td class="text-center"> {{ i.nombre_transaccion_tipo }} </td>
+                <td class="text-center"> {{ i.nombre_transacion_tipo }} </td>
                 <td class="text-center"> {{ i.codigo_producto }} </td>
                 <td class="text-center"> {{ i.nombre_producto }} </td>
                 <td class="text-center"> {{ i.lote }} </td>
