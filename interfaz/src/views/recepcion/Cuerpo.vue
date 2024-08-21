@@ -52,14 +52,6 @@
       <form @submit.prevent="buscar" class="d-flex px-3 mt-3 mb-3">
         <div class="flex-fill me-1">
           <input 
-            type="search" 
-            class="form-control" 
-            placeholder="Buscar por criterio..."
-            v-model="bform.criterio"
-          />
-        </div>
-        <div class="flex-fill me-1">
-          <input 
             type="date" 
             class="form-control"
             v-model="bform.fdel"
@@ -82,6 +74,14 @@
             <option :value="null">Seleccione una bodega...</option>
             <option v-for="i in cat.bodega" :value="i.id"> {{ i.nombre }} </option>
           </select>
+        </div>
+        <div class="flex-fill me-1">
+          <input 
+            type="search" 
+            class="form-control" 
+            placeholder="Buscar por criterio..."
+            v-model="bform.criterio"
+          />
         </div>
         <button
           class="btn btn-primary"
@@ -234,7 +234,9 @@
       vista: 1,
       lista: [],
       cat: [],
-      bform: {},
+      bform: {
+        bodega_id: null
+      },
       recepcion: null,
       modal: null,
       detalle: []
@@ -242,6 +244,8 @@
     mounted() {
     },
     created() {
+      this.bform.fdel = this.setFechaInicio()
+      this.bform.fal = this.setFechaActual()
       this.buscar()
       this.getDatos()
     }, 

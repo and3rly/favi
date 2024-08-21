@@ -82,7 +82,6 @@
             v-model="bform.criterio"
           />
         </div>
-        
         <button
           class="btn btn-primary"
         >

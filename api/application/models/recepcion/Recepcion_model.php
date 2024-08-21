@@ -85,7 +85,7 @@ class Recepcion_model extends General_model {
 		->join("tipo_transaccion e","e.id = a.tipo_transaccion_id")
 		->join("estado_recepcion f","f.id = a.estado_recepcion_id")
 		->join("recepcion_tipo g","g.id = a.recepcion_tipo_id", "left")
-		->order_by("a.id")
+		->order_by("a.fecha_agr", "desc")
 		->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);
