@@ -200,6 +200,12 @@ const router = createRouter({
             component: () => import('@/views/reportes/existencia/Existencia.vue'),
             meta: {titulo: 'Existencia'}
           },
+          {
+            path: '/movimientos',
+            name: 'Movimientos',
+            component: () => import('@/views/reportes/movimientos/Movimientos.vue'),
+            meta: {titulo: 'Movimientos'}
+          },
         ]
     },
     { 
