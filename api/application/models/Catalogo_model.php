@@ -742,6 +742,15 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function ver_estado_despacho($args=[]) 
+	{
+		$tmp = $this->db
+		->where("activo", 1)
+		->get("estado_despacho");
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Catalogo_model.php */
