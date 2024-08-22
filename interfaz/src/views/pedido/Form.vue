@@ -210,7 +210,7 @@
         <button 
           type="submit" 
           class="btn btn-primary"
-          :disabled="btnGuardar || this.pedido.estado_pedido_id == 2 || this.pedido.estado_pedido_id == 3"
+          :disabled="btnGuardar || (this.pedido && (this.pedido.estado_pedido_id == 2 || this.pedido.estado_pedido_id == 3)) "
         > 
             <span 
               v-if="btnGuardar"

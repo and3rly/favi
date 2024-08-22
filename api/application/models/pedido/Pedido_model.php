@@ -10,7 +10,6 @@ class Pedido_model extends General_model {
 	public $hora_inicio;
 	public $hora_fin;
 	public $observacion;
-	public $estado;
 	public $no_documento;
 	public $local;
 	public $fecha_entrega;
@@ -18,6 +17,10 @@ class Pedido_model extends General_model {
 	public $motivo_anulacion_pedido_id;
 	public $activo = 1;
 	public $estado_pedido_id = 1;
+	public $fecha_agr;
+	public $fecha_mod;
+	public $usuario_agr;
+	public $usuario_mod;
 
 	public function __construct($id='')
 	{
@@ -80,7 +83,7 @@ class Pedido_model extends General_model {
 		->join("pedido_tipo d","d.id = a.pedido_tipo_id", "left")
 		->join("tipo_transaccion e","e.id = a.tipo_transaccion_id")
 		->join("estado_pedido f", "a.estado_pedido_id = f.id", "left")
-		->order_by("a.id")
+		->order_by("a.fecha_agr", "desc")
 		->get("$this->_tabla a");
 
 		return verConsulta($tmp, $args);
