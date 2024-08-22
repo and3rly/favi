@@ -11,7 +11,7 @@
           <i class="fas fa-arrow-left"></i>
         </button>
 
-        Despacho
+        Despacho <span v-if="despacho !== null"> #{{despacho.id }}</span>
       </h1>
     </div>
 
@@ -26,22 +26,22 @@
     </div>
   </div>
 
-  <div class="mb-sm-3 mb-3 mt-2 d-sm-flex" v-if="despacho != null">
-    <div class="mt-sm-0 me-3 mt-2">
-      <a
-        href="javascript:;" 
-        class="text-body text-decoration-none"
-        @click="agregarDetalle"
-      >
-        <i class="fas fa-tasks fa-fw me-1 text-muted"></i> Agregar pedido
-      </a>
-    </div>
+  <div class="mb-sm-3 mb-3 mt-2 d-sm-flex" v-if="despacho != null && actual == 2">
     <div class="mt-sm-0 me-3 mt-2">
       <a 
         href="javascript:;"  
         class="text-body text-decoration-none"
       >
-        <i class="fas fa-check fa-fw text-muted"></i> Finalizar
+        <i class="fas fa-print fa-fw text-muted"></i> Imprimir
+      </a>
+    </div>
+
+    <div class="mt-sm-0 me-3 mt-2">
+      <a 
+        href="javascript:;"  
+        class="text-body text-decoration-none"
+      >
+        <i class="fas fa-check fa-fw text-muted"></i> Despachar
       </a>
     </div>
   </div>
@@ -102,12 +102,12 @@
             <thead class="bg-light">
               <tr>
                 <th class="text-center" width="50">#</th>
-                <th class="text-center">Fecha despacho</th>
-                <th class="text-center">Hora inicio</th>
-                <th class="text-center">Hora fin</th>
                 <th>Bodega</th>
                 <th>Transacción</th>
                 <th>Estado</th>
+                <th class="text-center">Hora inicio</th>
+                <th class="text-center">Hora fin</th>
+                <th class="text-center">Fecha</th>
                 <th class="text-center">Activo</th>
               </tr>
             </thead>
@@ -119,12 +119,20 @@
                 @click="verDespacho(i)"
               > 
                 <th class="text-center"> {{ i.id }} </th>
-                <td class="text-center"> {{ formatoFecha(i.fecha_agr,1) }} </td>
-                <td class="text-center"> {{ i.hora_inicio }} </td>
-                <td class="text-center"> {{ i.hora_fin }} </td>
                 <td> {{ i.nombre_bodega }} </td>
                 <td> {{ i.nombre_transaccion }} </td>
-                <td class="text-center"> {{ i.estado }} </td>
+                <td>
+                  <span 
+                    :class="'badge bg-'+i.color+' bg-opacity-20 text-'+i.color+' fs-11px d-inline-flex align-items-center'"
+                  >
+                    <i 
+                      :class="'fa fa-check-circle text-'+i.color+' fs-10px fa-fw me-1'"
+                    ></i>{{ i.nombre_estado }}
+                  </span>
+                </td>
+                <td class="text-center"> {{ i.hora_inicio }} </td>
+                <td class="text-center"> {{ i.hora_fin }} </td>
+                <td class="text-center">{{ formatoFecha(i.fecha_agr, 2)}}</td>
                 <td class="text-center">
                   <i class="fas fa-check-circle text-success" v-if="i.activo == 1"></i>
                   <i class="fas fa-times-circle text-danger" v-else></i>
@@ -167,6 +175,11 @@
           class="tab-pane fade show active" 
           id="tab-bodega"
         >
+          <Form
+            v-if="actual == 2"
+            :despacho="despacho"
+            @actualizar="actLista"
+          />
         </div>
         <div 
           class="tab-pane fade"
@@ -179,6 +192,7 @@
 </template>
 
 <script>
+  import Form from "@/views/despacho/Form.vue"
   import Utileria from "@/mixins/Utileria.js"
 
   export default {
@@ -239,9 +253,28 @@
           this.inicio = false
           console.log(e)
         })
+      },
+      verDespacho(obj) {
+        this.actual = 2
+        this.despacho = obj
+      },
+      regresar() {
+        this.actual = 1
+        this.despacho = null
+      },
+      actLista(obj) {
+        if (this.despacho === null) {
+          this.lista.unshift(obj)
+          this.despacho = obj
+        } else {
+          for (let i in this.despacho) {
+            this.despacho[i] = obj[i]
+          }
+        }
       }
     },
     components: {
+      Form
     }
   }
 </script>
