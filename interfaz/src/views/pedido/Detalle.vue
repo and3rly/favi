@@ -32,6 +32,7 @@
               min="0"
               @blur="CambiarPrecio(i, idx)"
               @keydown.enter="EditarPrecio(i, idx)"
+              :disabled="this.pedido.estado_pedido_id != 1 && this.estado_pedido_id != 4" 
             />
           </td>
           <td class="text-center align-middle">{{ ObtenerTotal(i.total) }}</td>
@@ -54,7 +55,7 @@
             <button
               class="btn btn-sm btn-danger me-1" 
               title="Eliminar"
-              :disabled="finalizado"
+              :disabled="this.pedido.estado_pedido_id != 1 && this.estado_pedido_id != 4"
               @click="eliminarDetalle(i)"
             >
               <span class="fas fa-trash"></span>

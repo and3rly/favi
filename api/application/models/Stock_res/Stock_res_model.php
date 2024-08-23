@@ -57,9 +57,15 @@ class Stock_res_model extends General_model {
 		return verConsulta($tmp, $args);
 	}
 
-	public function EliminarReserva($id)
+	public function EliminarReserva($args=[])
 	{
-		$this->db->delete("$this->_tabla", array('pedido_det_id' => $id));
+		if (elemento($args, "detalle_id")) {
+			$this->db->delete("$this->_tabla", array('pedido_det_id' => $args['detalle_id']));
+		}
+
+		if (elemento($args, "pedido_enc_id")) {
+			$this->db->delete("$this->_tabla", array('pedido_enc_id' => $args['pedido_enc_id']));
+		}
 
 		if ($this->db->affected_rows() > 0) { 
 			return true;

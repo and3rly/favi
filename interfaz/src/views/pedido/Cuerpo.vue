@@ -11,7 +11,8 @@
         >
           <i class="fas fa-arrow-left"></i>
         </button>
-        Pedidos
+        Pedido
+        <span v-if="this.pedido !== null"> #{{ this.pedido.id }}</span>
       </h1>
     </div>
 
@@ -49,6 +50,16 @@
         @click="finalizarPedido"
       >
         <i class="fas fa-check fa-fw text-muted"></i> Finalizar
+      </a>
+    </div>
+    <div class="mt-sm-0 me-3 mt-2" v-if="this.pedido.estado_pedido_id != 3">
+      <a 
+        href="javascript:;"  
+        class="text-body text-decoration-none"
+        @click="anularPedido"
+      >
+        <i class="fas fa-trash fa-fw text-muted"></i> Anular
+
       </a>
     </div>
   </div>
@@ -388,6 +399,28 @@
               this.pedido.estado_pedido_id = 2
               this.pedido.color_estado = "teal"
               this.pedido.nombre_estado = "Finalizado"
+            } else {
+              this.$toast.error(res.data.mensaje)
+            } 
+
+          }).catch(e => {
+            this.btnGuardar = false
+            console.log(e)
+          })
+        }
+      },
+      anularPedido(){
+        if (confirm("¿Está seguro de anular el pedido?")) {
+
+          this.$http
+          .post(`${this.$baseUrl}/pedido/principal/anularPedido/${this.pedido.id}`)
+          .then(res => {
+
+            if (res.data.exito) {
+              this.$toast.success(res.data.mensaje)
+              this.pedido.estado_pedido_id = 3
+              this.pedido.color_estado = "danger"
+              this.pedido.nombre_estado = "Anulado"
             } else {
               this.$toast.error(res.data.mensaje)
             } 

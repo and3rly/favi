@@ -11,7 +11,7 @@ class Principal extends CI_Controller {
 			'stock/Stock_model',
 			'producto/Presentacion_model',
 			'Stock_res/Stock_res_model',
-			'Movimiento_model'
+			'movimientos/Movimientos_model'
 		]);
 
 		$this->output->set_content_type('application/json');
@@ -148,8 +148,9 @@ class Principal extends CI_Controller {
 				$row->bodega_id_destino = $row->bodega_id;
 				$row->estado_producto_id_origen = $row->estado_producto_id;
 				$row->estado_producto_id_destino = $row->estado_producto_id;
+				$row->pedido_enc_id = $id;
 
-				$mov = new Movimiento_model();
+				$mov = new Movimientos_model();
 				$mov->guardar($row);
 				$realizados++;
 			}
@@ -177,6 +178,41 @@ class Principal extends CI_Controller {
 			$data['correlativo'] = $correlativo;
 		}else {
 			$data['mensaje'] = $det->getMensaje();
+		}
+
+		$this->output->set_output(json_encode($data));
+	}
+
+	public function anularPedido($id)
+	{
+		$data = ['exito' => 0];
+		$datos = ['estado_pedido_id' => 3];
+
+		$ped = new Pedido_model($id);
+
+		if ($ped->guardar($datos)) {
+
+			$mov = new Movimientos_model();
+
+			if ($mov->eliminarMovimiento($id)) {
+
+				$sRes = new Stock_res_model();
+				if ($sRes->EliminarReserva(["pedido_enc_id" => $id])) {
+					$data['exito'] = 1;
+					$data['mensaje'] = "Pedido anulado con exito.";
+
+				}else {
+					$data['exito'] = 0;
+					$data['mensaje'] = $det->getMensaje();
+				}
+
+			}else {
+				$data['exito'] = 0;
+				$data['mensaje'] = $det->getMensaje();
+			}
+
+		} else {
+			$data['mensaje'] = $ped->getMensaje();
 		}
 
 		$this->output->set_output(json_encode($data));

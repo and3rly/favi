@@ -3,28 +3,30 @@
 class Movimientos_model extends General_model {
 
 	public $id;
+	public $cantidad = null;
+	public $peso = null;
 	public $lote = null;
 	public $fechaVence = null;
-	public $cantidad = null;
-	public $cantidad_presentacion = null;
+	public $horaInicio= null;
+	public $horaFinal = null;
 	public $cantHist = null;
-	public $peso = null;
 	public $pesoHist = null;
 	public $fechaOperacion = null;
+	public $usuario_agr = null;
+	public $tipo_transaccion_id = null;
 	public $producto_bodega_id;
-	public $bodega_id;
+	public $empresa_id;
+	public $presentacion_producto_id;
+	public $bodega_ubicacion_id_origen;
+	public $bodega_ubicacion_id_destino;
+	public $bodega_id_origen;
+	public $bodega_id_destino;
 	public $estado_producto_id_origen;
-	public $nombre_estado_origen;
 	public $estado_producto_id_destino;
-	public $nombre_estado_destino;
-	public $presentacion_producto_id = null;
-	public $nombre_presentacion = null;
 	public $unidad_medida_id;
-	public $nombre_um;
-	public $ubic_destino;
-	public $ubic_origen;
-	public $recepcion_enc_id = null;
-	public $despacho_enc_id = null;
+	public $recepcion_enc_id;
+	public $despacho_enc_id;
+	public $pedido_enc_id;
 
 	public function __construct($id="")
 	{
@@ -113,6 +115,17 @@ class Movimientos_model extends General_model {
 		return verConsulta($query, $args);
 	}
 
+	public function eliminarMovimiento($id)
+	{
+		$this->db->delete("$this->_tabla", array('pedido_enc_id' => $id));
+
+		if ($this->db->affected_rows() > 0) { 
+			return true;
+		} else {
+			$this->setMensaje("No se elimino el detalle, por favor intente nuevamente.");
+			return false;
+		}
+	}
 }
 
 /* End of file Movimientos_model.php */

@@ -237,7 +237,7 @@ class Detalle extends CI_Controller {
 
 		$reserva = new Stock_res_model();
 
-		if ($reserva->EliminarReserva($id)) {
+		if ($reserva->EliminarReserva(["detalle_id" => $id])) {
 			
 			$det = new Pedido_det_model();
 
