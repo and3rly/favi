@@ -43,6 +43,10 @@ class Pedido_model extends General_model {
 				$this->db->where("a.bodega_id", $args['bodega_id']);
 			}
 
+			if (elemento($args, "estado_pedido_id")) {
+				$this->db->where("a.estado_pedido_id", $args["estado_pedido_id"]);
+			}
+
 			if (elemento($args, 'criterio')) {
 
 				$termino = trim($args['criterio']);

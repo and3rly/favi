@@ -11,7 +11,7 @@
           <i class="fas fa-arrow-left"></i>
         </button>
 
-        Despacho <span v-if="despacho !== null"> #{{despacho.id }}</span>
+        Despacho <span v-if="despacho !== null"> #{{ despacho.id }}</span>
       </h1>
     </div>
 
@@ -23,26 +23,6 @@
       >
         <i class="fas fa-circle-plus me-2"></i>Nuevo
       </button> 
-    </div>
-  </div>
-
-  <div class="mb-sm-3 mb-3 mt-2 d-sm-flex" v-if="despacho != null && actual == 2">
-    <div class="mt-sm-0 me-3 mt-2">
-      <a 
-        href="javascript:;"  
-        class="text-body text-decoration-none"
-      >
-        <i class="fas fa-print fa-fw text-muted"></i> Imprimir
-      </a>
-    </div>
-
-    <div class="mt-sm-0 me-3 mt-2">
-      <a 
-        href="javascript:;"  
-        class="text-body text-decoration-none"
-      >
-        <i class="fas fa-check fa-fw text-muted"></i> Despachar
-      </a>
     </div>
   </div>
 
@@ -145,58 +125,20 @@
     </Card>
   </template>
 
-  <template v-else>
-    <Card class="mt-2">
-      <ul class="nav nav-tabs nav-tabs-v2 ps-4 pe-4">
-        <li class="nav-item me-3">
-          <a 
-            href="#tab-bodega" 
-            class="nav-link active" 
-            data-bs-toggle="tab"
-            @click="vista = 1"
-          >
-            <i class="fas fa-arrow-alt-circle-down me-1"></i>Encabezado
-          </a>
-        </li>
-        <li class="nav-item me-3" v-if="despacho !== null">
-          <a
-            id="tab-detalle"
-            href="#tab-det" 
-            class="nav-link" 
-            data-bs-toggle="tab"
-            @click="vista = 2"
-          >
-            <i class="fas fa-list me-1"></i>Detalle
-          </a>
-        </li>
-      </ul>
-      <div class="tab-content p-3">
-        <div 
-          class="tab-pane fade show active" 
-          id="tab-bodega"
-        >
-          <Form
-            v-if="actual == 2"
-            :despacho="despacho"
-            @actualizar="actLista"
-          />
-        </div>
-        <div 
-          class="tab-pane fade"
-          id="tab-det"
-        >
-        </div>
-      </div>
-    </Card>
-  </template>
+  <div v-else>
+    <Despacho
+      :despacho="despacho"
+      @actualizar="actLista"
+    />
+  </div>
 </template>
 
 <script>
-  import Form from "@/views/despacho/Form.vue"
+  import Despacho from "@/views/despacho/Despacho.vue"
   import Utileria from "@/mixins/Utileria.js"
 
   export default {
-    name: "Despacho",
+    name: "Principal",
     mixins: [Utileria],
     data: () => ({
       inicio: false,
@@ -205,6 +147,7 @@
       actual: 1,
       vista: 1,
       lista: [],
+      pedidos: [],
       cat: [
       ],
       bform: {
@@ -216,11 +159,10 @@
     mounted() {
     },
     created() {
-      this.getDatos()
-
       this.bform.fdel = this.setFechaInicio()
       this.bform.fal = this.setFechaActual()
 
+      this.getDatos()
       this.buscar()
     }, 
     methods: {
@@ -266,6 +208,7 @@
         if (this.despacho === null) {
           this.lista.unshift(obj)
           this.despacho = obj
+
         } else {
           for (let i in this.despacho) {
             this.despacho[i] = obj[i]
@@ -274,7 +217,7 @@
       }
     },
     components: {
-      Form
+      Despacho
     }
   }
 </script>

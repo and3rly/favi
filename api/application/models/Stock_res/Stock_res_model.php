@@ -33,6 +33,31 @@ class Stock_res_model extends General_model {
 		}
 	}
 
+	public function _buscar($args=[])
+	{
+		if (elemento($args, "producto_bodega_id")) {
+			$this->db->where("a.producto_bodega_id", $args["producto_bodega_id"]);
+		}
+
+		if (elemento($args, "presentacion_producto_id")) {
+			$this->db->where("a.presentacion_producto_id", $args["presentacion_producto_id"]);
+		}
+
+		if (elemento($args, "unidad_medida_id")) {
+			$this->db->where("a.unidad_medida_id", $args["unidad_medida_id"]);
+		}
+
+		if (elemento($args, "estado_producto_id")) {
+			$this->db->where("a.estado_producto_id", $args["estado_producto_id"]);
+		}
+
+		$tmp = $this->db
+		->select("a.*")
+		->get("$this->_tabla a");
+
+		return verConsulta($tmp, $args);
+	}
+
 	public function ObtenerReservaExistente($args=[])
 	{	
 

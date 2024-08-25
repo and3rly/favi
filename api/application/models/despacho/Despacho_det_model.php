@@ -29,6 +29,35 @@ class Despacho_det_model extends General_model {
 		}
 	}
 
+	public function _buscar($args=[])
+	{
+		if (elemento($args, "id")) {
+			$this->db->where("a.id", $args["id"]);
+		} else {
+			
+			if (elemento($args, "despacho_enc_id")) {
+				$this->db->where("a.despacho_enc_id", $args["despacho_enc_id"]);
+			}
+		}
+
+		$tmp = $this->db
+		->select("a.*")
+		->where("a.activo", 1)
+		->order_by("a.no_linea")
+		->get("$this->_tabla a");
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function actCantPedDet($args=[])
+	{
+		$this->db
+		->set("cantidad_despachada", $args["cantidad"])
+		->where("id", $args['pedido_det'])
+		->update("pedido_det");
+
+		return $this->db->affected_rows() > 0;
+	}
 }
 
 /* End of file Despacho_det_model.php */

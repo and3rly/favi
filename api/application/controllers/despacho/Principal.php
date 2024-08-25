@@ -5,9 +5,13 @@ class Principal extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(["despacho/Despacho_enc_model"]);
+		$this->load->model([
+			"despacho/Despacho_enc_model", 
+			"pedido/Pedido_model", 
+			"pedido/Pedido_det_model"
+		]);
 		$this->user = $this->session->userdata('usuario');
-		
+
 		$this->output->set_content_type('application/json');
 	}
 
@@ -51,6 +55,22 @@ class Principal extends CI_Controller {
 		$this->output->set_output(json_encode($data));
 	}
 
+	public function get_pedidos()
+	{	
+		$data = [];
+		$pedido = $this->Pedido_model->_buscar(["estado_pedido_id" => 2]);
+
+		if ($pedido) {
+			foreach ($pedido as $row) {
+				$row->detalle = $this->Pedido_det_model->_buscar(["pedido_enc_id" => $row->id]);
+			}
+		}
+
+		$data["lista"] = $pedido;
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
 	public function guardar($id="")
 	{
 		$data = ["exito" => 0];
@@ -74,9 +94,8 @@ class Principal extends CI_Controller {
 					$datos->usuario_agr = $us;
 				}
 
-				$datos->fecha_mod = $fecha;
+				$datos->fecha_mod   = $fecha;
 				$datos->usuario_mod =  $us;
-
 
 				if ($des->guardar($datos)) {
 					$data["exito"] = 1;

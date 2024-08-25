@@ -25,6 +25,7 @@ class Movimiento_model extends General_model {
 	public $unidad_medida_id = null;
 	public $recepcion_enc_id = null;
 	public $despacho_enc_id = null;
+	public $pedido_enc_id = null;
 
 	public function __construct($id="")
 	{
