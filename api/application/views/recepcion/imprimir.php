@@ -26,22 +26,33 @@
   >
     <tr>
       <td style="width: 17%; padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Tipo:</b></td>  
-      <td style="padding: 5px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_tipo ?> </td>
-      <td style="width: 17%; padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE"><b>Transacción:</b></td>
-      <td style="padding: 5px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_transaccion ?> </td>
+      <td style="width: 33%; padding: 5px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_tipo ?> </td>
+      <td style="width: 17%; padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE">
+        <b>Transacción:</b>
+      </td>
+      <td style="width: 33%; padding: 5px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_transaccion ?> </td>
     </tr>
     <tr>
-    <tr>
-      <td style="padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Piloto:</b></td>
-      <td style="padding: 5px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_piloto ." ". $encabezado->apelldiso_piloto ?> </td>
-      <td style="padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Vehículo:</b></td>
-      <td style="padding: 5px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->marca ." ". $encabezado->placa ?> </td>
+      <td style="padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;">
+        <b>Piloto:</b>
+      </td>
+      <td style="padding: 5px; border: 1px solid #EEEEEE;"> 
+        <?php echo $encabezado->nombre_piloto ." ". $encabezado->apelldiso_piloto ?> 
+      </td>
+      <td style="padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;">
+        <b>Vehículo:</b>
+      </td>
+      <td style="padding: 5px; border: 1px solid #EEEEEE;"> 
+        <?php echo $encabezado->marca ." ". $encabezado->placa ?> 
+      </td>
     </tr>
     <tr>
-      <td colspan="100" style="padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Observación:</b></td>  
+      <td colspan="100" style="padding: 5px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;">
+        <b>Observación:</b>
+      </td>  
     </tr>
     <tr>
-      <td colspan="100" style="padding: 5px;"><?php echo $encabezado->observacion ?></td>
+      <td colspan="" style="padding: 5px;"><?php echo $encabezado->observacion ?></td>
     </tr>
   </table>
 
