@@ -86,10 +86,13 @@ app.use(router);
 app.use(Vue3ProgressPlugin);
 app.use(PerfectScrollbarPlugin);
 
+let urlImp = import.meta.env.VITE_API_BASE_URL
+
 app.config.globalProperties.emitter = emitter
 app.config.globalProperties.$http = axiosClient
 app.config.globalProperties.$modal = Modal
 app.config.globalProperties.$toast = toast
 app.config.globalProperties.$baseUrl = url
+app.config.globalProperties.$urlImp = urlImp+"index.php"
 
 app.mount('#app');

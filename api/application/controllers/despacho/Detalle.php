@@ -9,7 +9,7 @@ class Detalle extends CI_Controller {
 			"despacho/Despacho_enc_model",
 			"despacho/Despacho_det_model",
 			"pedido/Pedido_model",
-			"stock_res/Stock_res_model",
+			"Stock_res/Stock_res_model",
 			"Movimiento_model"
 		]);
 

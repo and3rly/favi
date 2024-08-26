@@ -39,7 +39,7 @@
     </div>
     <div class="mt-sm-0 me-3 mt-2" v-if="recepcion !== null">
       <a
-        href="javascript:;" 
+        :href="`${this.$urlImp}/recepcion/principal/imprimir/${recepcion.id}`" target="_blank"
         class="text-body text-decoration-none"
       >
         <i class="fas fa-print fa-fw me-1 text-muted"></i> Imprimir

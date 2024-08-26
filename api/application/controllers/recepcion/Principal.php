@@ -10,7 +10,8 @@ class Principal extends CI_Controller {
 			'recepcion/Recepcion_det_model',
 			'stock/Stock_model',
 			'Movimiento_model',
-			'producto/Presentacion_model'
+			'producto/Presentacion_model',
+			'mnt/Empresa_model'
 		]);
 
 		$this->output->set_content_type('application/json');
@@ -183,6 +184,43 @@ class Principal extends CI_Controller {
 		}
 
 		$this->output->set_output(json_encode($data));
+	}
+
+	public function imprimir($id)
+	{	
+
+		$empresa = new Empresa_model($this->user["empresa_id"]);
+		$encabezado = new Recepcion_model();
+		$det = new Recepcion_det_model();
+		
+		$data = [
+			"empresa"    => $empresa,
+			"encabezado" => $encabezado->_buscar(["id" => $id, "uno" => true]),
+			"detalle"    => $det->_buscar(["recepcion_enc_id" => $id])
+		];
+
+		$cuerpo = $this->load->view("recepcion/imprimir", $data, true);
+
+		$mpdf = new \Mpdf\Mpdf();
+		$mpdf->setTitle("Recepción_#{$id}");
+		$mpdf->SetFooter('
+			<div style="border-top: 1px solid #555; padding-top: 10px; font-family: Gill Sans, sans-serif;">
+			    <table width="100%" style="font-size: 9pt; color: #0000; font-family: Gill Sans, sans-serif;">
+			        <tr>
+			            <td width="33%" style="text-align: left; ">
+			                &copy; {DATE Y} ' . $empresa->nombre . '
+			            </td>
+			            <td width="33%" style="text-align: right;">
+			                Página {PAGENO} de {nbpg}
+			            </td>
+			        </tr>
+			    </table>
+			</div>
+		');
+		
+		$mpdf->WriteHTML($cuerpo);
+		$mpdf->debug = true;
+		$mpdf->Output("Recepción_#{$id}.pdf","I");
 	}
 }
 
