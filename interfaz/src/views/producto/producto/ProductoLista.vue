@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="table-responsive" style="max-height: calc(100vh - 120px - 100px - 20px);">
-				<table class="table table-sm table-striped mb-0">
+				<table class="table table-sm table-hover mb-0">
 					<thead>
 						<tr>
 							<th scope="col" class="text-center" width="30">#</th>
@@ -48,8 +48,7 @@
 							<td class="text-center">
 								<Imagen
 									:imagen="i.imagen"
-									:estilo="'width: 30px; height: 30px;'"
-									:clase="'rounded-circle'"
+									:estilo="'width: 45px; height: 45px;'"
 								/>
 							</td>
 							<td>{{ i.codigo }}</td>

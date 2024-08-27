@@ -11,7 +11,7 @@ if (!function_exists('subirArchivo'))
 			elemento($datos, 'type') &&
 			elemento($datos, 'name')) {
 
-			$archivo = new Drive();
+			$archivo = new GoogleDrive();
 			if (!isset($datos['carpeta'])) {
 				$datos['carpeta'] = 'varios';
 			}
@@ -43,7 +43,7 @@ if (!function_exists('get_imagen_drive'))
 {
 	function get_imagen_drive($key_drive)
 	{
-		$gd = new Drive();
+		$gd = new GoogleDrive();
 		$archivo = $gd->descargarArchivo(['fileId' => $key_drive]);
 
 		return (object) [

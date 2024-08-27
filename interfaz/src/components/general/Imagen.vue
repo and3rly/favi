@@ -35,10 +35,12 @@
 		methods: {
 			setFoto() {
 				if (this.imagen) {
-					this.urlFoto = 'https://drive.google.com/uc?export=view&id='+this.imagen
+					this.urlFoto = 'https://lh3.googleusercontent.com/d/'+this.imagen
 				} else {
-					this.urlFoto = 'src/assets/images/usuario.png'
+					this.urlFoto = "/assets/img/image.png"
 				}
+
+				console.log(this.urlFoto)
 			}
 		},
 		watch: {

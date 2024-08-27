@@ -24,7 +24,9 @@ class Producto extends CI_Controller {
 	}
 
 	public function guardar($id="") 
-	{
+	{	
+		$this->load->library("drive/GoogleDrive");
+
 		$data = ["exito" => 0];
 
 		if ($this->input->method() === "post") {
@@ -53,7 +55,7 @@ class Producto extends CI_Controller {
 							$datos->img_enlace = $imagen->link;
 						} 
 					}
-
+					
 					if ($producto->guardar($datos)) {
 						$data['exito']   = 1;
 						$data['mensaje'] = empty($id) ? "Registro guardado con éxito.":"Registro actualizado.";

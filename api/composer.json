@@ -13,8 +13,8 @@
 	"require": {
 		"php": ">=5.3.7",
 		"firebase/php-jwt": "*",
-		"google/apiclient": "^2.12.1",
-		"mpdf/mpdf": "^8.2"
+		"mpdf/mpdf": "^8.2",
+		"google/apiclient": "^2.17"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
