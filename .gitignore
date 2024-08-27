@@ -17,7 +17,7 @@ api/user_guide_src/cilexer/build/*
 api/user_guide_src/cilexer/dist/*
 api/user_guide_src/cilexer/pycilexer.egg-info/*
 api/vendor/
-api/libraries/drive/cliente.json
+api/application/libraries/drive/cliente.json
 
 /assets
 favicon.ico
