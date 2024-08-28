@@ -201,7 +201,7 @@
         >
           <Form
             :pedido="pedido"
-            :cat="cat"
+            :catPed="cat"
             :finalizado="finalizado"
             :correlativo="correlativo"
             @actualizar="actLista"

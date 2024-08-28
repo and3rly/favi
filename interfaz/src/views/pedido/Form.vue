@@ -5,23 +5,14 @@
         <label for="selectCliente" class="fw-bold mb-1">
           Cliente: <span class="text-danger">*</span>
         </label>
-        <!--<vue-select 
-          id="selectDepartamento"
+        <vue-select 
+          id="selectCliente"
           :options="clientes"
           :reduce="r => r.value"
-          placeholder="Cliente"
+          placeholder="------------"
           v-model="form.cliente_id"
-        ></vue-select>-->
-        <select 
-          name="selectCliente" 
-          id="selectCliente" 
-          class="form-select"
-          v-model="form.cliente_id"
-          required
-        > 
-          <option value="">---------------</option>
-          <option v-for="i in cat.cliente" :value="i.id">{{ i.codigo+'-'+i.nombre_comercial }}</option>
-        </select>
+        >  
+        </vue-select>
       </div>
 
       <div class="col-sm-3">
@@ -37,7 +28,7 @@
           disabled 
         > 
           <option value="">---------------</option>
-          <option v-for="i in cat.transaccion" :value="i.id">{{ i.nombre }}</option>
+          <option v-for="i in catPed.transaccion" :value="i.id">{{ i.nombre }}</option>
         </select>
       </div>
 
@@ -53,7 +44,7 @@
           required
         > 
           <option value="">---------------</option>
-          <option v-for="i in cat.bodega" :value="i.id">{{ i.nombre }}</option>
+          <option v-for="i in catPed.bodega" :value="i.id">{{ i.nombre }}</option>
         </select>
       </div>
 
@@ -69,7 +60,7 @@
           required
         > 
           <option value="">---------------</option>
-          <option v-for="i in cat.pedido_tipo" :value="i.id">{{ i.nombre }}</option>
+          <option v-for="i in catPed.pedido_tipo" :value="i.id">{{ i.nombre }}</option>
         </select>
       </div>
 
@@ -84,7 +75,7 @@
           v-model="form.motivo_anulacion_pedido_id"
         > 
           <option value="null">---------------</option>
-          <option v-for="i in cat.motivo_anulacion_pedido" :value="i.id">{{ i.nombre }}</option>
+          <option v-for="i in catPed.motivo_anulacion_pedido" :value="i.id">{{ i.nombre }}</option>
         </select>
       </div>
 
@@ -239,14 +230,14 @@
         type: Object,
         default: null
       },
-      cat: {
-        type: Array,
+      catPed: {
+        type: Object,
         required: true,
       },
       correlativo: 0,
     },
     data: () => ({
-      cat: [],
+      clientes: []
     }),
     created() {
 
@@ -299,13 +290,18 @@
         return ''
       },
     },
+    computed: {
+      clientes() {
+        return this.setDatoSelect(this.catPed.cliente, "id", "nombre_comercial")
+      }
+    },
     watch: {
       pedido(v) {
         v.fecha_pedido = this.ObtenerFecha(this.pedido.fecha_pedido, 1)
         v.fecha_entrega = this.ObtenerFecha(this.pedido.fecha_entrega, 1)
 
         this.setDatosForm(v)
-      },
+      }
     },
   }
 </script>

@@ -36,6 +36,8 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 import { useToast } from "vue-toastification";
+import VueSelect from '@/components/plugins/VueSelect.vue';
+
 
 const emitter = mitt();
 const toast = useToast();
