@@ -11,7 +11,8 @@ class Principal extends CI_Controller {
 			'stock/Stock_model',
 			'producto/Presentacion_model',
 			'Stock_res/Stock_res_model',
-			'movimientos/Movimientos_model'
+			'movimientos/Movimientos_model',
+			'mnt/Empresa_model'
 		]);
 
 		$this->output->set_content_type('application/json');
@@ -67,6 +68,12 @@ class Principal extends CI_Controller {
 
 		if ($this->input->method() === "post") {
 			$datos = json_decode(file_get_contents('php://input'));
+
+			echo "<pre>";
+			print_r ($datos);
+			echo "</pre>";
+
+			return;
 			
 			if (verPropiedad($datos, "bodega_id") &&
 				verPropiedad($datos, "tipo_transaccion_id")) {
@@ -216,6 +223,43 @@ class Principal extends CI_Controller {
 		}
 
 		$this->output->set_output(json_encode($data));
+	}
+
+	public function imprimir($id)
+	{	
+
+		$empresa = new Empresa_model($this->user["empresa_id"]);
+		$enc = new Pedido_model();
+		$det = new Pedido_det_model();
+		
+		$data = [
+			"empresa"    => $empresa,
+			"encabezado" => $enc->_buscar(["id" => $id, "uno" => true]),
+			"detalle"    => $det->_buscar(["pedido_enc_id" => $id])
+		];
+
+		$cuerpo = $this->load->view("pedido/imprimir", $data, true);
+
+		$mpdf = new \Mpdf\Mpdf();
+		$mpdf->setTitle("Pedido_#{$id}");
+		$mpdf->SetFooter('
+			<div style="border-top: 1px solid #555; padding-top: 10px; font-family: Gill Sans, sans-serif;">
+			    <table width="100%" style="font-size: 9pt; color: #0000; font-family: Gill Sans, sans-serif;">
+			        <tr>
+			            <td width="33%" style="text-align: left; ">
+			                &copy; {DATE Y} ' . $empresa->nombre . '
+			            </td>
+			            <td width="33%" style="text-align: right;">
+			                Página {PAGENO} de {nbpg}
+			            </td>
+			        </tr>
+			    </table>
+			</div>
+		');
+		
+		$mpdf->WriteHTML($cuerpo);
+		$mpdf->debug = true;
+		$mpdf->Output("Pedido_#{$id}.pdf","I");
 	}
 }
 

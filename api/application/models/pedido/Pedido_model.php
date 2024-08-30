@@ -80,13 +80,17 @@ class Pedido_model extends General_model {
 			e.nombre as nombre_transaccion,
 			IFNULL(f.id, 1) as estado_pedido_id,
 			IFNULL(f.nombre, 'Nuevo') as nombre_estado,
-			IFNULL(f.color, 'primary') as color_estado"
+			IFNULL(f.color, 'primary') as color_estado,
+			g.nombre_comercial as nombre_cliente,
+			h.descripcion as nombre_tipo"
 		)
 		->join("motivo_anulacion_pedido b", "b.id = a.motivo_anulacion_pedido_id", "left")
 		->join("bodega c","c.id = a.bodega_id")
 		->join("pedido_tipo d","d.id = a.pedido_tipo_id", "left")
 		->join("tipo_transaccion e","e.id = a.tipo_transaccion_id")
 		->join("estado_pedido f", "a.estado_pedido_id = f.id", "left")
+		->join("cliente g", "a.cliente_id = g.id", "left")
+		->join("pedido_tipo h", "a.pedido_tipo_id = h.id", "left")
 		->order_by("a.fecha_agr", "desc")
 		->get("$this->_tabla a");
 

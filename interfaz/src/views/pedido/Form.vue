@@ -164,7 +164,7 @@
       </div>
 
       <template v-if="pk !== ''">
-        <div class="col-sm-2">
+        <!--<div class="col-sm-2">
           <div class="form-check form-switch mt-2">
             <input 
               class="form-check-input" 
@@ -178,7 +178,7 @@
             >
             <label class="form-check-label" for="chkAnulada">Anulada</label>
           </div>
-        </div>
+        </div>-->
 
         <div class="col-sm-2">
           <div class="form-check form-switch mt-2">

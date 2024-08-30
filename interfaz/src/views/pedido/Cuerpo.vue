@@ -62,6 +62,14 @@
 
       </a>
     </div>
+    <div class="mt-sm-0 me-3 mt-2" v-if="this.pedido.estado_pedido_id == 2">
+      <a
+        :href="`${this.$urlImp}/pedido/principal/imprimir/${pedido.id}`" target="_blank"
+        class="text-body text-decoration-none"
+      >
+        <i class="fas fa-print fa-fw me-1 text-muted"></i> Imprimir
+      </a>
+    </div>
   </div>
 
   <template v-if="actual === 1">
@@ -412,23 +420,30 @@
       anularPedido(){
         if (confirm("¿Está seguro de anular el pedido?")) {
 
-          this.$http
-          .post(`${this.$baseUrl}/pedido/principal/anularPedido/${this.pedido.id}`)
-          .then(res => {
+          if (this.pedido.motivo_anulacion_pedido_id == null) {
+            this.$toast.error("Seleccione un motivo de anulación")
+            let motAnulacion = document.getElementById("selectMotAnul");
+            motAnulacion.focus();
+          }else{
+            this.$http
+            .post(`${this.$baseUrl}/pedido/principal/anularPedido/${this.pedido.id}`)
+            .then(res => {
 
-            if (res.data.exito) {
-              this.$toast.success(res.data.mensaje)
-              this.pedido.estado_pedido_id = 3
-              this.pedido.color_estado = "danger"
-              this.pedido.nombre_estado = "Anulado"
-            } else {
-              this.$toast.error(res.data.mensaje)
-            } 
+              if (res.data.exito) {
+                this.$toast.success(res.data.mensaje)
+                this.pedido.estado_pedido_id = 3
+                this.pedido.color_estado = "danger"
+                this.pedido.nombre_estado = "Anulado"
+              } else {
+                this.$toast.error(res.data.mensaje)
+              } 
 
-          }).catch(e => {
-            this.btnGuardar = false
-            console.log(e)
-          })
+            }).catch(e => {
+              this.btnGuardar = false
+              console.log(e)
+            })
+          }
+          
         }
       },
     },
