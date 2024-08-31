@@ -23,9 +23,23 @@ class Empresa extends CI_Controller {
 		$this->output->set_output(json_encode($data));
 	}
 
-
-	public function guardar() 
+	public function get_datos() 
 	{
+		$data = [
+			'cat' => [
+				'moneda'   => $this->catalogo->ver_moneda(),
+				'pais'      => $this->catalogo->ver_pais(),
+				'departamento' => $this->catalogo->ver_pais_departamento(),
+				'municipio'      => $this->catalogo->ver_pais_municipio(),
+			]
+		];
+
+		$this->output->set_output(json_encode($data)); 
+	}
+
+	public function guardar($id='') 
+	{
+		
 		$data = ["exito" => 0];
 
 		if ($this->input->method() === "post") {

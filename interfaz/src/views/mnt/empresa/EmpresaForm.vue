@@ -56,6 +56,60 @@
 
 			<div class="col-sm-6">
 				<label for="" class="fw-bold mb-1">
+					Pais: <span class="text-danger">*</span>
+				</label>
+				<div class="col-sm-10">
+					<select 
+					name="selectPais" 
+					id="selectPais" 
+					class="form-select"
+					v-model="form.pais_id"
+					required
+					>
+					<option value="">Seleccione pais...</option>
+					<option v-for="i in cat.pais" :value="i.id">{{i.nombre}}</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<label for="" class="fw-bold mb-1">
+					Departamento: <span class="text-danger">*</span>
+				</label>
+				<div class="col-sm-10">
+					<select 
+					name="selectDepartamento" 
+					id="selectDepartamento" 
+					class="form-select"
+					v-model="form.pais_departamento_id"
+					required
+					>
+					<option value="">Seleccione departamento...</option>
+					<option v-for="i in cat.departamento" :value="i.id">{{i.nombre}}</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<label for="" class="col-sm-2">
+					Municipio: <span class="text-danger">*</span>
+				</label>
+				<div class="col-sm-10">
+					<select 
+					name="selectMunicipio" 
+					id="selectMunicipio" 
+					class="form-select"
+					v-model="form.pais_municipio_id"
+					required
+					>
+					<option value="">Seleccione municipio...</option>
+					<option v-for="i in cat.municipio" :value="i.id">{{i.nombre}}</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<label for="" class="fw-bold mb-1">
 					Dirección:
 				</label>
 				<input 
@@ -105,6 +159,38 @@
 					@change="subirFoto"
 				>
 			</div>
+
+			<div class="col-sm-6">
+				<label for="" class="fw-bold mb-1">
+					Eslogan:
+				</label>
+					<input
+					type="text"
+					class="form-control"
+					placeholder="Eslogan de la empresa"
+					step="any"
+					v-model="form.eslogan"
+					>
+			</div>
+
+			<div class="col-sm-6">
+			<label for="" class="col-sm-2">
+				Moneda: <span class="text-danger">*</span>
+			</label>
+			<div class="col-sm-10">
+				<select 
+					name="selectMoneda" 
+					id="selectMoneda" 
+					class="form-select"
+					v-model="form.moneda_id"
+					required
+				>
+					<option value="">Seleccione moneda...</option>
+					<option v-for="i in cat.moneda" :value="i.id">{{i.nombre}}</option>
+				</select>
+			</div>
+			</div>
+
 		</div>		
 		<div class="d-flex flex-row mb-3">
 			<div class="me-4">
@@ -171,10 +257,12 @@
 			}
 		},
 		data: () => ({
+			 cat: [],
 		}),
 		created() {
 			this.controlador = 'mnt/empresa'
 			this.autoBuscar = false
+			this.getDatos()
 			this.setForm()
 
 			if (this.empresa) {
@@ -183,6 +271,16 @@
 			}
 		},
 		methods: {
+			getDatos() {
+
+				this.$http
+				.get(`${this.$baseUrl}/mnt/empresa/get_datos`)
+				.then(res => {
+					this.cat = res.data.cat
+				}).catch(e => {
+					console.log(e)
+				})
+			},
 			setForm() {
 				this.form = {
 					nombre: '',
@@ -192,14 +290,20 @@
 					direccion: '',
 					telefono: '',
 					correo: '',
+					moneda_id:1,
+					pais_id:1,
+					pais_departamento_id:1,
+					pais_municipio_id:1,
+					eslogan:'',
 					activo: 1
 				}
 			},
 			subirFoto(file) {
 				if (file.target.files[0]) {
-					this.form.imagen = file.target.files[0]
+					this.form.logo = file.target.files[0]
 				}
 			},
+
 		}
 	}
 </script>

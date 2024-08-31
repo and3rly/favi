@@ -22,7 +22,7 @@
 							<td scope="row" class="text-center fw-bold">{{idx + 1}}</td>
 							<td class="text-center">
 								<Imagen
-									:imagen="i.imagen"
+									:imagen="i.logo"
 									:estilo="'width: 42px; height: 42px;'"
 									:clase="'rounded-circle'"
 								/>

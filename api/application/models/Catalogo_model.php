@@ -751,6 +751,55 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function ver_moneda($args=[]) 
+	{
+		$tmp = $this->db
+		->get("moneda");
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_pais($args=[]) 
+	{
+
+		$tmp = $this->db
+
+		->where("activo", 1)
+		->get("pais");
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_pais_departamento($args=[]) 
+	{
+		if (elemento($args, 'pais_id')) {
+			$this->db->where('pais_id', $args['pais_id']);
+		}
+
+		$tmp = $this->db
+		->where("activo", 1)
+		->get("pais_departamento");
+
+		return verConsulta($tmp, $args);
+	}
+
+	public function ver_pais_municipio($args=[]) 
+	{
+		if (elemento($args, 'pais_id')) {
+			$this->db->where('pais_id', $args['pais_id']);
+		}
+
+		if (elemento($args, 'pais_deparamento_id')) {
+			$this->db->where('pais_deparamento_id', $args['pais_deparamento_id']);
+		}
+
+		$tmp = $this->db
+		->where("activo", 1)
+		->get("pais_municipio");
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Catalogo_model.php */

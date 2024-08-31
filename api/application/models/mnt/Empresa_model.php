@@ -10,7 +10,14 @@ class Empresa_model extends General_model {
 	public $telefono = null;
 	public $correo = null;
 	public $logo = null;
-	public $logo_enlance = null;
+	public $logo_enlace = null;
+	public $eslogan = null;
+	public $moneda_id;
+	public $pais_id;
+	public $pais_departamento_id;
+	public $pais_municipio_id;
+	public $departamento='';
+	public $municipio='';
 	public $activo = 1;
 
 	public function __construct($id="")
@@ -24,10 +31,15 @@ class Empresa_model extends General_model {
 	public function buscar($args=[])
 	{
 		if (elemento($args,'id')) {
-			$this->db->where('a.id',$args['id']);
+			$this->db->where('e.id',$args['id']);
 		}
 
-		$tmp = $this->db->get("$this->_tabla");
+		$tmp = $this->db
+					->select("e.*,d.nombre as departamento,m.nombre as municipio")
+					->join("pais p","p.id = e.pais_id")
+					->join("pais_departamento d", "d.id = e.pais_departamento_id")
+					->join("pais_municipio m", "m.id = e.pais_municipio_id")
+					->get('empresa e');	
 
 		return verConsulta($tmp, $args);
 	}
@@ -39,7 +51,7 @@ class Empresa_model extends General_model {
 
 		$tmp = $this->db
 					->where("nit", $args->nit)
-					->where("nombre", $args->empresa)
+					->where("nombre", $args->nombre)
 					->where("razon_social", $args->razon_social)
 					->where("representante", $args->nit)
 					->get("$this->_tabla");
