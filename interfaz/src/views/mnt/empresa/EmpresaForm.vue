@@ -58,7 +58,7 @@
 				<label for="" class="fw-bold mb-1">
 					Pais: <span class="text-danger">*</span>
 				</label>
-				<div class="col-sm-10">
+				<div class="col-sm-12">
 					<select 
 					name="selectPais" 
 					id="selectPais" 
@@ -76,7 +76,7 @@
 				<label for="" class="fw-bold mb-1">
 					Departamento: <span class="text-danger">*</span>
 				</label>
-				<div class="col-sm-10">
+				<div class="col-sm-12">
 					<select 
 					name="selectDepartamento" 
 					id="selectDepartamento" 
@@ -94,7 +94,7 @@
 				<label for="" class="col-sm-2">
 					Municipio: <span class="text-danger">*</span>
 				</label>
-				<div class="col-sm-10">
+				<div class="col-sm-12">
 					<select 
 					name="selectMunicipio" 
 					id="selectMunicipio" 
