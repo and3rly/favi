@@ -1,11 +1,12 @@
 <template>
   <div class="mb-sm-3 mb-3 mt-2 d-sm-flex" v-if="despacho != null">
-    <div class="mt-sm-0 me-3 mt-2">
-      <a 
-        href="javascript:;"  
+    
+    <div class="mt-sm-0 me-3 mt-2" v-if="this.despacho.estado_despacho_id == 4">
+      <a
+        :href="`${this.$urlImp}/despacho/principal/imprimir/${despacho.id}`" target="_blank"
         class="text-body text-decoration-none"
       >
-        <i class="fas fa-print fa-fw text-muted"></i> Imprimir
+        <i class="fas fa-print fa-fw me-1 text-muted"></i> Imprimir
       </a>
     </div>
 

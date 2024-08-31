@@ -63,11 +63,19 @@ class Despacho_enc_model extends General_model {
 			b.nombre as nombre_bodega,
 			c.nombre as nombre_transaccion,
 			d.nombre as nombre_estado,
-			d.color
+			d.color,
+			e.tipo as tipo_vehiculo,
+			e.marca as marca_vehiculo,
+			e.placa as placa_vehiculo,
+			f.nombres as nombres_piloto,
+			f.apellidos as apellidos_piloto,
+			f.telefono as contacto_piloto
 		")
 		->join("bodega b","b.id = a.bodega_id")
 		->join("tipo_transaccion c","c.id = a.tipo_transaccion_id")
 		->join("estado_despacho d","d.id = a.estado_despacho_id")
+		->join("vehiculos e", "a.vehiculos_id = e.id", "left")
+		->join("pilotos f", "a.pilotos_id = f.id", "left")
 		->order_by("a.fecha_agr", "desc")
 		->get("$this->_tabla a");
 
