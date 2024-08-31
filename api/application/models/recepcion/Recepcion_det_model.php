@@ -23,6 +23,7 @@ class Recepcion_det_model extends General_model {
 	public $presentacion_producto_id = null;
 	public $unidad_medida_id;
 	public $estado_producto_id;
+	public $orden_compra_det_id = null;
 
 	public function __construct($id='')
 	{

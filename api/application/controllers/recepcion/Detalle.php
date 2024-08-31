@@ -78,10 +78,11 @@ class Detalle extends CI_Controller {
 					$realizados = 0;
 					foreach ($datos->detalle as $row) {
 						$detg = new Recepcion_det_model();
-
+						
 						$row->recepcion_enc_id = $datos->id;
 						$row->estado_producto_id = 1;
 						$row->cantidad_recibida = $row->cantidad;
+						$row->orden_compra_det_id = $row->id;
 						$row->no_linea = $detg->setNoLinea(['recepcion' => $datos->id]);
 						$detg->guardar($row);
 						$realizados++;

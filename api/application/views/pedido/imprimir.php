@@ -2,7 +2,7 @@
   <table width="100%" style="padding-bottom: 10px; font-family: Gill Sans, sans-serif;">
     <tr>
         <td width="20%" style="text-align: left; vertical-align: top;">
-            <img src="<?php echo APPPATH.'public/logo.png' ?>" width="125" height="auto" alt="Logo"/>
+            <img src="<?php echo "https://lh3.googleusercontent.com/d/".$empresa->logo ?>" width="125" height="auto" alt="Logo"/>
         </td>
         <td width="60%" style="text-align: center;">
             <h3><?php echo $empresa->nombre ?> </h3>
