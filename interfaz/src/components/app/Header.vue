@@ -60,8 +60,8 @@ function changepassword() {
 				</button>
 			</div>
 			
-			<a href="#" class="brand-logo">
-				<img src="@/assets/images/logo.png" alt=""/>
+			<a href="#" class="brand-logo" style="width: 50px;height: auto;">
+				<img src="@/assets/images/logo.jpg" alt="" />
 			</a>
 		</div>
 		<!-- END brand -->
