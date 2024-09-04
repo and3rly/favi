@@ -7,7 +7,7 @@
 			>
 				<div class="featured-image mb-3">
 					<img 
-						src="@/assets/images/logo.png" 
+						src="@/assets/images/logo.jpg" 
 						class="img-fluid" 
 						style="width: 350px;"
 					>
@@ -42,7 +42,7 @@
   						>
   					</div>
 
-  					<div class="input-group mb-5 d-flex justify-content-between">
+  					<!--div class="input-group mb-5 d-flex justify-content-between">
   						<div class="form-check">
   							<input 
   								type="checkbox"
@@ -56,14 +56,14 @@
   								<small>Mostar constraseña</small>
   							</label>
   						</div>
-  					</div>
+  					</div-->
 
   					<div class="input-group mb-2">
   						<button type="submit" class="btn btn-primary w-100">Iniciar</button>
   					</div>
-  					<div class="text-center pb-0">
+  					<!--div class="text-center pb-0">
   						<small><a href="#">¿Olvidaste tu contraseña?</a></small>
-  					</div>
+  					</div-->
           </form>
 				</div>
 			</div> 
