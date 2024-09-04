@@ -16,8 +16,6 @@ class Empresa_model extends General_model {
 	public $pais_id;
 	public $pais_departamento_id;
 	public $pais_municipio_id;
-	public $departamento='';
-	public $municipio='';
 	public $activo = 1;
 
 	public function __construct($id="")
@@ -30,7 +28,7 @@ class Empresa_model extends General_model {
 
 	public function buscar($args=[])
 	{
-		if (elemento($args,'id')) {
+		if (elemento($args,'id')) { 
 			$this->db->where('e.id',$args['id']);
 		}
 
