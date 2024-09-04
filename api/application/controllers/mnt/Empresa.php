@@ -54,13 +54,13 @@ class Empresa extends CI_Controller {
 					$data['mensaje'] = "Los datos ya se encuentran almacenados.";
 				} else {
 
-					if (elemento($_FILES, 'imagen') && 
-					 	elemento($_FILES['imagen'], 'tmp_name')) {
+					if (elemento($_FILES, 'logo') && 
+					 	elemento($_FILES['logo'], 'tmp_name')) {
 					
 						$imagen = subirArchivo([
-							'tmp_name' => $_FILES['imagen']['tmp_name'],
-							'type'     => $_FILES['imagen']['type'],
-							'name'     => $_FILES['imagen']['name'],
+							'tmp_name' => $_FILES['logo']['tmp_name'],
+							'type'     => $_FILES['logo']['type'],
+							'name'     => $_FILES['logo']['name'],
 							'carpeta'  => 'empresa'
 						]);
 
