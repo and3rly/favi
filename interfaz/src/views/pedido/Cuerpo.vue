@@ -62,7 +62,7 @@
 
       </a>
     </div>
-    <div class="mt-sm-0 me-3 mt-2" v-if="this.pedido.estado_pedido_id == 2">
+    <div class="mt-sm-0 me-3 mt-2" v-if="this.pedido.estado_pedido_id == 2 || this.pedido.estado_pedido_id == 5">
       <a
         :href="`${this.$urlImp}/pedido/principal/imprimir/${pedido.id}`" target="_blank"
         class="text-body text-decoration-none"
