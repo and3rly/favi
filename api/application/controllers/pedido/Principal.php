@@ -68,12 +68,6 @@ class Principal extends CI_Controller {
 
 		if ($this->input->method() === "post") {
 			$datos = json_decode(file_get_contents('php://input'));
-
-			echo "<pre>";
-			print_r ($datos);
-			echo "</pre>";
-
-			return;
 			
 			if (verPropiedad($datos, "bodega_id") &&
 				verPropiedad($datos, "tipo_transaccion_id")) {
@@ -240,21 +234,38 @@ class Principal extends CI_Controller {
 
 		$cuerpo = $this->load->view("pedido/imprimir", $data, true);
 
-		$mpdf = new \Mpdf\Mpdf();
+		$mpdf = new \Mpdf\Mpdf([
+							    'format' => [138, 215], // Ancho y alto en milímetros
+							    'margin_top' => 5,
+							    'margin_bottom' => 5,
+							    'margin_left' => 5,
+							    'margin_right' => 5
+							]);
 		$mpdf->setTitle("Pedido_#{$id}");
-		$mpdf->SetFooter('
-			<div style="border-top: 1px solid #555; padding-top: 10px; font-family: Gill Sans, sans-serif;">
+		/*$mpdf->SetFooter('
+			<div style="border-top: 1px solid #555; padding-top: 2px; font-family: Gill Sans, sans-serif;">
 			    <table width="100%" style="font-size: 9pt; color: #0000; font-family: Gill Sans, sans-serif;">
 			        <tr>
 			            <td width="33%" style="text-align: left; ">
 			                &copy; {DATE Y} ' . $empresa->nombre . '
 			            </td>
-			            <td width="33%" style="text-align: right;">
+			            <!--<td width="33%" style="text-align: right;">
 			                Página {PAGENO} de {nbpg}
-			            </td>
+			            </td>-->
 			        </tr>
 			    </table>
 			</div>
+		');*/
+		$mpdf->SetHTMLFooter('
+		    <div style="position: absolute; width: 93%; border-top: 1px solid #555; font-family: Gill Sans, sans-serif;">
+		        <table width="100%" style="font-size: 9pt; font-family: Gill Sans, sans-serif;">
+		            <tr>
+		                <td width="33%" style="text-align: left;">
+		                    &copy; {DATE Y} ' . $empresa->nombre . '
+		                </td>
+		            </tr>
+		        </table>
+		    </div>
 		');
 		
 		$mpdf->WriteHTML($cuerpo);
