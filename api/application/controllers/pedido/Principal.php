@@ -193,25 +193,32 @@ class Principal extends CI_Controller {
 
 		if ($ped->guardar($datos)) {
 
-			$mov = new Movimientos_model();
+			$det = new Pedido_det_model();
+			$detalle = $det->_buscar(["pedido_enc_id" => $id]);
 
-			if ($mov->eliminarMovimiento($id)) {
+			if (count($detalle) > 0) {
+				$mov = new Movimientos_model();
 
-				$sRes = new Stock_res_model();
-				if ($sRes->EliminarReserva(["pedido_enc_id" => $id])) {
-					$data['exito'] = 1;
-					$data['mensaje'] = "Pedido anulado con exito.";
+				if ($mov->eliminarMovimiento($id)) {
+
+					$sRes = new Stock_res_model();
+					if ($sRes->EliminarReserva(["pedido_enc_id" => $id])) {
+						$data['exito'] = 1;
+						$data['mensaje'] = "Pedido anulado con exito.";
+
+					}else {
+						$data['exito'] = 0;
+						$data['mensaje'] = $sRes->getMensaje();
+					}
 
 				}else {
 					$data['exito'] = 0;
-					$data['mensaje'] = $det->getMensaje();
+					$data['mensaje'] = $mov->getMensaje();
 				}
-
 			}else {
-				$data['exito'] = 0;
-				$data['mensaje'] = $det->getMensaje();
+				$data['exito'] = 1;
+				$data['mensaje'] = "Pedido anulado con exito.";
 			}
-
 		} else {
 			$data['mensaje'] = $ped->getMensaje();
 		}

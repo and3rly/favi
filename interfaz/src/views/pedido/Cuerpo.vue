@@ -213,6 +213,7 @@
             :finalizado="finalizado"
             :correlativo="correlativo"
             @actualizar="actLista"
+            @cambiarMotivoAnulacion="cambiarMotivoAnulacion"
           ></Form>
         </div>
         <div 
@@ -445,6 +446,9 @@
           }
           
         }
+      },
+      cambiarMotivoAnulacion(v){
+        this.pedido.motivo_anulacion_pedido_id = v;
       },
     },
     components: {

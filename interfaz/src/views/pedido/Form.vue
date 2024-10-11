@@ -73,6 +73,7 @@
           id="selectMotAnul" 
           class="form-select"
           v-model="form.motivo_anulacion_pedido_id"
+          @change="cambiarMotivo"
         > 
           <option value="null">---------------</option>
           <option v-for="i in catPed.motivo_anulacion_pedido" :value="i.id">{{ i.nombre }}</option>
@@ -288,6 +289,9 @@
         }
 
         return ''
+      },
+      cambiarMotivo(event) {
+        this.$emit('cambiarMotivoAnulacion', event.target.value);
       },
     },
     computed: {
