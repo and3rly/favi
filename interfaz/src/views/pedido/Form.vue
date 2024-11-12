@@ -15,7 +15,22 @@
         </vue-select>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3" v-if="form.cliente_id == clienteComodin">
+        <label class="fw-bold mb-1">
+          Nombre Cliente: <span class="text-danger">*</span>
+        </label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="txtNombreClienteComodin"
+          required 
+          v-model="form.nombre_cliente_comodin"
+        />
+      </div>
+
+      <div class="col-sm-3" v-if="form.cliente_id != clienteComodin"></div>
+      
+      <div class="col-sm-6">
         <label for="selectTransaccion" class="fw-bold mb-1">
           Transacción: <span class="text-danger">*</span>
         </label>
@@ -115,6 +130,8 @@
           v-model="form.hora_fin"
         />
       </div>
+
+      <div class="col-sm-6"></div>
 
       <div class="col-sm-6">
         <label for="datePedido" class="fw-bold mb-1">
@@ -238,7 +255,8 @@
       correlativo: 0,
     },
     data: () => ({
-      clientes: []
+      clientes: [],
+      clienteComodin: 0,
     }),
     created() {
 
@@ -246,6 +264,10 @@
       this.autoBuscar = false
       this._emit = true
 
+      if (this.catPed && this.catPed.parametros_sistema) {
+        this.clienteComodin = this.catPed.parametros_sistema.find(x => x.nombre_parametro == "cliente_comodin_pedido").valor_parametro  
+      }
+      
       if (this.pedido !== null) {
         this.pedido.fecha_pedido = this.ObtenerFecha(this.pedido.fecha_pedido, 1)
         this.pedido.fecha_entrega = this.ObtenerFecha(this.pedido.fecha_entrega, 1)

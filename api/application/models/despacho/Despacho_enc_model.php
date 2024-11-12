@@ -81,6 +81,24 @@ class Despacho_enc_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function _buscarCliente($args=[])
+	{
+		if (elemento($args, "id")) {
+			$this->db->where("a.despacho_enc_id", $args['id']);
+		} 
+
+		$tmp = $this->db
+		->select("a.*,
+			c.nombre_comercial as nombre_cliente")
+		->join("pedido_enc b", "a.pedido_enc_id = b.id")
+		->join("cliente c", "b.cliente_id = c.id")
+		->where("a.activo", 1)
+		->order_by("a.id", "desc")
+		->get("despacho_det a");
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Despacho_enc_model.php */

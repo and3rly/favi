@@ -800,6 +800,17 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function ver_parametros_Sistema($args=[]) 
+	{	
+		$tmp = $this->db
+		->select("a.*")
+		->where("a.activo", 1)
+		->where("a.empresa_id", $this->user['empresa_id'])
+		->get("parametros_sistema a");
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Catalogo_model.php */

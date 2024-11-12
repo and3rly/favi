@@ -47,6 +47,7 @@ class Principal extends CI_Controller {
 				'estado_prod' => $this->catalogo->ver_estado(),
 				'um'          => $this->catalogo->ver_um(),
 				'fecha' 	  => Hoy(),
+				'parametros_sistema'	=> $this->catalogo->ver_parametros_Sistema(),
 			]
 		];
 
@@ -84,6 +85,7 @@ class Principal extends CI_Controller {
 
 				$datos->fecha_mod = $fecha;
 				$datos->usuario_mod =  $us;
+				$datos->nombre_cliente = $datos->nombre_cliente_comodin;
 
 				if ($datos->motivo_anulacion_pedido_id === 'null') {
 					$datos->motivo_anulacion_pedido_id = null;
@@ -232,10 +234,22 @@ class Principal extends CI_Controller {
 		$empresa = new Empresa_model($this->user["empresa_id"]);
 		$enc = new Pedido_model();
 		$det = new Pedido_det_model();
-		
+		$cat = new catalogo_model();
+
+		$parametros = $cat->ver_parametros_Sistema();
+
+		$valorClienteComodin = null;
+		foreach ($parametros as $param) {
+		    if ($param->nombre_parametro === "cliente_comodin_pedido") {
+		        $valorClienteComodin = $param->valor_parametro;
+		        break;
+		    }
+		}
+
 		$data = [
 			"empresa"    => $empresa,
 			"encabezado" => $enc->_buscar(["id" => $id, "uno" => true]),
+			"parametro_sistema" => $valorClienteComodin,
 			"detalle"    => $det->_buscar(["pedido_enc_id" => $id])
 		];
 

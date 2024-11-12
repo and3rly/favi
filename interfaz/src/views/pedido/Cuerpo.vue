@@ -319,7 +319,7 @@
 
           this.inicio = false
           this.cat = res.data.cat
-
+          
         }).catch(e => {
           this.inicio = false
           console.log(e)

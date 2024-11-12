@@ -32,16 +32,21 @@
     style="border-collapse: collapse; font-family: Gill Sans, sans-serif; font-size:9px;"
   >
     <tr>
-     <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Cliente:</b></td> 
-     <td colspan="3" style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"><?php echo $encabezado->nombre_cliente ?></td>
+      <?php if ($encabezado->cliente_id == $parametro_sistema): ?>
+        <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Cliente:</b></td> 
+        <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"><?php echo $encabezado->nombre_cliente ?></td>
+        <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Cliente Comodín:</b></td>
+        <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_cliente_comodin ?> </td>      -->
+      <?php else: ?>
+        <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Cliente:</b></td> 
+        <td colspan="3" style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"><?php echo $encabezado->nombre_cliente ?></td>
+      <?php endif; ?>
     </tr>
     <tr>
       <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE">
         <b>Transacción:</b>
       </td>
-      <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_transaccion ?> </td>
-      <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Tipo:</b></td>  
-      <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_tipo ?> </td>      
+      <td colspan="3" style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_transaccion ?> </td>    
     </tr>
     <tr>
       <td style="padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;">

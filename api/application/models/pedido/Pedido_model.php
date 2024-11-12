@@ -21,6 +21,7 @@ class Pedido_model extends General_model {
 	public $fecha_mod;
 	public $usuario_agr;
 	public $usuario_mod;
+	public $nombre_cliente;
 
 	public function __construct($id='')
 	{
@@ -82,7 +83,8 @@ class Pedido_model extends General_model {
 			IFNULL(f.nombre, 'Nuevo') as nombre_estado,
 			IFNULL(f.color, 'primary') as color_estado,
 			g.nombre_comercial as nombre_cliente,
-			h.descripcion as nombre_tipo"
+			h.descripcion as nombre_tipo,
+			a.nombre_cliente as nombre_cliente_comodin"
 		)
 		->join("motivo_anulacion_pedido b", "b.id = a.motivo_anulacion_pedido_id", "left")
 		->join("bodega c","c.id = a.bodega_id")

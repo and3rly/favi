@@ -127,6 +127,7 @@ class Principal extends CI_Controller {
 		$data = [
 			"empresa"    => $empresa,
 			"encabezado" => $enc->_buscar(["id" => $id, "uno" => true]),
+			"cliente" => $enc->_buscarCliente(["id" => $id, "uno" => true]),
 			"detalle"    => $det->_buscar(["despacho_enc_id" => $id])
 		];
 
@@ -139,6 +140,7 @@ class Principal extends CI_Controller {
 							    'margin_left' => 5,
 							    'margin_right' => 5
 							]);
+
 		$mpdf->setTitle("Despacho_#{$id}");
 		/*$mpdf->SetFooter('
 			<div style="border-top: 1px solid #555; padding-top: 10px; font-family: Gill Sans, sans-serif;">
