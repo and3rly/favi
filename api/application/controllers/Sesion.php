@@ -7,7 +7,8 @@ class Sesion extends CI_Controller {
 		parent::__construct();
 		$this->load->model(['Usuario_model', 
 							'mnt/Empresa_model', 
-							'mnt/Sucursal_model']);
+							'mnt/Sucursal_model'
+		]);
 
 		$this->load->library('token');
 		$this->output->set_content_type('application/json');
@@ -39,6 +40,7 @@ class Sesion extends CI_Controller {
 					$uSucursal = $this->catalogo->ver_usuario_sucursal(['usuario_id' => $us->id, 'uno' => true]);
 
 					if ($uSucursal) {
+						$rusuario = $this->catalogo->ver_rol_usuario(["usuario" => $us->id, "uno" => true]);
 
 						$sucursal = new Sucursal_model($uSucursal->sucursal_id);
 						$empresa_id = $sucursal->empresa_id;
@@ -48,6 +50,7 @@ class Sesion extends CI_Controller {
 						$us->empresa = $empresa->nombre;
 						$us->sucursal_id = $uSucursal->sucursal_id;
 						$us->sucursal = $sucursal->nombre;
+						$us->rol_id = $rusuario->rol_id;
 
 						$usuario = var_session($us);
 

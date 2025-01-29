@@ -36,6 +36,9 @@ class Menubar_model extends General_model {
             array_push($menuItems, $items);
 		}
 
+		echo "<pre>";
+		print_r ($menuItems);
+		echo "</pre>";
         return json_encode($menuItems);
 	}
 }

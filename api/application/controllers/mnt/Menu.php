@@ -32,13 +32,13 @@ class Menu extends CI_Controller {
 	public function get_modulos()
 	{
 		$user = $this->session->userdata('usuario');
-		$modulos = $this->Menu_model->_buscar(['rol_id'=>$user['id']]);
+		$modulos = $this->Menu_model->_buscar(['rol_id'=> $user['rol_id']]);
 
 		if ($modulos) {
 			foreach ($modulos as $row) {
 				$datos = $this->Menu_modulo_model->_buscar([
 					'modulo'  => $row->id,
-					'rol_id'=>$user['id']
+					'rol_id'  => $user['rol_id']
 				]);
 
 				$row->opciones = $datos ? $datos : false;

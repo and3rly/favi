@@ -58,7 +58,8 @@ if (!function_exists('var_session'))
 			"sucursal_id" => $data->sucursal_id,
 			"sucursal"    => $data->sucursal,
 			"empresa_id"  => $data->empresa_id,
-			"empresa"     => $data->empresa
+			"empresa"     => $data->empresa,
+			"rol_id"      => $data->rol_id
 		];
 
 

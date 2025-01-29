@@ -14,10 +14,10 @@ class GoogleDrive {
 		$this->cliente->addScope(Google_Service_Drive::DRIVE);
 		$this->cliente->setAuthConfig(APPPATH."libraries/drive/cliente.json");
 		$this->cliente->setAccessType('offline');  // Permite obtener un token de refresco si es necesario
-$this->cliente->setPrompt('select_account consent');
+        $this->cliente->setPrompt('select_account consent');
 
-// Opción adicional para mejorar la seguridad
-$this->cliente->setIncludeGrantedScopes(true); 
+        // Opción adicional para mejorar la seguridad
+        $this->cliente->setIncludeGrantedScopes(true); 
 		$this->servicio = new Google_Service_Drive($this->cliente);		
 	}	
 

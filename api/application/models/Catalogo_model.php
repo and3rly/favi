@@ -811,6 +811,16 @@ class Catalogo_model extends General_model {
 
 		return verConsulta($tmp, $args);
 	}
+
+	public function ver_rol_usuario($args=[])
+	{
+		$tmp = $this->db
+		->where("activo", 1)
+		->where("usuario_id", $args['usuario'])
+		->get("rol_usuario");
+
+		return verConsulta($tmp, $args);
+	}
 }
 
 /* End of file Catalogo_model.php */
