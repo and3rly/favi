@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="guardar">
     <div class="row g-2 mb-3">
-      <div class="col-sm-3">
+      <div :class="form.cliente_id == clienteComodin ? 'col-sm-3':'col-sm-6'">
         <label for="selectCliente" class="fw-bold mb-1">
           Cliente: <span class="text-danger">*</span>
         </label>
@@ -28,8 +28,6 @@
         />
       </div>
 
-      <div class="col-sm-3" v-if="form.cliente_id != clienteComodin"></div>
-      
       <div class="col-sm-6">
         <label for="selectTransaccion" class="fw-bold mb-1">
           Transacción: <span class="text-danger">*</span>
@@ -130,8 +128,6 @@
           v-model="form.hora_fin"
         />
       </div>
-
-      <div class="col-sm-6"></div>
 
       <div class="col-sm-6">
         <label for="datePedido" class="fw-bold mb-1">

@@ -160,10 +160,11 @@
 	import OrdenCompraForm from '@/views/orden/OrdenCompraForm.vue'
 	import jsPDFInvoiceTemplate, { OutputType, jsPDF } from "@/views/orden/pdfTemplate.js";
 	import { useLoginStore } from "@/stores/app-login";
+	import Utileria from "@/mixins/Utileria.js"
 
 	export default {
 		name: 'OrdenCompraLista',
-		mixins: [General, Catalogo],
+		mixins: [General, Catalogo, Utileria],
 		props: {
 			filtrada: {
 				type: Array,
@@ -196,6 +197,9 @@
 				"orden_compra_det",
 				"bodega"
 			])
+
+			this.bformF.fdel = this.setFechaInicio()
+      		this.bformF.fal = this.setFechaActual()
 		},
 		watch: {
 			filtrada(newVal) {
