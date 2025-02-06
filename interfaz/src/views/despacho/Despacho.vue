@@ -74,6 +74,7 @@
                     <th>Producto</th>
                     <th>Estado</th>
                     <th width="150">Cantidad</th>
+                    <th width="150">Precio</th>
                     <th>Total</th>
                   </tr>
                 </thead>
@@ -86,10 +87,27 @@
                     <td>
                       <input type="number" class="form-control text-center" v-model="i.cantidad_despachada">
                     </td>
+                    <td>{{ i.precio }}</td>
                     <td>{{ i.total }}</td>
                   </tr>
                 </tbody>
               </table>
+
+              <div class="d-flex justify-content-end mt-3">
+                <table class="table table-borderless mt-3 float-right" style="width: auto;">
+                  <tbody>
+                    <tr>
+                      <td class="text-right font-weight-bold">
+                        <h4>Total:</h4>
+                      </td>
+                      <td class="text-center">
+                        <h4>{{ totalGeneral }}</h4>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
             </div>
           </div>
         </div>
@@ -156,6 +174,17 @@
     created() {
       this.tmp = this.despacho
     },
+    computed: {
+      totalGeneral() {
+        const total = this.detalle.reduce((acc, item) => acc + (parseFloat(item.total) || 0), 0);
+        const formatoQ = new Intl.NumberFormat('es-GT', {
+          style: 'currency',
+          currency: 'GTQ',
+          minimumFractionDigits: 2
+        }).format(total);
+        return `${formatoQ}`;
+      },
+    },
     methods: {
       abrirModal() {
         this.verPedidos = true
@@ -204,7 +233,9 @@
               producto_bodega_id: e.producto_bodega_id,
               presentacion_producto_id: e.presentacion_producto_id,
               unidad_medida_id: e.unidad_medida_id,
-              estado_producto_id: e.estado_producto_id
+              estado_producto_id: e.estado_producto_id,
+              precio : e.precio,
+              total : e.cantidad * e.precio
             }
 
             this.detalle.push(datos)

@@ -39,7 +39,9 @@
         <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombre_cliente_comodin ?> </td>      -->
       <?php else: ?>
         <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Cliente:</b></td> 
-        <td colspan="3" style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"><?php echo $encabezado->nombre_cliente ?></td>
+        <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"><?php echo $encabezado->nombre_cliente ?></td>
+        <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Teléfono:</b></td> 
+        <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"><?php echo $encabezado->telefono ?></td>
       <?php endif; ?>
     </tr>
     <tr>
@@ -75,24 +77,39 @@
         <th id="th-detalle" style="text-align: left;">Código</th>
         <th id="th-detalle" style="text-align: left;">Descripción</th>
         <th id="th-detalle" style="text-align:center;">Cantidad</th>
+        <th id="th-detalle" style="text-align:center;">Precio</th>
         <th id="th-detalle" style="text-align:center;">Um</th>
         <th id="th-detalle" style="text-align:center;">Lote</th>
         <th id="th-detalle" style="text-align:center;">F. Vence</th>
+        <th id="th-detalle" style="text-align:center;">Total</th>
       </tr>
     </thead>
     <tbody>
+      <?php $granTotal = 0 ?>
       <?php foreach ($detalle as $row): ?>
+        <?php $granTotal += $row->total; ?>
         <tr>
           <td id="td-detalle" style="text-align:center;"> <?php echo $row->no_linea ?></td>
           <td id="td-detalle" style="text-align: left; padding: 2px;"> <?php echo $row->codigo_producto ?></td>
           <td id="td-detalle" style="text-align: left; padding: 2px;"> <?php echo $row->nombre_producto ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->cantidad ?></td>
+          <td id="td-detalle" style="text-align: right; padding: 2px;"> Q.<?php echo number_format($row->precio, 2) ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_unidad_medida ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->lote ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->fecha_vence ?></td>
+          <td id="td-detalle" style="text-align: right; padding: 2px;"> Q.<?php echo number_format($row->total, 2, '.', ',') ?></td>
         </tr>
       <?php endforeach ?>
     </tbody>
+  </table>
+</div>
+
+<div style="position: fixed; bottom: 2%; width: 100%; font-family: Gill Sans, sans-serif; font-size:11px; background-color: white; padding-top: 10px;">
+  <table width="100%" style="border-collapse: collapse;">
+    <tr>
+      <td style="text-align: right; /*padding-right: 20px;*/ font-weight: bold; width: 70%;">Total:</td>
+      <td style="text-align: right; /*width: 90px*/; font-weight: bold;">Q. <?php echo number_format($granTotal, 2, '.', ','); ?></td>
+    </tr>
   </table>
 </div>
 

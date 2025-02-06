@@ -83,6 +83,7 @@ class Pedido_model extends General_model {
 			IFNULL(f.nombre, 'Nuevo') as nombre_estado,
 			IFNULL(f.color, 'primary') as color_estado,
 			g.nombre_comercial as nombre_cliente,
+			g.telefono,
 			h.descripcion as nombre_tipo,
 			a.nombre_cliente as nombre_cliente_comodin"
 		)

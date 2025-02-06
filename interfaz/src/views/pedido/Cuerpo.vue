@@ -301,10 +301,10 @@
     mounted() {
       this.modal = new this.$modal(document.getElementById('mdlOc'));
     },
-    created() {
+    created() {      
       this.bform.fdel = this.setFechaInicio()
       this.bform.fal = this.setFechaActual()
-      
+
       this.buscar()
       this.getDatos()
       this.bform.bodega_id = null

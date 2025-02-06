@@ -85,7 +85,10 @@ class Principal extends CI_Controller {
 
 				$datos->fecha_mod = $fecha;
 				$datos->usuario_mod =  $us;
-				$datos->nombre_cliente = $datos->nombre_cliente_comodin;
+
+				if (!empty($datos->nombre_cliente_comodin)) {
+					$datos->nombre_cliente = $datos->nombre_cliente_comodin;
+				}
 
 				if ($datos->motivo_anulacion_pedido_id === 'null') {
 					$datos->motivo_anulacion_pedido_id = null;

@@ -64,6 +64,22 @@
         </tr>
       </tbody>
     </table>
+    
+    <div class="d-flex justify-content-end mt-3">
+      <table class="table table-borderless mt-3 float-right" style="width: auto;">
+        <tbody>
+          <tr>
+            <td class="text-right font-weight-bold">
+              <h4>Total:</h4>
+            </td>
+            <td class="text-center">
+              <h4>{{ totalGeneral }}</h4>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
   </div>
 </template>
 
@@ -94,11 +110,22 @@
       controlador: 'pedido/detalle',
       btnGuardar: false,
       itemsCambiados: [],
-      detalleOriginal: []
+      detalleOriginal: [],
     }),
     created() {
       this.bform.pedido_enc_id = this.pedido.id
       this.buscar()
+    },
+    computed: {
+      totalGeneral() {
+        const total = this.detalleOriginal.reduce((acc, item) => acc + (parseFloat(item.total) || 0), 0);
+        const formatoQ = new Intl.NumberFormat('es-GT', {
+          style: 'currency',
+          currency: 'GTQ',
+          minimumFractionDigits: 2
+        }).format(total);
+        return `${formatoQ}`;
+      },
     },
     methods: {
       buscar() {

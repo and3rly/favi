@@ -85,25 +85,45 @@
 	import OrdenCompraForm from '@/views/orden/OrdenCompraForm.vue'
 	import OrdenCompraDetalle from '@/views/orden/OrdenCompraDetalle.vue'
 	import { Tab } from 'bootstrap'
+	import Utileria from "@/mixins/Utileria.js"
 
 	export default {
 		name: "OrdenCompra",
-		mixins: [General], 
+		mixins: [General, Utileria], 
 		data:() => ({
 			reg: null,
 			modal: null,
 			idx: null,
 			verForm: false,
-			actual: 1
+			actual: 1,
+			bform: {}
 		}),	
 		mounted() {
 			this.modal = new this.$modal(document.getElementById('mdlOrdenCompra'));
 		},
 		created() {
+			this.bform.fdel = this.setFechaInicio()
+      		this.bform.fal = this.setFechaActual()	
 			this.controlador = 'orden/OrdenCompra'
-			this.autoBuscar = true
+			//this.autoBuscar = true
+			this.buscar();
 		},
 		methods: {
+			buscar() {
+		        this.inicio = true
+
+		        this.$http
+		        .get(`${this.$baseUrl}/${this.controlador}/buscar`, {params: this.bform})
+		        .then(res => {
+		          this.inicio = false
+		          if (res.data.lista) {
+		            this.lista = res.data.lista
+		          }
+		        }).catch(e => {
+		          this.inicio = false
+		          console.log(e)
+		        })
+		    },
 			abrirModal() {
 				this.verForm = true
 				this.modal.show()

@@ -88,22 +88,37 @@
         <th id="th-detalle" style="text-align: left;">Código</th>
         <th id="th-detalle" style="text-align: left;">Descripción</th>
         <th id="th-detalle" style="text-align:center;">Cantidad</th>
+        <th id="th-detalle" style="text-align:center;">Precio</th>
         <th id="th-detalle" style="text-align:center;">UM</th>
         <th id="th-detalle" style="text-align:center;">Estado Producto</th>
+        <th id="th-detalle" style="text-align:center;">Total</th>
       </tr>
     </thead>
     <tbody>
+      <?php $granTotal = 0 ?>
       <?php foreach ($detalle as $row): ?>
+      <?php $granTotal += ($row->cantidad_despachada * $row->precio) ; ?>
         <tr>
           <td id="td-detalle" style="text-align:center;"> <?php echo $row->no_linea ?></td>
           <td id="td-detalle" style="text-align: left; padding: 2px;"> <?php echo $row->codigo_producto ?></td>
           <td id="td-detalle" style="text-align: left; padding: 2px;"> <?php echo $row->nombre_producto ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->cantidad_despachada ?></td>
+          <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->precio ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_um ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_estado_producto ?></td>
+          <td id="td-detalle" style="text-align: center; padding: 2px;">Q. <?php echo number_format($row->cantidad_despachada * $row->precio, 2, '.', ',') ?></td>
         </tr>
       <?php endforeach ?>
     </tbody>
+  </table>
+</div>
+
+<div style="position: fixed; bottom: 2%; width: 100%; font-family: Gill Sans, sans-serif; font-size:11px; background-color: white; padding-top: 10px;">
+  <table width="100%" style="border-collapse: collapse;">
+    <tr>
+      <td style="text-align: right; /*padding-right: 20px;*/ font-weight: bold; width: 70%;">Total:</td>
+      <td style="text-align: right; /*width: 90px*/; font-weight: bold;">Q. <?php echo number_format($granTotal, 2, '.', ','); ?></td>
+    </tr>
   </table>
 </div>
 

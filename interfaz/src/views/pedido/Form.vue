@@ -1,7 +1,8 @@
 <template>
   <form @submit.prevent="guardar">
     <div class="row g-2 mb-3">
-      <div :class="form.cliente_id == clienteComodin ? 'col-sm-3':'col-sm-6'">
+
+      <div :class="form.cliente_id == '' || form.cliente_id == null || form.cliente_id == clienteComodin || pedido != null ? 'col-sm-3' : 'col-sm-6'">
         <label for="selectCliente" class="fw-bold mb-1">
           Cliente: <span class="text-danger">*</span>
         </label>
@@ -13,6 +14,28 @@
           v-model="form.cliente_id"
         >  
         </vue-select>
+      </div>
+
+      <div class="col-sm-3 d-flex flex-column justify-content-beetwen" v-if="form.cliente_id == '' || form.cliente_id == null">
+        <div class="text-right mt-auto">
+          <a href="#" class="btn btn-theme" @click="abrirModal" title="Agregar Cliente">
+            <i class="bi bi-person-plus-fill fs-6"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-sm-3" v-if="form.cliente_id != clienteComodin && pedido != null">
+        <label class="fw-bold mb-1">
+          Teléfono: 
+        </label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="txtTelefono"
+          disabled="false"
+          required 
+          v-model="form.telefono"
+        />
       </div>
 
       <div class="col-sm-3" v-if="form.cliente_id == clienteComodin">
@@ -141,16 +164,18 @@
         />
       </div>
 
-      <div class="col-sm-6">
-        <label for="dateEntrega" class="fw-bold mb-1">
-          Fecha entrega: 
-        </label>
-        <input 
-          type="date" 
-          class="form-control" 
-          id="inputFechaEnt"
-          v-model="form.fecha_entrega"
-        />
+      <div class="col-sm-12">
+        <div class="col-sm-6">
+          <label for="dateEntrega" class="fw-bold mb-1">
+            Fecha entrega: 
+          </label>
+          <input 
+            type="date" 
+            class="form-control" 
+            id="inputFechaEnt"
+            v-model="form.fecha_entrega"
+          />  
+        </div>
       </div>
 
       <div class="col-sm-6">
@@ -176,6 +201,8 @@
           rows="3"
         ></textarea>
       </div>
+
+
 
       <template v-if="pk !== ''">
         <!--<div class="col-sm-2">
@@ -232,10 +259,50 @@
 
     </div>
   </form>
+
+  <div 
+    class="modal fade" id="mdlCliente"
+    data-bs-backdrop="static" 
+    data-bs-keyboard="false" 
+    tabindex="-1" 
+    aria-labelledby="staticBackdropLabel" 
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 
+            class="modal-title fs-5" 
+            id="staticBackdropLabel"
+          > 
+          <i class="fas fa-person-walking-luggage fa-sm me-1"></i>Cliente
+          </h1>
+          <button 
+            type="button" 
+            class="btn-close" 
+            aria-label="Close" 
+            @click="cerrarModal"
+          >
+          </button>
+        </div>
+        <div class="modal-body">
+          <ClienteForm 
+            v-if="verForm" 
+            @cerrar="cerrarModal" 
+            @actualizar="actualizaLista"
+            :cliente="reg" 
+          />          
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
   import Helper from '@/mixins/Helper.js';
+  import ClienteForm from '@/views/mnt/Cliente/ClienteForm.vue'
+  import { Modal } from 'bootstrap'
 
   export default {
     mixins: [Helper],
@@ -253,7 +320,13 @@
     data: () => ({
       clientes: [],
       clienteComodin: 0,
+      modal: null,
+      verForm: false,
+      reg: null,
     }),
+    mounted() {
+      this.modal = new Modal(document.getElementById('mdlCliente'));
+    },
     created() {
 
       this.controlador = 'pedido/principal'
@@ -294,6 +367,22 @@
       }
     },
     methods: {
+      abrirModal() {
+      this.verForm = true
+      this.modal.show()
+      },
+      cerrarModal() {
+        this.reg = null
+        this.verForm = false
+        this.modal.hide()
+      },
+      actualizaLista(o, pk) {
+        this.catPed.cliente.push({
+          id: o.id,
+          nombre_comercial: o.nombre_comercial
+        });
+        this.form.cliente_id = o.id;
+      },
       ObtenerFecha(f, tipo){
         if (f) {
           var fecha = f.split(" ");
@@ -314,8 +403,9 @@
     },
     computed: {
       clientes() {
+
         return this.setDatoSelect(this.catPed.cliente, "id", "nombre_comercial")
-      }
+      },
     },
     watch: {
       pedido(v) {
@@ -325,5 +415,8 @@
         this.setDatosForm(v)
       }
     },
+    components:{
+      ClienteForm
+    }
   }
 </script>
