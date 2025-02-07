@@ -130,8 +130,7 @@
                 <th class="text-center" width="50">#</th>
                 <th class="text-center">No. Documento</th>
                 <th class="text-center">Fecha Pedido</th>
-                <th class="text-center">Hora inicio</th>
-                <th class="text-center">Hora fin</th>
+                <th class="text-left">Cliente</th>
                 <th>Bodega</th>
                 <th>Transacción</th>
                 <th>Tipo</th>
@@ -150,8 +149,7 @@
                 <th class="text-center"> {{ idx + 1 }} </th>
                 <td class="text-center"> {{ i.no_documento }} </td>
                 <td class="text-center"> {{ formatoFecha(i.fecha_pedido,1) }} </td>
-                <td class="text-center"> {{ i.hora_inicio }} </td>
-                <td class="text-center"> {{ i.hora_fin }} </td>
+                <td class="text-left"> {{ i.nombre_cliente }} </td>
                 <td> {{ i.nombre_bodega }} </td>
                 <td> {{ i.nombre_transaccion }} </td>
                 <td> {{ i.nombre_pedido_tipo }} </td>

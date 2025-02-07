@@ -60,6 +60,7 @@
                 <td class="text-center"> {{ i.codigo_bodega_ubicacion }} - {{ i.descripcion_bodega_ubicacion }} </td>
                 <td>
                   <input 
+                    id="txtCantidadAgregar" 
                     type="number" 
                     class="form-control text-center" 
                     v-model="i.cantidad_agregar"
@@ -119,6 +120,12 @@
 
 		          this.inicio = false
 		          this.stock = res.data.stock
+
+              this.stock.forEach(item => {
+                if (item.cantidad_agregar == null) {
+                  item.cantidad_agregar = 1; // Valor por defecto
+                }
+              });
 
 		        }).catch(e => {
 		          this.inicio = false

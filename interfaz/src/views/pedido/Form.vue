@@ -2,7 +2,7 @@
   <form @submit.prevent="guardar">
     <div class="row g-2 mb-3">
 
-      <div :class="form.cliente_id == '' || form.cliente_id == null || form.cliente_id == clienteComodin || pedido != null ? 'col-sm-3' : 'col-sm-6'">
+        <div :class="(form.cliente_id == '' && pedido == null) || form.cliente_id == null ? ('col-sm-5') : (form.cliente_id == clienteComodin ? 'col-sm-3' : 'col-sm-6')">
         <label for="selectCliente" class="fw-bold mb-1">
           Cliente: <span class="text-danger">*</span>
         </label>
@@ -16,26 +16,12 @@
         </vue-select>
       </div>
 
-      <div class="col-sm-3 d-flex flex-column justify-content-beetwen" v-if="form.cliente_id == '' || form.cliente_id == null">
+      <div class="col-sm-1 d-flex flex-column justify-content-beetwen" v-if="(pedido == null && form.cliente_id == '') || (form.cliente_id == null)">
         <div class="text-right mt-auto">
           <a href="#" class="btn btn-theme" @click="abrirModal" title="Agregar Cliente">
-            <i class="bi bi-person-plus-fill fs-6"></i>
+            <i class="bi bi-person-plus-fill fs-6"></i> Nuevo
           </a>
         </div>
-      </div>
-
-      <div class="col-sm-3" v-if="form.cliente_id != clienteComodin && pedido != null">
-        <label class="fw-bold mb-1">
-          Teléfono: 
-        </label>
-        <input 
-          type="text" 
-          class="form-control" 
-          id="txtTelefono"
-          disabled="false"
-          required 
-          v-model="form.telefono"
-        />
       </div>
 
       <div class="col-sm-3" v-if="form.cliente_id == clienteComodin">
@@ -51,7 +37,21 @@
         />
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-3">
+        <label class="fw-bold mb-1">
+          Teléfono: 
+        </label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="txtTelefono"
+          disabled="false"
+          required 
+          v-model="form.telefono"
+        />
+      </div>
+
+      <div class="col-sm-3">
         <label for="selectTransaccion" class="fw-bold mb-1">
           Transacción: <span class="text-danger">*</span>
         </label>
@@ -379,9 +379,11 @@
       actualizaLista(o, pk) {
         this.catPed.cliente.push({
           id: o.id,
-          nombre_comercial: o.nombre_comercial
+          nombre_comercial: o.nombre_comercial,
+          telefono : o.telefono
         });
         this.form.cliente_id = o.id;
+        this.form.telefono = o.telefono;
       },
       ObtenerFecha(f, tipo){
         if (f) {
@@ -403,7 +405,6 @@
     },
     computed: {
       clientes() {
-
         return this.setDatoSelect(this.catPed.cliente, "id", "nombre_comercial")
       },
     },
@@ -413,6 +414,10 @@
         v.fecha_entrega = this.ObtenerFecha(this.pedido.fecha_entrega, 1)
 
         this.setDatosForm(v)
+      },
+      'form.cliente_id'(nuevoId) {
+        const clienteSeleccionado = this.catPed.cliente.find(cliente => cliente.id === nuevoId);
+        this.form.telefono = clienteSeleccionado ? clienteSeleccionado.telefono : '';
       }
     },
     components:{
