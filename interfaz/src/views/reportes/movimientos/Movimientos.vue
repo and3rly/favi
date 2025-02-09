@@ -73,7 +73,13 @@
                 style="cursor: pointer;"
               > 
                 <th class="text-center"> {{ i.id }} </th>
-                <td class="text-center"> {{ i.nombre_transacion_tipo }} </td>
+                <span 
+                    :class="'badge bg-'+i.color+' bg-opacity-20 text-'+i.color+' fs-11px d-inline-flex align-items-center'"
+                  >
+                    <i 
+                      :class="'fa fa-check-circle text-'+i.color+' fs-10px fa-fw me-1'"
+                    ></i>{{ i.nombre_transacion_tipo }}
+                  </span>
                 <td class="text-center"> {{ i.codigo_producto }} </td>
                 <td class="text-center"> {{ i.nombre_producto }} </td>
                 <td class="text-center"> {{ i.lote }} </td>

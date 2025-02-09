@@ -42,7 +42,7 @@ class Movimientos_model extends General_model {
 	public function ObtenerMovimientos($args='')
 	{
 		$sql = "SELECT mov.id,mov.cantidad,mov.peso,mov.lote,mov.fechaVence,mov.cantHist,mov.pesoHist,mov.fechaOperacion,
-				mov.tipo_transaccion_id,tp.nombre as nombre_transacion_tipo,mov.producto_bodega_id,pd.id as id_producto,
+				mov.tipo_transaccion_id,tp.nombre as nombre_transacion_tipo,tp.color,mov.producto_bodega_id,pd.id as id_producto,
 				pd.codigo as codigo_producto,pd.nombre as nombre_producto,
 				um.nombre as nombre_um,
 				mov.presentacion_producto_id,mov.unidad_medida_id,
