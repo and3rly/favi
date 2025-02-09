@@ -361,7 +361,8 @@
           estado: "NUEVO",
           fecha_pedido: new Date().toISOString().split('T')[0],
           hora_inicio: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
-          no_documento: `PED${numeroFormateado}`
+          no_documento: `PED${numeroFormateado}`,
+          telefono: ''
         }
       }
     },
@@ -378,8 +379,7 @@
       actualizaLista(o, pk) {
         this.catPed.cliente.push({
           id: o.id,
-          nombre_comercial: o.nombre_comercial,
-          telefono : o.telefono
+          nombre_comercial: o.nombre_comercial
         });
         this.form.cliente_id = o.id;
         this.form.telefono = o.telefono;
@@ -416,7 +416,12 @@
       },
       'form.cliente_id'(nuevoId) {
         const clienteSeleccionado = this.catPed.cliente.find(cliente => cliente.id === nuevoId);
-        this.form.telefono = clienteSeleccionado ? clienteSeleccionado.telefono : '';
+        if (clienteSeleccionado!=null){
+          if (this.form.telefono ===null || this.form.telefono===clienteSeleccionado.telefono || this.form.telefono==="" ){
+            this.form.telefono = clienteSeleccionado ? clienteSeleccionado.telefono : '';
+          }  
+        }
+        
       }
     },
     components:{

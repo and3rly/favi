@@ -43,7 +43,8 @@ class Despacho_det_model extends General_model {
 		$tmp = $this->db
 		->select("a.*,
 			b.nombre as nombre_um,
-			c.precio"
+			c.precio,
+			c.total	"
 		)
 		->join("unidad_medida b", "a.unidad_medida_id = b.id", "left")
 		->join("pedido_det c", "a.pedido_det_id = c.id", "left")
