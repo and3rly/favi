@@ -146,7 +146,7 @@
                 style="cursor: pointer;"
                 @click="verPedido(i)"
               > 
-                <th class="text-center"> {{ idx + 1 }} </th>
+                <th class="text-center"> {{ i.id }} </th>
                 <td class="text-center"> {{ i.no_documento }} </td>
                 <td class="text-center"> {{ formatoFecha(i.fecha_pedido,1) }} </td>
                 <td class="text-left"> {{ i.nombre_cliente }} </td>
