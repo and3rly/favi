@@ -156,6 +156,8 @@ class Stock_model extends General_model {
 		    $condiciones[] = "stock.bodega_id = " . $this->db->escape($args['bodega_id']);
 		}
 
+		$condiciones[]= ' FLOOR(stock.cantidad_stock - IFNULL(reserva.cantidad_reserva, 0)) >0  ';
+
 		
 		if (elemento($args, 'criterio')) {
 		    $termino = trim($args['criterio']);

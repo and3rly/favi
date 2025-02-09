@@ -45,7 +45,6 @@
           type="text" 
           class="form-control" 
           id="txtTelefono"
-          disabled="false"
           required 
           v-model="form.telefono"
         />
