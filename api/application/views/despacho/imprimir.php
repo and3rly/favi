@@ -95,9 +95,12 @@
       </tr>
     </thead>
     <tbody>
-      <?php $granTotal = 0 ?>
-      <?php foreach ($detalle as $row): ?>
-      <?php $granTotal += ($row->total) ; ?>
+      <?php $granTotal = 0; $total = 0; ?>
+      <?php foreach ($detalle as $row): ?>p
+        <?php 
+            $total = $row->total ?  $row->total : $row->cantidad_despachada * $row->precio;
+            $granTotal += ($row->total) ; 
+        ?>
         <tr>
           <td id="td-detalle" style="text-align:center;"> <?php echo $row->no_linea ?></td>
           <td id="td-detalle" style="text-align: left; padding: 2px;"> <?php echo $row->codigo_producto ?></td>
@@ -106,7 +109,7 @@
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->precio ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_um ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_estado_producto ?></td>
-          <td id="td-detalle" style="text-align: center; padding: 2px;">Q. <?php echo number_format($row->cantidad_despachada * $row->total, 2, '.', ',') ?></td>
+          <td id="td-detalle" style="text-align: center; padding: 2px;">Q. <?php echo $row->total ?></td>
         </tr>
       <?php endforeach ?>
     </tbody>

@@ -19,6 +19,7 @@ class Despacho_det_model extends General_model {
 	public $presentacion_producto_id;
 	public $unidad_medida_id;
 	public $estado_producto_id;
+	public $total;
 
 	public function __construct($id="")
 	{
