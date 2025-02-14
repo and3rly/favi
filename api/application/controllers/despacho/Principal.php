@@ -128,7 +128,8 @@ class Principal extends CI_Controller {
 			"empresa"    => $empresa,
 			"encabezado" => $enc->_buscar(["id" => $id, "uno" => true]),
 			"cliente" => $enc->_buscarCliente(["id" => $id, "uno" => true]),
-			"detalle"    => $det->_buscar(["despacho_enc_id" => $id])
+			"detalle"    => $det->_buscar(["despacho_enc_id" => $id]),
+			"telefono" => $det->_buscar(["despacho_enc_id" => $id, "uno" => true])
 		];
 
 		$cuerpo = $this->load->view("despacho/imprimir", $data, true);

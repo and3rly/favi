@@ -45,10 +45,12 @@ class Despacho_det_model extends General_model {
 		->select("a.*,
 			b.nombre as nombre_um,
 			c.precio,
-			c.total	"
+			c.total,
+			d.telefono"
 		)
 		->join("unidad_medida b", "a.unidad_medida_id = b.id", "left")
 		->join("pedido_det c", "a.pedido_det_id = c.id", "left")
+		->join("pedido_enc d", "c.pedido_enc_id = d.id", "left")
 		->where("a.activo", 1)
 		->order_by("a.no_linea")
 		->get("$this->_tabla a");

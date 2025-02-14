@@ -35,7 +35,11 @@
       <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE">
         <b>Cliente:</b>
       </td>
-      <td colspan="3" style="width: 83%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $cliente->nombre_cliente ?> </td>
+      <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $cliente->nombre_cliente ?> </td>
+      <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;">
+        <b>Teléfono:</b>
+      </td>
+      <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $telefono->telefono ?> </td>
     </tr>
     <tr>
       <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE">
@@ -116,13 +120,46 @@
   </table>
 </div>
 
-<div style="position: fixed; bottom: 2%; width: 100%; font-family: Gill Sans, sans-serif; font-size:11px; background-color: white; padding-top: 10px;">
-  <table width="100%" style="border-collapse: collapse;">
+<div style="position: fixed; bottom: 2%; width: 100%; sans-serif;  background-color: white; padding-top: 10px;">
+  <table width="100%" style="border-collapse: collapse; font-size:15px;">
     <tr>
-      <td style="text-align: right; /*padding-right: 20px;*/ font-weight: bold; width: 70%;">Total:</td>
+      <td style="text-align: right; /*padding-right: 20px;*/ font-weight: bold; width: 70%; font-family: Gill Sans;">Total:</td>
       <td style="text-align: right; /*width: 90px*/; font-weight: bold;">Q. <?php echo number_format($granTotal, 2, '.', ','); ?></td>
     </tr>
   </table>
+
+  <br>
+
+  <table width="100%" style="text-align: center; font-size:10px;">
+    <tr>
+      <td width="40%" style="border-bottom: 1px solid black;"></td>
+      <td width="10%"></td>
+      <td width="20%" style="border-bottom: 1px solid black;"></td>
+      <td width="10%"></td>
+      <td width="20%" style="border-bottom: 1px solid black;"></td>
+    </tr>
+    <tr>
+      <td>Nombre de la Persona Responsable</td>
+      <td></td>
+      <td>Firma</td>
+      <td></td>
+      <td>Torre Fuerte</td>
+    </tr>
+  </table>
+
+  <br>
+
+  <table width="100%" style="text-align: center; font-size:10px;">
+    <tr>
+      <td width="15%">Observaciones</td>
+      <td width="85%" style="border-bottom: 1px solid black;"></td>
+    </tr>
+    <tr>
+      <td colspan="2" style="border-bottom: 1px solid black; height: 15px;"></td>
+    </tr>
+  </table>
+
+  <br>
 </div>
 
 <style>
