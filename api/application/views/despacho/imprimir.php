@@ -113,23 +113,20 @@
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->precio ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_um ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_estado_producto ?></td>
-          <td id="td-detalle" style="text-align: center; padding: 2px;">Q. <?php echo $row->total ?></td>
+          <td id="td-detalle" style="text-align: right; padding: 2px;">Q. <?php echo $row->total ?></td>
         </tr>
       <?php endforeach ?>
     </tbody>
+    <tfoot>
+      <tr>
+        <td id="td-detalle" colspan="7" style="text-align: right; font-weight: bold; padding: 10px;">TOTAL:</td>
+        <td id="td-detalle" style="text-align: right;">Q. <?php echo number_format($granTotal, 2, '.', ','); ?></td>
+      </tr>
+    </tfoot>
   </table>
 </div>
 
 <div style="position: fixed; bottom: 2%; width: 100%; sans-serif;  background-color: white; padding-top: 10px;">
-  <table width="100%" style="border-collapse: collapse; font-size:15px;">
-    <tr>
-      <td style="text-align: right; /*padding-right: 20px;*/ font-weight: bold; width: 70%; font-family: Gill Sans;">Total:</td>
-      <td style="text-align: right; /*width: 90px*/; font-weight: bold;">Q. <?php echo number_format($granTotal, 2, '.', ','); ?></td>
-    </tr>
-  </table>
-
-  <br>
-
   <table width="100%" style="text-align: center; font-size:10px;">
     <tr>
       <td width="40%" style="border-bottom: 1px solid black;"></td>
