@@ -67,8 +67,7 @@
       <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->tipo_vehiculo . " ".  $encabezado->marca_vehiculo .", Placas: ". 
       $encabezado->placa_vehiculo?> </td>
       <td style="width: 17%; padding: 1px; vertical-align: middle; text-align: left; border: 1px solid #EEEEEE; background-color: #EEEEEE;"><b>Piloto:</b></td>  
-      <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombres_piloto . " " . $encabezado->apellidos_piloto . ", Contacto: " .
-       $encabezado->contacto_piloto ?> </td>      
+      <td style="width: 33%; padding: 1px; border: 1px solid #EEEEEE;"> <?php echo $encabezado->nombres_piloto . " " . $encabezado->apellidos_piloto  ?> </td>      
     </tr>
 
     <tr>
@@ -93,8 +92,8 @@
         <th id="th-detalle" style="text-align: left;">Descripción</th>
         <th id="th-detalle" style="text-align:center;">Cantidad</th>
         <th id="th-detalle" style="text-align:center;">Precio</th>
-        <th id="th-detalle" style="text-align:center;">UM</th>
-        <th id="th-detalle" style="text-align:center;">Estado Producto</th>
+        <!--<th id="th-detalle" style="text-align:center;"></th>
+        <th id="th-detalle" style="text-align:center;">Estado Producto</th>-->
         <th id="th-detalle" style="text-align:center;">Total</th>
       </tr>
     </thead>
@@ -108,18 +107,18 @@
         <tr>
           <td id="td-detalle" style="text-align:center;"> <?php echo $row->no_linea ?></td>
           <td id="td-detalle" style="text-align: left; padding: 2px;"> <?php echo $row->codigo_producto ?></td>
-          <td id="td-detalle" style="text-align: left; padding: 2px;"> <?php echo $row->nombre_producto ?></td>
+          <td id="td-detalle" style="text-align: left; padding: 6px;"> <?php echo $row->nombre_producto ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->cantidad_despachada ?></td>
           <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->precio ?></td>
-          <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_um ?></td>
-          <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_estado_producto ?></td>
+          <!-- <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_um ?></td>
+          <td id="td-detalle" style="text-align: center; padding: 2px;"> <?php echo $row->nombre_estado_producto ?></td> -->
           <td id="td-detalle" style="text-align: right; padding: 2px;">Q. <?php echo $row->total ?></td>
         </tr>
       <?php endforeach ?>
     </tbody>
     <tfoot>
       <tr>
-        <td id="td-detalle" colspan="7" style="text-align: right; font-weight: bold; padding: 10px;">TOTAL:</td>
+        <td id="td-detalle" colspan="5" style="text-align: right; font-weight: bold; padding: 10px;">TOTAL:</td>
         <td id="td-detalle" style="text-align: right;">Q. <?php echo number_format($granTotal, 2, '.', ','); ?></td>
       </tr>
     </tfoot>
